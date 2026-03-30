@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import { MapPin, Home, DollarSign, BedDouble, Bath, ChevronLeft, ChevronRight, Map, LayoutGrid, Calendar } from 'lucide-react';
-import MainLayout from '@/Layouts/MainLayout';
-import PropertyCard from '@/Components/PropertyCard';
+import React, { useState, useRef, useEffect } from 'react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X } from 'lucide-react';
+import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
 import AuthModal from '@/Components/AuthModal';
 
+// Beds & Baths dropdown with own local state so Apply always works
+function BedsDropdown({ searchParams, onApply }) {
+  const [beds, setBeds] = useState(searchParams.bedrooms || '');
+  const [baths, setBaths] = useState(searchParams.bathrooms || '');
+
+  return (
+    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl border border-gray-200 shadow-xl z-50 p-4">
+      <div className="mb-3">
+        <label className="block text-xs font-medium text-gray-500 mb-2">Bedrooms</label>
+        <div className="flex gap-1.5">
+          {['', '1', '2', '3', '4', '5'].map((v) => (
+            <button key={`bd-${v}`} type="button" className={`flex-1 rounded-lg py-1.5 text-xs font-semibold transition-colors ${beds === v ? 'bg-[#1a1816] text-white' : 'border border-gray-300 text-gray-600 hover:bg-gray-50'}`} onClick={() => setBeds(v)}>{v === '' ? 'Any' : `${v}+`}</button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-500 mb-2">Bathrooms</label>
+        <div className="flex gap-1.5">
+          {['', '1', '2', '3', '4'].map((v) => (
+            <button key={`ba-${v}`} type="button" className={`flex-1 rounded-lg py-1.5 text-xs font-semibold transition-colors ${baths === v ? 'bg-[#1a1816] text-white' : 'border border-gray-300 text-gray-600 hover:bg-gray-50'}`} onClick={() => setBaths(v)}>{v === '' ? 'Any' : `${v}+`}</button>
+          ))}
+        </div>
+      </div>
+      <button type="button" onClick={() => onApply(beds, baths)} className="mt-3 w-full rounded-lg bg-[#1a1816] text-white py-2 text-sm font-semibold hover:opacity-90 transition-opacity">Apply</button>
+    </div>
+  );
+}
+
 function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [] }) {
+  const { auth } = usePage().props;
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showMap, setShowMap] = useState(false);
+  const [viewMode, setViewMode] = useState('list'); // 'map' or 'list'
   const [searchParams, setSearchParams] = useState({
     keyword: String(filters.keyword || ''),
     location: String(filters.location || ''),
@@ -18,22 +46,42 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     priceMax: String(filters.priceMax || ''),
     bedrooms: String(filters.bedrooms || ''),
     bathrooms: String(filters.bathrooms || ''),
-    schoolDistrict: String(filters.schoolDistrict || ''),
-    hasOpenHouse: String(filters.hasOpenHouse || ''),
     sort: String(filters.sort || 'newest'),
+    hasOpenHouse: String(filters.hasOpenHouse || ''),
+    hasVirtualTour: String(filters.hasVirtualTour || ''),
+    schoolDistrict: String(filters.schoolDistrict || ''),
+    lotSizeMin: String(filters.lotSizeMin || ''),
   });
 
-  // Get properties data from pagination
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [saveSearchStatus, setSaveSearchStatus] = useState(null); // null | 'saving' | 'saved' | 'error'
+  const filterBarRef = useRef(null);
+  const searchParamsRef = useRef(searchParams);
+  searchParamsRef.current = searchParams;
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (filterBarRef.current && !filterBarRef.current.contains(e.target)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const propertyList = properties.data || properties || [];
   const pagination = properties.data ? properties : null;
+  const totalCount = pagination ? pagination.total : propertyList.length;
 
   const handleSearchChange = (field, value) => {
-    setSearchParams({ ...searchParams, [field]: value });
+    setSearchParams(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e, overrideParams) => {
     e?.preventDefault();
-    router.get('/properties', searchParams, { preserveState: true });
+    setOpenDropdown(null);
+    const params = overrideParams || searchParams;
+    router.get('/properties', params, { preserveState: true });
   };
 
   const handleSortChange = (value) => {
@@ -42,460 +90,740 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     router.get('/properties', newParams, { preserveState: true });
   };
 
+  const handleStatusTab = (status) => {
+    const newParams = { ...searchParams, status };
+    setSearchParams(newParams);
+    router.get('/properties', newParams, { preserveState: true });
+  };
+
+  const handleSaveSearch = async () => {
+    if (!auth?.user) {
+      setShowAuthModal(true);
+      return;
+    }
+    setSaveSearchStatus('saving');
+    // Build a readable name from active filters
+    const parts = [];
+    if (searchParams.location) parts.push(searchParams.location);
+    if (searchParams.propertyType) parts.push(searchParams.propertyType.replace(/-/g, ' '));
+    if (searchParams.priceMin || searchParams.priceMax) {
+      parts.push(`$${searchParams.priceMin || '0'}-$${searchParams.priceMax || '∞'}`);
+    }
+    if (searchParams.bedrooms) parts.push(`${searchParams.bedrooms}+ bd`);
+    const name = parts.length > 0 ? parts.join(', ') : 'All Properties';
+
+    try {
+      const response = await fetch('/api/saved-searches', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+        },
+        body: JSON.stringify({ name, filters: searchParams }),
+      });
+      if (response.ok) {
+        setSaveSearchStatus('saved');
+        setTimeout(() => setSaveSearchStatus(null), 2000);
+      } else {
+        setSaveSearchStatus('error');
+        setTimeout(() => setSaveSearchStatus(null), 2000);
+      }
+    } catch {
+      setSaveSearchStatus('error');
+      setTimeout(() => setSaveSearchStatus(null), 2000);
+    }
+  };
+
+  const getTimeAgo = (dateStr) => {
+    if (!dateStr) return null;
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays < 1) return 'Today';
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 30) return `${diffDays} days ago`;
+    const diffMonths = Math.floor(diffDays / 30);
+    if (diffMonths === 1) return '1 mo ago';
+    if (diffMonths < 12) return `${diffMonths} mo ago`;
+    const diffYears = Math.floor(diffMonths / 12);
+    return `${diffYears} yr ago`;
+  };
+
+  const handleFavorite = (e, property) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!auth?.user) {
+      setShowAuthModal(true);
+      return;
+    }
+    // Toggle favorite in localStorage
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (favorites.includes(property.id)) {
+      localStorage.setItem('favorites', JSON.stringify(favorites.filter(id => id !== property.id)));
+    } else {
+      favorites.push(property.id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+  };
+
+  const isFavorite = (propertyId) => {
+    if (typeof window === 'undefined') return false;
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return favorites.includes(propertyId);
+  };
+
+  // Build pagination URL with all current filters
+  const buildPageUrl = (page) => {
+    const params = new URLSearchParams();
+    params.set('page', page);
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value && value !== '' && !(key === 'status' && value === 'for-sale') && !(key === 'sort' && value === 'newest')) {
+        params.set(key, value);
+      }
+    });
+    // Always include status and sort
+    if (searchParams.status) params.set('status', searchParams.status);
+    if (searchParams.sort) params.set('sort', searchParams.sort);
+    return `/properties?${params.toString()}`;
+  };
+
+  const mapProperties = allPropertiesForMap.length > 0 ? allPropertiesForMap : propertyList;
+
   return (
     <>
-      <Head title="Properties - SAVEONYOURHOME" />
+      <Head title="Properties - SaveOnYourHome" />
 
-      {/* Hero Section */}
-      <div className="relative bg-[#EEEDEA] pt-0 md:pt-[77px]">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
-          <div className="max-w-3xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center bg-white rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Browse Properties
-              </span>
+      <div className="flex flex-col h-screen overflow-hidden">
+        {/* Header spacer for fixed header */}
+        <Header maxWidth={1408} noPadding />
+        <div className="shrink-0" style={{ height: 65 }} />
+
+        {/* Filter Bar - Single Row */}
+        <div className="relative z-[2000] shrink-0 border-b border-gray-200 bg-white py-2.5">
+          <div className="mx-auto flex items-center gap-2" style={{ maxWidth: 1376 }} ref={filterBarRef}>
+            {/* Search Input */}
+            <div className="relative flex-1" style={{ maxWidth: 800 }}>
+              <form className="relative flex" onSubmit={handleSearch}>
+                <div className="relative hidden lg:block">
+                  <button type="button" className="flex items-center gap-1 rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 px-3 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100" style={{ height: 40, minWidth: 90 }}>
+                    <span>City</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+                  </button>
+                </div>
+                <div className="relative flex-1">
+                  <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search city, neighborhood..."
+                    className="w-full rounded-xl lg:rounded-l-none lg:rounded-r-xl border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm transition-colors focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                    autoComplete="off"
+                    style={{ height: 40, fontSize: 14 }}
+                    value={searchParams.location}
+                    onChange={(e) => handleSearchChange('location', e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
+                  />
+                </div>
+              </form>
             </div>
 
-            {/* Page Title */}
-            <h1
-              className="text-[#111] text-[48px] md:text-[60px] font-medium leading-[1.1] mb-4"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+            {/* Mobile filter toggle */}
+            <button
+              className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm transition-colors hover:bg-gray-50 lg:hidden"
+              style={{ height: 40, fontSize: 13, fontWeight: 500, color: '#1a1816', whiteSpace: 'nowrap' }}
+              onClick={() => setOpenDropdown(openDropdown === 'mobile' ? null : 'mobile')}
             >
-              Find Your Dream Property
-            </h1>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
+                <circle cx="8" cy="6" r="1.5" fill="currentColor" /><circle cx="16" cy="12" r="1.5" fill="currentColor" /><circle cx="10" cy="18" r="1.5" fill="currentColor" />
+              </svg>
+              Filters
+            </button>
 
-            {/* Subtitle */}
-            <p
-              className="text-[#666] text-[14px] md:text-[16px] font-medium leading-relaxed max-w-2xl mx-auto"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-            >
-              Browse thousands of For Sale by Owner properties across Oklahoma.
-            </p>
+            {/* Desktop dropdown buttons */}
+            <div className="hidden lg:contents">
+              {/* Price */}
+              {(() => {
+                const priceOpts = [
+                  { value: '', label: 'Min' },
+                  { value: '100000', label: '$100,000' },
+                  { value: '200000', label: '$200,000' },
+                  { value: '300000', label: '$300,000' },
+                  { value: '400000', label: '$400,000' },
+                  { value: '500000', label: '$500,000' },
+                  { value: '600000', label: '$600,000' },
+                  { value: '750000', label: '$750,000' },
+                  { value: '1000000', label: '$1,000,000' },
+                  { value: '1500000', label: '$1,500,000' },
+                  { value: '2000000', label: '$2,000,000' },
+                  { value: '3000000', label: '$3,000,000' },
+                  { value: '5000000', label: '$5,000,000' },
+                ];
+                const maxOpts = priceOpts.map(o => o.value === '' ? { value: '', label: 'Max' } : o);
+                const formatLabel = (min, max) => {
+                  if (!min && !max) return 'Price';
+                  const fmtPrice = (v) => {
+                    const n = parseInt(v);
+                    if (n >= 1000000) return `$${(n / 1000000).toFixed(1)}M`;
+                    return `$${(n / 1000).toFixed(0)}k`;
+                  };
+                  if (min && max) return `${fmtPrice(min)} – ${fmtPrice(max)}`;
+                  if (min) return `${fmtPrice(min)}+`;
+                  return `Up to ${fmtPrice(max)}`;
+                };
+                const sliderMax = 5000000;
+                const minVal = parseInt(searchParams.priceMin || '0');
+                const maxVal = parseInt(searchParams.priceMax || '') || sliderMax;
+                const leftPct = (minVal / sliderMax) * 100;
+                const rightPct = 100 - (maxVal / sliderMax) * 100;
+
+                return (
+                  <div className="relative">
+                    <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#1a1816' }} onClick={() => setOpenDropdown(openDropdown === 'price' ? null : 'price')}>
+                      {formatLabel(searchParams.priceMin, searchParams.priceMax)}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </button>
+                    {openDropdown === 'price' && (
+                      <div className="absolute left-0 top-full z-50 mt-2 rounded-xl border border-gray-200 bg-white p-4 shadow-xl" style={{ minWidth: 280 }}>
+                        <div className="space-y-3">
+                          <label className="block text-xs font-medium text-gray-600">Price Range</label>
+                          {/* Select dropdowns */}
+                          <div className="flex gap-2">
+                            <select
+                              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              value={searchParams.priceMin}
+                              onChange={(e) => handleSearchChange('priceMin', e.target.value)}
+                            >
+                              {priceOpts.map(o => <option key={`min-${o.value}`} value={o.value}>{o.label}</option>)}
+                            </select>
+                            <select
+                              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              value={searchParams.priceMax}
+                              onChange={(e) => handleSearchChange('priceMax', e.target.value)}
+                            >
+                              {maxOpts.map(o => <option key={`max-${o.value}`} value={o.value}>{o.label}</option>)}
+                            </select>
+                          </div>
+                          {/* Dual range slider */}
+                          <div className="pt-1 pb-2">
+                            <div className="relative h-6" style={{ touchAction: 'none' }}>
+                              <div className="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-gray-200" />
+                              <div className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full" style={{ left: `${leftPct}%`, right: `${rightPct}%`, backgroundColor: '#2563eb' }} />
+                              <input type="range" min="0" max={sliderMax} step="50000"
+                                className="range-thumb absolute inset-0 w-full appearance-none bg-transparent pointer-events-none"
+                                style={{ zIndex: 3 }}
+                                value={minVal}
+                                onChange={(e) => {
+                                  const v = parseInt(e.target.value);
+                                  if (v <= maxVal) handleSearchChange('priceMin', v === 0 ? '' : String(v));
+                                }}
+                              />
+                              <input type="range" min="0" max={sliderMax} step="50000"
+                                className="range-thumb absolute inset-0 w-full appearance-none bg-transparent pointer-events-none"
+                                style={{ zIndex: 4 }}
+                                value={maxVal}
+                                onChange={(e) => {
+                                  const v = parseInt(e.target.value);
+                                  if (v >= minVal) handleSearchChange('priceMax', v === sliderMax ? '' : String(v));
+                                }}
+                              />
+                            </div>
+                            <div className="flex justify-between text-[10px] text-gray-400 mt-0.5">
+                              <span>$0k</span>
+                              <span>$5.0M</span>
+                            </div>
+                          </div>
+                          {/* Clear / Apply */}
+                          <div className="flex justify-end gap-2 pt-1">
+                            <button className="text-xs text-gray-500 hover:text-gray-700" onClick={() => { handleSearchChange('priceMin', ''); handleSearchChange('priceMax', ''); }}>Clear</button>
+                            <button className="rounded-lg bg-gray-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-gray-800" onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }}>Apply</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Beds & Baths - uses local state so Apply can read latest */}
+              {(() => {
+                const bedsLabel = searchParams.bedrooms || searchParams.bathrooms
+                  ? `${searchParams.bedrooms || 'Any'}+ bd / ${searchParams.bathrooms || 'Any'}+ ba`
+                  : 'Beds & Baths';
+                return (
+                  <div className="relative">
+                    <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#1a1816' }} onClick={() => setOpenDropdown(openDropdown === 'beds' ? null : 'beds')}>
+                      {bedsLabel}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </button>
+                    {openDropdown === 'beds' && (
+                      <BedsDropdown
+                        searchParams={searchParams}
+                        onApply={(beds, baths) => {
+                          const np = { ...searchParams, bedrooms: beds, bathrooms: baths };
+                          setSearchParams(np);
+                          setOpenDropdown(null);
+                          router.get('/properties', np, { preserveState: true });
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Type */}
+              {(() => {
+                const typeLabels = { '': 'Type', 'single-family-home': 'Single Family', 'condos-townhomes-co-ops': 'Condo / Townhome', 'multi-family': 'Multi-Family', 'land': 'Land', 'farms-ranches': 'Farm / Ranch', 'mfd-mobile-homes': 'Mobile / Manufactured' };
+                return (
+                  <div className="relative">
+                    <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#1a1816' }} onClick={() => setOpenDropdown(openDropdown === 'type' ? null : 'type')}>
+                      {typeLabels[searchParams.propertyType] || 'Type'}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </button>
+                    {openDropdown === 'type' && (
+                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
+                        {[{ value: '', label: 'All Types' }, { value: 'single-family-home', label: 'Single Family' }, { value: 'condos-townhomes-co-ops', label: 'Condo / Townhome' }, { value: 'multi-family', label: 'Multi-Family' }, { value: 'land', label: 'Land' }, { value: 'farms-ranches', label: 'Farm / Ranch' }, { value: 'mfd-mobile-homes', label: 'Mobile / Manufactured' }].map((opt) => (
+                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.propertyType === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, propertyType: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', np, { preserveState: true }); }}>{opt.label}</button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Land Size */}
+              {(() => {
+                const landLabels = { '': 'Land Size', '2000': '2,000+ sqft', '5000': '5,000+ sqft', '10000': '¼ acre+', '21780': '½ acre+', '43560': '1 acre+', '217800': '5 acres+' };
+                return (
+                  <div className="relative">
+                    <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#1a1816' }} onClick={() => setOpenDropdown(openDropdown === 'land' ? null : 'land')}>
+                      {landLabels[searchParams.lotSizeMin] || 'Land Size'}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </button>
+                    {openDropdown === 'land' && (
+                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
+                        {[{ value: '', label: 'Any Size' }, { value: '2000', label: '2,000+ sqft' }, { value: '5000', label: '5,000+ sqft' }, { value: '10000', label: '¼ acre+' }, { value: '21780', label: '½ acre+' }, { value: '43560', label: '1 acre+' }, { value: '217800', label: '5 acres+' }].map((opt) => (
+                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.lotSizeMin === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, lotSizeMin: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', np, { preserveState: true }); }}>{opt.label}</button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Filters (more) */}
+              <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, color: '#1a1816', whiteSpace: 'nowrap' }} onClick={() => setOpenDropdown(openDropdown === 'more' ? null : 'more')}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
+                  <circle cx="8" cy="6" r="1.5" fill="currentColor" /><circle cx="16" cy="12" r="1.5" fill="currentColor" /><circle cx="10" cy="18" r="1.5" fill="currentColor" />
+                </svg>
+                Filters
+              </button>
+              {openDropdown === 'more' && (
+                <div className="absolute top-full mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-xl z-50 p-4" style={{ right: 220 }}>
+                  <div className="mb-3">
+                    <label className="block text-xs font-medium text-gray-500 mb-1.5">School District</label>
+                    <input type="text" placeholder="Search school district" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400" value={searchParams.schoolDistrict} onChange={(e) => handleSearchChange('schoolDistrict', e.target.value)} />
+                  </div>
+                  <div className="mb-3">
+                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Open Houses</label>
+                    <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400 appearance-none bg-white" value={searchParams.hasOpenHouse} onChange={(e) => handleSearchChange('hasOpenHouse', e.target.value)}>
+                      <option value="">Any</option><option value="yes">Has Open House</option><option value="this_weekend">This Weekend</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Status</label>
+                    <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400 appearance-none bg-white" value={searchParams.status} onChange={(e) => handleSearchChange('status', e.target.value)}>
+                      <option value="all">All Listings</option><option value="for-sale">For Sale</option><option value="pending">Pending</option><option value="sold">Sold</option>{isAdmin && <option value="inactive">Inactive</option>}
+                    </select>
+                  </div>
+                  <label className="flex cursor-pointer items-center gap-2 mb-3">
+                    <input type="checkbox" className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" checked={searchParams.hasVirtualTour === 'yes'} onChange={(e) => handleSearchChange('hasVirtualTour', e.target.checked ? 'yes' : '')} />
+                    <span className="text-sm text-gray-700">Virtual Tour</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <button onClick={() => { const cleared = { keyword: '', location: '', status: 'for-sale', propertyType: '', priceMin: '', priceMax: '', bedrooms: '', bathrooms: '', sort: 'newest', hasOpenHouse: '', hasVirtualTour: '', schoolDistrict: '', lotSizeMin: '' }; setSearchParams(cleared); setOpenDropdown(null); router.get('/properties'); }} className="flex-1 rounded-lg border border-gray-300 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Clear All</button>
+                    <button onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }} className="flex-1 rounded-lg bg-[#1a1816] text-white py-2 text-sm font-semibold hover:opacity-90 transition-opacity">Apply Filters</button>
+                  </div>
+                </div>
+              )}
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Map / List Toggle */}
+              <div className="flex items-center overflow-hidden rounded-lg border border-gray-300" style={{ height: 36 }}>
+                <button className="flex items-center gap-1.5 px-3 transition-colors" style={{ height: '100%', fontSize: 12, fontWeight: 600, backgroundColor: viewMode === 'map' ? '#1a1816' : 'white', color: viewMode === 'map' ? 'white' : '#6b7280', whiteSpace: 'nowrap' }} onClick={() => setViewMode('map')}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" /><line x1="8" y1="2" x2="8" y2="18" /><line x1="16" y1="6" x2="16" y2="22" /></svg>
+                  Map
+                </button>
+                <button className="flex items-center gap-1.5 border-l border-gray-300 px-3 transition-colors" style={{ height: '100%', fontSize: 12, fontWeight: 600, backgroundColor: viewMode === 'list' ? '#1a1816' : 'white', color: viewMode === 'list' ? 'white' : '#6b7280', whiteSpace: 'nowrap' }} onClick={() => setViewMode('list')}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>
+                  List
+                </button>
+              </div>
+
+              {/* Save Search */}
+              <button
+                className="flex items-center gap-2 rounded-xl px-5 py-2 text-sm text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                style={{ height: 40, backgroundColor: saveSearchStatus === 'saved' ? '#16a34a' : '#1a1816', fontSize: 13, fontWeight: 600, letterSpacing: '0.3px', whiteSpace: 'nowrap' }}
+                onClick={handleSaveSearch}
+                disabled={saveSearchStatus === 'saving'}
+              >
+                {saveSearchStatus === 'saved' ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg>
+                )}
+                {saveSearchStatus === 'saving' ? 'SAVING...' : saveSearchStatus === 'saved' ? 'SAVED!' : saveSearchStatus === 'error' ? 'ERROR' : 'SAVE SEARCH'}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Bottom border */}
-        <div className="border-b border-[#D0CCC7]"></div>
-      </div>
-
-      {/* Filters Panel */}
-      <div className="bg-[#E5E1DC] border-b border-[#D0CCC7] py-6">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Location */}
+        {/* Mobile Filters Panel */}
+        {openDropdown === 'mobile' && (
+          <div className="lg:hidden border-b border-gray-200 bg-white px-4 py-4 z-[1999]">
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Location
-                </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                  <input
-                    type="text"
-                    placeholder="City or ZIP"
-                    className="w-full pl-10 pr-4 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                    value={searchParams.location}
-                    onChange={(e) => handleSearchChange('location', e.target.value)}
-                  />
-                </div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Min Price</label>
+                <input type="text" placeholder="No Min" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" value={searchParams.priceMin} onChange={(e) => handleSearchChange('priceMin', e.target.value)} />
               </div>
-
-              {/* Property Type */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Property Type
-                </label>
-                <div className="relative">
-                  <Home className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                  <select
-                    className="w-full pl-10 pr-4 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors appearance-none bg-white"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                    value={searchParams.propertyType}
-                    onChange={(e) => handleSearchChange('propertyType', e.target.value)}
-                  >
-                    <option value="">All Types</option>
-                    <option value="single-family-home">Single Family Home</option>
-                    <option value="condos-townhomes-co-ops">Condos/Townhomes/Co-Ops</option>
-                    <option value="multi-family">Multi-Family</option>
-                    <option value="land">Lot/Land</option>
-                    <option value="farms-ranches">Farms/Ranches</option>
-                    <option value="mfd-mobile-homes">Manufactured/Mobile Homes</option>
-                  </select>
-                </div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Max Price</label>
+                <input type="text" placeholder="No Max" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" value={searchParams.priceMax} onChange={(e) => handleSearchChange('priceMax', e.target.value)} />
               </div>
-
-              {/* Price Range */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Price Range
-                </label>
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                    <input
-                      type="text"
-                      placeholder="Min"
-                      className="w-full pl-10 pr-2 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                      value={searchParams.priceMin}
-                      onChange={(e) => handleSearchChange('priceMin', e.target.value)}
-                    />
-                  </div>
-                  <div className="relative flex-1">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                    <input
-                      type="text"
-                      placeholder="Max"
-                      className="w-full pl-10 pr-2 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                      value={searchParams.priceMax}
-                      onChange={(e) => handleSearchChange('priceMax', e.target.value)}
-                    />
-                  </div>
-                </div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Beds</label>
+                <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white" value={searchParams.bedrooms} onChange={(e) => handleSearchChange('bedrooms', e.target.value)}>
+                  <option value="">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option>
+                </select>
               </div>
-
-              {/* Beds & Baths */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Beds & Baths
-                </label>
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <BedDouble className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                    <select
-                      className="w-full pl-10 pr-2 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors appearance-none bg-white"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                      value={searchParams.bedrooms}
-                      onChange={(e) => handleSearchChange('bedrooms', e.target.value)}
-                    >
-                      <option value="">Beds</option>
-                      <option value="1">1+</option>
-                      <option value="2">2+</option>
-                      <option value="3">3+</option>
-                      <option value="4">4+</option>
-                      <option value="5">5+</option>
-                    </select>
-                  </div>
-                  <div className="relative flex-1">
-                    <Bath className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                    <select
-                      className="w-full pl-10 pr-2 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors appearance-none bg-white"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                      value={searchParams.bathrooms}
-                      onChange={(e) => handleSearchChange('bathrooms', e.target.value)}
-                    >
-                      <option value="">Baths</option>
-                      <option value="1">1+</option>
-                      <option value="2">2+</option>
-                      <option value="3">3+</option>
-                      <option value="4">4+</option>
-                    </select>
-                  </div>
-                </div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Baths</label>
+                <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white" value={searchParams.bathrooms} onChange={(e) => handleSearchChange('bathrooms', e.target.value)}>
+                  <option value="">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option>
+                </select>
+              </div>
+              <div className="col-span-2">
+                <label className="block text-xs font-medium text-gray-500 mb-1">Type</label>
+                <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white" value={searchParams.propertyType} onChange={(e) => handleSearchChange('propertyType', e.target.value)}>
+                  <option value="">All Types</option><option value="single-family-home">Single Family</option><option value="condos-townhomes-co-ops">Condo / Townhome</option><option value="multi-family">Multi-Family</option><option value="land">Land</option>
+                </select>
+              </div>
+              <div className="col-span-2">
+                <label className="block text-xs font-medium text-gray-500 mb-1">Status</label>
+                <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white" value={searchParams.status} onChange={(e) => handleSearchChange('status', e.target.value)}>
+                  <option value="all">All</option><option value="for-sale">For Sale</option><option value="pending">Pending</option><option value="sold">Sold</option>
+                </select>
               </div>
             </div>
+            <div className="flex gap-2 mt-3">
+              <button onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }} className="flex-1 rounded-lg bg-[#1a1816] text-white py-2.5 text-sm font-semibold">Apply Filters</button>
+              <button onClick={() => setOpenDropdown(null)} className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-600">Cancel</button>
+            </div>
+          </div>
+        )}
 
-            {/* Second Row - School District */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-              {/* School District */}
-              <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  School District
-                </label>
-                <div className="relative">
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Search school district"
-                    className="w-full pl-10 pr-4 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                    value={searchParams.schoolDistrict}
-                    onChange={(e) => handleSearchChange('schoolDistrict', e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Open Houses */}
-              <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Open Houses
-                </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                  <select
-                    className="w-full pl-10 pr-4 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors appearance-none bg-white"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                    value={searchParams.hasOpenHouse}
-                    onChange={(e) => handleSearchChange('hasOpenHouse', e.target.value)}
-                  >
-                    <option value="">Any</option>
-                    <option value="yes">Has Open House</option>
-                    <option value="this_weekend">This Weekend</option>
-                  </select>
-                </div>
+        {/* Main Content: Map + Listings */}
+        <div className="flex min-h-0 flex-1">
+          {/* Map - Desktop */}
+          {viewMode === 'map' && (
+            <div className="hidden lg:block" style={{ width: '57%' }}>
+              <div className="relative h-full w-full overflow-hidden">
+                <PropertyMap properties={mapProperties} />
               </div>
             </div>
+          )}
 
-            {/* Status Dropdown & Action Buttons */}
-            <div className="flex justify-between items-center mt-4 gap-3">
-              {/* Status Dropdown */}
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Status:
-                </label>
-                <div className="relative">
-                  <Home className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                  <select
-                    value={searchParams.status}
+          {/* Listings Panel */}
+          <div className={`flex min-h-0 flex-1 flex-col bg-white ${viewMode === 'map' ? 'border-l border-gray-200 lg:max-w-[43%]' : ''}`}>
+            {/* Listings Header */}
+            <div className="shrink-0 border-b border-gray-100 px-5 pt-4 pb-3">
+              <div className="flex items-center justify-between">
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1a1816' }}>
+                  {searchParams.status === 'all' ? 'All Listings' : searchParams.status === 'sold' ? 'Sold' : searchParams.status === 'pending' ? 'Pending' : 'All Listings'}
+                </h2>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500 }}>Sort:</span>
+                    <button
+                      className="flex items-center gap-1 text-sm"
+                      style={{ fontSize: 12, fontWeight: 600, color: '#1a1816' }}
+                      onClick={() => setOpenDropdown(openDropdown === 'sort' ? null : 'sort')}
+                    >
+                      {searchParams.sort === 'newest' ? 'Recommended' : searchParams.sort === 'price_low' ? 'Price ↑' : searchParams.sort === 'price_high' ? 'Price ↓' : searchParams.sort === 'bedrooms' ? 'Bedrooms' : 'Sq Ft'}
+                      <ChevronDown className="w-2.5 h-2.5" />
+                    </button>
+                    {openDropdown === 'sort' && (
+                      <div className="absolute right-4 top-10 w-44 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
+                        {[
+                          { value: 'newest', label: 'Recommended' },
+                          { value: 'price_low', label: 'Price: Low → High' },
+                          { value: 'price_high', label: 'Price: High → Low' },
+                          { value: 'bedrooms', label: 'Bedrooms' },
+                          { value: 'sqft', label: 'Square Feet' },
+                        ].map((opt) => (
+                          <button
+                            key={opt.value}
+                            className={`w-full text-left px-4 py-2 text-xs transition-colors hover:bg-gray-50 ${searchParams.sort === opt.value ? 'font-bold text-slate-800' : 'text-gray-600'}`}
+                            onClick={() => { handleSortChange(opt.value); setOpenDropdown(null); }}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <span style={{ fontSize: 12, color: '#9ca3af' }}>{totalCount.toLocaleString()} results</span>
+                </div>
+              </div>
+
+              {/* Status Tabs */}
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  className="rounded-full px-4 py-1.5 text-xs font-semibold transition-colors"
+                  style={{
+                    backgroundColor: searchParams.status === 'for-sale' ? '#1e293b' : 'transparent',
+                    color: searchParams.status === 'for-sale' ? 'white' : '#1a1816',
+                    border: searchParams.status === 'for-sale' ? '1px solid #1e293b' : '1px solid #d1d5db',
+                    letterSpacing: '0.5px',
+                  }}
+                  onClick={() => handleStatusTab('for-sale')}
+                >
+                  FOR SALE
+                </button>
+                <button
+                  className="rounded-full px-4 py-1.5 text-xs font-semibold transition-colors"
+                  style={{
+                    backgroundColor: searchParams.status === 'sold' ? '#1e293b' : 'transparent',
+                    color: searchParams.status === 'sold' ? 'white' : '#1a1816',
+                    border: searchParams.status === 'sold' ? '1px solid #1e293b' : '1px solid #d1d5db',
+                    letterSpacing: '0.5px',
+                  }}
+                  onClick={() => handleStatusTab('sold')}
+                >
+                  SOLD
+                </button>
+                <button
+                  className="rounded-full px-4 py-1.5 text-xs font-semibold transition-colors"
+                  style={{
+                    backgroundColor: searchParams.status === 'all' ? '#1e293b' : 'transparent',
+                    color: searchParams.status === 'all' ? 'white' : '#1a1816',
+                    border: searchParams.status === 'all' ? '1px solid #1e293b' : '1px solid #d1d5db',
+                    letterSpacing: '0.5px',
+                  }}
+                  onClick={() => handleStatusTab('all')}
+                >
+                  ALL
+                </button>
+              </div>
+
+              {/* Quick Filters */}
+              <div className="mt-3 flex items-center gap-4">
+                <label className="flex cursor-pointer items-center gap-1.5">
+                  <input
+                    type="checkbox"
+                    className="h-3.5 w-3.5 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    checked={searchParams.hasVirtualTour === 'yes'}
                     onChange={(e) => {
-                      const newParams = { ...searchParams, status: e.target.value };
+                      const newParams = { ...searchParams, hasVirtualTour: e.target.checked ? 'yes' : '' };
                       setSearchParams(newParams);
                       router.get('/properties', newParams, { preserveState: true });
                     }}
-                    className="min-w-[160px] pl-10 pr-4 py-2.5 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#999] transition-colors appearance-none bg-white cursor-pointer"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                  >
-                    <option value="all">All Listings</option>
-                    <option value="for-sale">For Sale</option>
-                    <option value="pending">Pending</option>
-                    <option value="sold">Sold</option>
-                    {isAdmin && <option value="inactive">Inactive</option>}
-                  </select>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3">
-                <button
-                  onClick={() => {
-                    setSearchParams({
-                      keyword: '',
-                      location: '',
-                      status: 'for-sale',
-                      propertyType: '',
-                      priceMin: '',
-                      priceMax: '',
-                      bedrooms: '',
-                      bathrooms: '',
-                      schoolDistrict: '',
-                      hasOpenHouse: '',
-                      sort: 'newest',
-                    });
-                    router.get('/properties');
-                  }}
-                  className="px-6 py-2.5 border border-[#D0CCC7] rounded-xl text-sm font-medium text-[#111] hover:bg-white transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Clear All
-                </button>
-                <button
-                  onClick={handleSearch}
-                  className="px-6 py-2.5 bg-[#0891B2] text-white rounded-xl text-sm font-medium hover:bg-[#0E7490] transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Apply Filters
-                </button>
+                  />
+                  <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 500 }}>Virtual Tour</span>
+                </label>
+                <label className="flex cursor-pointer items-center gap-1.5">
+                  <input
+                    type="checkbox"
+                    className="h-3.5 w-3.5 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    checked={searchParams.hasOpenHouse === 'yes'}
+                    onChange={(e) => {
+                      const newParams = { ...searchParams, hasOpenHouse: e.target.checked ? 'yes' : '' };
+                      setSearchParams(newParams);
+                      router.get('/properties', newParams, { preserveState: true });
+                    }}
+                  />
+                  <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 500 }}>Open House</span>
+                </label>
               </div>
             </div>
-          </div>
-        </div>
 
-      {/* Properties Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          {/* Results Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-            <div>
-              <h2 className="text-2xl md:text-[32px] font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                {searchParams.status === 'all' ? 'All Listings' : searchParams.status === 'sold' ? 'Recently Sold' : searchParams.status === 'pending' ? 'Pending (Under Contract)' : searchParams.status === 'inactive' ? 'Inactive Listings' : 'For Sale'}
-              </h2>
-              <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                {pagination ? (
-                  <>Showing {pagination.from || 0} - {pagination.to || 0} of {pagination.total || 0} properties</>
-                ) : (
-                  <>Showing {propertyList.length} properties</>
-                )}
-              </p>
-            </div>
+            {/* Property Cards - Scrollable */}
+            <div className="flex-1 overflow-y-auto px-5 py-4">
+              {propertyList.length > 0 ? (
+                <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                  {propertyList.map((property) => {
+                    const propertyImage = property.photos && property.photos.length > 0
+                      ? property.photos[0]
+                      : '/images/property-placeholder.svg';
 
-            <div className="flex items-center gap-3">
-              {/* Map/Grid Toggle */}
-              <div className="flex items-center bg-white border border-[#D0CCC7] rounded-xl overflow-hidden">
-                <button
-                  onClick={() => setShowMap(false)}
-                  className={`px-3 py-2 flex items-center gap-1.5 text-sm transition-colors ${!showMap ? 'bg-[#0891B2] text-white' : 'text-[#666] hover:bg-gray-50'}`}
-                  title="Grid View"
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setShowMap(true)}
-                  className={`px-3 py-2 flex items-center gap-1.5 text-sm transition-colors ${showMap ? 'bg-[#0891B2] text-white' : 'text-[#666] hover:bg-gray-50'}`}
-                  title="Map View"
-                >
-                  <Map className="w-4 h-4" />
-                </button>
-              </div>
+                    const baths = (property.full_bathrooms || 0) + (property.half_bathrooms ? property.half_bathrooms * 0.5 : 0);
+                    const timeAgo = getTimeAgo(property.created_at || property.listed_date);
 
-              <span className="text-sm text-[#666] hidden sm:inline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Sort by:
-              </span>
-              <select
-                className="px-4 py-2 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors bg-white"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                value={searchParams.sort}
-                onChange={(e) => handleSortChange(e.target.value)}
-              >
-                <option value="newest">Newest</option>
-                <option value="price_low">Price: Low to High</option>
-                <option value="price_high">Price: High to Low</option>
-                <option value="bedrooms">Bedrooms</option>
-                <option value="sqft">Square Feet</option>
-              </select>
-            </div>
-          </div>
+                    const statusLabel = (property.listing_status || property.status) === 'sold' ? 'SOLD' : (property.listing_status || property.status) === 'pending' ? 'PENDING' : 'FOR SALE';
+                    const statusColor = (property.listing_status || property.status) === 'sold' ? 'bg-gray-700' : (property.listing_status || property.status) === 'pending' ? 'bg-yellow-600' : 'bg-[#A41E34]';
 
-          {/* Map View */}
-          {showMap && (
-            <div className="mb-8 h-[500px] rounded-2xl overflow-hidden shadow-sm relative" style={{ zIndex: 0, isolation: 'isolate' }}>
-              <PropertyMap properties={allPropertiesForMap.length > 0 ? allPropertiesForMap : propertyList} />
-            </div>
-          )}
-
-          {/* Property Grid */}
-          {propertyList.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-              {propertyList.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  property={property}
-                  onAuthRequired={() => setShowAuthModal(true)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-2xl p-12 text-center">
-              <Home className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <h3 className="text-xl font-semibold text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                No Properties Found
-              </h3>
-              <p className="text-[#666] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                {searchParams.keyword || searchParams.location
-                  ? 'Try adjusting your search criteria or filters'
-                  : 'Check back soon for new listings'}
-              </p>
-              {(searchParams.keyword || searchParams.location) && (
-                <button
-                  onClick={() => {
-                    setSearchParams({
-                      keyword: '',
-                      location: '',
-                      status: 'for-sale',
-                      propertyType: '',
-                      priceMin: '',
-                      priceMax: '',
-                      bedrooms: '',
-                      bathrooms: '',
-                      schoolDistrict: '',
-                      hasOpenHouse: '',
-                      sort: 'newest',
-                    });
-                    router.get('/properties');
-                  }}
-                  className="inline-flex items-center gap-2 bg-[#0891B2] text-white px-6 py-3 rounded-full font-medium hover:bg-[#0E7490] transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Clear Filters
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* Pagination */}
-          {pagination && pagination.last_page > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-12">
-              {/* Previous Button */}
-              {pagination.prev_page_url ? (
-                <Link
-                  href={pagination.prev_page_url}
-                  className="px-4 py-2 border border-[#D0CCC7] rounded-xl text-sm font-medium text-[#111] hover:bg-white transition-colors flex items-center gap-1"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Link>
-              ) : (
-                <button
-                  disabled
-                  className="px-4 py-2 border border-[#D0CCC7] rounded-xl text-sm font-medium text-gray-400 cursor-not-allowed flex items-center gap-1"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </button>
-              )}
-
-              {/* Page Numbers */}
-              {Array.from({ length: pagination.last_page }, (_, i) => i + 1)
-                .filter(page => {
-                  // Show first, last, current, and adjacent pages
-                  return page === 1 ||
-                    page === pagination.last_page ||
-                    Math.abs(page - pagination.current_page) <= 1;
-                })
-                .map((page, index, array) => {
-                  // Add ellipsis if there's a gap
-                  const showEllipsisBefore = index > 0 && page - array[index - 1] > 1;
-
-                  return (
-                    <React.Fragment key={page}>
-                      {showEllipsisBefore && (
-                        <span className="px-2 text-gray-400">...</span>
-                      )}
+                    return (
                       <Link
-                        href={`/properties?page=${page}${searchParams.keyword ? `&keyword=${searchParams.keyword}` : ''}${searchParams.sort !== 'newest' ? `&sort=${searchParams.sort}` : ''}`}
-                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                          page === pagination.current_page
-                            ? 'bg-[#0891B2] text-white'
-                            : 'border border-[#D0CCC7] text-[#111] hover:bg-white'
-                        }`}
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                        key={property.id}
+                        href={`/properties/${property.slug || property.id}`}
+                        className="block"
                       >
-                        {page}
-                      </Link>
-                    </React.Fragment>
-                  );
-                })}
+                        <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                          {/* Image */}
+                          <div className="relative h-[180px] overflow-hidden flex-shrink-0">
+                            <img
+                              src={propertyImage}
+                              alt={property.property_title || property.address}
+                              className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                              onError={(e) => e.target.src = '/images/property-placeholder.svg'}
+                            />
+                            {/* Status Badge */}
+                            <div className={`absolute top-4 right-4 ${statusColor} text-white px-3 py-1.5 text-xs font-semibold rounded-full`}>
+                              {statusLabel}
+                            </div>
+                            {/* Left Badges */}
+                            <div className="absolute top-4 left-4 flex gap-1.5">
+                              {property.is_mls_listed && (
+                                <div className="bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-full">MLS</div>
+                              )}
+                              {(property.virtual_tour_url || property.matterport_url || property.has_virtual_tour) && (
+                                <div className="bg-purple-600/90 text-white p-1.5 rounded-full" title="Virtual Tour">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg>
+                                </div>
+                              )}
+                            </div>
+                            {/* Action Buttons */}
+                            <div className="absolute bottom-4 right-4 flex gap-2">
+                              <button
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(`/properties/${property.slug || property.id}`, '_blank'); }}
+                                className="bg-white/90 hover:bg-white p-2 rounded-lg transition-all duration-300 hover:scale-105" title="Open in new tab"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-800"><path d="M15 3h6v6" /><path d="m21 3-7 7" /><path d="m3 21 7-7" /><path d="M9 21H3v-6" /></svg>
+                              </button>
+                              <button
+                                onClick={(e) => handleFavorite(e, property)}
+                                className="bg-white/90 hover:bg-white p-2 rounded-lg transition-all duration-300 hover:scale-105" title="Favorite"
+                              >
+                                <Heart className={`w-4 h-4 ${isFavorite(property.id) ? 'fill-red-500 text-red-500' : 'text-[#413936]'}`} />
+                              </button>
+                            </div>
+                          </div>
 
-              {/* Next Button */}
-              {pagination.next_page_url ? (
-                <Link
-                  href={pagination.next_page_url}
-                  className="px-4 py-2 border border-[#D0CCC7] rounded-xl text-sm font-medium text-[#111] hover:bg-white transition-colors flex items-center gap-1"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </Link>
+                          {/* Details */}
+                          <div className="px-3 pt-2.5 pb-3 flex flex-col">
+                            <div className="pb-2 mb-2 border-b border-gray-200">
+                              <span className="font-bold text-base text-[#293056]">${Number(property.price).toLocaleString()}</span>
+                            </div>
+                            {property.property_title && (
+                              <div className="pb-2 mb-2 border-b border-gray-200">
+                                <p className="text-sm font-semibold text-[#293056] line-clamp-1">{property.property_title}</p>
+                              </div>
+                            )}
+                            <div className="pb-2 mb-2 border-b border-gray-200">
+                              <p className="text-sm text-[#293056] line-clamp-2">
+                                {property.address}{property.city ? `, ${property.city}` : ''}{property.state ? `, ${property.state}` : ''} {property.zip_code || ''}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-[#293056]">
+                                {property.property_type === 'land' ? (
+                                  <>Lot/Land{property.acres ? ` | ${Number(property.acres).toLocaleString()} Acres` : property.lot_size ? ` | ${Number(property.lot_size).toLocaleString()} sq ft` : ''}</>
+                                ) : (
+                                  <>{property.bedrooms}BD | {baths}BA | {property.sqft ? `${Number(property.sqft).toLocaleString()} sq ft` : 'Area N/A'}</>
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               ) : (
-                <button
-                  disabled
-                  className="px-4 py-2 border border-[#D0CCC7] rounded-xl text-sm font-medium text-gray-400 cursor-not-allowed flex items-center gap-1"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <Home className="w-12 h-12 text-gray-300 mb-3" />
+                  <h3 className="text-lg font-semibold text-gray-800 mb-1">No Properties Found</h3>
+                  <p className="text-sm text-gray-500 mb-4">Try adjusting your search criteria or filters</p>
+                  <button
+                    onClick={() => {
+                      setSearchParams({
+                        keyword: '', location: '', status: 'for-sale', propertyType: '',
+                        priceMin: '', priceMax: '', bedrooms: '', bathrooms: '',
+                        sort: 'newest', hasOpenHouse: '', hasVirtualTour: '',
+                        schoolDistrict: '', lotSizeMin: '',
+                      });
+                      router.get('/properties');
+                    }}
+                    className="rounded-full bg-slate-800 text-white px-5 py-2 text-sm font-semibold hover:bg-slate-700 transition-colors"
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Pagination */}
+              {pagination && pagination.last_page > 1 && (
+                <>
+                  <div className="mt-6 flex items-center justify-center gap-1 pb-4">
+                    {/* Prev */}
+                    <button
+                      disabled={!pagination.prev_page_url}
+                      className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                      onClick={() => pagination.prev_page_url && router.get(pagination.prev_page_url, {}, { preserveState: true })}
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    {/* Page numbers */}
+                    {Array.from({ length: Math.min(pagination.last_page, 5) }, (_, i) => {
+                      let page;
+                      if (pagination.last_page <= 5) {
+                        page = i + 1;
+                      } else if (pagination.current_page <= 3) {
+                        page = i + 1;
+                      } else if (pagination.current_page >= pagination.last_page - 2) {
+                        page = pagination.last_page - 4 + i;
+                      } else {
+                        page = pagination.current_page - 2 + i;
+                      }
+                      return (
+                        <button
+                          key={page}
+                          className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors"
+                          style={{
+                            backgroundColor: page === pagination.current_page ? '#1e293b' : 'transparent',
+                            color: page === pagination.current_page ? 'white' : '#374151',
+                          }}
+                          onClick={() => router.get(buildPageUrl(page), {}, { preserveState: true })}
+                        >
+                          {page}
+                        </button>
+                      );
+                    })}
+
+                    {/* Next */}
+                    <button
+                      disabled={!pagination.next_page_url}
+                      className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                      onClick={() => pagination.next_page_url && router.get(pagination.next_page_url, {}, { preserveState: true })}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="mt-2 pb-4 text-center" style={{ fontSize: 12, color: '#9ca3af' }}>
+                    Showing {pagination.per_page} of {totalCount.toLocaleString()} listings
+                  </div>
+                </>
               )}
             </div>
-          )}
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* Auth Modal */}
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
@@ -503,7 +831,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
   );
 }
 
-// Specify MainLayout for this page to include Footer
-Properties.layout = (page) => <MainLayout>{page}</MainLayout>;
+// No MainLayout - this page has its own full-screen layout
+Properties.layout = (page) => page;
 
 export default Properties;

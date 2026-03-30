@@ -8,6 +8,7 @@ import ServicesSection from '@/Components/Sections/Homepage/ServicesSection';
 import PropertiesSection from '@/Components/Sections/Homepage/PropertiesSection';
 import MLSSection from '@/Components/Sections/Homepage/MLSSection';
 import TestimonialsSection from '@/Components/Sections/Homepage/TestimonialsSection';
+import CTABannerSection from '@/Components/Sections/Homepage/CTABannerSection';
 import FAQSection from '@/Components/Sections/Homepage/FAQSection';
 
 export default function Home({ featuredProperties = [] }) {
@@ -38,6 +39,9 @@ export default function Home({ featuredProperties = [] }) {
 
       {/* Testimonials Section */}
       <TestimonialsSection />
+
+      {/* CTA Banner */}
+      <CTABannerSection />
 
       {/* FAQ Section */}
       <FAQSection />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Menu, X, User, Settings, LogOut, LayoutDashboard, ChevronDown, Shield } from 'lucide-react';
 
-const Header = () => {
+const Header = ({ maxWidth, noPadding }) => {
   const { auth } = usePage().props;
   const user = auth?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,15 +10,15 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-300 h-[77px]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] h-full">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-300 h-[65px]">
+        <div className={`mx-auto h-full ${noPadding ? 'px-4' : 'px-4 sm:px-6 lg:px-[40px]'}`} style={{ maxWidth: maxWidth || 1400 }}>
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <img
                 src="/images/saveonyourhome-logo.png"
                 alt="SaveOnYourHome"
-                className="h-[32px] sm:h-[40px] w-auto"
+                className="h-[32px] sm:h-[40px] w-[130px]"
               />
             </Link>
 
@@ -196,7 +196,7 @@ const Header = () => {
           ></div>
 
           {/* Menu Panel */}
-          <div className="fixed top-[77px] left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-[calc(100vh-77px)] overflow-y-auto">
+          <div className="fixed top-[65px] left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-[calc(100vh-65px)] overflow-y-auto">
             <nav className="max-w-[1400px] mx-auto px-4 py-6 space-y-4">
               <Link
                 href="/"

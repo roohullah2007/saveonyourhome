@@ -1,6 +1,8 @@
 import React from 'react';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 const HowItWorksSection = () => {
+  const [sectionRef, isVisible] = useScrollReveal();
   const steps = [
     {
       number: '01',
@@ -25,46 +27,58 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section className="bg-[#EEEDEA] py-16 md:py-20">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+    <section className="bg-[#F5F4F1] py-16 md:py-24">
+      <div
+        ref={sectionRef}
+        className={`max-w-[1280px] mx-auto px-4 sm:px-6 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          {/* Badge */}
-          <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-            <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <div className="text-center mb-10 sm:mb-14 md:mb-16">
+          <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-5 sm:mb-6">
+            <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
               Simple Process
             </span>
           </div>
 
-          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h2 className="text-[26px] sm:text-[34px] md:text-[44px] font-inter font-bold text-[#111] mb-4 tracking-[-0.03em] leading-[1.15]">
             How a FREE SAVEONYOURHOME Listing Works
           </h2>
-          <p className="text-[14px] md:text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[14px] sm:text-[15px] md:text-[16px] text-gray-500 font-inter max-w-2xl mx-auto leading-[1.7]">
             Sell your home by owner in four simple steps.
-          </p>
-          <p className="text-[14px] md:text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <br className="hidden sm:block" />
             No agents, no commissions, just results.
           </p>
         </div>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {steps.map((step, index) => (
-            <div key={index} className="bg-white rounded-2xl p-6 h-full hover:shadow-lg transition-all duration-300">
-                {/* Step Number */}
-                <div className="text-[#0891B2] text-sm font-semibold mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  STEP {step.number}
-                </div>
+            <div
+              key={index}
+              className="bg-white rounded-2xl p-6 sm:p-7 h-full card-hover group border border-gray-100/80 relative overflow-hidden"
+              style={{ transitionDelay: `${index * 80}ms` }}
+            >
+              {/* Step Number Background */}
+              <div className="absolute -right-3 -top-4 text-[80px] sm:text-[100px] font-inter font-black text-[#0891B2]/[0.04] leading-none select-none">
+                {step.number}
+              </div>
 
-                {/* Title */}
-                <h3 className="text-[18px] md:text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  {step.title}
-                </h3>
+              {/* Step Number */}
+              <div className="inline-flex items-center justify-center w-10 h-10 bg-[#0891B2] rounded-xl mb-4 shadow-md shadow-[#0891B2]/20 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-[13px] font-inter font-bold">{step.number}</span>
+              </div>
 
-                {/* Description */}
-                <p className="text-sm text-[#666] leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  {step.description}
-                </p>
+              {/* Title */}
+              <h3 className="text-[16px] sm:text-[17px] md:text-[18px] font-inter font-semibold text-[#111] mb-2.5 sm:mb-3 tracking-[-0.01em]">
+                {step.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-[13px] sm:text-[14px] text-gray-500 leading-[1.7] font-inter">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

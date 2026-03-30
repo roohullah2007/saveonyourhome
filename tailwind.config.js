@@ -13,10 +13,13 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Manrope', 'Inter', 'Figtree', ...defaultTheme.fontFamily.sans],
+                manrope: ['Manrope', 'sans-serif'],
                 poppins: ['Poppins', 'sans-serif'],
                 roboto: ['Roboto', 'sans-serif'],
                 instrument: ['Instrument Sans', 'sans-serif'],
+                dm: ['DM Sans', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
             },
         },
     },

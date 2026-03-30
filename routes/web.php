@@ -56,6 +56,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/delete-uploaded-photo', [PropertyController::class, 'deleteUploadedPhoto'])->name('delete.uploaded.photo');
     Route::post('/api/geocode', [PropertyController::class, 'geocodeAddress'])->name('api.geocode');
     Route::post('/api/reverse-geocode', [PropertyController::class, 'reverseGeocodeAddress'])->name('api.reverse-geocode');
+
+    // Saved Searches
+    Route::post('/api/saved-searches', function (\Illuminate\Http\Request $request) {
+        $request->validate(['name' => 'required|string|max:255', 'filters' => 'required|array']);
+        $saved = auth()->user()->savedSearches()->create([
+            'name' => $request->name,
+            'filters' => $request->filters,
+        ]);
+        return response()->json(['success' => true, 'savedSearch' => $saved]);
+    })->name('saved-searches.store');
+
+    Route::get('/api/saved-searches', function () {
+        return response()->json(auth()->user()->savedSearches()->latest()->get());
+    })->name('saved-searches.index');
+
+    Route::delete('/api/saved-searches/{savedSearch}', function (\App\Models\SavedSearch $savedSearch) {
+        if ($savedSearch->user_id !== auth()->id()) abort(403);
+        $savedSearch->delete();
+        return response()->json(['success' => true]);
+    })->name('saved-searches.destroy');
 });
 
 Route::get('/buyers', function () {

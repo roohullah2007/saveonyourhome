@@ -1,117 +1,132 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
-import { Signpost, BookOpen, MessageCircle } from 'lucide-react';
+import { Signpost, BookOpen, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 const ShowcaseSection = () => {
+  const [sectionRef, isVisible] = useScrollReveal();
+  const [aboutRef, aboutVisible] = useScrollReveal();
+
   const resources = [
     {
       icon: Signpost,
-      emoji: '',
       title: 'The Ultimate FSBO Seller Guide',
       description: 'We provide the most comprehensive suite of FREE services to FSBO sellers, including robust listings, pricing guidance, marketing tools, and more. Our guide walks you through every step.',
       link: '/sellers',
-      linkText: 'View the Guide'
+      linkText: 'View the Guide',
+      accent: 'from-[#0891B2]/10 to-[#06B6D4]/5',
+      iconColor: 'text-[#0891B2]'
     },
     {
       icon: BookOpen,
-      emoji: '',
       title: 'How to Sell Your Home By Owner',
       description: 'Eliminate commissions and maximize your sales proceeds. List your property, connect directly with buyers, and take full control of your home sale with our free tools.',
       link: '/list-property',
-      linkText: 'List Your Home'
+      linkText: 'List Your Home',
+      accent: 'from-emerald-500/10 to-emerald-400/5',
+      iconColor: 'text-emerald-500'
     },
     {
       icon: MessageCircle,
-      emoji: '',
       title: 'Search For Your Dream Home',
       description: 'Browse properties 24/7, get detailed information, schedule appointments, and connect directly with sellers. No agent commissions mean you can afford more home for your money.',
       link: '/properties',
-      linkText: 'Search Now'
+      linkText: 'Search Now',
+      accent: 'from-violet-500/10 to-violet-400/5',
+      iconColor: 'text-violet-500'
     }
   ];
 
   return (
-    <section className="bg-[#EEEDEA] py-20">
+    <section className="bg-[#F5F4F1] py-20 md:py-24">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
         {/* Three Resource Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div
+          ref={sectionRef}
+          className={`grid grid-cols-1 md:grid-cols-3 gap-5 mb-16 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           {resources.map((resource, index) => {
             const IconComponent = resource.icon;
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group"
+                className="bg-white rounded-2xl p-8 md:p-9 card-hover group border border-gray-100/80 relative overflow-hidden"
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 bg-[#0891B2]/10 rounded-xl mb-5">
-                  <IconComponent className="w-7 h-7 text-[#0891B2]" />
+                {/* Subtle top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#0891B2] to-[#06B6D4] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                <div className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br ${resource.accent} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <IconComponent className={`w-6 h-6 ${resource.iconColor}`} />
                 </div>
-                <h3
-                  className="text-[20px] md:text-[22px] font-semibold text-[#111] mb-3"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
+                <h3 className="text-[18px] sm:text-[20px] md:text-[22px] font-inter font-semibold text-[#111] mb-3 tracking-[-0.02em]">
                   {resource.title}
                 </h3>
-                <p
-                  className="text-[14px] text-[#666] mb-6 leading-relaxed"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
+                <p className="text-[14px] text-gray-500 mb-7 leading-[1.7] font-inter">
                   {resource.description}
                 </p>
                 <Link
                   href={resource.link}
-                  className="inline-flex items-center gap-2 text-[#0891B2] font-medium text-sm group-hover:gap-3 transition-all duration-300"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="inline-flex items-center gap-2 text-[#0891B2] font-inter font-semibold text-[14px] group-hover:gap-3 transition-all duration-300"
                 >
                   {resource.linkText}
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </div>
             );
           })}
         </div>
 
-        {/* We Are Always Ready Section */}
-        <div className="bg-white rounded-3xl overflow-hidden">
+        {/* About Section */}
+        <div
+          ref={aboutRef}
+          className={`bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100/50 transition-all duration-700 delay-200 ${
+            aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <div className="grid lg:grid-cols-2 gap-0">
             {/* Left - Image */}
-            <div className="relative">
+            <div className="relative overflow-hidden group/img">
               <img
                 src="/images/home-img.webp"
                 alt="SaveOnYourHome support team"
-                className="w-full h-[300px] lg:h-full object-cover"
+                className="w-full h-[280px] sm:h-[340px] lg:h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+
+              {/* Floating badge on image */}
+              <div className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-md rounded-xl px-4 py-3 shadow-lg border border-white/50">
+                <div className="flex items-center gap-2.5">
+                  <Sparkles className="w-5 h-5 text-[#0891B2]" />
+                  <div>
+                    <p className="text-[13px] font-inter font-bold text-[#111]">Trusted by Homeowners</p>
+                    <p className="text-[11px] font-inter text-gray-400">Across Oklahoma & Beyond</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Right - Content */}
-            <div className="p-8 md:p-12 flex flex-col justify-center">
-              <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-4">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <div className="p-7 sm:p-10 md:p-14 flex flex-col justify-center">
+              <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-5 w-fit">
+                <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
                   About
                 </span>
               </div>
-              <h2
-                className="text-[28px] md:text-[36px] font-semibold text-[#111] mb-4 leading-tight"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-              >
+              <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-inter font-bold text-[#111] mb-5 leading-[1.15] tracking-[-0.03em]">
                 SaveOnYourHome.com
               </h2>
-              <p
-                className="text-[14px] md:text-[16px] text-[#666] mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-              >
+              <p className="text-[14px] sm:text-[15px] text-gray-500 mb-8 leading-[1.75] font-inter">
                 We're on a mission to transform the home buying and selling experience, making it more accessible, transparent, and cost-effective for everyone involved. See what we're all about!
               </p>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490] w-fit"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-2.5 bg-[#0891B2] text-white rounded-full px-7 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px] w-fit"
               >
                 <span>Learn More</span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

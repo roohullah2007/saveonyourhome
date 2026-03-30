@@ -127,21 +127,13 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
 
       const priceLabel = property.price >= 1000000
         ? `$${(property.price / 1000000).toFixed(1)}M`
-        : `$${(property.price / 1000).toFixed(0)}K`;
-
-      const statusColor = property.listing_status === 'sold' ? '#374151'
-        : property.listing_status === 'pending' ? '#CA8A04'
-        : property.listing_status === 'inactive' ? '#6B7280'
-        : '#0891B2';
+        : `$${(property.price / 1000).toFixed(0)}k`;
 
       // Create custom marker element
       const markerDiv = document.createElement('div');
       markerDiv.innerHTML = `
-        <div style="position:relative;cursor:pointer;">
-          <div style="background:${statusColor};color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.3);">
-            ${priceLabel}
-          </div>
-          <div style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid ${statusColor};"></div>
+        <div style="background-color:#1e293b;color:white;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.4);line-height:1;display:inline-block;z-index:999;position:relative;transition:transform 0.15s,background-color 0.15s;">
+          ${priceLabel}
         </div>
       `;
 
@@ -181,15 +173,44 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
 
       const baths = (property.full_bathrooms || 0) + (property.half_bathrooms ? property.half_bathrooms * 0.5 : 0);
 
+      // Time ago
+      const getTimeAgo = (d) => {
+        if (!d) return '';
+        const now = new Date();
+        const diff = Math.floor((now - new Date(d)) / (1000 * 60 * 60 * 24));
+        if (diff < 1) return 'Today';
+        if (diff === 1) return '1 day ago';
+        if (diff < 30) return diff + ' days ago';
+        const mo = Math.floor(diff / 30);
+        if (mo === 1) return '1 mo ago';
+        if (mo < 12) return mo + ' mo ago';
+        return Math.floor(mo / 12) + ' yr ago';
+      };
+      const timeAgo = getTimeAgo(property.created_at || property.listed_date);
+
+      const propType = property.property_type === 'land' ? 'Land for sale'
+        : `${property.bedrooms || 0} bd · ${baths} ba${property.sqft ? ' · ' + Number(property.sqft).toLocaleString() + ' sqft' : ''}`;
+
+      const fullAddress = `${property.address || ''}${property.city ? ', ' + property.city : ''}${property.state ? ', ' + property.state : ''} ${property.zip_code || ''}`;
+
       const popupContent = `
-        <div style="padding:0;min-width:220px;font-family:'Instrument Sans',sans-serif;">
-          <a href="/properties/${property.slug || property.id}" style="text-decoration:none;color:inherit;">
-            <img src="${photo}" alt="${property.property_title || ''}" style="width:100%;height:120px;object-fit:cover;object-position:center 20%;border-radius:8px 8px 0 0;" onerror="this.src='/images/property-placeholder.svg'" />
-            <div style="padding:10px;">
-              <div style="font-weight:700;font-size:16px;color:#0891B2;margin-bottom:4px;">$${Number(property.price).toLocaleString()}</div>
-              <div style="font-size:13px;color:#111;margin-bottom:4px;line-height:1.3;">${property.address || ''}</div>
-              <div style="font-size:12px;color:#666;">${property.city || ''}, ${property.state || 'OK'} ${property.zip_code || ''}</div>
-              <div style="font-size:12px;color:#555;margin-top:6px;">${property.bedrooms || 0} BD | ${baths} BA | ${property.sqft ? Number(property.sqft).toLocaleString() + ' sq ft' : 'N/A'}</div>
+        <div style="width:280px;font-family:system-ui,-apple-system,sans-serif;">
+          <a href="/properties/${property.slug || property.id}" style="text-decoration:none;color:inherit;display:block;">
+            <div style="position:relative;height:150px;overflow:hidden;border-radius:10px 10px 0 0;">
+              <img src="${photo}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='/images/property-placeholder.svg'" />
+              ${timeAgo ? `<div style="position:absolute;left:8px;top:8px;background:rgba(0,0,0,0.6);color:white;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;">${timeAgo}</div>` : ''}
+              <div style="position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </div>
+            </div>
+            <div style="padding:10px 12px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-size:17px;font-weight:700;color:#1A1816;">$${Number(property.price).toLocaleString()}</div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#9ca3af"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
+              </div>
+              <div style="margin-top:3px;font-size:11px;color:#6b7280;display:flex;align-items:center;gap:4px;flex-wrap:wrap;">${propType}</div>
+              <div style="margin-top:8px;font-size:12px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${fullAddress}</div>
+              ${property.mls_number ? `<div style="margin-top:8px;font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.3px;">MLS ID #${property.mls_number}${property.city ? ' · ' + property.city : ''}</div>` : ''}
             </div>
           </a>
         </div>

@@ -1,45 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
-    <div className="bg-[#DCD8D5] rounded-2xl mb-4 overflow-hidden transition-all duration-300">
+    <div className={`rounded-2xl mb-3 overflow-hidden transition-all duration-300 border ${
+      isOpen ? 'bg-white border-[#0891B2]/15 shadow-md shadow-[#0891B2]/5' : 'bg-white border-gray-200/60 hover:border-gray-300/80'
+    }`}>
       <button
         onClick={onClick}
         className="w-full flex items-center justify-between p-6 text-left transition-colors group"
       >
-        <span
-          style={{ fontFamily: '"Instrument Sans", sans-serif' }}
-          className="text-[18px] font-medium text-[#111] pr-4 transition-colors"
-        >
+        <span className="text-[16px] font-inter font-semibold text-[#111] pr-4 transition-colors tracking-[-0.01em]">
           {question}
         </span>
-        <div className={`flex-shrink-0 transition-all duration-300`}>
-          <ChevronDown
-            className={`w-6 h-6 text-[#111] transition-transform duration-300 ${
-              isOpen ? 'rotate-180' : ''
-            }`}
-          />
+        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+          isOpen ? 'bg-[#0891B2] rotate-180' : 'bg-[#F5F4F1] group-hover:bg-[#EEEDEA]'
+        }`}>
+          <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${
+            isOpen ? 'text-white' : 'text-gray-500'
+          }`} />
         </div>
       </button>
 
-      {isOpen && (
-        <div className="px-6 pb-6 pt-0 animate-fadeIn">
-          <p
-            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
-            className="text-[14px] font-medium text-[#666] leading-relaxed"
-          >
+      <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-6 pb-6 pt-0">
+          <p className="text-[14px] font-inter text-gray-500 leading-[1.75]">
             {answer}
           </p>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [sectionRef, isVisible] = useScrollReveal();
 
   const faqs = [
     {
@@ -84,44 +82,35 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="bg-[#EEEDEA] py-20 md:py-28">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+    <section className="bg-[#F5F4F1] py-20 md:py-28">
+      <div
+        ref={sectionRef}
+        className={`max-w-[1280px] mx-auto px-4 sm:px-6 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         {/* Badge */}
-        <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-8">
-          <span style={{ fontFamily: '"Instrument Sans", sans-serif' }} className="text-[#666] text-sm font-medium">
+        <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-8">
+          <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
             FAQs
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
           {/* Left Side - Title and CTA */}
           <div>
-            <h2
-              className="text-[48px] font-semibold leading-[120%] text-[#111] mb-6"
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
-            >
+            <h2 className="text-[28px] sm:text-[36px] md:text-[44px] font-inter font-bold leading-[1.15] text-[#111] mb-6 tracking-[-0.03em]">
               Frequently Asked<br />Questions
             </h2>
-            <p
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
-              className="text-[14px] font-medium text-[#666] mb-10 leading-relaxed"
-            >
+            <p className="text-[15px] font-inter text-gray-500 mb-10 leading-[1.75]">
               Can't find an answer to your question? Contact us, we'll be happy to help. We've provided answers to the most common questions about buying and selling homes, our free listing platform, and how SaveOnYourHome.com is revolutionizing real estate.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+              className="inline-flex items-center gap-2.5 bg-[#0891B2] text-white rounded-full px-7 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px]"
             >
               <span>Ask Questions</span>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_faq_btn" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20" style={{ maskType: 'alpha' }}>
-                  <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"></rect>
-                </mask>
-                <g mask="url(#mask0_faq_btn)">
-                  <path d="M13.459 10.8334L11.084 13.2084C10.9173 13.3751 10.8375 13.5695 10.8444 13.7918C10.8513 14.014 10.9312 14.2084 11.084 14.3751C11.2507 14.5418 11.4486 14.6286 11.6777 14.6355C11.9069 14.6425 12.1048 14.5626 12.2715 14.3959L16.084 10.5834C16.2507 10.4168 16.334 10.2223 16.334 10.0001C16.334 9.77787 16.2507 9.58343 16.084 9.41676L12.2715 5.60426C12.1048 5.43759 11.9069 5.35773 11.6777 5.36467C11.4486 5.37162 11.2507 5.45842 11.084 5.62509C10.9312 5.79176 10.8513 5.9862 10.8444 6.20842C10.8375 6.43065 10.9173 6.62509 11.084 6.79176L13.459 9.16676H4.16732C3.93121 9.16676 3.73329 9.24662 3.57357 9.40634C3.41385 9.56606 3.33398 9.76398 3.33398 10.0001C3.33398 10.2362 3.41385 10.4341 3.57357 10.5938C3.73329 10.7536 3.93121 10.8334 4.16732 10.8334H13.459Z" fill="white"></path>
-                </g>
-              </svg>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 

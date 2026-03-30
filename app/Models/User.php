@@ -164,6 +164,11 @@ class User extends Authenticatable
         return $this->hasMany(ServiceRequest::class);
     }
 
+    public function savedSearches(): HasMany
+    {
+        return $this->hasMany(SavedSearch::class);
+    }
+
     /**
      * Get user's full address
      */

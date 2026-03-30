@@ -385,6 +385,29 @@ class PropertyController extends Controller
             }
         }
 
+        // Filter by virtual tour
+        if ($request->hasVirtualTour === 'yes') {
+            $query->where(function ($q) {
+                $q->whereNotNull('virtual_tour_url')->where('virtual_tour_url', '!=', '')
+                  ->orWhereNotNull('matterport_url')->where('matterport_url', '!=', '');
+            });
+        }
+
+        // Filter by lot size minimum (in sqft)
+        if ($request->lotSizeMin) {
+            $query->where('lot_size', '>=', (int) $request->lotSizeMin);
+        }
+
+        // When filtering by beds/baths, prioritize exact matches first
+        if ($request->bedrooms) {
+            $beds = (int) $request->bedrooms;
+            $query->orderByRaw("CASE WHEN bedrooms = ? THEN 0 ELSE 1 END", [$beds]);
+        }
+        if ($request->bathrooms) {
+            $baths = (int) $request->bathrooms;
+            $query->orderByRaw("CASE WHEN full_bathrooms = ? THEN 0 ELSE 1 END", [$baths]);
+        }
+
         // Sorting
         $sortBy = $request->sort ?? 'newest';
         switch ($sortBy) {
@@ -419,7 +442,8 @@ class PropertyController extends Controller
             ->select([
                 'id', 'property_title', 'price', 'address', 'city', 'state', 'zip_code',
                 'bedrooms', 'full_bathrooms', 'half_bathrooms', 'sqft', 'listing_status',
-                'latitude', 'longitude', 'photos'
+                'latitude', 'longitude', 'photos', 'property_type', 'mls_number',
+                'created_at'
             ])
             ->get();
 
@@ -428,7 +452,7 @@ class PropertyController extends Controller
 
         return Inertia::render('Properties', [
             'properties' => $properties,
-            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'sort']),
+            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'hasVirtualTour', 'lotSizeMin', 'sort']),
             'isAdmin' => $isAdmin,
             'allPropertiesForMap' => $allPropertiesForMap,
         ]);
