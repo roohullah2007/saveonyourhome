@@ -16,8 +16,12 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.jsx'),
         );
 
-        // Automatically wrap pages with MainLayout unless they specify their own layout
-        page.default.layout = page.default.layout || ((page) => <MainLayout>{page}</MainLayout>);
+        // Pages that manage their own layout (no MainLayout wrapper)
+        const noLayoutPages = ['Properties'];
+
+        if (!page.default.layout && !noLayoutPages.includes(name)) {
+            page.default.layout = (page) => <MainLayout>{page}</MainLayout>;
+        }
 
         return page;
     },
