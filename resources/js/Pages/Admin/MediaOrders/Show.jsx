@@ -387,7 +387,7 @@ function Show({ order }) {
                       {order.user?.name || `${order.first_name} ${order.last_name}`}
                     </p>
                     {order.user && (
-                      <Link href={`/admin/users/${order.user.id}`} className="text-sm text-[#0891B2] hover:underline">
+                      <Link href={`/admin/users/${order.user.id}`} className="text-sm text-[#1A1816] hover:underline">
                         View Profile
                       </Link>
                     )}
@@ -395,12 +395,12 @@ function Show({ order }) {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Mail className="w-4 h-4" />
-                  <a href={`mailto:${order.email}`} className="hover:text-[#0891B2]">{order.email}</a>
+                  <a href={`mailto:${order.email}`} className="hover:text-[#555]">{order.email}</a>
                 </div>
                 {order.phone && (
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Phone className="w-4 h-4" />
-                    <a href={`tel:${order.phone}`} className="hover:text-[#0891B2]">{order.phone}</a>
+                    <a href={`tel:${order.phone}`} className="hover:text-[#555]">{order.phone}</a>
                   </div>
                 )}
               </div>
@@ -489,7 +489,7 @@ function Show({ order }) {
               <div className="space-y-3">
                 <button
                   onClick={() => setShowStatusModal(true)}
-                  className="w-full px-4 py-2 bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490] transition-colors text-sm flex items-center justify-center gap-2"
+                  className="w-full px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors text-sm flex items-center justify-center gap-2"
                 >
                   <Edit className="w-4 h-4" />
                   Update Status
@@ -518,7 +518,7 @@ function Show({ order }) {
                 <select
                   value={statusForm.status}
                   onChange={(e) => setStatusForm({ ...statusForm, status: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                 >
                   <option value="pending">Pending</option>
                   <option value="confirmed">Confirmed</option>
@@ -534,7 +534,7 @@ function Show({ order }) {
                   value={statusForm.admin_notes}
                   onChange={(e) => setStatusForm({ ...statusForm, admin_notes: e.target.value })}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                   placeholder="Add notes about this order..."
                 />
               </div>
@@ -548,7 +548,7 @@ function Show({ order }) {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490]"
+                  className="flex-1 px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111]"
                 >
                   Update
                 </button>
@@ -570,7 +570,7 @@ function Show({ order }) {
                   value={paymentForm.payment_method}
                   onChange={(e) => setPaymentForm({ ...paymentForm, payment_method: e.target.value })}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                 >
                   <option value="">Select payment method</option>
                   <option value="venmo">Venmo</option>
@@ -586,7 +586,7 @@ function Show({ order }) {
                   type="text"
                   value={paymentForm.payment_reference}
                   onChange={(e) => setPaymentForm({ ...paymentForm, payment_reference: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                   placeholder="Transaction ID or check number"
                 />
               </div>
@@ -623,7 +623,7 @@ function Show({ order }) {
                   value={scheduleForm.scheduled_at}
                   onChange={(e) => setScheduleForm({ ...scheduleForm, scheduled_at: e.target.value })}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                 />
               </div>
               <div className="flex gap-3">

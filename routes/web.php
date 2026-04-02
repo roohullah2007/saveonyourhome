@@ -165,6 +165,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
     Route::post('/messages/{inquiry}/read', [UserDashboardController::class, 'markMessageRead'])->name('.messages.read');
     Route::post('/messages/{inquiry}/responded', [UserDashboardController::class, 'markMessageResponded'])->name('.messages.responded');
     Route::delete('/messages/{inquiry}', [UserDashboardController::class, 'destroyMessage'])->name('.messages.destroy');
+    Route::post('/messages/{inquiry}/reply', [UserDashboardController::class, 'replyToMessage'])->name('.messages.reply');
+
+    // Message Preferences
+    Route::get('/message-preferences', [UserDashboardController::class, 'messagePreferences'])->name('.message-preferences');
+    Route::post('/message-preferences', [UserDashboardController::class, 'updateMessagePreferences'])->name('.message-preferences.update');
 
     // Favorites
     Route::get('/favorites', [UserDashboardController::class, 'favorites'])->name('.favorites');

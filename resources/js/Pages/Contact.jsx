@@ -97,7 +97,7 @@ function Contact() {
               {/* Main Heading */}
               <h1
                 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Get in Touch
               </h1>
@@ -105,7 +105,7 @@ function Contact() {
               {/* Subheading */}
               <p
                 className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Whether you're selling by owner and looking for a better way or a buyer seeking a seamless experience, our team is here to help make it happen. Reach out and we'll get back to you as soon as possible.
               </p>
@@ -126,13 +126,13 @@ function Contact() {
                   href={item.link}
                   className="bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group"
                 >
-                  <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-all duration-300">
+                  <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-all duration-300">
                     <IconComponent className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-all duration-300" />
                   </div>
-                  <h3 className="text-lg font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-lg font-medium text-[#111] mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#666] font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-[#666] font-medium">
                     {item.info}
                   </p>
                 </a>
@@ -150,23 +150,23 @@ function Contact() {
             <div>
               <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
                 <MessageSquare className="w-4 h-4 text-[#666]" />
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   Send us a message
                 </span>
               </div>
 
-              <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
                 Contact Form
               </h2>
 
-              <p className="text-[16px] text-[#666] font-medium mb-8" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-[16px] text-[#666] font-medium mb-8">
                 Our team of experienced real estate and technology professionals is ready to help. Fill out the form below and we'll get back to you within 24 hours.
               </p>
 
               {submitted && (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-green-700 font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <span className="text-green-700 font-medium">
                     Thank you for your message! We'll get back to you within 24 hours.
                   </span>
                 </div>
@@ -174,7 +174,7 @@ function Contact() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <label className="block text-sm font-medium text-[#111] mb-2">
                     Full Name
                   </label>
                   <input
@@ -182,8 +182,8 @@ function Contact() {
                     name="name"
                     value={data.name}
                     onChange={e => setData('name', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors ${errors.name ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors ${errors.name ? 'border-red-500' : 'border-[#D0CCC7]'}`}
+                   
                     placeholder="John Doe"
                     required
                   />
@@ -192,7 +192,7 @@ function Contact() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <label className="block text-sm font-medium text-[#111] mb-2">
                       Email Address
                     </label>
                     <input
@@ -200,8 +200,8 @@ function Contact() {
                       name="email"
                       value={data.email}
                       onChange={e => setData('email', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors ${errors.email ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                      className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors ${errors.email ? 'border-red-500' : 'border-[#D0CCC7]'}`}
+                     
                       placeholder="john@example.com"
                       required
                     />
@@ -209,7 +209,7 @@ function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <label className="block text-sm font-medium text-[#111] mb-2">
                       Phone Number
                     </label>
                     <input
@@ -217,8 +217,8 @@ function Contact() {
                       name="phone"
                       value={data.phone}
                       onChange={e => setData('phone', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors"
+                     
                       placeholder="(918) 555-0123"
                     />
                     <label className="flex items-start gap-2 mt-2 cursor-pointer">
@@ -226,7 +226,7 @@ function Contact() {
                         type="checkbox"
                         checked={data.sms_consent}
                         onChange={(e) => setData('sms_consent', e.target.checked)}
-                        className="mt-0.5 rounded border-gray-300 text-[#0891B2] focus:ring-[#0891B2]"
+                        className="mt-0.5 rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                       />
                       <span className="text-xs text-gray-600">I'd prefer texting</span>
                     </label>
@@ -235,7 +235,7 @@ function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <label className="block text-sm font-medium text-[#111] mb-2">
                     Subject
                   </label>
                   <select
@@ -243,7 +243,7 @@ function Contact() {
                     value={data.subject}
                     onChange={e => setData('subject', e.target.value)}
                     className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:outline-none focus:ring-0 focus:border-black transition-colors bg-white ${errors.subject ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                     required
                   >
                     <option value="">Select a subject</option>
@@ -257,7 +257,7 @@ function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <label className="block text-sm font-medium text-[#111] mb-2">
                     Message
                   </label>
                   <textarea
@@ -265,8 +265,8 @@ function Contact() {
                     value={data.message}
                     onChange={e => setData('message', e.target.value)}
                     rows="6"
-                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#0891B2] transition-colors resize-none ${errors.message ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors resize-none ${errors.message ? 'border-red-500' : 'border-[#D0CCC7]'}`}
+                   
                     placeholder="Tell us how we can help you..."
                     required
                   ></textarea>
@@ -276,8 +276,8 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={processing}
-                  className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-[#111111] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                 
                 >
                   <Send className="w-5 h-5" />
                   {processing ? 'Sending...' : 'Send Message'}
@@ -289,16 +289,16 @@ function Contact() {
             <div>
               <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
                 <HelpCircle className="w-4 h-4 text-[#666]" />
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   Quick Answers
                 </span>
               </div>
 
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4">
                 Frequently Asked Questions
               </h2>
 
-              <p className="text-[16px] text-[#666] font-medium mb-8" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-[16px] text-[#666] font-medium mb-8">
                 Here are some common questions we receive. Don't see your question? Send us a message!
               </p>
 
@@ -310,7 +310,7 @@ function Contact() {
                       className="w-full flex items-center justify-between p-6 text-left transition-colors group"
                     >
                       <span
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                       
                         className="text-[18px] font-medium text-[#111] pr-4 transition-colors"
                       >
                         {faq.question}
@@ -327,7 +327,7 @@ function Contact() {
                     {openFaqIndex === index && (
                       <div className="px-6 pb-6 pt-0 animate-fadeIn">
                         <p
-                          style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                         
                           className="text-[14px] font-medium text-[#666] leading-relaxed"
                         >
                           {faq.answer}
@@ -338,17 +338,17 @@ function Contact() {
                 ))}
               </div>
 
-              <div className="mt-8 bg-[#0891B2] rounded-2xl p-6 text-white">
-                <h3 className="text-xl font-medium mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="mt-8 bg-[#1A1816] rounded-2xl p-6 text-white">
+                <h3 className="text-xl font-medium mb-2">
                   Still have questions?
                 </h3>
-                <p className="text-sm mb-4 text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm mb-4 text-white/90">
                   Check out our comprehensive FAQ page for more answers.
                 </p>
                 <Link
                   href="/faqs"
-                  className="inline-flex items-center gap-2 bg-white text-[#0891B2] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-white/90"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="inline-flex items-center gap-2 bg-white text-[#1A1816] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-white/90"
+                 
                 >
                   View All FAQs
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -364,17 +364,17 @@ function Contact() {
       {/* CTA Section */}
       <section className="bg-[#EEEDEA] py-16 md:py-20">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-[16px] text-[#666] font-medium mb-8 max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[16px] text-[#666] font-medium mb-8 max-w-2xl mx-auto">
             Join us in revolutionizing the way homes are bought and sold. List your property for FREE or start browsing available homes today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/list-property"
-              className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+             
             >
               List Your Property
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,8 +388,8 @@ function Contact() {
             </Link>
             <Link
               href="/properties"
-              className="inline-flex items-center gap-2 bg-transparent border-2 border-[#0891B2] text-[#0891B2] rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0891B2] hover:text-white"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-transparent border-2 border-[#1A1816] text-[#1A1816] rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1A1816] hover:text-white"
+             
             >
               Browse Properties
             </Link>

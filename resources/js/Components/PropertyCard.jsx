@@ -42,7 +42,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
       case 'inactive':
         return 'bg-gray-500';
       default:
-        return 'bg-[#0891B2]';
+        return 'bg-[#1A1816]';
     }
   };
 
@@ -100,7 +100,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
             onError={(e) => e.target.src = '/images/property-placeholder.svg'}
           />
           {/* Status Badge */}
-          <div className={`absolute top-4 right-4 ${getStatusColor()} text-white px-3 py-1.5 text-xs font-semibold rounded-full`} style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <div className={`absolute top-4 right-4 ${getStatusColor()} text-white px-3 py-1.5 text-xs font-semibold rounded-full`}>
             {statusLabel}
           </div>
 
@@ -108,7 +108,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
           <div className="absolute top-4 left-4 flex gap-1.5">
             {/* MLS Badge */}
             {property.is_mls_listed && (
-              <div className="bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-full" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-full">
                 MLS
               </div>
             )}
@@ -128,7 +128,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 
           {/* Open House Badge */}
           {property.upcoming_open_houses?.length > 0 && (
-            <div className="absolute bottom-4 left-4 bg-green-600 text-white px-2.5 py-1 text-xs font-semibold rounded-full flex items-center gap-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <div className="absolute bottom-4 left-4 bg-green-600 text-white px-2.5 py-1 text-xs font-semibold rounded-full flex items-center gap-1">
               <Calendar className="w-3 h-3" />
               Open House {new Date(property.upcoming_open_houses[0].date.substring(0, 10) + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
             </div>
@@ -164,7 +164,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
         <div className="px-3 pt-2.5 pb-3 flex flex-col">
           {/* Price */}
           <div className="pb-2 mb-2 border-b border-gray-200">
-            <span className="font-bold text-base text-[#293056]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span className="font-bold text-base text-[#293056]">
               ${Number(property.price).toLocaleString()}
             </span>
           </div>
@@ -172,7 +172,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
           {/* Property Title / Headliner */}
           {property.property_title && (
             <div className="pb-2 mb-2 border-b border-gray-200">
-              <p className="text-sm font-semibold text-[#293056] line-clamp-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm font-semibold text-[#293056] line-clamp-1">
                 {property.property_title}
               </p>
             </div>
@@ -180,14 +180,14 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 
           {/* Address */}
           <div className="pb-2 mb-2 border-b border-gray-200">
-            <p className="text-sm text-[#293056] line-clamp-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#293056] line-clamp-2">
               {property.address}, {property.city}, {property.state || 'Oklahoma'} {property.zip_code}
             </p>
           </div>
 
           {/* Property Stats */}
           <div>
-            <p className="text-sm text-[#293056]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#293056]">
               {property.property_type === 'land' ? (
                 // For land/lot listings, show acres (preferred) or lot size
                 <>Lot/Land {property.acres ? `| ${Number(property.acres).toLocaleString()} Acres` : property.lot_size ? `| ${Number(property.lot_size).toLocaleString()} sq ft` : ''}</>

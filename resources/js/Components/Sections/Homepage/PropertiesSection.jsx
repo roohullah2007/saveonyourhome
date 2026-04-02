@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, Home, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import PropertyCard from '@/Components/PropertyCard';
 import AuthModal from '@/Components/AuthModal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -29,24 +29,28 @@ const PropertiesSection = ({ properties = [] }) => {
   };
 
   return (
-    <section className="bg-[#F5F4F1] py-20 md:py-24">
+    <section style={{ backgroundColor: 'rgb(255, 255, 255)' }}>
       <div
         ref={sectionRef}
-        className={`max-w-[1280px] mx-auto px-4 sm:px-6 transition-all duration-700 ${
+        className={`mx-auto px-4 sm:px-6 lg:px-[40px] py-20 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
+        style={{ maxWidth: '1400px' }}
       >
         {/* Section Header */}
         <div className="text-center mb-10 sm:mb-14">
-          <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-6">
-            <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
-              Featured Listings
+          <div className="mb-4">
+            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+              FEATURED LISTINGS
             </span>
           </div>
-          <h2 className="text-[26px] sm:text-[34px] md:text-[44px] font-inter font-bold text-[#111] mb-4 tracking-[-0.03em] leading-[1.15]">
+          <h2
+            className="mb-4 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+            style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
+          >
             View Listings For Sale
           </h2>
-          <p className="text-[15px] md:text-[16px] text-gray-500 font-inter max-w-2xl mx-auto leading-[1.7]">
+          <p style={{ fontSize: '15px', color: 'rgb(100, 100, 100)', maxWidth: '560px', margin: '0 auto', lineHeight: '24px' }}>
             Find the perfect home for you. Search all available properties and find the one that suits your needs.
           </p>
         </div>
@@ -59,18 +63,30 @@ const PropertiesSection = ({ properties = [] }) => {
               <>
                 <button
                   onClick={prevSlide}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 md:-translate-x-7 bg-white hover:bg-[#0891B2] p-3.5 rounded-full shadow-lg z-10 transition-all duration-300 group border border-gray-100"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 md:-translate-x-7 flex items-center justify-center rounded-full z-10 transition-all duration-300 group border border-gray-200 hover:border-gray-300 hover:shadow-lg"
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(8px)',
+                  }}
                   aria-label="Previous properties"
                 >
-                  <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+                  <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-gray-900 transition-colors" />
                 </button>
 
                 <button
                   onClick={nextSlide}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 md:translate-x-7 bg-white hover:bg-[#0891B2] p-3.5 rounded-full shadow-lg z-10 transition-all duration-300 group border border-gray-100"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 md:translate-x-7 flex items-center justify-center rounded-full z-10 transition-all duration-300 group border border-gray-200 hover:border-gray-300 hover:shadow-lg"
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(8px)',
+                  }}
                   aria-label="Next properties"
                 >
-                  <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-900 transition-colors" />
                 </button>
               </>
             )}
@@ -93,9 +109,12 @@ const PropertiesSection = ({ properties = [] }) => {
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-500 ${
-                      currentSlide === index ? 'w-8 bg-[#0891B2]' : 'w-2 bg-gray-300 hover:bg-gray-400'
-                    }`}
+                    className="rounded-full transition-all duration-500"
+                    style={{
+                      width: currentSlide === index ? '24px' : '8px',
+                      height: '8px',
+                      backgroundColor: currentSlide === index ? 'rgb(26, 24, 22)' : 'rgb(209, 213, 219)',
+                    }}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
@@ -103,24 +122,47 @@ const PropertiesSection = ({ properties = [] }) => {
             )}
           </div>
         ) : (
-          /* No Properties Message */
-          <div className="bg-white rounded-3xl p-14 text-center max-w-2xl mx-auto border border-gray-100/80 shadow-sm">
-            <div className="bg-gradient-to-br from-[#0891B2]/10 to-[#06B6D4]/5 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Home className="w-9 h-9 text-[#0891B2]" />
+          /* No Properties - Enhanced Empty State */
+          <div
+            className="rounded-2xl border border-gray-200/60 text-center w-full"
+            style={{
+              background: 'rgba(255, 255, 255, 0.65)',
+              backdropFilter: 'blur(16px)',
+              boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset',
+              padding: '56px 40px',
+            }}
+          >
+            <div
+              className="flex items-center justify-center rounded-2xl mx-auto mb-6"
+              style={{ width: '64px', height: '64px', backgroundColor: 'rgb(245, 245, 244)' }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
             </div>
-            <h3 className="text-2xl font-inter font-bold text-[#111] mb-3 tracking-[-0.02em]">
+            <h3 style={{ fontSize: '22px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '8px' }}>
               No Properties Listed Yet
             </h3>
-            <p className="text-gray-500 mb-8 font-inter leading-[1.7]">
+            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)', marginBottom: '28px', maxWidth: '380px', margin: '0 auto 28px' }}>
               Be the first to list your property for sale by owner. It's free and takes less than 5 minutes to get started!
             </p>
-            <Link
-              href="/list-property"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#0891B2] text-white rounded-full px-8 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px]"
-            >
-              List Your Property Free
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/list-property"
+                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
+              >
+                List Your Property Free
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/properties"
+                className="inline-flex items-center justify-center gap-2 rounded-full transition-colors hover:bg-gray-100"
+                style={{ border: '1px solid rgb(209, 213, 219)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}
+              >
+                Browse Properties
+              </Link>
+            </div>
           </div>
         )}
 
@@ -129,9 +171,10 @@ const PropertiesSection = ({ properties = [] }) => {
           <div className="text-center mt-12">
             <Link
               href="/properties"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#0891B2] text-white rounded-full px-8 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px]"
+              className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
             >
-              View All Properties For Sale
+              View All Properties
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

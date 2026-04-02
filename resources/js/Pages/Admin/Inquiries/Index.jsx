@@ -116,7 +116,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Property Inquiries
                     </h1>
                     <p className="text-gray-500">Manage inquiries from potential buyers</p>
@@ -131,7 +131,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                         onClick={() => handleFilter('status', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || '') === tab.key
-                                ? 'bg-[#0891B2] text-white'
+                                ? 'bg-[#1A1816] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -151,7 +151,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                 placeholder="Search inquiries..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <button
@@ -204,7 +204,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                         type="checkbox"
                                         checked={selectedInquiries.length === inquiryList.length && inquiryList.length > 0}
                                         onChange={toggleSelectAll}
-                                        className="rounded border-gray-300 text-[#0891B2] focus:ring-[#0891B2]"
+                                        className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                     />
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">From</th>
@@ -231,13 +231,13 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 type="checkbox"
                                                 checked={selectedInquiries.includes(inquiry.id)}
                                                 onChange={() => toggleSelect(inquiry.id)}
-                                                className="rounded border-gray-300 text-[#0891B2] focus:ring-[#0891B2]"
+                                                className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                             />
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[#0891B2]/10 rounded-full flex items-center justify-center">
-                                                    <User className="w-5 h-5 text-[#0891B2]" />
+                                                <div className="w-10 h-10 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
+                                                    <User className="w-5 h-5 text-[#1A1816]" />
                                                 </div>
                                                 <div>
                                                     <p className="font-medium text-gray-900">{inquiry.name}</p>

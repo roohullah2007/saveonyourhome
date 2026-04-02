@@ -1,133 +1,207 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
-import { Signpost, BookOpen, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
-import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { ArrowRight } from 'lucide-react';
 
 const ShowcaseSection = () => {
-  const [sectionRef, isVisible] = useScrollReveal();
-  const [aboutRef, aboutVisible] = useScrollReveal();
-
   const resources = [
     {
-      icon: Signpost,
-      title: 'The Ultimate FSBO Seller Guide',
-      description: 'We provide the most comprehensive suite of FREE services to FSBO sellers, including robust listings, pricing guidance, marketing tools, and more. Our guide walks you through every step.',
+      title: 'CLAIM YOUR FREE FSBO SIGN!',
+      description: 'Stand out and attract buyers with a professional "For Sale By Owner" yard sign — we\'ll ship it to you free!',
       link: '/sellers',
-      linkText: 'View the Guide',
-      accent: 'from-[#0891B2]/10 to-[#06B6D4]/5',
-      iconColor: 'text-[#0891B2]'
+      linkText: 'Learn More',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v.01M12 14v.01M16 14v.01M8 18v.01M12 18v.01M16 18v.01" />
+        </svg>
+      ),
     },
     {
-      icon: BookOpen,
-      title: 'How to Sell Your Home By Owner',
-      description: 'Eliminate commissions and maximize your sales proceeds. List your property, connect directly with buyers, and take full control of your home sale with our free tools.',
-      link: '/list-property',
-      linkText: 'List Your Home',
-      accent: 'from-emerald-500/10 to-emerald-400/5',
-      iconColor: 'text-emerald-500'
+      title: 'REQUEST FREE FSBO GUIDE',
+      description: 'Get our step-by-step guide packed with expert tips to help you sell your home confidently without a realtor.',
+      link: '/sellers',
+      linkText: 'Learn More',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+      ),
     },
     {
-      icon: MessageCircle,
-      title: 'Search For Your Dream Home',
-      description: 'Browse properties 24/7, get detailed information, schedule appointments, and connect directly with sellers. No agent commissions mean you can afford more home for your money.',
-      link: '/properties',
-      linkText: 'Search Now',
-      accent: 'from-violet-500/10 to-violet-400/5',
-      iconColor: 'text-violet-500'
-    }
+      title: 'JOIN THE FSBO WEEKLY CALL',
+      description: 'Connect with other homeowners, ask questions, and get real-time advice on selling your home by owner.',
+      link: '/contact',
+      linkText: 'Learn More',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+        </svg>
+      ),
+    },
+  ];
+
+  const highlights = [
+    { value: '$27K+', label: 'Avg. Savings' },
+    { value: '0%', label: 'Commission' },
+    { value: '5 min', label: 'Setup Time' },
   ];
 
   return (
-    <section className="bg-[#F5F4F1] py-20 md:py-24">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-        {/* Three Resource Cards */}
-        <div
-          ref={sectionRef}
-          className={`grid grid-cols-1 md:grid-cols-3 gap-5 mb-16 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+    <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
+      <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        {/* Section Header */}
+        <div className="mb-4 text-center">
+          <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+            RESOURCES & SUPPORT
+          </span>
+        </div>
+        <h2
+          className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+          style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
         >
-          {resources.map((resource, index) => {
-            const IconComponent = resource.icon;
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-2xl p-8 md:p-9 card-hover group border border-gray-100/80 relative overflow-hidden"
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Subtle top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#0891B2] to-[#06B6D4] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          We Are Always Ready to Assist You
+        </h2>
+        <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', maxWidth: '560px', margin: '0 auto 56px' }}>
+          Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with confidence.
+        </p>
 
-                <div className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br ${resource.accent} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className={`w-6 h-6 ${resource.iconColor}`} />
-                </div>
-                <h3 className="text-[18px] sm:text-[20px] md:text-[22px] font-inter font-semibold text-[#111] mb-3 tracking-[-0.02em]">
-                  {resource.title}
-                </h3>
-                <p className="text-[14px] text-gray-500 mb-7 leading-[1.7] font-inter">
-                  {resource.description}
-                </p>
-                <Link
-                  href={resource.link}
-                  className="inline-flex items-center gap-2 text-[#0891B2] font-inter font-semibold text-[14px] group-hover:gap-3 transition-all duration-300"
-                >
-                  {resource.linkText}
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
+        {/* Three Resource Cards */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-16">
+          {resources.map((resource, index) => (
+            <div
+              key={index}
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-8 text-center group"
+              style={{
+                background: 'rgba(255, 255, 255, 0.65)',
+                backdropFilter: 'blur(16px)',
+                boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset',
+              }}
+            >
+              {/* Subtle top accent on hover */}
+              <div
+                className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ height: '2px', background: 'rgb(26, 24, 22)' }}
+              />
+              <div
+                className="mb-5 flex items-center justify-center rounded-2xl"
+                style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245, 245, 244)' }}
+              >
+                {resource.icon}
               </div>
-            );
-          })}
+              <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '14px', color: 'rgb(26, 24, 22)', letterSpacing: '0.5px' }}>
+                {resource.title}
+              </h3>
+              <p className="flex-1" style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
+                {resource.description}
+              </p>
+              <Link
+                href={resource.link}
+                className="mt-5 inline-flex items-center gap-1.5 transition-all duration-300 hover:gap-2.5"
+                style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}
+              >
+                {resource.linkText}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          ))}
         </div>
 
-        {/* About Section */}
+        {/* About / Contact CTA - Enhanced */}
         <div
-          ref={aboutRef}
-          className={`bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100/50 transition-all duration-700 delay-200 ${
-            aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+          className="rounded-2xl border border-gray-200/60 overflow-hidden"
+          style={{
+            background: 'rgba(255, 255, 255, 0.65)',
+            backdropFilter: 'blur(16px)',
+            boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset',
+          }}
         >
           <div className="grid lg:grid-cols-2 gap-0">
-            {/* Left - Image */}
-            <div className="relative overflow-hidden group/img">
+            {/* Left - Image with overlay elements */}
+            <div className="relative overflow-hidden group">
               <img
                 src="/images/home-img.webp"
                 alt="SaveOnYourHome support team"
-                className="w-full h-[280px] sm:h-[340px] lg:h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
+                className="w-full h-[300px] sm:h-[360px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
 
-              {/* Floating badge on image */}
-              <div className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-md rounded-xl px-4 py-3 shadow-lg border border-white/50">
-                <div className="flex items-center gap-2.5">
-                  <Sparkles className="w-5 h-5 text-[#0891B2]" />
-                  <div>
-                    <p className="text-[13px] font-inter font-bold text-[#111]">Trusted by Homeowners</p>
-                    <p className="text-[11px] font-inter text-gray-400">Across Oklahoma & Beyond</p>
+              {/* Floating stat badges */}
+              <div className="absolute bottom-6 left-6 right-6 flex gap-3">
+                {highlights.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-xl px-3 py-3 text-center"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                    }}
+                  >
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{item.value}</div>
+                    <div style={{ fontSize: '11px', fontWeight: 500, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.5px' }}>{item.label}</div>
                   </div>
-                </div>
+                ))}
+              </div>
+
+              {/* Corner trust badge */}
+              <div
+                className="absolute top-5 left-5 rounded-full px-4 py-2 flex items-center gap-2"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 6px rgba(52,211,153,0.6)' }} />
+                <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', letterSpacing: '1px' }}>TRUSTED BY HOMEOWNERS</span>
               </div>
             </div>
 
             {/* Right - Content */}
-            <div className="p-7 sm:p-10 md:p-14 flex flex-col justify-center">
-              <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-5 w-fit">
-                <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
-                  About
+            <div className="p-8 sm:p-10 md:p-14 flex flex-col justify-center">
+              <div className="mb-4">
+                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+                  ABOUT
                 </span>
               </div>
-              <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-inter font-bold text-[#111] mb-5 leading-[1.15] tracking-[-0.03em]">
+              <h2
+                className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-4"
+                style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
+              >
                 SaveOnYourHome.com
               </h2>
-              <p className="text-[14px] sm:text-[15px] text-gray-500 mb-8 leading-[1.75] font-inter">
-                We're on a mission to transform the home buying and selling experience, making it more accessible, transparent, and cost-effective for everyone involved. See what we're all about!
+              <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100, 100, 100)', marginBottom: '16px' }}>
+                We are Empowering Sellers and Connecting Buyers, and transforming the home buying process. Our platform provides every tool you need to sell your home confidently — <strong style={{ color: 'rgb(55, 55, 55)' }}>without paying a single dollar in commissions</strong>.
               </p>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2.5 bg-[#0891B2] text-white rounded-full px-7 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px] w-fit"
-              >
-                <span>Learn More</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+
+              {/* Mini feature list */}
+              <div className="space-y-2.5 mb-8">
+                {['Free professional yard sign with QR code', 'Complete FSBO guide & weekly coaching calls', 'Secure messaging — your info stays private'].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span style={{ fontSize: '14px', color: 'rgb(75, 75, 75)' }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
+                >
+                  Learn More
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full transition-colors hover:bg-gray-100"
+                  style={{ border: '1px solid rgb(209, 213, 219)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}
+                >
+                  Contact Us
+                </Link>
+              </div>
             </div>
           </div>
         </div>

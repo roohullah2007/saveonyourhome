@@ -91,7 +91,7 @@ const SinglePropertyMap = ({ property }) => {
       // Create custom marker icon
       const markerIcon = {
         path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-        fillColor: '#0891B2',
+        fillColor: '#1A1816',
         fillOpacity: 1,
         strokeColor: '#FFFFFF',
         strokeWeight: 2,
@@ -110,7 +110,7 @@ const SinglePropertyMap = ({ property }) => {
 
       const infoWindow = new window.google.maps.InfoWindow({
         content: `
-          <div style="padding:8px;font-family:'Instrument Sans',sans-serif;">
+          <div style="padding:8px;font-family:'Manrope',sans-serif;">
             <p style="font-weight:600;color:#111;margin:0 0 4px 0;">${property.property_title || 'Property Location'}</p>
             <p style="color:#666;font-size:13px;margin:0;">${address}</p>
           </div>
@@ -185,7 +185,7 @@ const SinglePropertyMap = ({ property }) => {
           <Navigation className="w-4 h-4 text-gray-700" />
         </button>
         <button
-          className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#0891B2] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+          className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#1A1816] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
           title={mapType === 'satellite' ? 'Switch to Road Map' : 'Switch to Satellite View'}
           onClick={handleToggleMapType}
         >
@@ -197,7 +197,7 @@ const SinglePropertyMap = ({ property }) => {
       {!mapInstance && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0891B2] mx-auto mb-3"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1A1816] mx-auto mb-3"></div>
             <p className="text-gray-500 text-sm">Loading map...</p>
           </div>
         </div>
@@ -206,7 +206,7 @@ const SinglePropertyMap = ({ property }) => {
       {/* No coordinates message */}
       {mapInstance && !hasCoordinates && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg z-[10]">
-          <p className="text-sm text-gray-600" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-sm text-gray-600">
             Exact location not available
           </p>
         </div>

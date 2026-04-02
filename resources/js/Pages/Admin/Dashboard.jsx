@@ -65,7 +65,7 @@ export default function Dashboard({
             label: 'Sellers',
             value: stats.sellers,
             icon: Users,
-            color: 'bg-teal-500',
+            color: 'bg-gray-800',
             href: route('admin.users.index', { role: 'seller' }),
         },
         {
@@ -118,7 +118,7 @@ export default function Dashboard({
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
-                                <p className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                <p className="text-2xl font-bold text-gray-900">
                                     {stat.value}
                                 </p>
                             </div>
@@ -134,12 +134,12 @@ export default function Dashboard({
                 {/* Recent Properties */}
                 <div className="xl:col-span-2 bg-white rounded-xl shadow-sm">
                     <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h2 className="text-lg font-semibold text-gray-900">
                             Recent Properties
                         </h2>
                         <Link
                             href={route('admin.properties.index')}
-                            className="text-sm text-[#0891B2] hover:underline flex items-center gap-1"
+                            className="text-sm text-[#1A1816] hover:underline flex items-center gap-1"
                         >
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -162,7 +162,7 @@ export default function Dashboard({
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-sm font-semibold text-[#0891B2]">
+                                            <span className="text-sm font-semibold text-[#1A1816]">
                                                 {property.price}
                                             </span>
                                             <span className={`px-2 py-1 text-xs rounded-full ${getStatusBadge(property.approval_status)}`}>
@@ -179,12 +179,12 @@ export default function Dashboard({
                 {/* Recent Users */}
                 <div className="bg-white rounded-xl shadow-sm">
                     <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h2 className="text-lg font-semibold text-gray-900">
                             Recent Users
                         </h2>
                         <Link
                             href={route('admin.users.index')}
-                            className="text-sm text-[#0891B2] hover:underline flex items-center gap-1"
+                            className="text-sm text-[#1A1816] hover:underline flex items-center gap-1"
                         >
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -220,12 +220,12 @@ export default function Dashboard({
                 {/* Recent Inquiries */}
                 <div className="xl:col-span-2 bg-white rounded-xl shadow-sm">
                     <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h2 className="text-lg font-semibold text-gray-900">
                             Recent Inquiries
                         </h2>
                         <Link
                             href={route('admin.inquiries.index')}
-                            className="text-sm text-[#0891B2] hover:underline flex items-center gap-1"
+                            className="text-sm text-[#1A1816] hover:underline flex items-center gap-1"
                         >
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -260,12 +260,12 @@ export default function Dashboard({
                 {/* Recent Activity */}
                 <div className="bg-white rounded-xl shadow-sm">
                     <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h2 className="text-lg font-semibold text-gray-900">
                             Recent Activity
                         </h2>
                         <Link
                             href={route('admin.activity.index')}
-                            className="text-sm text-[#0891B2] hover:underline flex items-center gap-1"
+                            className="text-sm text-[#1A1816] hover:underline flex items-center gap-1"
                         >
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -279,7 +279,7 @@ export default function Dashboard({
                             recentActivity.map((log) => (
                                 <div key={log.id} className="p-4 hover:bg-gray-50">
                                     <div className="flex items-start gap-3">
-                                        <div className="w-2 h-2 mt-2 bg-[#0891B2] rounded-full flex-shrink-0" />
+                                        <div className="w-2 h-2 mt-2 bg-[#1A1816] rounded-full flex-shrink-0" />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm text-gray-900">
                                                 <span className="font-medium">{log.user}</span>{' '}

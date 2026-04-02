@@ -381,6 +381,79 @@ class UserDashboardController extends Controller
     }
 
     /**
+     * Reply to a buyer inquiry
+     */
+    public function replyToMessage(Request $request, Inquiry $inquiry)
+    {
+        if ($inquiry->property->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'reply' => 'required|string|max:2000',
+        ]);
+
+        $inquiry->update([
+            'seller_reply' => $validated['reply'],
+            'seller_replied_at' => now(),
+            'status' => 'responded',
+            'responded_at' => now(),
+        ]);
+
+        // Send reply email to buyer
+        if (EmailService::isEnabled() && $inquiry->email) {
+            $property = $inquiry->property;
+            $sellerName = $property->contact_name ?? Auth::user()->name;
+
+            EmailService::sendToUser(
+                $inquiry->email,
+                new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
+            );
+
+            $inquiry->update(['email_delivered_at' => now()]);
+        }
+
+        return back()->with('success', 'Reply sent successfully!');
+    }
+
+    /**
+     * Show message preferences
+     */
+    public function messagePreferences()
+    {
+        $user = Auth::user();
+        $preferences = $user->messagePreference ?? new \App\Models\SellerMessagePreference([
+            'delivery_method' => 'email',
+            'show_phone_publicly' => false,
+            'show_email_publicly' => false,
+        ]);
+
+        return Inertia::render('Dashboard/MessagePreferences', [
+            'preferences' => $preferences,
+        ]);
+    }
+
+    /**
+     * Update message preferences
+     */
+    public function updateMessagePreferences(Request $request)
+    {
+        $validated = $request->validate([
+            'delivery_method' => 'required|in:email,sms,both,platform',
+            'show_phone_publicly' => 'boolean',
+            'show_email_publicly' => 'boolean',
+            'preferred_contact_hours' => 'nullable|string|max:255',
+        ]);
+
+        Auth::user()->messagePreference()->updateOrCreate(
+            ['user_id' => Auth::id()],
+            $validated
+        );
+
+        return back()->with('success', 'Message preferences updated!');
+    }
+
+    /**
      * Display user's favorite properties
      */
     public function favorites(Request $request)

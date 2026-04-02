@@ -127,7 +127,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Buyer Leads
                     </h1>
                     <p className="text-gray-500">Manage buyer sign-ups from the properties page</p>
@@ -146,7 +146,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                         onClick={() => handleFilter('status', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || 'all') === tab.key
-                                ? 'bg-[#0891B2] text-white'
+                                ? 'bg-[#1A1816] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -165,7 +165,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                             placeholder="Search by name, email, phone, or area..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         />
                     </div>
                     <button
@@ -206,8 +206,8 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                                     <tr key={inquiry.id} className={`hover:bg-gray-50 ${inquiry.status === 'new' ? 'bg-blue-50/30' : ''}`}>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[#0891B2]/10 rounded-full flex items-center justify-center">
-                                                    <User className="w-5 h-5 text-[#0891B2]" />
+                                                <div className="w-10 h-10 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
+                                                    <User className="w-5 h-5 text-[#1A1816]" />
                                                 </div>
                                                 <div>
                                                     <p className="font-medium text-gray-900">{inquiry.name}</p>
@@ -358,8 +358,8 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                         <div className="p-6 space-y-6">
                             {/* Contact Info */}
                             <div className="flex items-start gap-4">
-                                <div className="w-16 h-16 bg-[#0891B2]/10 rounded-full flex items-center justify-center">
-                                    <User className="w-8 h-8 text-[#0891B2]" />
+                                <div className="w-16 h-16 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
+                                    <User className="w-8 h-8 text-[#1A1816]" />
                                 </div>
                                 <div>
                                     <h4 className="text-xl font-semibold text-gray-900">{selectedInquiry.name}</h4>
@@ -421,7 +421,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                                         updateStatus(selectedInquiry, e.target.value);
                                         setSelectedInquiry({ ...selectedInquiry, status: e.target.value });
                                     }}
-                                    className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 >
                                     <option value="new">New Lead</option>
                                     <option value="contacted">Contacted</option>
@@ -438,7 +438,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                                     onChange={(e) => setNotes(e.target.value)}
                                     rows={4}
                                     placeholder="Add notes about this lead..."
-                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] resize-none"
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] resize-none"
                                 />
                             </div>
 
@@ -458,7 +458,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                             </button>
                             <button
                                 onClick={updateNotes}
-                                className="px-4 py-2 bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490]"
+                                className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111]"
                             >
                                 Save Notes
                             </button>

@@ -19,12 +19,17 @@ class InquiryController extends Controller
      */
     public function store(Request $request)
     {
+        // Honeypot spam check - if the hidden field has a value, it's a bot
+        if ($request->filled('website')) {
+            return redirect()->back()->with('success', 'Your message has been sent!');
+        }
+
         $validated = $request->validate([
             'property_id' => 'required|exists:properties,id',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
-            'message' => 'required|string',
+            'message' => 'required|string|max:1000',
         ]);
 
         $property = Property::findOrFail($validated['property_id']);

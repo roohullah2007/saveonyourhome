@@ -139,7 +139,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Upgrade Your Listing
                     </h1>
                     <p className="text-gray-500">Boost visibility with professional services</p>
@@ -158,14 +158,14 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                         />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h3 className="font-semibold text-gray-900">
                             {property.property_title}
                         </h3>
                         <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
                             <MapPin className="w-4 h-4" />
                             {property.address}, {property.city}, {property.state}
                         </p>
-                        <p className="text-lg font-bold text-[#0891B2] mt-1">
+                        <p className="text-lg font-bold text-[#1A1816] mt-1">
                             ${Number(property.price).toLocaleString()}
                         </p>
                     </div>
@@ -199,22 +199,22 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                                 isPending
                                     ? 'opacity-75 cursor-not-allowed'
                                     : isSelected
-                                        ? 'ring-2 ring-[#0891B2] border-transparent'
+                                        ? 'ring-2 ring-[#1A1816] border-transparent'
                                         : 'hover:shadow-md border border-transparent'
                             }`}
                         >
                             <div className="flex items-start justify-between mb-4">
-                                <div className={`p-3 rounded-xl ${isSelected ? 'bg-[#0891B2]' : 'bg-gray-100'}`}>
+                                <div className={`p-3 rounded-xl ${isSelected ? 'bg-[#1A1816]' : 'bg-gray-100'}`}>
                                     <service.icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
                                 </div>
                                 {getStatusBadge(service.id) || (
                                     isSelected && (
-                                        <CheckCircle className="w-6 h-6 text-[#0891B2]" />
+                                        <CheckCircle className="w-6 h-6 text-[#1A1816]" />
                                     )
                                 )}
                             </div>
 
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
                                 {service.title}
                             </h3>
                             <p className="text-sm text-gray-500 mb-4">
@@ -231,7 +231,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                             </ul>
 
                             <div className="pt-4 border-t border-gray-100">
-                                <p className="text-sm font-medium text-[#0891B2]">{service.price}</p>
+                                <p className="text-sm font-medium text-[#1A1816]">{service.price}</p>
                             </div>
                         </div>
                     );
@@ -241,7 +241,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
             {/* Request Form */}
             {selectedService && (
                 <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
                         Request Details
                     </h3>
 
@@ -257,7 +257,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                                     value={data.preferred_date}
                                     onChange={(e) => setData('preferred_date', e.target.value)}
                                     min={new Date().toISOString().split('T')[0]}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                                 {errors.preferred_date && (
                                     <p className="text-red-500 text-sm mt-1">{errors.preferred_date}</p>
@@ -272,7 +272,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                                 <select
                                     value={data.preferred_time}
                                     onChange={(e) => setData('preferred_time', e.target.value)}
-                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 >
                                     <option value="">Select a time</option>
                                     <option value="morning">Morning (9 AM - 12 PM)</option>
@@ -291,7 +291,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                             value={data.notes}
                             onChange={(e) => setData('notes', e.target.value)}
                             rows={4}
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             placeholder="Any special instructions or questions..."
                         />
                         {errors.notes && (
@@ -316,7 +316,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0891B2] text-white rounded-xl font-medium hover:bg-[#0E7490] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-xl font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
                         >
                             <Send className="w-5 h-5" />
                             {processing ? 'Submitting...' : 'Submit Request'}

@@ -267,7 +267,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <h1 className="text-2xl font-bold text-gray-900">
                             Review Property
                         </h1>
                         <p className="text-gray-500">#{property.id} - {property.property_title}</p>
@@ -278,7 +278,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                 <div className="flex flex-wrap gap-3">
                     <Link
                         href={route('admin.properties.edit', property.id)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#0891B2] text-white rounded-lg font-medium hover:bg-[#0E7490] transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#1A1816] text-white rounded-lg font-medium hover:bg-[#111111] transition-colors"
                     >
                         <Pencil className="w-4 h-4" />
                         Edit Property
@@ -511,7 +511,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                         <button
                                             onClick={() => setCurrentImageIndex(index)}
                                             className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                                                index === currentImageIndex ? 'border-[#0891B2]' : 'border-transparent'
+                                                index === currentImageIndex ? 'border-[#1A1816]' : 'border-transparent'
                                             }`}
                                         >
                                             <img
@@ -554,22 +554,22 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                             <div className="bg-gray-50 rounded-lg p-4 text-center">
-                                <Bed className="w-5 h-5 text-[#0891B2] mx-auto mb-2" />
+                                <Bed className="w-5 h-5 text-[#1A1816] mx-auto mb-2" />
                                 <p className="text-2xl font-bold text-gray-900">{property.bedrooms}</p>
                                 <p className="text-sm text-gray-500">Bedrooms</p>
                             </div>
                             <div className="bg-gray-50 rounded-lg p-4 text-center">
-                                <Bath className="w-5 h-5 text-[#0891B2] mx-auto mb-2" />
+                                <Bath className="w-5 h-5 text-[#1A1816] mx-auto mb-2" />
                                 <p className="text-2xl font-bold text-gray-900">{property.full_bathrooms || 0}{property.half_bathrooms > 0 ? `.${property.half_bathrooms > 1 ? property.half_bathrooms : '5'}` : ''}</p>
                                 <p className="text-sm text-gray-500">Bathrooms</p>
                             </div>
                             <div className="bg-gray-50 rounded-lg p-4 text-center">
-                                <Square className="w-5 h-5 text-[#0891B2] mx-auto mb-2" />
+                                <Square className="w-5 h-5 text-[#1A1816] mx-auto mb-2" />
                                 <p className="text-2xl font-bold text-gray-900">{property.sqft?.toLocaleString() || 'N/A'}</p>
                                 <p className="text-sm text-gray-500">Sq Ft</p>
                             </div>
                             <div className="bg-gray-50 rounded-lg p-4 text-center">
-                                <Calendar className="w-5 h-5 text-[#0891B2] mx-auto mb-2" />
+                                <Calendar className="w-5 h-5 text-[#1A1816] mx-auto mb-2" />
                                 <p className="text-2xl font-bold text-gray-900">{property.year_built || 'N/A'}</p>
                                 <p className="text-sm text-gray-500">Year Built</p>
                             </div>
@@ -640,10 +640,10 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                     {/* Price Card */}
                     <div className="bg-white rounded-xl shadow-sm p-6">
                         <div className="flex items-center gap-2 mb-2">
-                            <DollarSign className="w-5 h-5 text-[#0891B2]" />
+                            <DollarSign className="w-5 h-5 text-[#1A1816]" />
                             <span className="text-gray-500 text-sm">Listing Price</span>
                         </div>
-                        <p className="text-3xl font-bold text-[#0891B2]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <p className="text-3xl font-bold text-[#1A1816]">
                             {formatPrice(property.price)}
                         </p>
                     </div>
@@ -682,7 +682,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500">Email</p>
-                                    <a href={`mailto:${property.contact_email}`} className="font-medium text-[#0891B2] hover:underline">
+                                    <a href={`mailto:${property.contact_email}`} className="font-medium text-[#1A1816] hover:underline">
                                         {property.contact_email}
                                     </a>
                                 </div>
@@ -693,7 +693,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500">Phone</p>
-                                    <a href={`tel:${property.contact_phone}`} className="font-medium text-[#0891B2] hover:underline">
+                                    <a href={`tel:${property.contact_phone}`} className="font-medium text-[#1A1816] hover:underline">
                                         {property.contact_phone}
                                     </a>
                                 </div>
@@ -753,7 +753,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                 <select
                                     value={listingStatus}
                                     onChange={(e) => setListingStatus(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 >
                                     <option value="for_sale">For Sale (Active)</option>
                                     <option value="pending">Pending (Under Contract)</option>
@@ -770,7 +770,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     value={virtualTourUrl}
                                     onChange={(e) => setVirtualTourUrl(e.target.value)}
                                     placeholder="https://..."
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                             </div>
 
@@ -782,7 +782,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     value={matterportUrl}
                                     onChange={(e) => setMatterportUrl(e.target.value)}
                                     placeholder="https://my.matterport.com/show/?m=..."
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                             </div>
 
@@ -794,7 +794,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     value={videoTourUrl}
                                     onChange={(e) => setVideoTourUrl(e.target.value)}
                                     placeholder="https://..."
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                             </div>
 
@@ -806,7 +806,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     value={mlsVirtualTourUrl}
                                     onChange={(e) => setMlsVirtualTourUrl(e.target.value)}
                                     placeholder="https://... (MLS-compliant, no branding)"
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                                 <p className="text-xs text-gray-400 mt-1">Clean URL only. No branding or YouTube links for MLS export.</p>
                             </div>
@@ -815,7 +815,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                             <button
                                 onClick={handleSaveDetails}
                                 disabled={savingDetails}
-                                className="w-full px-4 py-2 bg-[#0891B2] text-white rounded-lg text-sm font-medium hover:bg-[#0E7490] transition-colors disabled:opacity-50"
+                                className="w-full px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
                             >
                                 {savingDetails ? 'Saving...' : 'Save Status & Tours'}
                             </button>
@@ -948,7 +948,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                         <div className="bg-gray-50 rounded-lg p-4 mb-6">
                             <p className="font-medium text-gray-900">{property.property_title}</p>
                             <p className="text-sm text-gray-500">{property.address}, {property.city}</p>
-                            <p className="text-sm font-semibold text-[#0891B2] mt-1">{formatPrice(property.price)}</p>
+                            <p className="text-sm font-semibold text-[#1A1816] mt-1">{formatPrice(property.price)}</p>
                         </div>
                         <div className="flex justify-end gap-3">
                             <button

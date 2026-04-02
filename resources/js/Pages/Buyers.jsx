@@ -1,531 +1,280 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
-import { Search, Home, DollarSign, Shield, Clock, CheckCircle, Users, ChevronRight, FileCheck, Building, Calculator, ClipboardCheck, Key, BadgeCheck, Percent, Handshake, FileText } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Buyers() {
-  const howItWorks = [
-    {
-      step: '01',
-      title: 'Browse Properties',
-      description: 'Search our comprehensive database of FSBO properties across Oklahoma. Create an account to save your favorites, set up alerts, and get notified instantly when new listings match your criteria.'
-    },
-    {
-      step: '02',
-      title: 'Contact Owners',
-      description: 'Engage directly with property owners to schedule viewings, ask questions, and get honest answers. No agents, no middlemen — just real conversations with the people who know the home best.'
-    },
-    {
-      step: '03',
-      title: 'Make an Offer',
-      description: 'Negotiate directly with owners on your terms and make your best offer. If you\'re financing the property, get Pre-approved first to show sellers you\'re serious and ready to close.'
-    },
-    {
-      step: '04',
-      title: 'Close the Deal',
-      description: 'Work with a closing attorney or title company to finalize your purchase. Enjoy savings from avoiding agent commissions, and step into your new home with confidence. Your seamless, cost-effective purchase awaits!'
-    }
-  ];
+  const [openFaq, setOpenFaq] = useState(null);
 
   const faqs = [
     {
-      question: 'Is SaveOnYourHome.com free for buyers?',
-      answer: 'Yes! Browsing listings, contacting sellers, scheduling viewings, and searching for properties on SaveOnYourHome.com is completely free for buyers. We don\'t charge commissions or fees to buyers — ever.'
+      question: 'What is the advantage of using SaveOnYourHome.com for buyers?',
+      answer: 'Buyers can engage with our site 24/7, making it convenient to get detailed information about homes, schedule appointments, and search for properties. You deal directly with homeowners — no agents, no middlemen, and no inflated prices from commissions.'
     },
     {
-      question: 'Do I need a real estate agent to buy?',
-      answer: 'No! You can buy directly from owners and save on agent commissions. Our platform makes it easy to connect with sellers, schedule viewings, and negotiate directly. However, we recommend hiring a real estate attorney to review contracts and protect your interests.'
+      question: 'How can I receive alerts for properties that match my criteria as a buyer?',
+      answer: 'Create a free account and save your search criteria. You\'ll receive instant email alerts when new listings match your preferences — location, price range, bedrooms, and more. You can also save individual properties to your favorites.'
     },
-    {
-      question: 'How do I schedule a viewing?',
-      answer: 'Contact the property owner directly through the listing page. To arrange a viewing, message or call the seller directly using the contact information provided. A real estate agent will never contact you — you deal only with the homeowner.'
-    },
-    {
-      question: 'Can I get financing for these properties?',
-      answer: 'Absolutely! Most FSBO properties are eligible for traditional mortgages, FHA, VA, and other financing options. We recommend getting pre-approved before you start shopping so sellers know you\'re a serious, qualified buyer.'
-    },
-    {
-      question: 'What should I know about buying directly from an owner?',
-      answer: 'Buying from an owner means no agent commissions inflating the price, direct communication with someone who knows the property best, and often more room for negotiation. We recommend always getting a home inspection and consulting a real estate attorney for contract review.'
-    },
-    {
-      question: 'How does SaveOnYourHome.com enhance my buying experience?',
-      answer: 'Buyers can engage with our site 24/7, making it convenient to get detailed information about homes, schedule appointments, and search for properties that match your needs. We also introduce you to local vendors for inspections, financing, and more — creating a seamless experience.'
-    }
   ];
 
-  const buyerTips = [
+  const steps = [
     {
-      icon: FileCheck,
-      title: 'Get Pre-Approved First',
-      description: 'Before you start house hunting, get pre-approved for financing. It takes just 15 minutes online, shows sellers you\'re a serious and qualified buyer, and helps you understand exactly what you can afford.'
+      number: '1',
+      title: 'Determine Your Budget and Needs',
+      content: [
+        { subtitle: 'Financing Pre-Approval', text: 'Get pre-approved for a mortgage to understand your budget and improve your negotiating power. Explore mortgage options with our trusted partners.' },
+        { subtitle: 'Identify Your Needs', text: 'List your must-have features and preferred location for your new home. Consider factors like school districts, commute times, and neighborhood amenities.' },
+      ],
     },
     {
-      icon: Calculator,
-      title: 'Know Your True Budget',
-      description: 'Factor in property taxes, insurance, HOA fees, and maintenance costs beyond the purchase price. Your monthly housing payment should be no more than 28% of your gross income to maintain financial comfort.'
+      number: '2',
+      title: 'Begin Your Home Search',
+      content: [
+        { subtitle: 'Online Listings', text: 'Browse our listings and other online platforms to find homes that match your criteria.' },
+        { subtitle: 'Real Estate Agent Assistance', text: 'If you choose to work with a realtor, explore our trusted real estate agent partners.' },
+        { subtitle: 'Schedule Viewings', text: 'Contact sellers or realtors to schedule home viewings. Take notes and pictures during your visits to help with your decision.' },
+      ],
     },
     {
-      icon: ClipboardCheck,
-      title: 'Always Get an Inspection',
-      description: 'Never skip the home inspection, even for new construction. A professional inspection can reveal hidden issues that could cost thousands to repair and gives you negotiating power with the seller.'
+      number: '3',
+      title: 'Home Inspections and Due Diligence',
+      content: [
+        { subtitle: 'Home Inspection', text: 'Consider hiring a home inspector to evaluate the property thoroughly.' },
+        { subtitle: 'Research Neighborhood', text: 'Investigate the neighborhood\'s safety, schools, and amenities.' },
+        { subtitle: 'Review Legal Documents', text: 'Work with an attorney to review contracts and disclosures.' },
+      ],
     },
     {
-      icon: Building,
-      title: 'Research the Neighborhood',
-      description: 'Visit at different times of day, check school ratings, crime statistics, and future development plans. Talk to neighbors if possible. SaveOnYourHome.com connects you with local vendors who can help with every step.'
+      number: '4',
+      title: 'Explore Transformation Potential',
+      content: [
+        { subtitle: 'Consult Architects and Builders', text: 'Reach out to architects and builders to discuss potential renovations or modifications to transform the home into your dream home. They can provide cost estimates and design ideas to help you make an informed decision.' },
+      ],
     },
     {
-      icon: DollarSign,
-      title: 'Don\'t Max Out Your Budget',
-      description: 'Leave room for unexpected expenses and life changes. By buying directly from FSBO sellers on SaveOnYourHome.com, you\'re already saving on commission costs — put that savings toward a more comfortable financial cushion.'
+      number: '5',
+      title: 'Make an Offer — Balancing Act',
+      content: [
+        { subtitle: 'Low Offer', text: 'Making a low offer may give you room to negotiate and potentially get a good deal. However, it can risk losing the house to another buyer or upsetting the seller.' },
+        { subtitle: 'Higher Offer', text: 'Offering a higher price may increase your chances of quickly securing the home, especially if homes are scarce in your market. Carefully consider your budget.' },
+      ],
     },
     {
-      icon: Key,
-      title: 'Understand the Contract',
-      description: 'Read every line of the purchase agreement carefully. We recommend hiring a real estate attorney to review all documents before signing. Knowledge is your best protection in any real estate transaction.'
-    }
-  ];
-
-  const preApprovalSteps = [
-    {
-      step: '01',
-      title: 'Check Your Credit Score',
-      description: 'Review your credit report and score. Most lenders require a minimum score of 620 for conventional loans, though FHA loans may accept lower scores.'
+      number: '6',
+      title: 'Secure Financing',
+      content: [
+        { subtitle: 'Finalize Mortgage', text: 'Work closely with your chosen mortgage provider to complete your loan application.' },
+        { subtitle: 'Home Appraisal', text: 'An appraiser will assess the property\'s value to ensure it aligns with the loan amount.' },
+      ],
     },
     {
-      step: '02',
-      title: 'Gather Your Documents',
-      description: 'Collect pay stubs, W-2s, tax returns, bank statements, and identification.'
+      number: '7',
+      title: 'Finalize the Sale',
+      content: [
+        { subtitle: 'Home Insurance', text: 'Obtain Home Owners Insurance for your new property.' },
+        { subtitle: 'Final Walk-Through', text: 'Conduct a final walk-through to ensure the home is in the expected condition.' },
+        { subtitle: 'Closing', text: 'Consult with your attorney to navigate the closing process, which can vary by state.' },
+      ],
     },
     {
-      step: '03',
-      title: 'Compare Lenders',
-      description: 'Shop around and compare rates from at least 3 lenders. Consider banks, credit unions, and mortgage brokers for the best terms.'
+      number: '8',
+      title: 'Move In and Enjoy Your New Home',
+      content: [
+        { subtitle: 'Movers', text: 'Arrange for hassle-free relocation with our moving partners.' },
+        { subtitle: 'Utilities', text: 'Transfer or set up utilities in your name.' },
+        { subtitle: 'Leave a Review', text: 'After moving in, provide reviews and recommendations about providers you used to help future users.' },
+      ],
     },
-    {
-      step: '04',
-      title: 'Get Your Pre-Approval Letter',
-      description: 'Once approved, you\'ll receive a letter stating your maximum loan amount. This letter is typically valid for 60-90 days.'
-    }
   ];
 
   return (
     <>
-      <Head title="Buyers - SAVEONYOURHOME" />
+      <Head title="Buyers Guide - SaveOnYourHome" />
 
       {/* Hero Section */}
-      <div className="relative pt-0 md:pt-[77px]">
-        <div className="relative min-h-[60vh] flex items-center py-16 md:py-20 overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/home-img-2.webp"
-              alt="Beautiful home interior"
-              className="w-full h-full object-cover"
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
-          </div>
+      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+        <img src="/images/home-img-2.webp" alt="Find your dream home" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10, 15, 30, 0.75) 0%, rgba(10, 15, 30, 0.45) 50%, rgba(10, 15, 30, 0.65) 100%)' }} />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249, 250, 251, 0.4) 50%, rgb(249, 250, 251) 100%)' }} />
 
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
-            <div className="max-w-3xl">
-              {/* Main Heading */}
-              <h1
-                className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-              >
-                Find Your Dream Home with<br />Confidence and Save!
+        <div className="relative flex flex-col h-full">
+          <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
+            <div className="w-full max-w-[600px]">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156, 163, 175, 0.25)', background: 'rgba(255, 255, 255, 0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px' }}>
+                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52, 211, 153, 0.6) 0px 0px 8px' }} />
+                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255, 255, 255, 0.9)' }}>BUYERS GUIDE</span>
+              </div>
+              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+                Find Your <span style={{ background: 'linear-gradient(135deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Dream Home</span>
               </h1>
-
-              {/* Subheading */}
-              <p
-                className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-              >
-                Discover properties listed directly by owners on SaveOnYourHome.com. With no agent commissions inflating prices, you can afford more home for your money. Start your journey to homeownership here.
+              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', fontWeight: 400, color: 'rgba(255, 255, 255, 0.75)', maxWidth: '480px' }}>
+                Whether you're searching for your first home or investment properties, SaveOnYourHome.com guides you through the entire process.
               </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-[0.4rem] mb-12">
-                <Link
-                  href="/properties"
-                  className="button inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  <Search className="w-5 h-5" />
-                  <span>Browse Properties</span>
+              <div className="mt-8 flex gap-3">
+                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+                  Search Properties <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link
-                  href="#how-it-works"
-                  className="button inline-flex items-center gap-[0.4rem] bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  <span>How It Works</span>
-                  <ChevronRight className="w-5 h-5" />
+                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+                  List Your Home
                 </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section - After Hero */}
-      <div className="bg-[#EEEDEA] border-b border-gray-300">
-        <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 py-8 md:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
-            <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg flex-shrink-0">
-                <DollarSign className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div className="text-left">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Save Thousands</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>No Agent Commissions</div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg flex-shrink-0">
-                <Shield className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div className="text-left">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Verified Listings</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Trusted & Accurate</div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg flex-shrink-0">
-                <Users className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div className="text-left">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Direct Contact</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Talk to Owners</div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg flex-shrink-0">
-                <Search className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div className="text-left">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>24/7 Access</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Browse Anytime</div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg flex-shrink-0">
-                <Clock className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div className="text-left">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Seamless Experience</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Easy & Transparent</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left Side - Content */}
-            <div>
-              {/* Main Heading */}
-              <h2
-                className="text-[24px] md:text-[28px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
-              >
-                Your Dream Home, Your Way. Eliminating commission is the easiest way to reduce costs for buyers without sacrificing quality. SaveOnYourHome.com connects you directly with FSBO sellers, giving you more control, more transparency, and more home for your money.
-              </h2>
-
-              {/* Subheading */}
-              <p
-                className="text-[14px] text-[#666] font-medium mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
-              >
-                Engage with our site 24/7 to get detailed information about homes, schedule appointments, and search for properties that match your needs. Join us in revolutionizing the way homes are bought and sold.
-              </p>
-
-              {/* Button */}
-              <Link
-                href="/properties"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-              >
-                <span>View Properties</span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <mask id="mask0_56_2205" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                    <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
-                  </mask>
-                  <g mask="url(#mask0_56_2205)">
-                    <path d="M13.459 10.8334L11.084 13.2084C10.9173 13.3751 10.8375 13.5695 10.8444 13.7918C10.8513 14.014 10.9312 14.2084 11.084 14.3751C11.2507 14.5418 11.4486 14.6286 11.6777 14.6355C11.9069 14.6425 12.1048 14.5626 12.2715 14.3959L16.084 10.5834C16.2507 10.4168 16.334 10.2223 16.334 10.0001C16.334 9.77787 16.2507 9.58343 16.084 9.41676L12.2715 5.60426C12.1048 5.43759 11.9069 5.35773 11.6777 5.36467C11.4486 5.37162 11.2507 5.45842 11.084 5.62509C10.9312 5.79176 10.8513 5.9862 10.8444 6.20842C10.8375 6.43065 10.9173 6.62509 11.084 6.79176L13.459 9.16676H4.16732C3.93121 9.16676 3.73329 9.24662 3.57357 9.40634C3.41385 9.56606 3.33398 9.76398 3.33398 10.0001C3.33398 10.2362 3.41385 10.4341 3.57357 10.5938C3.73329 10.7536 3.93121 10.8334 4.16732 10.8334H13.459Z" fill="white"/>
-                  </g>
-                </svg>
-              </Link>
-            </div>
-
-            {/* Right Side - Image Grid */}
-            <div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="overflow-hidden rounded-2xl h-[195px]">
-                  <img
-                    src="https://images.pexels.com/photos/2251247/pexels-photo-2251247.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Modern home exterior"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="overflow-hidden rounded-2xl h-[195px]">
-                  <img
-                    src="https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Luxury property"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="overflow-hidden rounded-2xl h-[195px]">
-                  <img
-                    src="https://images.pexels.com/photos/2816323/pexels-photo-2816323.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Beautiful home interior"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="overflow-hidden rounded-2xl h-[195px]">
-                  <img
-                    src="https://images.pexels.com/photos/3958958/pexels-photo-3958958.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Dream home"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="bg-white py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          {/* Section Header */}
-          <div className="text-center mb-14">
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              How It Works
-            </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              Your journey to homeownership made simple, transparent, and cost-effective
-            </p>
+      {/* Buyer FAQs */}
+      <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="mb-4 text-center">
+            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYER FAQS</span>
+          </div>
+          <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+            Find Instant Answers
+          </h2>
+          <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', maxWidth: '560px', margin: '0 auto 56px' }}>
+            From buying steps to negotiation, our FAQs have you covered. Questions? Ask anytime. Happy hunting!
+          </p>
+
+          <div className="max-w-3xl mx-auto space-y-3 mb-16">
+            {faqs.map((faq, index) => (
+              <div key={index} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full flex items-center justify-between p-5 text-left">
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>{faq.question}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === index && (
+                  <div className="px-5 pb-5">
+                    <p style={{ fontSize: '14px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {howItWorks.map((item, index) => (
-              <div key={index} className="relative">
-                <div className="bg-[#EEEDEA] rounded-2xl p-6 h-full hover:shadow-lg transition-all duration-300">
-                  <div className="text-[#0891B2] text-5xl font-medium mb-4 opacity-20" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.step}
-                  </div>
-                  <h3 className="text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.description}
-                  </p>
-                </div>
+          {/* CTA Cards */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {[
+              { title: 'SELL YOUR HOME FSBO', desc: 'Expose your property to buyers. Get offers to your inbox and start saving the commissions with SaveOnYourHome.', link: '/list-property', linkText: 'List Your Home', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>) },
+              { title: 'SEARCH FOR YOUR DREAM HOME', desc: 'Browse through SaveOnYourHome to find your dream home!', link: '/properties', linkText: 'Search Now', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>) },
+              { title: 'ABOUT SAVEONYOURHOME.COM', desc: 'We are Empowering Sellers and Connecting Buyers, and transforming the home buying process. See what we are all about!', link: '/about', linkText: 'Learn More', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>) },
+            ].map((card, i) => (
+              <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-8 text-center group" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26, 24, 22)' }} />
+                <div className="mb-5 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245, 245, 244)' }}>{card.icon}</div>
+                <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '14px', color: 'rgb(26, 24, 22)', letterSpacing: '0.5px' }}>{card.title}</h3>
+                <p className="flex-1" style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>{card.desc}</p>
+                <Link href={card.link} className="mt-5 inline-flex items-center gap-1.5 transition-all duration-300 hover:gap-2.5" style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>
+                  {card.linkText} <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pre-Approval Section - Annie Mac Mortgage Integration */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          {/* Section Header */}
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Get Ready to Buy
-              </span>
-            </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              Get Pre-Approved with Annie Mac Mortgage
-            </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              Pre-approval is the first step to becoming a competitive buyer.<br />
-              It shows sellers you're serious and ready to close.
-            </p>
-          </div>
-
-          {/* Pre-Approval Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {preApprovalSteps.map((item, index) => (
-              <div key={index} className="relative">
-                <div className="bg-white rounded-2xl p-6 h-full hover:shadow-lg transition-all duration-300">
-                  <div className="text-[#0891B2] text-5xl font-medium mb-4 opacity-20" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.step}
-                  </div>
-                  <h3 className="text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {item.description}
-                  </p>
+      {/* Pre-Approval Section */}
+      <section style={{ backgroundColor: 'rgb(255, 255, 255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+            <div className="grid lg:grid-cols-2 gap-0">
+              <div className="relative overflow-hidden group">
+                <img src="/images/buyer-1.webp" alt="Get pre-approved" className="w-full h-[300px] sm:h-[360px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => e.target.src = '/images/home-img.webp'} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 flex gap-3">
+                  {[{ value: 'Fast', label: 'Pre-Approval' }, { value: 'Free', label: 'No Cost' }, { value: '24hr', label: 'Response' }].map((item, i) => (
+                    <div key={i} className="flex-1 rounded-xl px-3 py-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
+                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{item.value}</div>
+                      <div style={{ fontSize: '11px', fontWeight: 500, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.5px' }}>{item.label}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Pre-Approval CTA Box */}
-          <div className="bg-gradient-to-br from-[#0891B2] to-[#7A1628] rounded-3xl p-8 md:p-12 text-white">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Ready to Get Pre-Approved?
-                </h3>
-                <p className="text-white/80 mb-6 leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  Take the first step toward homeownership. Our simple online application takes just 15 minutes and won't impact your credit score.
+              <div className="p-8 sm:p-10 md:p-14 flex flex-col justify-center">
+                <div className="mb-4">
+                  <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>PRE-APPROVAL</span>
+                </div>
+                <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-4" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+                  Get Pre-Approved For Your Loan!
+                </h2>
+                <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100, 100, 100)', marginBottom: '16px' }}>
+                  The team at SaveOnYourHome.com recommends that you strengthen your offer by obtaining a pre-approval letter from a licensed mortgage banker. We are happy to connect you with a lender who will provide you with <strong style={{ color: 'rgb(55, 55, 55)' }}>priority service and a free pre-approval</strong>.
                 </p>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
-                    <span className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Know your exact budget before you shop</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
-                    <span className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Show sellers you're a serious buyer</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
-                    <span className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Lock in your rate before it changes</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
-                    <span className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Close faster when you find your home</span>
-                  </li>
-                </ul>
-                <a
-                  href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-[#0891B2] rounded-full px-8 py-4 font-semibold hover:bg-gray-100 transition-all duration-300"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
-                >
-                  Get Pre-Approved Now
-                  <ChevronRight className="w-5 h-5" />
-                </a>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 bg-white/10 rounded-xl p-5">
-                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-lg" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Simple Online Application</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Complete from your phone or computer - no paperwork</p>
-                  </div>
+                <div className="space-y-2.5 mb-8">
+                  {['Wide range of mortgage products for every need', 'Get pre-approved for your next mortgage quickly', 'Whether first home or investment — we have you covered'].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span style={{ fontSize: '14px', color: 'rgb(75, 75, 75)' }}>{item}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-4 bg-white/10 rounded-xl p-5">
-                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-lg" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>No Credit Score Impact</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Soft pull for pre-qualification, no hard inquiry</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 bg-white/10 rounded-xl p-5">
-                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-lg" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Personal Support</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Real loan officers ready to answer your questions</p>
-                  </div>
-                </div>
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 w-fit" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+                  Request Pre-Approval <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Buyer Tips Section */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          {/* Section Header */}
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Buyer Tips
-              </span>
-            </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              Smart Home Buying Tips
-            </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-              Practical advice to help you navigate the home buying process with confidence and save more
-            </p>
+      {/* Buyers Guide - 8 Steps */}
+      <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="mb-4 text-center">
+            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYERS GUIDE</span>
           </div>
+          <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+            Steps to Buy A Home
+          </h2>
+          <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', maxWidth: '640px', margin: '0 auto 56px' }}>
+            Are you planning to buy a home? SaveOnYourHome.com is here to guide you through the entire home-buying process, providing step-by-step instructions and connecting you with trusted service providers.
+          </p>
 
-          {/* Tips Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {buyerTips.map((tip, index) => {
-              const IconComponent = tip.icon;
-              return (
-                <div key={index} className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
-                  <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4">
-                    <IconComponent className="w-6 h-6 text-[#3D3D3D]" />
-                  </div>
-                  <h3 className="text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {tip.title}
-                  </h3>
-                  <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {tip.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Left Side - Header */}
-            <div>
-              <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  FAQs
-                </span>
+          {/* Image + Steps Grid */}
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {/* Left - Sticky Image */}
+            <div className="hidden lg:block sticky top-24">
+              <div className="rounded-2xl overflow-hidden" style={{ boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 32px' }}>
+                <img src="/images/buyer-2.webp" alt="Home buying guide" className="w-full h-[500px] object-cover" onError={(e) => e.target.src = '/images/home-img-2.webp'} />
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Frequently Asked<br />Questions
-              </h2>
-              <p className="text-[16px] text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                Have questions? We've got answers. Learn how SaveOnYourHome.com makes buying a home more accessible, transparent, and cost-effective.
-              </p>
+              <div className="mt-6 rounded-2xl border border-gray-200/60 p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
+                  As part of our dedication to transparency, all service providers must adhere to our <strong style={{ color: 'rgb(55, 55, 55)' }}>Advertiser & Sponsor Honor Pledge</strong>.
+                </p>
+              </div>
             </div>
 
-            {/* Right Side - FAQs */}
+            {/* Right - Steps */}
             <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
-                  <h3 className="text-lg font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {faq.question}
-                  </h3>
-                  <p className="text-sm text-[#666] leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    {faq.answer}
-                  </p>
+              {steps.map((step) => (
+                <div key={step.number} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26, 24, 22)' }}>
+                      <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{step.number}</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '12px' }}>Step {step.number}: {step.title}</h3>
+                      <div className="space-y-3">
+                        {step.content.map((item, i) => (
+                          <div key={i}>
+                            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(75, 75, 75)' }}>
+                              <strong style={{ color: 'rgb(26, 24, 22)' }}>{item.subtitle}:</strong> {item.text}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-
     </>
   );
 }
 
-// Specify MainLayout for this page to include Header and Footer
 Buyers.layout = (page) => <MainLayout>{page}</MainLayout>;
 
 export default Buyers;

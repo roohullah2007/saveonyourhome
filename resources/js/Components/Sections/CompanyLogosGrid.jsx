@@ -54,7 +54,7 @@ const CompanyLogosGrid = ({ variant = 'cards', className = '' }) => {
                     >
                         <span
                             className="text-[#333] text-[14px] font-semibold"
-                            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                           
                         >
                             {logo.name}
                         </span>

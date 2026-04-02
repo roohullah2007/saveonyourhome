@@ -94,7 +94,7 @@ function Index({ serviceRequests, counts, filters }) {
             photos: 'bg-blue-100 text-blue-800',
             virtual_tour: 'bg-purple-100 text-purple-800',
             video: 'bg-pink-100 text-pink-800',
-            mls: 'bg-cyan-100 text-cyan-800',
+            mls: 'bg-gray-100 text-gray-800',
         };
         const labels = {
             qr_stickers: 'QR Stickers',
@@ -249,14 +249,14 @@ function Index({ serviceRequests, counts, filters }) {
                                 onClick={() => handleStatusFilter(tab.key)}
                                 className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                                     selectedStatus === tab.key
-                                        ? 'border-[#0891B2] text-[#0891B2]'
+                                        ? 'border-[#1A1816] text-[#1A1816]'
                                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                                 }`}
                             >
                                 {tab.label}
                                 <span className={`ml-2 py-0.5 px-2.5 rounded-full text-xs ${
                                     selectedStatus === tab.key
-                                        ? 'bg-[#0891B2]/10 text-[#0891B2]'
+                                        ? 'bg-[#1A1816]/10 text-[#1A1816]'
                                         : 'bg-gray-100 text-gray-900'
                                 }`}>
                                     {tab.count}
@@ -276,13 +276,13 @@ function Index({ serviceRequests, counts, filters }) {
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Search by name, email, or property address..."
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <select
                             value={selectedType}
                             onChange={handleTypeFilter}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] bg-white"
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] bg-white"
                         >
                             {typeOptions.map((opt) => (
                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -290,7 +290,7 @@ function Index({ serviceRequests, counts, filters }) {
                         </select>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490] transition-colors"
+                            className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors"
                         >
                             Search
                         </button>
@@ -365,7 +365,7 @@ function Index({ serviceRequests, counts, filters }) {
                                                             <MapPin className="w-3 h-3 text-gray-400" />
                                                             <Link
                                                                 href={`/admin/properties/${req.property.id}`}
-                                                                className="text-[#0891B2] hover:underline"
+                                                                className="text-[#1A1816] hover:underline"
                                                             >
                                                                 {req.property.address}
                                                             </Link>
@@ -406,7 +406,7 @@ function Index({ serviceRequests, counts, filters }) {
                                                         <select
                                                             value={req.status}
                                                             onChange={(e) => handleStatusUpdate(req.id, e.target.value)}
-                                                            className="text-xs border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-[#0891B2] focus:border-[#0891B2]"
+                                                            className="text-xs border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-[#1A1816] focus:border-[#1A1816]"
                                                         >
                                                             <option value="pending">Pending</option>
                                                             <option value="approved">Approved</option>
@@ -416,7 +416,7 @@ function Index({ serviceRequests, counts, filters }) {
                                                         </select>
                                                         <button
                                                             onClick={() => openNoteModal(req)}
-                                                            className="text-gray-400 hover:text-[#0891B2] transition-colors"
+                                                            className="text-gray-400 hover:text-[#555] transition-colors"
                                                             title="Add/Edit Note"
                                                         >
                                                             <FileText className="w-4 h-4" />
@@ -459,7 +459,7 @@ function Index({ serviceRequests, counts, filters }) {
                                     href={link.url || '#'}
                                     className={`px-3 py-2 text-sm rounded-lg ${
                                         link.active
-                                            ? 'bg-[#0891B2] text-white'
+                                            ? 'bg-[#1A1816] text-white'
                                             : link.url
                                             ? 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
                                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -485,7 +485,7 @@ function Index({ serviceRequests, counts, filters }) {
                                 value={noteText}
                                 onChange={(e) => setNoteText(e.target.value)}
                                 rows={4}
-                                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 placeholder="Add admin notes..."
                             />
                             <div className="flex justify-end gap-3 mt-4">
@@ -497,7 +497,7 @@ function Index({ serviceRequests, counts, filters }) {
                                 </button>
                                 <button
                                     onClick={saveNote}
-                                    className="px-4 py-2 text-sm bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490] transition-colors"
+                                    className="px-4 py-2 text-sm bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors"
                                 >
                                     Save Note
                                 </button>

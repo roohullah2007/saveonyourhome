@@ -165,13 +165,13 @@ export default function Edit({ mustVerifyEmail, status }) {
                     {/* User Info */}
                     <div className="p-4 border-b border-gray-100">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-[#0891B2] font-semibold text-lg">
+                            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-[#1A1816] font-semibold text-lg">
                                 {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <h3
                                     className="font-semibold text-[#111111] truncate"
-                                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                   
                                 >
                                     {user.name}
                                 </h3>
@@ -188,10 +188,10 @@ export default function Edit({ mustVerifyEmail, status }) {
                                 href={item.href}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
                                     item.current
-                                        ? 'bg-[#0891B2] text-white'
+                                        ? 'bg-[#1A1816] text-white'
                                         : 'text-gray-600 hover:bg-gray-100'
                                 }`}
-                                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                               
                             >
                                 <item.icon className="w-5 h-5" />
                                 <span className="font-medium">{item.name}</span>
@@ -206,7 +206,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                             method="post"
                             as="button"
                             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             <LogOut className="w-5 h-5" />
                             <span className="font-medium">Log Out</span>
@@ -234,7 +234,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                     <div className="mb-8">
                         <h1
                             className="text-2xl lg:text-3xl font-bold text-[#111111]"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             Profile Settings
                         </h1>
@@ -250,19 +250,19 @@ export default function Edit({ mustVerifyEmail, status }) {
                             <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
                                 <div className="flex flex-col items-center">
                                     <div className="relative">
-                                        <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-[#0891B2] text-3xl font-bold">
+                                        <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-[#1A1816] text-3xl font-bold">
                                             {user.name.charAt(0).toUpperCase()}
                                         </div>
-                                        <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-[#0891B2] transition-colors border border-gray-200">
+                                        <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-[#555] transition-colors border border-gray-200">
                                             <Camera className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    <h2 className="mt-4 text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                    <h2 className="mt-4 text-lg font-semibold text-gray-900">
                                         {user.name}
                                     </h2>
                                     <p className="text-sm text-gray-500">{user.email}</p>
                                     {user.role === 'admin' && (
-                                        <span className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#0891B2]/10 text-[#0891B2] text-xs font-medium rounded-full">
+                                        <span className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#1A1816]/10 text-[#1A1816] text-xs font-medium rounded-full">
                                             <Shield className="w-3 h-3" />
                                             Administrator
                                         </span>
@@ -282,14 +282,14 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             onClick={() => setActiveTab(tab.key)}
                                             className={`w-full flex items-center gap-3 px-4 py-3.5 text-left text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0 ${
                                                 isActive && !isDelete
-                                                    ? 'bg-[#0891B2] text-white'
+                                                    ? 'bg-[#1A1816] text-white'
                                                     : isActive && isDelete
                                                     ? 'bg-red-600 text-white'
                                                     : isDelete
                                                     ? 'text-red-600 hover:bg-red-50'
                                                     : 'text-gray-700 hover:bg-gray-50'
                                             }`}
-                                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                           
                                         >
                                             <TabIcon className="w-5 h-5" />
                                             {tab.label}
@@ -305,11 +305,11 @@ export default function Edit({ mustVerifyEmail, status }) {
                             {activeTab === 'profile' && (
                                 <div className="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-12 h-12 bg-[#0891B2]/10 rounded-xl flex items-center justify-center">
-                                            <User className="w-6 h-6 text-[#0891B2]" />
+                                        <div className="w-12 h-12 bg-[#1A1816]/10 rounded-xl flex items-center justify-center">
+                                            <User className="w-6 h-6 text-[#1A1816]" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                            <h2 className="text-xl font-semibold text-gray-900">
                                                 Profile Information
                                             </h2>
                                             <p className="text-sm text-gray-500">Update your account's profile information and email address</p>
@@ -335,7 +335,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                         type="text"
                                                         value={profileData.name}
                                                         onChange={(e) => setProfileData('name', e.target.value)}
-                                                        className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                        className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                         required
                                                     />
                                                 </div>
@@ -354,7 +354,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                         type="tel"
                                                         value={profileData.phone}
                                                         onChange={(e) => setProfileData('phone', e.target.value)}
-                                                        className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                        className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                         placeholder="(555) 123-4567"
                                                     />
                                                 </div>
@@ -374,7 +374,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                     type="email"
                                                     value={profileData.email}
                                                     onChange={(e) => setProfileData('email', e.target.value)}
-                                                    className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                    className="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                     required
                                                 />
                                             </div>
@@ -395,7 +395,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                             href={route('verification.send')}
                                                             method="post"
                                                             as="button"
-                                                            className="text-sm text-[#0891B2] hover:underline mt-1"
+                                                            className="text-sm text-[#1A1816] hover:underline mt-1"
                                                         >
                                                             Click here to re-send the verification email.
                                                         </Link>
@@ -413,8 +413,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <button
                                                 type="submit"
                                                 disabled={profileProcessing}
-                                                className="px-8 py-3 bg-[#0891B2] text-white rounded-xl hover:bg-[#0E7490] transition-colors disabled:opacity-50 font-medium"
-                                                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                                className="px-8 py-3 bg-[#1A1816] text-white rounded-xl hover:bg-[#111111] transition-colors disabled:opacity-50 font-medium"
+                                               
                                             >
                                                 {profileProcessing ? 'Saving...' : 'Save Changes'}
                                             </button>
@@ -427,11 +427,11 @@ export default function Edit({ mustVerifyEmail, status }) {
                             {activeTab === 'password' && (
                                 <div className="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-12 h-12 bg-[#0891B2]/10 rounded-xl flex items-center justify-center">
-                                            <Lock className="w-6 h-6 text-[#0891B2]" />
+                                        <div className="w-12 h-12 bg-[#1A1816]/10 rounded-xl flex items-center justify-center">
+                                            <Lock className="w-6 h-6 text-[#1A1816]" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                            <h2 className="text-xl font-semibold text-gray-900">
                                                 Change Password
                                             </h2>
                                             <p className="text-sm text-gray-500">Ensure your account is using a long, random password to stay secure</p>
@@ -457,7 +457,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                     ref={currentPasswordInput}
                                                     value={passwordData.current_password}
                                                     onChange={(e) => setPasswordData('current_password', e.target.value)}
-                                                    className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                    className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                     autoComplete="current-password"
                                                 />
                                                 <button
@@ -485,7 +485,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                         ref={passwordInput}
                                                         value={passwordData.password}
                                                         onChange={(e) => setPasswordData('password', e.target.value)}
-                                                        className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                        className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                         autoComplete="new-password"
                                                     />
                                                     <button
@@ -511,7 +511,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                                         type={showConfirmPassword ? 'text' : 'password'}
                                                         value={passwordData.password_confirmation}
                                                         onChange={(e) => setPasswordData('password_confirmation', e.target.value)}
-                                                        className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-colors"
+                                                        className="w-full pl-12 pr-14 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-colors"
                                                         autoComplete="new-password"
                                                     />
                                                     <button
@@ -532,8 +532,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <button
                                                 type="submit"
                                                 disabled={passwordProcessing}
-                                                className="px-8 py-3 bg-[#0891B2] text-white rounded-xl hover:bg-[#0E7490] transition-colors disabled:opacity-50 font-medium"
-                                                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                                className="px-8 py-3 bg-[#1A1816] text-white rounded-xl hover:bg-[#111111] transition-colors disabled:opacity-50 font-medium"
+                                               
                                             >
                                                 {passwordProcessing ? 'Updating...' : 'Update Password'}
                                             </button>
@@ -550,7 +550,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <Trash2 className="w-6 h-6 text-red-600" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                            <h2 className="text-xl font-semibold text-gray-900">
                                                 Delete Account
                                             </h2>
                                             <p className="text-sm text-gray-500">Permanently delete your account and all associated data</p>
@@ -578,7 +578,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     <button
                                         onClick={() => setShowDeleteModal(true)}
                                         className="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium"
-                                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                       
                                     >
                                         Delete Account
                                     </button>
@@ -597,7 +597,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                             <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                                 <AlertTriangle className="w-6 h-6 text-red-600" />
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                            <h3 className="text-xl font-semibold text-gray-900">
                                 Delete Account
                             </h3>
                         </div>

@@ -6,17 +6,17 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
     <div className={`rounded-2xl mb-3 overflow-hidden transition-all duration-300 border ${
-      isOpen ? 'bg-white border-[#0891B2]/15 shadow-md shadow-[#0891B2]/5' : 'bg-white border-gray-200/60 hover:border-gray-300/80'
+      isOpen ? 'bg-white border-[#1A1816]/15 shadow-md shadow-[#1A1816]/5' : 'bg-white border-gray-200/60 hover:border-gray-300/80'
     }`}>
       <button
         onClick={onClick}
         className="w-full flex items-center justify-between p-6 text-left transition-colors group"
       >
-        <span className="text-[16px] font-inter font-semibold text-[#111] pr-4 transition-colors tracking-[-0.01em]">
+        <span className="text-[16px] font-semibold text-[#111] pr-4 transition-colors tracking-[-0.01em]">
           {question}
         </span>
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-          isOpen ? 'bg-[#0891B2] rotate-180' : 'bg-[#F5F4F1] group-hover:bg-[#EEEDEA]'
+          isOpen ? 'bg-[#1A1816] rotate-180' : 'bg-[#F5F4F1] group-hover:bg-[#EEEDEA]'
         }`}>
           <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${
             isOpen ? 'text-white' : 'text-gray-500'
@@ -26,7 +26,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
 
       <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="px-6 pb-6 pt-0">
-          <p className="text-[14px] font-inter text-gray-500 leading-[1.75]">
+          <p className="text-[14px] text-gray-500 leading-[1.75]">
             {answer}
           </p>
         </div>
@@ -82,34 +82,38 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="bg-[#F5F4F1] py-20 md:py-28">
+    <section style={{ backgroundColor: 'rgb(255, 255, 255)' }}>
       <div
         ref={sectionRef}
-        className={`max-w-[1280px] mx-auto px-4 sm:px-6 transition-all duration-700 ${
+        className={`mx-auto px-4 sm:px-6 lg:px-[40px] py-20 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
+        style={{ maxWidth: '1400px' }}
       >
-        {/* Badge */}
-        <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-8">
-          <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
-            FAQs
+        <div className="mb-4">
+          <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+            FREQUENTLY ASKED QUESTIONS
           </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
           {/* Left Side - Title and CTA */}
           <div>
-            <h2 className="text-[28px] sm:text-[36px] md:text-[44px] font-inter font-bold leading-[1.15] text-[#111] mb-6 tracking-[-0.03em]">
-              Frequently Asked<br />Questions
+            <h2
+              className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6"
+              style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
+            >
+              Frequently Asked Questions
             </h2>
-            <p className="text-[15px] font-inter text-gray-500 mb-10 leading-[1.75]">
+            <p className="text-[15px] text-gray-500 mb-10 leading-[1.75]">
               Can't find an answer to your question? Contact us, we'll be happy to help. We've provided answers to the most common questions about buying and selling homes, our free listing platform, and how SaveOnYourHome.com is revolutionizing real estate.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 bg-[#0891B2] text-white rounded-full px-7 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px]"
+              className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
             >
-              <span>Ask Questions</span>
+              Ask Questions
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

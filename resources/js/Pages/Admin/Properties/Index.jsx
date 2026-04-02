@@ -97,14 +97,14 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Properties
                     </h1>
                     <p className="text-gray-500">Manage all property listings</p>
                 </div>
                 <Link
                     href={route('admin.properties.create')}
-                    className="inline-flex items-center gap-2 bg-[#0891B2] text-white px-4 py-2 rounded-lg hover:bg-[#0E7490] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Add Property
@@ -119,7 +119,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                         onClick={() => handleFilter('approval', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.approval || '') === tab.key
-                                ? 'bg-[#0891B2] text-white'
+                                ? 'bg-[#1A1816] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -138,7 +138,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                             placeholder="Search properties..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         />
                     </div>
                     <button
@@ -181,7 +181,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="font-semibold text-[#0891B2]">
+                                            <span className="font-semibold text-[#1A1816]">
                                                 ${Number(property.price).toLocaleString()}
                                             </span>
                                         </td>
@@ -320,7 +320,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                         <textarea
                             value={rejectionReason}
                             onChange={(e) => setRejectionReason(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 mb-4"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 mb-4"
                             rows="3"
                             placeholder="Enter rejection reason..."
                         />

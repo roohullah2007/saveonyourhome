@@ -82,7 +82,7 @@ function About() {
               {/* Main Heading */}
               <h1
                 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Transforming the Way Oklahoma Buys & Sells Homes
               </h1>
@@ -90,7 +90,7 @@ function About() {
               {/* Subheading */}
               <p
                 className="text-white text-[14px] sm:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 At SaveOnYourHome.com, we're on a mission to make the home buying and selling experience more accessible, transparent, and cost-effective for everyone. No commissions, no fees — just direct connections between buyers and sellers.
               </p>
@@ -99,8 +99,8 @@ function About() {
               <div className="flex flex-col sm:flex-row gap-[0.4rem] mb-12">
                 <Link
                   href="/list-property"
-                  className="button inline-flex items-center justify-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="button inline-flex items-center justify-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+                 
                 >
                   <span>Start Listing Free</span>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +115,7 @@ function About() {
                 <Link
                   href="/contact"
                   className="button inline-flex items-center justify-center gap-[0.4rem] bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <span>Contact Us</span>
                   <Mail className="w-5 h-5" />
@@ -135,7 +135,7 @@ function About() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
                 <Heart className="w-4 h-4 text-[#666]" />
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   Our Story
                 </span>
               </div>
@@ -143,7 +143,7 @@ function About() {
               {/* Main Heading */}
               <h2
                 className="text-[28px] md:text-[40px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                style={{ fontWeight: 500 }}
               >
                 Why Does SaveOnYourHome.com Exist?
               </h2>
@@ -152,13 +152,13 @@ function About() {
               <div className="space-y-4 mb-8">
                 <p
                   className="text-[14px] md:text-[16px] text-[#666] font-medium leading-relaxed"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                  style={{ fontWeight: 500 }}
                 >
                   SaveOnYourHome was created to simplify the sale of private residential properties. Our team is made up of experienced professionals who share a passion for technology and real estate. We work hard to empower owners to easily and safely sell their properties themselves to save on commission.
                 </p>
                 <p
                   className="text-[14px] md:text-[16px] text-[#666] font-medium leading-relaxed"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                  style={{ fontWeight: 500 }}
                 >
                   This means that owners can increase their profits while buyers can simultaneously reduce their additional costs and afford more property. Eliminating commission is the easiest way to maximize sales proceeds for sellers without increasing cost for buyers. Join us in revolutionizing the way homes are bought and sold!
                 </p>
@@ -169,7 +169,7 @@ function About() {
                 <Link
                   href="/properties"
                   className="inline-flex items-center gap-[0.4rem] bg-[#413936] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#312926]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <span>Browse Properties</span>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -186,14 +186,14 @@ function About() {
 
             {/* Right Side - Features List */}
             <div className="bg-white rounded-2xl p-6 md:p-8">
-              <h3 className="text-[20px] md:text-[24px] font-medium text-[#111] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-[20px] md:text-[24px] font-medium text-[#111] mb-6">
                 What We Offer
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0" />
-                    <span className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0" />
+                    <span className="text-sm text-[#666]">
                       {feature}
                     </span>
                   </div>

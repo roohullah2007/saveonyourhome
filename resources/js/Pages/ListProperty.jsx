@@ -432,19 +432,19 @@ function ListProperty() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2 mb-6">
                 <Home className="w-5 h-5 text-white" />
-                <span className="text-white text-sm font-medium" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <span className="text-white text-sm font-medium">
                   List Your Property
                 </span>
               </div>
 
-              <h1 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+              <h1 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl">
                 Create Your Free Listing
               </h1>
 
-              <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-4 drop-shadow-lg" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+              <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-4 drop-shadow-lg">
                 Congratulations on taking the first step to selling your home! Fill out the form below to create your free listing.
               </p>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 drop-shadow-lg" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 drop-shadow-lg">
                 Once your listing is live, you can order professional photos, multimedia packages, or request to be listed on your local MLS.
               </p>
             </div>
@@ -463,20 +463,20 @@ function ListProperty() {
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl md:text-2xl font-semibold text-green-800 mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <h3 className="text-xl md:text-2xl font-semibold text-green-800 mb-2">
                     Property Listed Successfully!
                   </h3>
-                  <p className="text-green-700 mb-4" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <p className="text-green-700 mb-4">
                     Thank you for listing your property with SaveOnYourHome. Your listing is now pending approval and will be reviewed by our team within 24-48 hours.
                   </p>
-                  <p className="text-green-600 text-sm mb-6" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <p className="text-green-600 text-sm mb-6">
                     You will receive an email notification once your listing is approved and live on our website.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <a
                       href="/properties"
                       className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full font-medium hover:bg-green-700 transition-colors"
-                      style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                     
                     >
                       Browse Properties
                     </a>
@@ -484,7 +484,7 @@ function ListProperty() {
                       type="button"
                       onClick={() => setShowSuccess(false)}
                       className="inline-flex items-center gap-2 bg-white text-green-700 border border-green-300 px-6 py-3 rounded-full font-medium hover:bg-green-50 transition-colors"
-                      style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                     
                     >
                       List Another Property
                     </button>
@@ -507,10 +507,10 @@ function ListProperty() {
               <div className="flex items-start gap-3">
                 <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-lg font-semibold text-red-800 mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <h3 className="text-lg font-semibold text-red-800 mb-2">
                     Please fix the following errors:
                   </h3>
-                  <ul className="list-disc list-inside text-red-700 space-y-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <ul className="list-disc list-inside text-red-700 space-y-1">
                     {Object.values(errors).map((error, index) => (
                       <li key={index}>{error}</li>
                     ))}
@@ -527,21 +527,21 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <FileText className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   Basic Information
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Property Title *
                   </label>
                   <input
                     type="text"
                     placeholder="e.g., Beautiful Home in Great Neighborhood"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.propertyTitle}
                     onChange={(e) => handleInputChange('propertyTitle', e.target.value)}
                     required
@@ -549,26 +549,26 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Developer/Builder
                   </label>
                   <input
                     type="text"
                     placeholder="e.g., ABC Homes"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.developer}
                     onChange={(e) => handleInputChange('developer', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Property Type *
                   </label>
                   <select
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.propertyType}
                     onChange={(e) => handleInputChange('propertyType', e.target.value)}
                     required
@@ -581,7 +581,7 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Listing Price *
                   </label>
                   <div className="relative">
@@ -589,8 +589,8 @@ function ListProperty() {
                     <input
                       type="number"
                       placeholder="299000"
-                      className="w-full pl-10 pr-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                      style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                      className="w-full pl-10 pr-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                     
                       value={data.price}
                       onChange={(e) => handleInputChange('price', e.target.value)}
                       required
@@ -606,21 +606,21 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <MapPin className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   Location
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Street Address *
                   </label>
                   <input
                     type="text"
                     placeholder="123 Main Street"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.address}
                     onChange={(e) => handleInputChange('address', e.target.value)}
                     required
@@ -628,14 +628,14 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     City *
                   </label>
                   <input
                     type="text"
                     placeholder="Tulsa"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.city}
                     onChange={(e) => handleInputChange('city', e.target.value)}
                     required
@@ -643,27 +643,27 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     State *
                   </label>
                   <input
                     type="text"
                     value="Oklahoma"
                     className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg bg-[#EEEDEA]"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                   
                     disabled
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     ZIP Code *
                   </label>
                   <input
                     type="text"
                     placeholder="74101"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.zipCode}
                     onChange={(e) => handleInputChange('zipCode', e.target.value)}
                     required
@@ -671,14 +671,14 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Subdivision
                   </label>
                   <input
                     type="text"
                     placeholder="Optional"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.subdivision}
                     onChange={(e) => handleInputChange('subdivision', e.target.value)}
                   />
@@ -708,21 +708,21 @@ function ListProperty() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   School Information
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     School District *
                   </label>
                   <input
                     type="text"
                     placeholder="e.g., Tulsa Public Schools"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.schoolDistrict}
                     onChange={(e) => handleInputChange('schoolDistrict', e.target.value)}
                     required
@@ -730,42 +730,42 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Grade School
                   </label>
                   <input
                     type="text"
                     placeholder="Elementary school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.gradeSchool}
                     onChange={(e) => handleInputChange('gradeSchool', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Middle/Jr High School
                   </label>
                   <input
                     type="text"
                     placeholder="Middle school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.middleSchool}
                     onChange={(e) => handleInputChange('middleSchool', e.target.value)}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     High School
                   </label>
                   <input
                     type="text"
                     placeholder="High school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.highSchool}
                     onChange={(e) => handleInputChange('highSchool', e.target.value)}
                   />
@@ -779,7 +779,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <Home className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   {data.propertyType === 'land' ? 'Lot Details' : 'Property Details'}
                 </h2>
               </div>
@@ -789,15 +789,15 @@ function ListProperty() {
                 {data.propertyType !== 'land' && (
                   <>
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Bedrooms *
                       </label>
                       <input
                         type="number"
                         placeholder="3"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.bedrooms}
                         onChange={(e) => handleInputChange('bedrooms', e.target.value)}
                         required
@@ -805,15 +805,15 @@ function ListProperty() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Full Bathrooms *
                       </label>
                       <input
                         type="number"
                         placeholder="2"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.fullBathrooms}
                         onChange={(e) => handleInputChange('fullBathrooms', e.target.value)}
                         required
@@ -821,29 +821,29 @@ function ListProperty() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Half Bathrooms
                       </label>
                       <input
                         type="number"
                         placeholder="1"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.halfBathrooms}
                         onChange={(e) => handleInputChange('halfBathrooms', e.target.value)}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Square Feet *
                       </label>
                       <input
                         type="number"
                         placeholder="2000"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.sqft}
                         onChange={(e) => handleInputChange('sqft', e.target.value)}
                         required
@@ -853,15 +853,15 @@ function ListProperty() {
                 )}
 
                 <div className={data.propertyType === 'land' ? '' : ''}>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Lot Size (Sq Ft) {data.propertyType === 'land' ? '*' : ''}
                   </label>
                   <input
                     type="number"
                     min="0"
                     placeholder="e.g., 43560"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.lotSize}
                     onChange={(e) => handleInputChange('lotSize', e.target.value)}
                     required={data.propertyType === 'land'}
@@ -871,15 +871,15 @@ function ListProperty() {
                 {data.propertyType === 'land' && (
                   <>
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Acres
                       </label>
                       <input
                         type="number"
                         step="0.0001"
                         placeholder="e.g., 5.5"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.acres}
                         onChange={(e) => handleInputChange('acres', e.target.value)}
                       />
@@ -887,14 +887,14 @@ function ListProperty() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                      <label className="block text-sm font-semibold text-[#111] mb-2">
                         Zoning
                       </label>
                       <input
                         type="text"
                         placeholder="e.g., Agricultural, Residential"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                        style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                       
                         value={data.zoning}
                         onChange={(e) => handleInputChange('zoning', e.target.value)}
                       />
@@ -904,14 +904,14 @@ function ListProperty() {
 
                 {data.propertyType !== 'land' && (
                   <div>
-                    <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <label className="block text-sm font-semibold text-[#111] mb-2">
                       Year Built
                     </label>
                     <input
                       type="number"
                       placeholder="2010"
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                      style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                     
                       value={data.yearBuilt}
                       onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
                     />
@@ -926,20 +926,20 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <FileText className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   Description
                 </h2>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <label className="block text-sm font-semibold text-[#111] mb-2">
                   Property Description *
                 </label>
                 <textarea
                   rows="6"
                   placeholder="Describe your property in detail. Include information about the neighborhood, recent updates, special features, etc."
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent resize-none transition-all"
-                  style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
+                 
                   value={data.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   required
@@ -953,7 +953,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <CheckCircle className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   {data.propertyType === 'land' ? 'Land Features' : 'Property Features'}
                 </h2>
               </div>
@@ -965,9 +965,9 @@ function ListProperty() {
                       type="checkbox"
                       checked={data.features.includes(feature)}
                       onChange={() => handleFeatureToggle(feature)}
-                      className="w-5 h-5 text-[#0891B2] rounded border-[#D0CCC7] focus:ring-[#0891B2]"
+                      className="w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
                     />
-                    <span className="text-sm text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <span className="text-sm text-[#111]">
                       {feature}
                     </span>
                   </label>
@@ -982,11 +982,11 @@ function ListProperty() {
                   <div className="bg-[#E5E1DC] p-3 rounded-lg">
                     <Image className="w-6 h-6 text-[#3D3D3D]" />
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                     Photos
                   </h2>
                 </div>
-                <span className="text-sm text-gray-500 font-medium" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <span className="text-sm text-gray-500 font-medium">
                   {photoPreviews.length} / {maxPhotos} photos
                 </span>
               </div>
@@ -998,10 +998,10 @@ function ListProperty() {
                     <Star className="w-5 h-5 text-amber-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-amber-800" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <p className="text-sm font-semibold text-amber-800">
                       Upload up to {maxPhotos} photos and select your main (front) photo
                     </p>
-                    <p className="text-sm text-amber-700 mt-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <p className="text-sm text-amber-700 mt-1">
                       Click the star icon on any photo to set it as your main listing photo. The main photo will be shown first in search results.
                     </p>
                   </div>
@@ -1012,7 +1012,7 @@ function ListProperty() {
               {uploadError && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
                   <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-red-700" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>{uploadError}</span>
+                  <span className="text-sm text-red-700">{uploadError}</span>
                 </div>
               )}
 
@@ -1022,8 +1022,8 @@ function ListProperty() {
                   <div className="flex items-center gap-3">
                     {photoPreviews.some(p => p.uploading) && (
                       <div className="flex items-center gap-2 text-sm text-[#666]">
-                        <Loader2 className="w-4 h-4 animate-spin text-[#0891B2]" />
-                        <span style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <Loader2 className="w-4 h-4 animate-spin text-[#1A1816]" />
+                        <span>
                           Uploading {photoPreviews.filter(p => p.uploading).length} photo(s)...
                         </span>
                       </div>
@@ -1031,7 +1031,7 @@ function ListProperty() {
                     {photoPreviews.some(p => p.error) && (
                       <div className="flex items-center gap-2 text-sm text-red-600">
                         <AlertCircle className="w-4 h-4" />
-                        <span style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <span>
                           {photoPreviews.filter(p => p.error).length} failed
                         </span>
                       </div>
@@ -1039,7 +1039,7 @@ function ListProperty() {
                     {photoPreviews.filter(p => p.serverPath && !p.error).length > 0 && !photoPreviews.some(p => p.uploading) && (
                       <div className="flex items-center gap-2 text-sm text-green-600">
                         <CheckCircle className="w-4 h-4" />
-                        <span style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <span>
                           {photoPreviews.filter(p => p.serverPath && !p.error).length} uploaded successfully
                         </span>
                       </div>
@@ -1112,7 +1112,7 @@ function ListProperty() {
 
                         {/* Main Photo Badge */}
                         {index === mainPhotoIndex && !preview.uploading && !preview.error && (
-                          <span className="absolute top-2 left-2 bg-[#0891B2] text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                          <span className="absolute top-2 left-2 bg-[#1A1816] text-white text-[10px] px-2 py-1 rounded-full font-medium">
                             Main Photo
                           </span>
                         )}
@@ -1163,20 +1163,20 @@ function ListProperty() {
                 onDrop={handleDrop}
                 className={`border-2 border-dashed rounded-xl p-6 md:p-8 text-center transition-all ${
                   isDragActive
-                    ? 'border-[#0891B2] bg-[#0891B2]/10 scale-[1.02]'
+                    ? 'border-[#1A1816] bg-[#1A1816]/10 scale-[1.02]'
                     : isUploading || photoPreviews.length >= maxPhotos
                       ? 'border-[#D0CCC7] opacity-50 cursor-not-allowed'
-                      : 'border-[#D0CCC7] hover:border-[#0891B2] hover:bg-[#0891B2]/5 cursor-pointer'
+                      : 'border-[#D0CCC7] hover:border-[#1A1816] hover:bg-[#1A1816]/5 cursor-pointer'
                 }`}
               >
                 {isUploading ? (
-                  <Loader2 className="w-10 h-10 text-[#0891B2] mx-auto mb-3 animate-spin" />
+                  <Loader2 className="w-10 h-10 text-[#1A1816] mx-auto mb-3 animate-spin" />
                 ) : isDragActive ? (
-                  <Upload className="w-10 h-10 text-[#0891B2] mx-auto mb-3 animate-bounce" />
+                  <Upload className="w-10 h-10 text-[#1A1816] mx-auto mb-3 animate-bounce" />
                 ) : (
                   <Upload className="w-10 h-10 text-[#666] mx-auto mb-3" />
                 )}
-                <p className="text-base font-semibold text-[#111] mb-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <p className="text-base font-semibold text-[#111] mb-1">
                   {isUploading
                     ? 'Uploading photos...'
                     : isDragActive
@@ -1185,10 +1185,10 @@ function ListProperty() {
                         ? 'Click or drag photos here'
                         : 'Add more photos'}
                 </p>
-                <p className="text-sm text-[#666] mb-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <p className="text-sm text-[#666] mb-1">
                   JPG, PNG, GIF, WebP, or HEIC (iPhone) - max 30MB each
                 </p>
-                <p className="text-xs text-[#888]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <p className="text-xs text-[#888]">
                   {isDragActive ? 'Release to upload' : 'Drag & drop or click to browse'}
                 </p>
                 <input
@@ -1211,10 +1211,10 @@ function ListProperty() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-blue-800" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <p className="text-sm font-semibold text-blue-800">
                       Having trouble uploading? Email your photos instead!
                     </p>
-                    <p className="text-sm text-blue-700 mt-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <p className="text-sm text-blue-700 mt-1">
                       Send up to 50 photos to{' '}
                       <a href="mailto:photos@saveonyourhome.com" className="font-semibold underline hover:text-blue-900">
                         photos@saveonyourhome.com
@@ -1232,25 +1232,25 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <Home className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
                   Contact Information
                 </h2>
               </div>
 
-              <p className="text-sm text-[#666] mb-6" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+              <p className="text-sm text-[#666] mb-6">
                 This information is used for buyer inquiries only and will be sent to your account email. Your email address is not displayed publicly on the listing.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Your Name *
                   </label>
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.contactName}
                     onChange={(e) => handleInputChange('contactName', e.target.value)}
                     required
@@ -1258,30 +1258,30 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Email
                   </label>
                   <input
                     type="email"
                     className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg bg-gray-50 text-[#666] cursor-not-allowed"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                   
                     value={data.contactEmail}
                     readOnly
                   />
-                  <p className="text-xs text-[#888] mt-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <p className="text-xs text-[#888] mt-1">
                     Inquiries will be sent to your account email
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Phone *
                   </label>
                   <input
                     type="tel"
                     placeholder="(555) 123-4567"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#0891B2] focus:border-transparent transition-all"
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                   
                     value={data.contactPhone}
                     onChange={(e) => handleInputChange('contactPhone', e.target.value)}
                     required
@@ -1295,8 +1295,8 @@ function ListProperty() {
               <button
                 type="submit"
                 disabled={processing || isUploading || photoPreviews.some(p => p.uploading)}
-                className="inline-flex items-center gap-3 bg-[#0891B2] hover:bg-[#8B1829] text-white px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                className="inline-flex items-center gap-3 bg-[#1A1816] hover:bg-[#8B1829] text-white px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+               
               >
                 {processing ? (
                   <>
@@ -1324,18 +1324,18 @@ function ListProperty() {
       {processing && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl">
-            <div className="w-16 h-16 bg-[#0891B2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Loader2 className="w-8 h-8 text-[#0891B2] animate-spin" />
+            <div className="w-16 h-16 bg-[#1A1816]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Loader2 className="w-8 h-8 text-[#1A1816] animate-spin" />
             </div>
-            <h3 className="text-xl font-semibold text-[#111] mb-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+            <h3 className="text-xl font-semibold text-[#111] mb-2">
               Submitting Your Listing
             </h3>
-            <p className="text-[#666] mb-4" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+            <p className="text-[#666] mb-4">
               Please wait while we submit your listing. Your photos have already been uploaded.
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-[#888]">
-              <div className="w-2 h-2 bg-[#0891B2] rounded-full animate-pulse"></div>
-              <span style={{ fontFamily: '"Instrument Sans", sans-serif' }}>Do not close or refresh this page</span>
+              <div className="w-2 h-2 bg-[#1A1816] rounded-full animate-pulse"></div>
+              <span>Do not close or refresh this page</span>
             </div>
           </div>
         </div>

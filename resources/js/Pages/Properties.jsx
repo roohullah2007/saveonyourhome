@@ -196,21 +196,15 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
 
       <div className="flex flex-col h-screen overflow-hidden">
         {/* Header spacer for fixed header */}
-        <Header maxWidth={1408} noPadding />
+        <Header maxWidth={1400} />
         <div className="shrink-0" style={{ height: 65 }} />
 
         {/* Filter Bar - Single Row */}
         <div className="relative z-[2000] shrink-0 border-b border-gray-200 bg-white py-2.5">
-          <div className="mx-auto flex items-center gap-2" style={{ maxWidth: 1376 }} ref={filterBarRef}>
+          <div className="mx-auto flex items-center gap-2 px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1400 }} ref={filterBarRef}>
             {/* Search Input */}
             <div className="relative flex-1" style={{ maxWidth: 800 }}>
               <form className="relative flex" onSubmit={handleSearch}>
-                <div className="relative hidden lg:block">
-                  <button type="button" className="flex items-center gap-1 rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 px-3 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100" style={{ height: 40, minWidth: 90 }}>
-                    <span>City</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
-                  </button>
-                </div>
                 <div className="relative flex-1">
                   <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
@@ -218,7 +212,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                   <input
                     type="text"
                     placeholder="Search city, neighborhood..."
-                    className="w-full rounded-xl lg:rounded-l-none lg:rounded-r-xl border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm transition-colors focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                    className="w-full rounded-xl border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm transition-colors focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
                     autoComplete="off"
                     style={{ height: 40, fontSize: 14 }}
                     value={searchParams.location}
@@ -541,7 +535,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
           {/* Listings Panel */}
           <div className={`flex min-h-0 flex-1 flex-col bg-white ${viewMode === 'map' ? 'border-l border-gray-200 lg:max-w-[43%]' : ''}`}>
             {/* Listings Header */}
-            <div className="shrink-0 border-b border-gray-100 px-5 pt-4 pb-3">
+            <div className={`shrink-0 border-b border-gray-100 ${viewMode === 'list' ? 'mx-auto w-full px-4 sm:px-6 lg:px-[40px]' : 'px-5'} pt-4 pb-3`} style={viewMode === 'list' ? { maxWidth: 1400 } : {}}>
               <div className="flex items-center justify-between">
                 <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1a1816' }}>
                   {searchParams.status === 'all' ? 'All Listings' : searchParams.status === 'sold' ? 'Sold' : searchParams.status === 'pending' ? 'Pending' : 'All Listings'}
@@ -653,9 +647,9 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
             </div>
 
             {/* Property Cards - Scrollable */}
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className={`flex-1 overflow-y-auto py-4 ${viewMode === 'list' ? 'mx-auto w-full px-4 sm:px-6 lg:px-[40px]' : 'px-5'}`} style={viewMode === 'list' ? { maxWidth: 1400 } : {}}>
               {propertyList.length > 0 ? (
-                <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2'}`}>
                   {propertyList.map((property) => {
                     const propertyImage = property.photos && property.photos.length > 0
                       ? property.photos[0]

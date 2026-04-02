@@ -18,43 +18,43 @@ const Header = ({ maxWidth, noPadding }) => {
               <img
                 src="/images/saveonyourhome-logo.png"
                 alt="SaveOnYourHome"
-                className="h-[32px] sm:h-[40px] w-[130px]"
+                style={{ height: '52px', width: 'auto' }}
               />
             </Link>
 
             {/* Center Navigation - Desktop */}
             <nav className="hidden lg:flex items-center gap-8">
-              <Link href="/" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/properties" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/properties" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Properties
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/buyers" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/buyers" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Buyers
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/sellers" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/sellers" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Sellers
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/our-packages" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/our-packages" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Packages
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/mortgages" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/mortgages" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Mortgage
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/about" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/about" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <Link href="/contact" className="text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors relative group">
+              <Link href="/contact" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
                 Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#06B6D4] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
               </Link>
             </nav>
 
@@ -67,7 +67,7 @@ const Header = ({ maxWidth, noPadding }) => {
                     onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                     className="flex items-center gap-2 p-1.5 rounded-full hover:bg-gray-100 transition-colors"
                   >
-                    <div className="w-9 h-9 bg-[#0891B2] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    <div className="w-9 h-9 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold text-sm">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
                     <ChevronDown className={`w-4 h-4 text-gray-500 hidden md:block transition-transform ${profileMenuOpen ? 'rotate-180' : ''}`} />
@@ -84,7 +84,7 @@ const Header = ({ maxWidth, noPadding }) => {
                         {/* User Info */}
                         <div className="px-4 py-3 border-b border-gray-100">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-[#0891B2] rounded-full flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
                               {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -93,7 +93,7 @@ const Header = ({ maxWidth, noPadding }) => {
                             </div>
                           </div>
                           {user.role === 'admin' && (
-                            <span className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 bg-[#0891B2]/10 text-[#0891B2] text-xs font-medium rounded-full">
+                            <span className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 bg-[#1A1816]/10 text-[#1A1816] text-xs font-medium rounded-full">
                               <Shield className="w-3 h-3" />
                               Admin
                             </span>
@@ -121,7 +121,7 @@ const Header = ({ maxWidth, noPadding }) => {
                           {user.role === 'admin' && (
                             <Link
                               href={route('admin.dashboard')}
-                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#0891B2] hover:bg-red-50 transition-colors"
+                              className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#1A1816] hover:bg-red-50 transition-colors"
                               onClick={() => setProfileMenuOpen(false)}
                             >
                               <Shield className="w-4 h-4" />
@@ -151,7 +151,7 @@ const Header = ({ maxWidth, noPadding }) => {
                 /* Not Logged In - Login Button */
                 <Link
                   href="/login"
-                  className="hidden md:block text-[14px] font-instrument font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors"
+                  className="hidden md:block text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors"
                 >
                   Login
                 </Link>
@@ -176,7 +176,7 @@ const Header = ({ maxWidth, noPadding }) => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-[#111111] hover:text-[#06B6D4] transition-colors"
+                className="lg:hidden p-2 text-[#111111] hover:text-[#555] transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -200,56 +200,56 @@ const Header = ({ maxWidth, noPadding }) => {
             <nav className="max-w-[1400px] mx-auto px-4 py-6 space-y-4">
               <Link
                 href="/"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/properties"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Properties
               </Link>
               <Link
                 href="/buyers"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Buyers
               </Link>
               <Link
                 href="/sellers"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sellers
               </Link>
               <Link
                 href="/our-packages"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Packages
               </Link>
               <Link
                 href="/mortgages"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Mortgage
               </Link>
               <Link
                 href="/about"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
@@ -260,7 +260,7 @@ const Header = ({ maxWidth, noPadding }) => {
                   <>
                     {/* Logged in mobile user */}
                     <div className="flex items-center gap-3 py-3">
-                      <div className="w-10 h-10 bg-[#0891B2] rounded-full flex items-center justify-center text-white font-semibold">
+                      <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -270,7 +270,7 @@ const Header = ({ maxWidth, noPadding }) => {
                     </div>
                     <Link
                       href={route('dashboard')}
-                      className="flex items-center gap-3 text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                      className="flex items-center gap-3 text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <LayoutDashboard className="w-5 h-5" />
@@ -278,7 +278,7 @@ const Header = ({ maxWidth, noPadding }) => {
                     </Link>
                     <Link
                       href={route('profile.edit')}
-                      className="flex items-center gap-3 text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                      className="flex items-center gap-3 text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <User className="w-5 h-5" />
@@ -287,7 +287,7 @@ const Header = ({ maxWidth, noPadding }) => {
                     {user.role === 'admin' && (
                       <Link
                         href={route('admin.dashboard')}
-                        className="flex items-center gap-3 text-[16px] font-semibold text-[#0891B2] hover:text-[#0E7490] transition-colors py-2"
+                        className="flex items-center gap-3 text-[16px] font-semibold text-[#1A1816] hover:text-[#111111] transition-colors py-2"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         <Shield className="w-5 h-5" />
@@ -309,14 +309,14 @@ const Header = ({ maxWidth, noPadding }) => {
                   <>
                     <Link
                       href="/login"
-                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Login
                     </Link>
                     <Link
                       href="/register"
-                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#06B6D4] transition-colors py-2"
+                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
@@ -325,7 +325,7 @@ const Header = ({ maxWidth, noPadding }) => {
                 )}
                 <Link
                   href="/list-property"
-                  className="block sm:hidden mt-2 text-center bg-[#0891B2] text-white rounded-full py-3 px-6 font-medium transition-all duration-300 hover:bg-[#0E7490]"
+                  className="block sm:hidden mt-2 text-center bg-[#1A1816] text-white rounded-full py-3 px-6 font-medium transition-all duration-300 hover:bg-[#111111]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   List Your Property

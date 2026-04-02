@@ -60,7 +60,7 @@ function Register() {
                     <div className="w-full max-w-[400px]">
                         <h1
                             className="text-[28px] font-bold text-[#111111] mb-2 text-center"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             Create your account
                         </h1>
@@ -104,20 +104,20 @@ function Register() {
                                         onClick={() => setData('user_type', 'buyer')}
                                         className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all duration-300 ${
                                             data.user_type === 'buyer'
-                                                ? 'border-[#0891B2] bg-[#0891B2]/5'
+                                                ? 'border-[#1A1816] bg-[#1A1816]/5'
                                                 : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                     >
                                         <div className={`p-2 rounded-full ${
                                             data.user_type === 'buyer'
-                                                ? 'bg-[#0891B2] text-white'
+                                                ? 'bg-[#1A1816] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Search className="w-4 h-4" />
                                         </div>
                                         <span className={`font-semibold text-sm ${
                                             data.user_type === 'buyer'
-                                                ? 'text-[#0891B2]'
+                                                ? 'text-[#1A1816]'
                                                 : 'text-gray-700'
                                         }`}>
                                             Buyer
@@ -128,20 +128,20 @@ function Register() {
                                         onClick={() => setData('user_type', 'seller')}
                                         className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all duration-300 ${
                                             data.user_type === 'seller'
-                                                ? 'border-[#0891B2] bg-[#0891B2]/5'
+                                                ? 'border-[#1A1816] bg-[#1A1816]/5'
                                                 : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                     >
                                         <div className={`p-2 rounded-full ${
                                             data.user_type === 'seller'
-                                                ? 'bg-[#0891B2] text-white'
+                                                ? 'bg-[#1A1816] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Home className="w-4 h-4" />
                                         </div>
                                         <span className={`font-semibold text-sm ${
                                             data.user_type === 'seller'
-                                                ? 'text-[#0891B2]'
+                                                ? 'text-[#1A1816]'
                                                 : 'text-gray-700'
                                         }`}>
                                             Seller
@@ -163,7 +163,7 @@ function Register() {
                                     type="text"
                                     name="name"
                                     value={data.name}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
                                     placeholder="John Doe"
                                     autoComplete="name"
                                     autoFocus
@@ -185,7 +185,7 @@ function Register() {
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
                                     placeholder="you@example.com"
                                     autoComplete="username"
                                     onChange={(e) => setData('email', e.target.value)}
@@ -206,7 +206,7 @@ function Register() {
                                     type="tel"
                                     name="phone"
                                     value={data.phone}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
                                     placeholder="(918) 555-0123"
                                     autoComplete="tel"
                                     onChange={(e) => setData('phone', e.target.value)}
@@ -216,7 +216,7 @@ function Register() {
                                         type="checkbox"
                                         checked={data.sms_consent}
                                         onChange={(e) => setData('sms_consent', e.target.checked)}
-                                        className="mt-0.5 rounded border-gray-300 text-[#0891B2] focus:ring-[#0891B2]"
+                                        className="mt-0.5 rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                     />
                                     <span className="text-xs text-gray-600">I'd prefer texting</span>
                                 </label>
@@ -237,7 +237,7 @@ function Register() {
                                         type={showPassword ? 'text' : 'password'}
                                         name="password"
                                         value={data.password}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all pr-12"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all pr-12"
                                         placeholder="Create a strong password"
                                         autoComplete="new-password"
                                         onChange={(e) => setData('password', e.target.value)}
@@ -292,7 +292,7 @@ function Register() {
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         name="password_confirmation"
                                         value={data.password_confirmation}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all pr-12"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all pr-12"
                                         placeholder="Confirm your password"
                                         autoComplete="new-password"
                                         onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -339,11 +339,11 @@ function Register() {
                             {/* Terms */}
                             <p className="text-xs text-gray-500 text-center">
                                 By creating an account, you agree to our{' '}
-                                <Link href="/terms-of-use" className="text-[#0891B2] hover:underline">
+                                <Link href="/terms-of-use" className="text-[#1A1816] hover:underline">
                                     Terms
                                 </Link>{' '}
                                 and{' '}
-                                <Link href="/privacy-policy" className="text-[#0891B2] hover:underline">
+                                <Link href="/privacy-policy" className="text-[#1A1816] hover:underline">
                                     Privacy Policy
                                 </Link>
                             </p>
@@ -351,7 +351,7 @@ function Register() {
 
                         <p className="mt-6 text-center text-sm text-gray-600">
                             Already have an account?{' '}
-                            <Link href={route('login')} className="text-[#0891B2] font-medium hover:underline">
+                            <Link href={route('login')} className="text-[#1A1816] font-medium hover:underline">
                                 Sign in
                             </Link>
                         </p>

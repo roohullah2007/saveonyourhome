@@ -82,13 +82,13 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
             {/* Header */}
             <header className="bg-white border-b fixed top-0 left-0 right-0 z-30">
                 <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-                    <Link href="/" className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <Link href="/" className="text-2xl font-bold text-[#1A1816]">
                         SaveOnYourHome
                     </Link>
                     <div className="flex items-center gap-3">
                         {!isAuthenticated && (
                             <Link href={route('login')} className="text-sm text-gray-600 hover:text-gray-900">
-                                Already have an account? <span className="font-medium text-[#0891B2]">Log in</span>
+                                Already have an account? <span className="font-medium text-[#1A1816]">Log in</span>
                             </Link>
                         )}
                     </div>
@@ -110,19 +110,19 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                         <div>
                             <h1
                                 className="text-[28px] md:text-[36px] font-medium text-[#111] mb-2"
-                                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                               
                             >
                                 {property.property_title || `${property.address}, ${property.city}`}
                             </h1>
-                            <p className="text-lg text-[#666] flex items-center gap-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                            <p className="text-lg text-[#666] flex items-center gap-2">
                                 <MapPin className="w-5 h-5" />
                                 {property.address}, {property.city}, {property.state} {property.zip_code}
                             </p>
                         </div>
                         <div className="flex items-center gap-4">
                             <span
-                                className="text-[28px] md:text-[36px] font-bold text-[#0891B2]"
-                                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                                className="text-[28px] md:text-[36px] font-bold text-[#1A1816]"
+                               
                             >
                                 {formatPrice(property.price)}
                             </span>
@@ -240,9 +240,9 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                 <div className="flex gap-3 items-center">
                     <div className="flex-1">
                         <p className="text-xs text-gray-500">Claim your listing</p>
-                        <p className="font-bold text-[#0891B2]">{formatPrice(property.price)}</p>
+                        <p className="font-bold text-[#1A1816]">{formatPrice(property.price)}</p>
                     </div>
-                    <a href="#claim-form" className="flex items-center justify-center gap-2 bg-[#0891B2] text-white py-3 px-6 rounded-xl font-semibold hover:bg-[#0E7490] transition-colors" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <a href="#claim-form" className="flex items-center justify-center gap-2 bg-[#1A1816] text-white py-3 px-6 rounded-xl font-semibold hover:bg-[#111111] transition-colors">
                         <BadgeCheck className="w-5 h-5" />
                         Claim Now
                     </a>
@@ -257,21 +257,21 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                         <div className="lg:col-span-2">
                             {/* Quick Stats */}
                             <div className="bg-white rounded-2xl p-6 mb-6">
-                                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                <h2 className="text-xl font-semibold text-[#111] mb-4">
                                     {property.property_type === 'land' ? 'Lot Details' : 'Property Details'}
                                 </h2>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {property.property_type !== 'land' && (
                                         <>
                                             <div className="flex items-center gap-3">
-                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><BedDouble className="w-5 h-5 text-[#0891B2]" /></div>
+                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><BedDouble className="w-5 h-5 text-[#1A1816]" /></div>
                                                 <div>
                                                     <p className="text-sm text-[#666]">Bedrooms</p>
                                                     <p className="font-semibold text-[#111]">{property.bedrooms}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Bath className="w-5 h-5 text-[#0891B2]" /></div>
+                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Bath className="w-5 h-5 text-[#1A1816]" /></div>
                                                 <div>
                                                     <p className="text-sm text-[#666]">Bathrooms</p>
                                                     <p className="font-semibold text-[#111]">
@@ -280,14 +280,14 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#0891B2]" /></div>
+                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#1A1816]" /></div>
                                                 <div>
                                                     <p className="text-sm text-[#666]">Square Feet</p>
                                                     <p className="font-semibold text-[#111]">{property.sqft ? property.sqft.toLocaleString() : 'N/A'}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Calendar className="w-5 h-5 text-[#0891B2]" /></div>
+                                                <div className="bg-[#EEEDEA] p-3 rounded-lg"><Calendar className="w-5 h-5 text-[#1A1816]" /></div>
                                                 <div>
                                                     <p className="text-sm text-[#666]">Year Built</p>
                                                     <p className="font-semibold text-[#111]">{property.year_built || 'N/A'}</p>
@@ -299,7 +299,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                         <>
                                             {property.acres && (
                                                 <div className="flex items-center gap-3">
-                                                    <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#0891B2]" /></div>
+                                                    <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#1A1816]" /></div>
                                                     <div>
                                                         <p className="text-sm text-[#666]">Acres</p>
                                                         <p className="font-semibold text-[#111]">{Number(property.acres).toLocaleString()}</p>
@@ -308,7 +308,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                             )}
                                             {property.lot_size && (
                                                 <div className="flex items-center gap-3">
-                                                    <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#0891B2]" /></div>
+                                                    <div className="bg-[#EEEDEA] p-3 rounded-lg"><Maximize2 className="w-5 h-5 text-[#1A1816]" /></div>
                                                     <div>
                                                         <p className="text-sm text-[#666]">Lot Size</p>
                                                         <p className="font-semibold text-[#111]">{Number(property.lot_size).toLocaleString()} sq ft</p>
@@ -347,10 +347,10 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
                             {/* Description */}
                             <div className="bg-white rounded-2xl p-6 mb-6">
-                                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                <h2 className="text-xl font-semibold text-[#111] mb-4">
                                     Description
                                 </h2>
-                                <p className="text-[#666] leading-relaxed whitespace-pre-line" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                <p className="text-[#666] leading-relaxed whitespace-pre-line">
                                     {property.description}
                                 </p>
                             </div>
@@ -358,7 +358,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                             {/* School Information */}
                             {property.school_district && (
                                 <div className="bg-white rounded-2xl p-6 mb-6">
-                                    <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                    <h2 className="text-xl font-semibold text-[#111] mb-4">
                                         School Information
                                     </h2>
                                     <div className="grid grid-cols-2 gap-4">
@@ -391,14 +391,14 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                             {/* Features */}
                             {property.features && property.features.length > 0 && (
                                 <div className="bg-white rounded-2xl p-6 mb-6">
-                                    <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                    <h2 className="text-xl font-semibold text-[#111] mb-4">
                                         Features & Amenities
                                     </h2>
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                         {property.features.map((feature, i) => (
                                             <div key={i} className="flex items-center gap-2 text-[#666]">
-                                                <CheckCircle2 className="w-4 h-4 text-[#0891B2] flex-shrink-0" />
-                                                <span style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{feature}</span>
+                                                <CheckCircle2 className="w-4 h-4 text-[#1A1816] flex-shrink-0" />
+                                                <span>{feature}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -408,7 +408,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                             {/* Map */}
                             {property.latitude && property.longitude && (
                                 <div className="bg-white rounded-2xl p-6 mb-6">
-                                    <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                    <h2 className="text-xl font-semibold text-[#111] mb-4">
                                         Location
                                     </h2>
                                     <div className="rounded-xl overflow-hidden" style={{ height: '300px' }}>
@@ -427,7 +427,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                         <div className="inline-flex items-center justify-center w-14 h-14 bg-green-100 rounded-full mb-3">
                                             <BadgeCheck className="w-7 h-7 text-green-600" />
                                         </div>
-                                        <h2 className="text-xl font-bold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                        <h2 className="text-xl font-bold text-[#111]">
                                             Your FREE Listing Is Ready!
                                         </h2>
                                         <p className="text-sm text-gray-500 mt-1">
@@ -445,8 +445,8 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                                 <button
                                                     type="submit"
                                                     disabled={claimForm.processing}
-                                                    className="w-full py-3.5 bg-[#0891B2] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
-                                                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                                                    className="w-full py-3.5 bg-[#1A1816] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
+                                                   
                                                 >
                                                     {claimForm.processing ? 'Claiming...' : 'Claim My Listing'}
                                                 </button>
@@ -461,23 +461,23 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                             <form onSubmit={handleRegister} className="space-y-3">
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                                    <input type="text" value={registerForm.data.name} onChange={(e) => registerForm.setData('name', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#0891B2] focus:border-[#0891B2]" required />
+                                                    <input type="text" value={registerForm.data.name} onChange={(e) => registerForm.setData('name', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#1A1816] focus:border-[#1A1816]" required />
                                                     {registerForm.errors.name && <p className="text-xs text-red-600 mt-1">{registerForm.errors.name}</p>}
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                                    <input type="email" value={registerForm.data.email} onChange={(e) => registerForm.setData('email', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#0891B2] focus:border-[#0891B2]" required />
+                                                    <input type="email" value={registerForm.data.email} onChange={(e) => registerForm.setData('email', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#1A1816] focus:border-[#1A1816]" required />
                                                     {registerForm.errors.email && <p className="text-xs text-red-600 mt-1">{registerForm.errors.email}</p>}
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone <span className="text-gray-400">(optional)</span></label>
-                                                    <input type="tel" value={registerForm.data.phone} onChange={(e) => registerForm.setData('phone', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#0891B2] focus:border-[#0891B2]" />
+                                                    <input type="tel" value={registerForm.data.phone} onChange={(e) => registerForm.setData('phone', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#1A1816] focus:border-[#1A1816]" />
                                                     <label className="flex items-start gap-2 mt-2 cursor-pointer">
                                                         <input
                                                             type="checkbox"
                                                             checked={registerForm.data.sms_consent}
                                                             onChange={(e) => registerForm.setData('sms_consent', e.target.checked)}
-                                                            className="mt-0.5 rounded border-gray-300 text-[#0891B2] focus:ring-[#0891B2]"
+                                                            className="mt-0.5 rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                                         />
                                                         <span className="text-xs text-gray-600">Text me updates about my listing and buyer inquiries</span>
                                                     </label>
@@ -485,19 +485,19 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                                    <input type="password" value={registerForm.data.password} onChange={(e) => registerForm.setData('password', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#0891B2] focus:border-[#0891B2]" required />
+                                                    <input type="password" value={registerForm.data.password} onChange={(e) => registerForm.setData('password', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#1A1816] focus:border-[#1A1816]" required />
                                                     <p className="text-[11px] text-gray-400 mt-1">Must be at least 8 characters</p>
                                                     {registerForm.errors.password && <p className="text-xs text-red-600 mt-1">{registerForm.errors.password}</p>}
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                                                    <input type="password" value={registerForm.data.password_confirmation} onChange={(e) => registerForm.setData('password_confirmation', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#0891B2] focus:border-[#0891B2]" required />
+                                                    <input type="password" value={registerForm.data.password_confirmation} onChange={(e) => registerForm.setData('password_confirmation', e.target.value)} className="w-full px-3 py-2.5 border rounded-xl focus:ring-[#1A1816] focus:border-[#1A1816]" required />
                                                 </div>
                                                 <button
                                                     type="submit"
                                                     disabled={registerForm.processing}
-                                                    className="w-full py-3.5 bg-[#0891B2] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
-                                                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                                                    className="w-full py-3.5 bg-[#1A1816] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
+                                                   
                                                 >
                                                     {registerForm.processing ? 'Creating Account...' : 'Create Account & Claim'}
                                                 </button>
@@ -514,7 +514,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
                                 {/* Benefits */}
                                 <div className="bg-white rounded-2xl p-6 shadow-sm border">
-                                    <h3 className="font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                    <h3 className="font-semibold text-[#111] mb-4">
                                         What You Get - FREE
                                     </h3>
                                     <div className="space-y-3">
@@ -539,7 +539,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
                                 {/* After Claiming - Conversion Boosters */}
                                 <div className="bg-white rounded-2xl p-6 shadow-sm border mt-6">
-                                    <h3 className="font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                                    <h3 className="font-semibold text-[#111] mb-4">
                                         After Claiming, You Can:
                                     </h3>
                                     <div className="space-y-3">
@@ -553,7 +553,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3">
                                                 <div className="bg-gray-100 p-2 rounded-lg flex-shrink-0">
-                                                    <item.icon className="w-4 h-4 text-[#0891B2]" />
+                                                    <item.icon className="w-4 h-4 text-[#1A1816]" />
                                                 </div>
                                                 <p className="font-medium text-[#111] text-sm">{item.title}</p>
                                             </div>

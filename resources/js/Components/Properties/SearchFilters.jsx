@@ -98,7 +98,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
             <input
               type="text"
               placeholder="Enter an address, town, street, zip or property ID"
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm"
               value={searchParams.keyword}
               onChange={(e) => handleInputChange('keyword', e.target.value)}
             />
@@ -110,7 +110,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
           {/* City Select */}
           <div>
             <select
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm appearance-none bg-white"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm appearance-none bg-white"
               value={searchParams.location[0] || ''}
               onChange={(e) => handleInputChange('location', e.target.value ? [e.target.value] : [])}
             >
@@ -126,7 +126,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
           {/* Status Select */}
           <div>
             <select
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm appearance-none bg-white"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm appearance-none bg-white"
               value={searchParams.status[0] || ''}
               onChange={(e) => handleInputChange('status', e.target.value ? [e.target.value] : [])}
             >
@@ -140,7 +140,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
           {/* Property Type */}
           <div>
             <select
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm appearance-none bg-white"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm appearance-none bg-white"
               value={searchParams.type[0] || ''}
               onChange={(e) => handleInputChange('type', e.target.value ? [e.target.value] : [])}
             >
@@ -154,7 +154,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
           {/* Bedrooms */}
           <div>
             <select
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm appearance-none bg-white"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm appearance-none bg-white"
               value={searchParams.bedrooms}
               onChange={(e) => handleInputChange('bedrooms', e.target.value)}
             >
@@ -169,7 +169,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
           {/* Bathrooms */}
           <div>
             <select
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm appearance-none bg-white"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm appearance-none bg-white"
               value={searchParams.bathrooms}
               onChange={(e) => handleInputChange('bathrooms', e.target.value)}
             >
@@ -186,7 +186,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
             <input
               type="text"
               placeholder="Min. Area"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm"
               value={searchParams.minArea}
               onChange={(e) => handleInputChange('minArea', e.target.value)}
             />
@@ -197,7 +197,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
             <input
               type="text"
               placeholder="Max. Area"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm"
               value={searchParams.maxArea}
               onChange={(e) => handleInputChange('maxArea', e.target.value)}
             />
@@ -208,7 +208,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
             <input
               type="text"
               placeholder="Property ID"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm"
               value={searchParams.propertyId}
               onChange={(e) => handleInputChange('propertyId', e.target.value)}
             />
@@ -219,7 +219,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
             <input
               type="text"
               placeholder="Subdivision"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#06B6D4] focus:border-transparent font-poppins text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent text-sm"
               value={searchParams.subdivision}
               onChange={(e) => handleInputChange('subdivision', e.target.value)}
             />
@@ -229,8 +229,8 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
         {/* Price Range */}
         <div className="mb-4 p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-poppins font-semibold text-gray-700">Price Range</span>
-            <span className="text-sm font-poppins text-gray-600">
+            <span className="text-sm font-semibold text-gray-700">Price Range</span>
+            <span className="text-sm text-gray-600">
               ${priceRange.min.toLocaleString()} - ${priceRange.max.toLocaleString()}
             </span>
           </div>
@@ -268,7 +268,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
         <div className="mb-4">
           <button
             onClick={() => setShowFeatures(!showFeatures)}
-            className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors font-poppins text-sm font-medium text-gray-700"
+            className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm font-medium text-gray-700"
           >
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4" />
@@ -286,9 +286,9 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
                       type="checkbox"
                       checked={(searchParams.features || []).includes(feature.value)}
                       onChange={() => handleMultiSelect('features', feature.value)}
-                      className="w-4 h-4 text-[#06B6D4] rounded border-gray-300 focus:ring-[#06B6D4]"
+                      className="w-4 h-4 text-[#1A1816] rounded border-gray-300 focus:ring-[#1A1816]"
                     />
-                    <span className="text-sm font-poppins text-gray-700">{feature.label}</span>
+                    <span className="text-sm text-gray-700">{feature.label}</span>
                   </label>
                 ))}
               </div>
@@ -297,7 +297,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
         </div>
 
         {/* Search Button */}
-        <button className="w-full bg-[#06B6D4] hover:bg-[#0E7490] text-white py-3 rounded-lg font-poppins font-semibold text-sm transition-colors flex items-center justify-center gap-2">
+        <button className="w-full bg-[#1A1816] hover:bg-[#111111] text-white py-3 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2">
           <Search className="w-4 h-4" />
           Search Properties
         </button>

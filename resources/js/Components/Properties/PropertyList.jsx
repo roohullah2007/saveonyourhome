@@ -10,12 +10,12 @@ const PropertyList = ({ properties }) => {
     <div className="p-6">
       {/* Results Header */}
       <div className="mb-6 flex items-center justify-between bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-        <h2 className="text-xl font-medium text-gray-900" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-          <span className="text-[#0891B2]">{properties.length}</span> Properties Found
+        <h2 className="text-xl font-medium text-gray-900">
+          <span className="text-[#1A1816]">{properties.length}</span> Properties Found
         </h2>
         <select
-          className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#0891B2] focus:border-transparent bg-white cursor-pointer hover:border-[#0891B2] transition-colors"
-          style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+          className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#1A1816] focus:border-transparent bg-white cursor-pointer hover:border-[#1A1816] transition-colors"
+         
         >
           <option>Sort by: Newest</option>
           <option>Price: Low to High</option>
@@ -41,10 +41,10 @@ const PropertyList = ({ properties }) => {
           <div className="text-gray-300 mb-4">
             <Info className="w-16 h-16 mx-auto" />
           </div>
-          <h3 className="text-2xl font-medium text-gray-800 mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-gray-800 mb-2">
             No Properties Found
           </h3>
-          <p className="text-gray-600 text-lg" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-gray-600 text-lg">
             Try adjusting your search filters to see more results
           </p>
         </div>

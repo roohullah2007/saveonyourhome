@@ -454,7 +454,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Assign to User */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Users className="w-5 h-5 text-[#0891B2]" />
+                        <Users className="w-5 h-5 text-[#1A1816]" />
                         Property Owner
                     </h2>
                     <div>
@@ -462,7 +462,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                         <select
                             value={data.user_id}
                             onChange={e => setData('user_id', e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         >
                             <option value="">Select a user...</option>
                             {users.map(user => (
@@ -483,7 +483,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Basic Information */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Home className="w-5 h-5 text-[#0891B2]" />
+                        <Home className="w-5 h-5 text-[#1A1816]" />
                         Basic Information
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -493,7 +493,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.property_title}
                                 onChange={e => setData('property_title', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             {pageErrors.property_title && <p className="text-red-500 text-sm mt-1">{pageErrors.property_title}</p>}
                         </div>
@@ -502,7 +502,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                             <select
                                 value={data.property_type}
                                 onChange={e => setData('property_type', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             >
                                 {propertyTypes.map(type => (
                                     <option key={type.value} value={type.value}>{type.label}</option>
@@ -527,7 +527,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         status: statusMap[newListingStatus] || 'for-sale'
                                     }));
                                 }}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             >
                                 {statusOptions.map((status) => (
                                     <option key={status.value} value={status.value}>{status.label}</option>
@@ -546,7 +546,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     type="number"
                                     value={data.price}
                                     onChange={e => setData('price', e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 />
                             </div>
                             {pageErrors.price && <p className="text-red-500 text-sm mt-1">{pageErrors.price}</p>}
@@ -557,7 +557,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     type="checkbox"
                                     checked={data.is_featured}
                                     onChange={e => setData('is_featured', e.target.checked)}
-                                    className="w-4 h-4 text-[#0891B2] border-gray-300 rounded focus:ring-[#0891B2]"
+                                    className="w-4 h-4 text-[#1A1816] border-gray-300 rounded focus:ring-[#1A1816]"
                                 />
                                 <span className="text-sm font-medium text-gray-700">Featured</span>
                             </label>
@@ -566,7 +566,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     type="checkbox"
                                     checked={data.is_active}
                                     onChange={e => setData('is_active', e.target.checked)}
-                                    className="w-4 h-4 text-[#0891B2] border-gray-300 rounded focus:ring-[#0891B2]"
+                                    className="w-4 h-4 text-[#1A1816] border-gray-300 rounded focus:ring-[#1A1816]"
                                 />
                                 <span className="text-sm font-medium text-gray-700">Active</span>
                             </label>
@@ -577,7 +577,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Location */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-[#0891B2]" />
+                        <MapPin className="w-5 h-5 text-[#1A1816]" />
                         Location
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -587,7 +587,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.address}
                                 onChange={e => setData('address', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             {pageErrors.address && <p className="text-red-500 text-sm mt-1">{pageErrors.address}</p>}
                         </div>
@@ -597,7 +597,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.city}
                                 onChange={e => setData('city', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             {pageErrors.city && <p className="text-red-500 text-sm mt-1">{pageErrors.city}</p>}
                         </div>
@@ -607,7 +607,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.state}
                                 onChange={e => setData('state', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -616,7 +616,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.zip_code}
                                 onChange={e => setData('zip_code', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             {pageErrors.zip_code && <p className="text-red-500 text-sm mt-1">{pageErrors.zip_code}</p>}
                         </div>
@@ -626,7 +626,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.subdivision}
                                 onChange={e => setData('subdivision', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
 
@@ -648,7 +648,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* School Information */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-[#0891B2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 text-[#1A1816]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                         </svg>
@@ -662,7 +662,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.school_district}
                                 onChange={e => setData('school_district', e.target.value)}
                                 placeholder="e.g., Tulsa Public Schools"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             {pageErrors.school_district && <p className="text-red-500 text-sm mt-1">{pageErrors.school_district}</p>}
                         </div>
@@ -673,7 +673,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.grade_school}
                                 onChange={e => setData('grade_school', e.target.value)}
                                 placeholder="Elementary school name"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -683,7 +683,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.middle_school}
                                 onChange={e => setData('middle_school', e.target.value)}
                                 placeholder="Middle school name"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -693,7 +693,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.high_school}
                                 onChange={e => setData('high_school', e.target.value)}
                                 placeholder="High school name"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                     </div>
@@ -702,7 +702,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Property Details / Lot Details */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Square className="w-5 h-5 text-[#0891B2]" />
+                        <Square className="w-5 h-5 text-[#1A1816]" />
                         {data.property_type === 'land' ? 'Lot Details' : 'Property Details'}
                     </h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -715,7 +715,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         type="number"
                                         value={data.bedrooms}
                                         onChange={e => setData('bedrooms', e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                                 <div>
@@ -724,7 +724,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         type="number"
                                         value={data.full_bathrooms}
                                         onChange={e => setData('full_bathrooms', e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                                 <div>
@@ -733,7 +733,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         type="number"
                                         value={data.half_bathrooms}
                                         onChange={e => setData('half_bathrooms', e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                                 <div>
@@ -742,7 +742,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         type="number"
                                         value={data.sqft}
                                         onChange={e => setData('sqft', e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                                 <div>
@@ -751,7 +751,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         type="number"
                                         value={data.year_built}
                                         onChange={e => setData('year_built', e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                             </>
@@ -765,7 +765,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.lot_size}
                                 onChange={e => setData('lot_size', e.target.value)}
                                 placeholder="e.g., 43560"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
 
@@ -779,7 +779,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         value={data.acres}
                                         onChange={e => setData('acres', e.target.value)}
                                         placeholder="e.g., 5.5"
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                     <p className="text-xs text-gray-400 mt-1">Acres x 43,560 = sqft</p>
                                 </div>
@@ -791,7 +791,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                         value={data.zoning}
                                         onChange={e => setData('zoning', e.target.value)}
                                         placeholder="e.g., Agricultural, Residential"
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                     />
                                 </div>
                             </>
@@ -806,7 +806,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
                             rows={5}
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             placeholder={data.property_type === 'land' ? 'Describe your lot/land...' : 'Describe your property...'}
                         />
                         {pageErrors.description && <p className="text-red-500 text-sm mt-1">{pageErrors.description}</p>}
@@ -816,7 +816,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Virtual Tours */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Video className="w-5 h-5 text-[#0891B2]" />
+                        <Video className="w-5 h-5 text-[#1A1816]" />
                         Virtual Tours & Media
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -827,7 +827,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.virtual_tour_url}
                                 onChange={e => setData('virtual_tour_url', e.target.value)}
                                 placeholder="https://..."
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -837,7 +837,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.matterport_url}
                                 onChange={e => setData('matterport_url', e.target.value)}
                                 placeholder="https://my.matterport.com/show/?m=..."
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -847,7 +847,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.video_tour_url}
                                 onChange={e => setData('video_tour_url', e.target.value)}
                                 placeholder="https://..."
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -857,7 +857,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 value={data.mls_virtual_tour_url}
                                 onChange={e => setData('mls_virtual_tour_url', e.target.value)}
                                 placeholder="https://... (MLS-compliant, no branding)"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                             <p className="text-xs text-gray-400 mt-1">Clean URL only. No branding or YouTube links for MLS export.</p>
                         </div>
@@ -866,7 +866,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
 
                 {/* Features */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
                         {data.property_type === 'land' ? 'Land Features' : 'Features & Amenities'}
                     </h2>
 
@@ -879,7 +879,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     key={feature}
                                     className={`flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-colors ${
                                         isSelected
-                                            ? 'border-[#0891B2] bg-[#0891B2]/5 text-[#0891B2]'
+                                            ? 'border-[#1A1816] bg-[#1A1816]/5 text-[#1A1816]'
                                             : 'border-gray-200 hover:border-gray-300'
                                     }`}
                                 >
@@ -891,7 +891,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     />
                                     <span className={`w-4 h-4 rounded border flex items-center justify-center ${
                                         isSelected
-                                            ? 'bg-[#0891B2] border-[#0891B2]'
+                                            ? 'bg-[#1A1816] border-[#1A1816]'
                                             : 'border-gray-300'
                                     }`}>
                                         {isSelected && (
@@ -919,7 +919,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Contact Information */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <User className="w-5 h-5 text-[#0891B2]" />
+                        <User className="w-5 h-5 text-[#1A1816]" />
                         Contact Information
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -929,7 +929,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="text"
                                 value={data.contact_name}
                                 onChange={e => setData('contact_name', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -938,7 +938,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="email"
                                 value={data.contact_email}
                                 onChange={e => setData('contact_email', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                         <div>
@@ -947,7 +947,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 type="tel"
                                 value={data.contact_phone}
                                 onChange={e => setData('contact_phone', e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
                     </div>
@@ -956,7 +956,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                 {/* Photos */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     <h2 className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
-                        <Image className="w-5 h-5 text-[#0891B2]" />
+                        <Image className="w-5 h-5 text-[#1A1816]" />
                         Photos ({totalPhotos}/{maxPhotos})
                     </h2>
                     <p className="text-xs text-gray-500 mb-4">Hover over a photo and click "Set as Main" to choose the primary listing image.</p>
@@ -973,7 +973,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                         {photos.map((photo, index) => {
                             const isMain = mainPhotoSource === 'existing' && index === mainPhotoIndex;
                             return (
-                            <div key={`existing-${index}`} className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${isMain ? 'ring-2 ring-[#0891B2]' : ''}`}>
+                            <div key={`existing-${index}`} className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${isMain ? 'ring-2 ring-[#1A1816]' : ''}`}>
                                 <img src={photo} alt={`Photo ${index + 1}`} className="w-full h-full object-cover object-center" />
                                 <button
                                     type="button"
@@ -983,7 +983,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     <Trash2 className="w-3 h-3" />
                                 </button>
                                 {isMain && (
-                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#0891B2] text-white text-xs rounded flex items-center gap-1">
+                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#1A1816] text-white text-xs rounded flex items-center gap-1">
                                         <Star className="w-3 h-3 fill-current" />Main
                                     </span>
                                 )}
@@ -1005,7 +1005,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                             const isMain = (mainPhotoSource === 'new' && preview.id === mainNewPhotoId) ||
                                 (mainPhotoSource === 'existing' && photos.length === 0 && idx === 0 && !mainNewPhotoId);
                             return (
-                            <div key={preview.id} className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${isMain && preview.serverPath ? 'ring-2 ring-[#0891B2]' : ''}`}>
+                            <div key={preview.id} className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${isMain && preview.serverPath ? 'ring-2 ring-[#1A1816]' : ''}`}>
                                 {preview.url ? (
                                     <img src={preview.url} alt={preview.name} className="w-full h-full object-cover object-center" />
                                 ) : (
@@ -1027,7 +1027,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     </div>
                                 )}
                                 {isMain && preview.serverPath && (
-                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#0891B2] text-white text-xs rounded flex items-center gap-1">
+                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#1A1816] text-white text-xs rounded flex items-center gap-1">
                                         <Star className="w-3 h-3 fill-current" />Main
                                     </span>
                                 )}
@@ -1055,7 +1055,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
 
                         {/* Upload Button */}
                         {totalPhotos < maxPhotos && (
-                            <label className="aspect-square rounded-lg border-2 border-dashed border-gray-300 hover:border-[#0891B2] cursor-pointer flex flex-col items-center justify-center text-gray-400 hover:text-[#0891B2] transition-colors">
+                            <label className="aspect-square rounded-lg border-2 border-dashed border-gray-300 hover:border-[#1A1816] cursor-pointer flex flex-col items-center justify-center text-gray-400 hover:text-[#555] transition-colors">
                                 <Upload className="w-6 h-6 mb-1" />
                                 <span className="text-xs">Add Photos</span>
                                 <input
@@ -1083,7 +1083,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                     <button
                         type="submit"
                         disabled={saving || isUploading}
-                        className="px-6 py-2 bg-[#0891B2] text-white rounded-lg hover:bg-[#0E7490] disabled:opacity-50 flex items-center gap-2"
+                        className="px-6 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 flex items-center gap-2"
                     >
                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                         {saving ? 'Saving...' : 'Save Changes'}

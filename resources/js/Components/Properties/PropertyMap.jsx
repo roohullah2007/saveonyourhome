@@ -303,7 +303,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
           <Navigation className="w-4 h-4 text-gray-700" />
         </button>
         <button
-          className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#0891B2] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+          className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#1A1816] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
           title={mapType === 'satellite' ? 'Switch to Road Map' : 'Switch to Satellite View'}
           onClick={handleToggleMapType}
         >
@@ -317,8 +317,8 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
         className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg z-[10] hover:bg-gray-50 transition-colors cursor-pointer"
       >
         <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-[#0891B2]" />
-          <span className="font-semibold text-sm text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <MapPin className="w-4 h-4 text-[#1A1816]" />
+          <span className="font-semibold text-sm text-gray-700">
             {propertiesWithCoords.length} on map
           </span>
           <ChevronUp className={`w-4 h-4 text-gray-500 transition-transform ${showListingsPanel ? 'rotate-180' : ''}`} />
@@ -329,7 +329,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
       {showListingsPanel && propertiesWithCoords.length > 0 && (
         <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[340px] max-h-[300px] bg-white rounded-xl shadow-2xl z-[11] overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50">
-            <span className="font-semibold text-sm text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span className="font-semibold text-sm text-gray-700">
               Properties on Map ({propertiesWithCoords.length})
             </span>
             <button
@@ -374,13 +374,13 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
                     onError={(e) => e.target.src = '/images/property-placeholder.svg'}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-[#0891B2] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <p className="font-bold text-[#1A1816] text-sm">
                       ${Number(property.price).toLocaleString()}
                     </p>
-                    <p className="text-xs text-gray-600 truncate" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <p className="text-xs text-gray-600 truncate">
                       {property.address}
                     </p>
-                    <p className="text-xs text-gray-500" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <p className="text-xs text-gray-500">
                       {property.city}, {property.state || 'OK'}
                     </p>
                     <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
@@ -411,7 +411,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
       {!mapInstance && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0891B2] mx-auto mb-3"></div>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1A1816] mx-auto mb-3"></div>
             <p className="text-gray-500 text-sm">Loading map...</p>
           </div>
         </div>

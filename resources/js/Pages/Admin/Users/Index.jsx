@@ -71,14 +71,14 @@ export default function UsersIndex({ users, filters }) {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Users
                     </h1>
                     <p className="text-gray-500">Manage all registered users</p>
                 </div>
                 <Link
                     href={route('admin.users.create')}
-                    className="inline-flex items-center gap-2 bg-[#0891B2] text-white px-4 py-2 rounded-lg hover:bg-[#0E7490] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Add User
@@ -95,7 +95,7 @@ export default function UsersIndex({ users, filters }) {
                             placeholder="Search users..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         />
                     </div>
                     <select
@@ -104,7 +104,7 @@ export default function UsersIndex({ users, filters }) {
                             setSelectedRole(e.target.value);
                             handleFilter('role', e.target.value);
                         }}
-                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     >
                         <option value="">All Roles</option>
                         <option value="admin">Admin</option>
@@ -118,7 +118,7 @@ export default function UsersIndex({ users, filters }) {
                             setSelectedStatus(e.target.value);
                             handleFilter('status', e.target.value);
                         }}
-                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     >
                         <option value="">All Status</option>
                         <option value="active">Active</option>
@@ -171,7 +171,7 @@ export default function UsersIndex({ users, filters }) {
                                     <tr key={user.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[#0891B2] rounded-full flex items-center justify-center text-white font-semibold">
+                                                <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
                                                     {user.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>

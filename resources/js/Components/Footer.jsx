@@ -11,20 +11,20 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h4
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-white text-lg font-medium mb-4"
             >
               Contact Us
             </h4>
             <a
               href="tel:888-441-6526"
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-[#DCD8D5] text-base hover:text-white transition-colors block mb-2"
             >
               888-441-OKBO (6526)
             </a>
             <p
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-[#DCD8D5] text-sm leading-relaxed"
             >
               <span className="text-white/60">Mailing Address:</span><br />
@@ -36,7 +36,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-white text-lg font-medium mb-4"
             >
               Quick Links
@@ -52,7 +52,7 @@ const Footer = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                   
                     className="text-[#DCD8D5] text-sm hover:text-white transition-colors"
                   >
                     {item.label}
@@ -65,7 +65,7 @@ const Footer = () => {
           {/* Resources */}
           <div>
             <h4
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-white text-lg font-medium mb-4"
             >
               Resources
@@ -82,7 +82,7 @@ const Footer = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                   
                     className="text-[#DCD8D5] text-sm hover:text-white transition-colors"
                   >
                     {item.label}
@@ -95,33 +95,33 @@ const Footer = () => {
           {/* Get Started */}
           <div>
             <h4
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-white text-lg font-medium mb-4"
             >
               Get Started
             </h4>
             <p
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-[#DCD8D5] text-sm leading-relaxed mb-4"
             >
               List your property for free and save thousands in broker fees. No commissions, no hidden costs.
             </p>
             <Link
               href="/list-property"
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
-              className="block w-full bg-[#0891B2] text-white rounded-lg px-4 py-2.5 text-sm font-medium text-center transition-all duration-300 hover:bg-[#0E7490] mb-3"
+             
+              className="block w-full bg-[#1A1816] text-white rounded-lg px-4 py-2.5 text-sm font-medium text-center transition-all duration-300 hover:bg-[#111111] mb-3"
             >
               List Your Property Free
             </Link>
             <Link
               href="/our-packages"
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="block w-full bg-white/10 border border-white/20 text-white rounded-lg px-4 py-2.5 text-sm font-medium text-center transition-all duration-300 hover:bg-white/20 mb-4"
             >
               View Our Packages
             </Link>
             <p
-              style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+             
               className="text-[#DCD8D5]/70 text-xs leading-relaxed"
             >
               Questions?{' '}
@@ -139,7 +139,7 @@ const Footer = () => {
         {/* Broker Disclosure */}
         <div className="mb-6 pt-6 border-t border-white/10">
           <p
-            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+           
             className="text-[#DCD8D5]/70 text-xs text-center leading-relaxed"
           >
             M&T REALTY GROUP, License #180717, will perform all services that require a licensed broker in Oklahoma.{' '}
@@ -157,7 +157,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4 border-t border-white/10">
           <p
-            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+           
             className="text-[#DCD8D5]/70 text-sm text-center md:text-left"
           >
             © 1997-{new Date().getFullYear()} SaveOnYourHome. All Rights Reserved.

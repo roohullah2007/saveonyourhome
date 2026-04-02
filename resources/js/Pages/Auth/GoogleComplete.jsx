@@ -41,7 +41,7 @@ function GoogleComplete({ googleUser }) {
                             )}
                             <h1
                                 className="text-[28px] font-bold text-[#111111] mb-1"
-                                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                               
                             >
                                 Welcome, {googleUser.name?.split(' ')[0]}!
                             </h1>
@@ -66,20 +66,20 @@ function GoogleComplete({ googleUser }) {
                                         onClick={() => setData('user_type', 'buyer')}
                                         className={`flex flex-col items-center gap-2 p-5 rounded-xl border-2 transition-all duration-300 ${
                                             data.user_type === 'buyer'
-                                                ? 'border-[#0891B2] bg-[#0891B2]/5'
+                                                ? 'border-[#1A1816] bg-[#1A1816]/5'
                                                 : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                     >
                                         <div className={`p-3 rounded-full ${
                                             data.user_type === 'buyer'
-                                                ? 'bg-[#0891B2] text-white'
+                                                ? 'bg-[#1A1816] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Search className="w-5 h-5" />
                                         </div>
                                         <span className={`font-semibold ${
                                             data.user_type === 'buyer'
-                                                ? 'text-[#0891B2]'
+                                                ? 'text-[#1A1816]'
                                                 : 'text-gray-700'
                                         }`}>
                                             Buyer
@@ -93,20 +93,20 @@ function GoogleComplete({ googleUser }) {
                                         onClick={() => setData('user_type', 'seller')}
                                         className={`flex flex-col items-center gap-2 p-5 rounded-xl border-2 transition-all duration-300 ${
                                             data.user_type === 'seller'
-                                                ? 'border-[#0891B2] bg-[#0891B2]/5'
+                                                ? 'border-[#1A1816] bg-[#1A1816]/5'
                                                 : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                     >
                                         <div className={`p-3 rounded-full ${
                                             data.user_type === 'seller'
-                                                ? 'bg-[#0891B2] text-white'
+                                                ? 'bg-[#1A1816] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Home className="w-5 h-5" />
                                         </div>
                                         <span className={`font-semibold ${
                                             data.user_type === 'seller'
-                                                ? 'text-[#0891B2]'
+                                                ? 'text-[#1A1816]'
                                                 : 'text-gray-700'
                                         }`}>
                                             Seller
@@ -133,11 +133,11 @@ function GoogleComplete({ googleUser }) {
                             {/* Terms */}
                             <p className="text-xs text-gray-500 text-center">
                                 By continuing, you agree to our{' '}
-                                <Link href="/terms-of-use" className="text-[#0891B2] hover:underline">
+                                <Link href="/terms-of-use" className="text-[#1A1816] hover:underline">
                                     Terms
                                 </Link>{' '}
                                 and{' '}
-                                <Link href="/privacy-policy" className="text-[#0891B2] hover:underline">
+                                <Link href="/privacy-policy" className="text-[#1A1816] hover:underline">
                                     Privacy Policy
                                 </Link>
                             </p>

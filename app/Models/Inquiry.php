@@ -22,11 +22,19 @@ class Inquiry extends Model
         'admin_notes',
         'read_at',
         'responded_at',
+        'seller_reply',
+        'seller_replied_at',
+        'delivery_method',
+        'email_delivered_at',
+        'seller_read_at',
     ];
 
     protected $casts = [
         'read_at' => 'datetime',
         'responded_at' => 'datetime',
+        'seller_replied_at' => 'datetime',
+        'email_delivered_at' => 'datetime',
+        'seller_read_at' => 'datetime',
     ];
 
     /**

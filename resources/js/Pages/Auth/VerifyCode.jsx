@@ -95,14 +95,14 @@ function VerifyCode({ email }) {
                     <div className="w-full max-w-[420px]">
                         {/* Icon */}
                         <div className="flex justify-center mb-6">
-                            <div className="w-20 h-20 bg-[#0891B2]/10 rounded-full flex items-center justify-center">
-                                <Mail className="w-10 h-10 text-[#0891B2]" />
+                            <div className="w-20 h-20 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
+                                <Mail className="w-10 h-10 text-[#1A1816]" />
                             </div>
                         </div>
 
                         <h1
                             className="text-[28px] font-bold text-[#111111] mb-2 text-center"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             Verify your email
                         </h1>
@@ -145,7 +145,7 @@ function VerifyCode({ email }) {
                                         onChange={(e) => handleDigitChange(index, e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(index, e)}
                                         onPaste={handlePaste}
-                                        className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all"
+                                        className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
                                         autoComplete="off"
                                     />
                                 ))}
@@ -155,7 +155,7 @@ function VerifyCode({ email }) {
                             <button
                                 type="submit"
                                 disabled={processing || data.code.replace(/\s/g, '').length !== 6}
-                                className="w-full py-3 px-4 bg-[#0891B2] text-white rounded-full text-sm font-semibold hover:bg-[#0E7490] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full py-3 px-4 bg-[#1A1816] text-white rounded-full text-sm font-semibold hover:bg-[#111111] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'Verifying...' : 'Verify Email'}
                             </button>
@@ -170,7 +170,7 @@ function VerifyCode({ email }) {
                                 type="button"
                                 onClick={resendCode}
                                 disabled={resending}
-                                className="inline-flex items-center gap-2 text-[#0891B2] font-medium text-sm hover:underline disabled:opacity-50"
+                                className="inline-flex items-center gap-2 text-[#1A1816] font-medium text-sm hover:underline disabled:opacity-50"
                             >
                                 <RefreshCw className={`w-4 h-4 ${resending ? 'animate-spin' : ''}`} />
                                 {resending ? 'Sending...' : 'Resend Code'}
@@ -193,7 +193,7 @@ function VerifyCode({ email }) {
                                 href={route('logout')}
                                 method="post"
                                 as="button"
-                                className="text-[#0891B2] font-medium hover:underline"
+                                className="text-[#1A1816] font-medium hover:underline"
                             >
                                 Sign out and try again
                             </Link>

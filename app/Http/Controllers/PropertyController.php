@@ -48,9 +48,16 @@ class PropertyController extends Controller
 
         $validated = $request->validate([
             'propertyTitle' => 'required|string|max:255',
+            'listingHeadline' => 'nullable|string|max:80',
             'developer' => 'nullable|string|max:255',
             'propertyType' => 'required|string',
+            'transactionType' => 'nullable|string|in:for_sale,for_rent',
+            'listingLabel' => 'nullable|string|in:new_listing,open_house,price_reduced,back_on_market',
             'price' => 'required|numeric|min:0',
+            'monthlyRent' => 'nullable|numeric|min:0',
+            'availableFrom' => 'nullable|date',
+            'leaseTerm' => 'nullable|string|max:30',
+            'petsAllowed' => 'nullable|boolean',
             'address' => 'required|string',
             'city' => 'required|string',
             'zipCode' => 'required|string',
@@ -69,6 +76,11 @@ class PropertyController extends Controller
             'acres' => 'nullable|numeric|min:0',
             'zoning' => 'nullable|string|max:100',
             'yearBuilt' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
+            'garage' => 'nullable|integer|min:0|max:5',
+            'basement' => 'nullable|string|in:none,finished,unfinished,partial',
+            'stories' => 'nullable|integer|min:1|max:5',
+            'hasHoa' => 'nullable|boolean',
+            'hoaFee' => 'nullable|numeric|min:0',
             'description' => 'required|string',
             'features' => 'nullable', // JSON string or array from frontend
             'contactName' => 'required|string',
@@ -108,12 +120,21 @@ class PropertyController extends Controller
         $halfBathrooms = $isLand ? 0 : ($validated['halfBathrooms'] ?? 0);
         $sqft = $isLand ? 0 : ($validated['sqft'] ?? 0);
 
+        $transactionType = $validated['transactionType'] ?? 'for_sale';
+
         $property = Property::create([
             'user_id' => $user->id,
             'property_title' => $validated['propertyTitle'],
+            'listing_headline' => $validated['listingHeadline'] ?? null,
             'developer' => $validated['developer'] ?? null,
             'property_type' => $validated['propertyType'],
+            'transaction_type' => $transactionType,
+            'listing_label' => $validated['listingLabel'] ?? null,
             'price' => $validated['price'],
+            'monthly_rent' => $validated['monthlyRent'] ?? null,
+            'available_from' => $validated['availableFrom'] ?? null,
+            'lease_term' => $validated['leaseTerm'] ?? null,
+            'pets_allowed' => $validated['petsAllowed'] ?? null,
             'address' => $validated['address'],
             'city' => $validated['city'],
             'state' => 'Oklahoma',
@@ -133,6 +154,11 @@ class PropertyController extends Controller
             'acres' => $validated['acres'] ?? null,
             'zoning' => $validated['zoning'] ?? null,
             'year_built' => $isLand ? null : ($validated['yearBuilt'] ?? null),
+            'garage' => $validated['garage'] ?? null,
+            'basement' => $validated['basement'] ?? null,
+            'stories' => $validated['stories'] ?? null,
+            'has_hoa' => $validated['hasHoa'] ?? false,
+            'hoa_fee' => $validated['hoaFee'] ?? null,
             'description' => $validated['description'],
             'features' => $features,
             'photos' => $photoPaths,

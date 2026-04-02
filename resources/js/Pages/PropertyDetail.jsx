@@ -147,9 +147,9 @@ function PropertyDetail({ property, openHouses = [] }) {
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
-          .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #0891B2; padding-bottom: 20px; }
-          .logo { font-size: 24px; font-weight: bold; color: #0891B2; margin-bottom: 10px; }
-          .price { font-size: 36px; font-weight: bold; color: #0891B2; margin: 20px 0; }
+          .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #1A1816; padding-bottom: 20px; }
+          .logo { font-size: 24px; font-weight: bold; color: #1A1816; margin-bottom: 10px; }
+          .price { font-size: 36px; font-weight: bold; color: #1A1816; margin: 20px 0; }
           .address { font-size: 18px; color: #333; }
           .photo { width: 100%; height: 300px; object-fit: cover; object-position: center 20%; border-radius: 10px; margin: 20px 0; }
           .details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
@@ -161,8 +161,8 @@ function PropertyDetail({ property, openHouses = [] }) {
           .features h3 { margin-bottom: 10px; color: #111; }
           .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
           .feature-item { font-size: 14px; color: #666; }
-          .feature-item:before { content: "✓ "; color: #0891B2; }
-          .contact { margin-top: 30px; padding: 20px; background: #0891B2; color: white; border-radius: 10px; text-align: center; }
+          .feature-item:before { content: "✓ "; color: #1A1816; }
+          .contact { margin-top: 30px; padding: 20px; background: #1A1816; color: white; border-radius: 10px; text-align: center; }
           .contact-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
           .contact-phone { font-size: 24px; font-weight: bold; }
           .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #999; }
@@ -294,7 +294,7 @@ function PropertyDetail({ property, openHouses = [] }) {
           <Link
             href="/properties"
             className="inline-flex items-center gap-2 text-[#666] hover:text-[#111] transition-colors"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Properties
@@ -309,19 +309,19 @@ function PropertyDetail({ property, openHouses = [] }) {
             <div>
               <h1
                 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-2"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 {property.property_title}
               </h1>
-              <p className="text-lg text-[#666] flex items-center gap-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-lg text-[#666] flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
                 {property.address}, {property.city}, {property.state} {property.zip_code}
               </p>
             </div>
             <div className="flex items-center gap-4">
               <span
-                className="text-[32px] md:text-[40px] font-bold text-[#0891B2]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="text-[32px] md:text-[40px] font-bold text-[#1A1816]"
+               
               >
                 {formatPrice(property.price)}
               </span>
@@ -351,7 +351,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                 (property.listing_status || property.status) === 'sold' ? 'bg-gray-700' :
                 (property.listing_status || property.status) === 'pending' ? 'bg-yellow-600' :
                 (property.listing_status || property.status) === 'inactive' ? 'bg-gray-500' :
-                'bg-[#0891B2]'
+                'bg-[#1A1816]'
               }`}>
                 {(() => {
                   const ls = property.listing_status || property.status;
@@ -392,23 +392,23 @@ function PropertyDetail({ property, openHouses = [] }) {
                     <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50" onClick={(e) => e.stopPropagation()}>
                       <button onClick={copyToClipboard} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                         {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5 text-gray-600" />}
-                        <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{copied ? 'Copied!' : 'Copy Link'}</span>
+                        <span className="text-gray-700">{copied ? 'Copied!' : 'Copy Link'}</span>
                       </button>
                       <button onClick={shareOnFacebook} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                         <svg className="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                        <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Facebook</span>
+                        <span className="text-gray-700">Facebook</span>
                       </button>
                       <button onClick={shareOnTwitter} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                         <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>X (Twitter)</span>
+                        <span className="text-gray-700">X (Twitter)</span>
                       </button>
                       <button onClick={shareOnWhatsApp} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                         <svg className="w-5 h-5 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>WhatsApp</span>
+                        <span className="text-gray-700">WhatsApp</span>
                       </button>
                       <button onClick={shareViaEmail} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                         <Mail className="w-5 h-5 text-gray-600" />
-                        <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Email</span>
+                        <span className="text-gray-700">Email</span>
                       </button>
                     </div>
                   )}
@@ -478,7 +478,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       <button
                         onClick={(e) => { e.stopPropagation(); openGallery(0); }}
                         className="absolute bottom-4 right-4 bg-white hover:bg-gray-100 text-[#111] px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-colors"
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                       
                       >
                         See all {photos.length} photos
                       </button>
@@ -497,7 +497,7 @@ function PropertyDetail({ property, openHouses = [] }) {
             <button
               onClick={() => openGallery(0)}
               className="absolute bottom-6 right-6 bg-black/70 hover:bg-black/90 text-white px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-colors z-20 cursor-pointer shadow-lg"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               <Images className="w-4 h-4" />
               {photos.length} Photos
@@ -542,7 +542,7 @@ function PropertyDetail({ property, openHouses = [] }) {
               (property.listing_status || property.status) === 'sold' ? 'bg-gray-700' :
               (property.listing_status || property.status) === 'pending' ? 'bg-yellow-600' :
               (property.listing_status || property.status) === 'inactive' ? 'bg-gray-500' :
-              'bg-[#0891B2]'
+              'bg-[#1A1816]'
             }`}>
               {(() => {
                 const ls = property.listing_status || property.status;
@@ -583,23 +583,23 @@ function PropertyDetail({ property, openHouses = [] }) {
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                     <button onClick={copyToClipboard} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                       {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5 text-gray-600" />}
-                      <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{copied ? 'Copied!' : 'Copy Link'}</span>
+                      <span className="text-gray-700">{copied ? 'Copied!' : 'Copy Link'}</span>
                     </button>
                     <button onClick={shareOnFacebook} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                       <svg className="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                      <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Facebook</span>
+                      <span className="text-gray-700">Facebook</span>
                     </button>
                     <button onClick={shareOnTwitter} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                       <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                      <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>X (Twitter)</span>
+                      <span className="text-gray-700">X (Twitter)</span>
                     </button>
                     <button onClick={shareOnWhatsApp} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                       <svg className="w-5 h-5 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                      <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>WhatsApp</span>
+                      <span className="text-gray-700">WhatsApp</span>
                     </button>
                     <button onClick={shareViaEmail} className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left">
                       <Mail className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Email</span>
+                      <span className="text-gray-700">Email</span>
                     </button>
                   </div>
                 )}
@@ -644,10 +644,10 @@ function PropertyDetail({ property, openHouses = [] }) {
           {/* Modal Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 py-4 text-white">
             <div>
-              <p className="text-sm text-white/70" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-white/70">
                 {property.address}, {property.city}, {property.state}
               </p>
-              <p className="text-sm text-white/50" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-white/50">
                 {galleryIndex + 1} of {photos.length}
               </p>
             </div>
@@ -729,8 +729,8 @@ function PropertyDetail({ property, openHouses = [] }) {
         <div className="flex gap-3">
           <a
             href={`tel:${property.contact_phone}`}
-            className="flex-1 flex items-center justify-center gap-2 bg-[#0891B2] text-white py-3 px-4 rounded-xl font-semibold hover:bg-[#0E7490] transition-colors"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#1A1816] text-white py-3 px-4 rounded-xl font-semibold hover:bg-[#111111] transition-colors"
+           
           >
             <Phone className="w-5 h-5" />
             Call Now
@@ -738,7 +738,7 @@ function PropertyDetail({ property, openHouses = [] }) {
           <button
             onClick={() => setShowContactForm(true)}
             className="flex-1 flex items-center justify-center gap-2 bg-[#111] text-white py-3 px-4 rounded-xl font-semibold hover:bg-[#333] transition-colors"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             <Mail className="w-5 h-5" />
             Message
@@ -754,7 +754,7 @@ function PropertyDetail({ property, openHouses = [] }) {
             <div className="lg:col-span-2">
               {/* Quick Stats */}
               <div className="bg-white rounded-2xl p-6 mb-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h2 className="text-xl font-semibold text-[#111] mb-4">
                   {property.property_type === 'land' ? 'Lot Details' : 'Property Details'}
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -763,7 +763,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                     <>
                       <div className="flex items-center gap-3">
                         <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                          <BedDouble className="w-5 h-5 text-[#0891B2]" />
+                          <BedDouble className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
                           <p className="text-sm text-[#666]">Bedrooms</p>
@@ -772,7 +772,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                          <Bath className="w-5 h-5 text-[#0891B2]" />
+                          <Bath className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
                           <p className="text-sm text-[#666]">Bathrooms</p>
@@ -783,7 +783,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                          <Maximize2 className="w-5 h-5 text-[#0891B2]" />
+                          <Maximize2 className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
                           <p className="text-sm text-[#666]">Square Feet</p>
@@ -792,7 +792,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                          <Calendar className="w-5 h-5 text-[#0891B2]" />
+                          <Calendar className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
                           <p className="text-sm text-[#666]">Year Built</p>
@@ -807,7 +807,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       {property.acres && (
                         <div className="flex items-center gap-3">
                           <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                            <Maximize2 className="w-5 h-5 text-[#0891B2]" />
+                            <Maximize2 className="w-5 h-5 text-[#1A1816]" />
                           </div>
                           <div>
                             <p className="text-sm text-[#666]">Acres</p>
@@ -818,7 +818,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                       {property.lot_size && (
                         <div className="flex items-center gap-3">
                           <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                            <Maximize2 className="w-5 h-5 text-[#0891B2]" />
+                            <Maximize2 className="w-5 h-5 text-[#1A1816]" />
                           </div>
                           <div>
                             <p className="text-sm text-[#666]">Lot Size</p>
@@ -860,10 +860,10 @@ function PropertyDetail({ property, openHouses = [] }) {
 
               {/* Description */}
               <div className="bg-white rounded-2xl p-6 mb-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h2 className="text-xl font-semibold text-[#111] mb-4">
                   Description
                 </h2>
-                <p className="text-[#666] leading-relaxed whitespace-pre-line" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-[#666] leading-relaxed whitespace-pre-line">
                   {property.description}
                 </p>
               </div>
@@ -871,18 +871,18 @@ function PropertyDetail({ property, openHouses = [] }) {
               {/* Upcoming Open Houses */}
               {openHouses.length > 0 && (
                 <div className="bg-white rounded-2xl p-6 mb-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    <Calendar className="w-5 h-5 text-[#0891B2]" />
+                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-[#1A1816]" />
                     Upcoming Open Houses
                   </h2>
                   <div className="space-y-3">
                     {openHouses.map((oh, idx) => (
-                      <div key={oh.id || idx} className="flex items-start gap-4 p-4 bg-green-50 rounded-xl border-l-4 border-[#0891B2]">
+                      <div key={oh.id || idx} className="flex items-start gap-4 p-4 bg-green-50 rounded-xl border-l-4 border-[#1A1816]">
                         <div className="bg-green-200 p-2.5 rounded-lg flex-shrink-0">
                           <Calendar className="w-5 h-5 text-green-700" />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                          <p className="font-semibold text-gray-900">
                             {new Date(oh.date.substring(0, 10) + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                           </p>
                           <p className="text-sm text-gray-600 mt-0.5">
@@ -909,8 +909,8 @@ function PropertyDetail({ property, openHouses = [] }) {
               {/* School Information */}
               {property.school_district && (
                 <div className="bg-white rounded-2xl p-6 mb-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    <svg className="w-5 h-5 text-[#0891B2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-[#1A1816]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                     </svg>
@@ -946,14 +946,14 @@ function PropertyDetail({ property, openHouses = [] }) {
               {/* Features */}
               {property.features && property.features.length > 0 && (
                 <div className="bg-white rounded-2xl p-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h2 className="text-xl font-semibold text-[#111] mb-4">
                     Features & Amenities
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {property.features.map((feature, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
-                        <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{feature}</span>
+                        <span className="text-[#666]">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -963,7 +963,7 @@ function PropertyDetail({ property, openHouses = [] }) {
               {/* Multimedia Links */}
               {(property.video_tour_url || property.virtual_tour_url || property.matterport_url || property.floor_plan_url) && (
                 <div className="bg-white rounded-2xl p-6 mt-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h2 className="text-xl font-semibold text-[#111] mb-4">
                     Virtual Tours & Media
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -974,7 +974,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-4 bg-[#EEEDEA] rounded-xl hover:bg-[#E5E1DC] transition-colors group"
                       >
-                        <div className="bg-[#0891B2] p-3 rounded-lg">
+                        <div className="bg-[#1A1816] p-3 rounded-lg">
                           <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                             <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
@@ -985,10 +985,10 @@ function PropertyDetail({ property, openHouses = [] }) {
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Virtual Tour</p>
+                          <p className="font-medium text-[#111]">Virtual Tour</p>
                           <p className="text-sm text-[#666]">Explore property</p>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#0891B2] transition-colors" />
+                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#555] transition-colors" />
                       </a>
                     )}
                     {property.matterport_url && (
@@ -1006,7 +1006,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>3D Tour</p>
+                          <p className="font-medium text-[#111]">3D Tour</p>
                           <p className="text-sm text-[#666]">Matterport 3D walkthrough</p>
                         </div>
                         <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-purple-600 transition-colors" />
@@ -1019,14 +1019,14 @@ function PropertyDetail({ property, openHouses = [] }) {
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-4 bg-[#EEEDEA] rounded-xl hover:bg-[#E5E1DC] transition-colors group"
                       >
-                        <div className="bg-[#0891B2] p-3 rounded-lg">
+                        <div className="bg-[#1A1816] p-3 rounded-lg">
                           <Video className="w-5 h-5 text-white" />
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Video Tour</p>
+                          <p className="font-medium text-[#111]">Video Tour</p>
                           <p className="text-sm text-[#666]">Watch walkthrough</p>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#0891B2] transition-colors" />
+                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#555] transition-colors" />
                       </a>
                     )}
                     {property.floor_plan_url && (
@@ -1036,14 +1036,14 @@ function PropertyDetail({ property, openHouses = [] }) {
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-4 bg-[#EEEDEA] rounded-xl hover:bg-[#E5E1DC] transition-colors group"
                       >
-                        <div className="bg-[#0891B2] p-3 rounded-lg">
+                        <div className="bg-[#1A1816] p-3 rounded-lg">
                           <Maximize2 className="w-5 h-5 text-white" />
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Floor Plan</p>
+                          <p className="font-medium text-[#111]">Floor Plan</p>
                           <p className="text-sm text-[#666]">View layout</p>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#0891B2] transition-colors" />
+                        <ExternalLink className="w-4 h-4 text-[#666] group-hover:text-[#555] transition-colors" />
                       </a>
                     )}
                   </div>
@@ -1052,20 +1052,20 @@ function PropertyDetail({ property, openHouses = [] }) {
 
               {/* Map - Google Maps */}
               <div className="bg-white rounded-2xl p-6 mt-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h2 className="text-xl font-semibold text-[#111] mb-4">
                   Location
                 </h2>
                 <div className="rounded-xl overflow-hidden h-[300px]">
                   <SinglePropertyMap property={property} />
                 </div>
-                <p className="text-sm text-[#666] mt-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-[#666] mt-2">
                   {property.address}, {property.city}, {property.state} {property.zip_code}
                 </p>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.address}, ${property.city}, ${property.state} ${property.zip_code}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[#0891B2] hover:underline mt-2 inline-flex items-center gap-1"
+                  className="text-sm text-[#1A1816] hover:underline mt-2 inline-flex items-center gap-1"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -1078,14 +1078,14 @@ function PropertyDetail({ property, openHouses = [] }) {
             {/* Sidebar - Contact */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl p-6 sticky top-24">
-                <h2 className="text-xl font-semibold text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h2 className="text-xl font-semibold text-[#111] mb-4">
                   Contact Seller
                 </h2>
 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3">
                     <div className="bg-[#EEEDEA] p-3 rounded-full">
-                      <Home className="w-5 h-5 text-[#0891B2]" />
+                      <Home className="w-5 h-5 text-[#1A1816]" />
                     </div>
                     <div>
                       <p className="font-semibold text-[#111]">{property.contact_name}</p>
@@ -1097,15 +1097,15 @@ function PropertyDetail({ property, openHouses = [] }) {
                     href={`tel:${property.contact_phone}`}
                     className="flex items-center gap-3 p-3 bg-[#EEEDEA] rounded-xl hover:bg-[#E5E1DC] transition-colors"
                   >
-                    <Phone className="w-5 h-5 text-[#0891B2]" />
-                    <span className="text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{property.contact_phone}</span>
+                    <Phone className="w-5 h-5 text-[#1A1816]" />
+                    <span className="text-[#111]">{property.contact_phone}</span>
                   </a>
                 </div>
 
                 <button
                   onClick={() => setShowContactForm(!showContactForm)}
-                  className="w-full bg-[#0891B2] text-white py-3 rounded-xl font-medium hover:bg-[#0E7490] transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full bg-[#1A1816] text-white py-3 rounded-xl font-medium hover:bg-[#111111] transition-colors"
+                 
                 >
                   {showContactForm ? 'Hide Form' : 'Send Message'}
                 </button>
@@ -1124,7 +1124,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Name"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
                         required
                       />
                     </div>
@@ -1134,7 +1134,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
                         required
                       />
                     </div>
@@ -1144,7 +1144,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Phone"
                         value={data.phone}
                         onChange={(e) => setData('phone', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
                       />
                     </div>
                     <div>
@@ -1153,7 +1153,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Question (e.g., Is the price negotiable?)"
                         value={data.question}
                         onChange={(e) => setData('question', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
                       />
                     </div>
                     <div>
@@ -1162,14 +1162,14 @@ function PropertyDetail({ property, openHouses = [] }) {
                         value={data.message}
                         onChange={(e) => setData('message', e.target.value)}
                         rows={4}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#0891B2] resize-none"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] resize-none"
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={processing}
                       className="w-full bg-[#111] text-white py-3 rounded-xl font-medium hover:bg-[#333] transition-colors disabled:opacity-50"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                     
                     >
                       {processing ? 'Sending...' : 'Send Message'}
                     </button>
@@ -1178,38 +1178,38 @@ function PropertyDetail({ property, openHouses = [] }) {
               </div>
 
               {/* Mortgage Pre-Approval CTA */}
-              <div className="bg-gradient-to-br from-[#0891B2] to-[#7A1628] rounded-2xl p-6 mt-6 text-white">
+              <div className="bg-gradient-to-br from-[#1A1816] to-[#7A1628] rounded-2xl p-6 mt-6 text-white">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-white/20 p-2 rounded-lg">
                     <BadgeCheck className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-semibold" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-lg font-semibold">
                     Need Financing?
                   </h3>
                 </div>
-                <p className="text-sm text-white/80 mb-4 leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-white/80 mb-4 leading-relaxed">
                   Get pre-approved in 15 minutes with Annie Mac Mortgage. Compare rates from 25+ lenders.
                 </p>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm text-white/90">
                     <CheckCircle2 className="w-4 h-4 text-green-300" />
-                    <span style={{ fontFamily: 'Instrument Sans, sans-serif' }}>No credit score impact</span>
+                    <span>No credit score impact</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/90">
                     <CheckCircle2 className="w-4 h-4 text-green-300" />
-                    <span style={{ fontFamily: 'Instrument Sans, sans-serif' }}>100% online application</span>
+                    <span>100% online application</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white/90">
                     <CheckCircle2 className="w-4 h-4 text-green-300" />
-                    <span style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Competitive rates</span>
+                    <span>Competitive rates</span>
                   </div>
                 </div>
                 <a
                   href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-white text-[#0891B2] text-center py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="block w-full bg-white text-[#1A1816] text-center py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
+                 
                 >
                   Get Pre-Approved
                 </a>
@@ -1219,14 +1219,14 @@ function PropertyDetail({ property, openHouses = [] }) {
               <div className="bg-white rounded-2xl p-6 mt-6 border border-gray-100">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-[#EEEDEA] p-2 rounded-lg">
-                    <Calculator className="w-5 h-5 text-[#0891B2]" />
+                    <Calculator className="w-5 h-5 text-[#1A1816]" />
                   </div>
-                  <h3 className="text-lg font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-lg font-semibold text-[#111]">
                     Est. Monthly Payment
                   </h3>
                 </div>
                 <div className="text-center py-4">
-                  <p className="text-3xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-3xl font-bold text-[#1A1816]">
                     {new Intl.NumberFormat('en-US', {
                       style: 'currency',
                       currency: 'USD',
@@ -1235,14 +1235,14 @@ function PropertyDetail({ property, openHouses = [] }) {
                     }).format(Math.round((property.price * 0.8 * (0.065/12) * Math.pow(1 + 0.065/12, 360)) / (Math.pow(1 + 0.065/12, 360) - 1)))}
                     <span className="text-lg text-[#666] font-normal">/mo</span>
                   </p>
-                  <p className="text-xs text-[#666] mt-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-xs text-[#666] mt-2">
                     Based on 20% down, 6.5% rate, 30-year fixed
                   </p>
                 </div>
                 <Link
                   href="/mortgages"
-                  className="block w-full text-center text-[#0891B2] py-2 text-sm font-medium hover:underline"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="block w-full text-center text-[#1A1816] py-2 text-sm font-medium hover:underline"
+                 
                 >
                   Calculate with your terms →
                 </Link>

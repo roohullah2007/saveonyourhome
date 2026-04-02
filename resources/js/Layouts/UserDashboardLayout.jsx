@@ -59,13 +59,13 @@ export default function UserDashboardLayout({ children, title }) {
                     {/* User Info */}
                     <div className="p-4 border-b border-gray-100">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-[#0891B2] font-semibold text-lg">
+                            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-[#1A1816] font-semibold text-lg">
                                 {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <h3
                                     className="font-semibold text-[#111111] truncate"
-                                    style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                                   
                                 >
                                     {user.name}
                                 </h3>
@@ -82,10 +82,10 @@ export default function UserDashboardLayout({ children, title }) {
                                 href={item.href}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
                                     item.current
-                                        ? 'bg-[#0891B2] text-white'
+                                        ? 'bg-[#1A1816] text-white'
                                         : 'text-gray-600 hover:bg-gray-100'
                                 }`}
-                                style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                               
                             >
                                 <item.icon className="w-5 h-5" />
                                 <span className="font-medium">{item.name}</span>
@@ -100,7 +100,7 @@ export default function UserDashboardLayout({ children, title }) {
                             method="post"
                             as="button"
                             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             <LogOut className="w-5 h-5" />
                             <span className="font-medium">Log Out</span>

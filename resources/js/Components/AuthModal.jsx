@@ -29,14 +29,14 @@ const AuthModal = ({ isOpen, onClose }) => {
         {/* Modal Content */}
         <div className="p-8 pt-14">
           {/* Icon */}
-          <div className="w-16 h-16 bg-[#0891B2]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Heart className="w-8 h-8 text-[#0891B2]" />
+          <div className="w-16 h-16 bg-[#1A1816]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Heart className="w-8 h-8 text-[#1A1816]" />
           </div>
 
           {/* Title */}
           <h2
             className="text-[24px] font-semibold text-[#111] text-center mb-3"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             Save Your Favorites
           </h2>
@@ -44,7 +44,7 @@ const AuthModal = ({ isOpen, onClose }) => {
           {/* Description */}
           <p
             className="text-[14px] text-[#666] text-center mb-8 leading-relaxed"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             Create an account or sign in to save your favorite properties and access them from any device.
           </p>
@@ -53,8 +53,8 @@ const AuthModal = ({ isOpen, onClose }) => {
           <div className="space-y-3">
             <Link
               href="/login"
-              className="w-full flex items-center justify-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#111111]"
+             
             >
               <User className="w-5 h-5" />
               Sign In
@@ -62,8 +62,8 @@ const AuthModal = ({ isOpen, onClose }) => {
 
             <Link
               href="/register"
-              className="w-full flex items-center justify-center gap-2 bg-white border-2 border-[#0891B2] text-[#0891B2] rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#0891B2]/5"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="w-full flex items-center justify-center gap-2 bg-white border-2 border-[#1A1816] text-[#1A1816] rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#1A1816]/5"
+             
             >
               <UserPlus className="w-5 h-5" />
               Create Account
@@ -74,25 +74,25 @@ const AuthModal = ({ isOpen, onClose }) => {
           <div className="mt-8 pt-6 border-t border-gray-200">
             <p
               className="text-[12px] text-[#666] text-center mb-4"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               Why create an account?
             </p>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2 text-[13px] text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                <div className="w-1.5 h-1.5 bg-[#0891B2] rounded-full"></div>
+              <li className="flex items-center gap-2 text-[13px] text-[#666]">
+                <div className="w-1.5 h-1.5 bg-[#1A1816] rounded-full"></div>
                 Save properties to your favorites
               </li>
-              <li className="flex items-center gap-2 text-[13px] text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                <div className="w-1.5 h-1.5 bg-[#0891B2] rounded-full"></div>
+              <li className="flex items-center gap-2 text-[13px] text-[#666]">
+                <div className="w-1.5 h-1.5 bg-[#1A1816] rounded-full"></div>
                 Get notified about new listings
               </li>
-              <li className="flex items-center gap-2 text-[13px] text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                <div className="w-1.5 h-1.5 bg-[#0891B2] rounded-full"></div>
+              <li className="flex items-center gap-2 text-[13px] text-[#666]">
+                <div className="w-1.5 h-1.5 bg-[#1A1816] rounded-full"></div>
                 Access favorites from any device
               </li>
-              <li className="flex items-center gap-2 text-[13px] text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                <div className="w-1.5 h-1.5 bg-[#0891B2] rounded-full"></div>
+              <li className="flex items-center gap-2 text-[13px] text-[#666]">
+                <div className="w-1.5 h-1.5 bg-[#1A1816] rounded-full"></div>
                 List your own property for free
               </li>
             </ul>

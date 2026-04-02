@@ -118,7 +118,7 @@ const LocationMapPicker = ({
         // Create custom marker icon
         const markerIcon = {
             path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-            fillColor: '#0891B2',
+            fillColor: '#1A1816',
             fillOpacity: 1,
             strokeColor: '#FFFFFF',
             strokeWeight: 2,
@@ -446,7 +446,7 @@ const LocationMapPicker = ({
                         onBlur={handleManualCoordChange}
                         onKeyDown={handleCoordKeyDown}
                         placeholder="e.g., 35.4676"
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     />
                 </div>
                 <div>
@@ -458,7 +458,7 @@ const LocationMapPicker = ({
                         onBlur={handleManualCoordChange}
                         onKeyDown={handleCoordKeyDown}
                         placeholder="e.g., -97.5164"
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     />
                 </div>
             </div>
@@ -495,7 +495,7 @@ const LocationMapPicker = ({
                     </button>
                     <button
                         type="button"
-                        className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#0891B2] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+                        className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#1A1816] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
                         title={mapType === 'satellite' ? 'Switch to Road Map' : 'Switch to Satellite View'}
                         onClick={() => {
                             const newType = mapType === 'roadmap' ? 'satellite' : 'roadmap';
@@ -537,7 +537,7 @@ const LocationMapPicker = ({
                 {!isMapLoaded && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                         <div className="text-center">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0891B2] mx-auto mb-3"></div>
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1A1816] mx-auto mb-3"></div>
                             <p className="text-gray-500 text-sm">Loading map...</p>
                         </div>
                     </div>

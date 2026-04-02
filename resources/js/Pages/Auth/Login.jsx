@@ -38,7 +38,7 @@ function Login({ status, canResetPassword }) {
                     <div className="w-full max-w-[400px]">
                         <h1
                             className="text-[28px] font-bold text-[#111111] mb-2 text-center"
-                            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+                           
                         >
                             Sign in to SaveOnYourHome
                         </h1>
@@ -90,7 +90,7 @@ function Login({ status, canResetPassword }) {
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
                                     placeholder="you@example.com"
                                     autoComplete="username"
                                     autoFocus
@@ -114,7 +114,7 @@ function Login({ status, canResetPassword }) {
                                     {canResetPassword && (
                                         <Link
                                             href={route('password.request')}
-                                            className="text-xs text-[#0891B2] hover:underline"
+                                            className="text-xs text-[#1A1816] hover:underline"
                                         >
                                             Forgot password?
                                         </Link>
@@ -126,7 +126,7 @@ function Login({ status, canResetPassword }) {
                                         type={showPassword ? 'text' : 'password'}
                                         name="password"
                                         value={data.password}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0891B2] focus:ring-2 focus:ring-[#0891B2]/20 transition-all pr-12"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all pr-12"
                                         placeholder="Enter your password"
                                         autoComplete="current-password"
                                         onChange={(e) => setData('password', e.target.value)}
@@ -157,7 +157,7 @@ function Login({ status, canResetPassword }) {
                                     name="remember"
                                     checked={data.remember}
                                     onChange={(e) => setData('remember', e.target.checked)}
-                                    className="w-4 h-4 text-[#0891B2] border-gray-300 rounded focus:ring-[#0891B2]"
+                                    className="w-4 h-4 text-[#1A1816] border-gray-300 rounded focus:ring-[#1A1816]"
                                 />
                                 <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
                                     Remember me
@@ -176,7 +176,7 @@ function Login({ status, canResetPassword }) {
 
                         <p className="mt-8 text-center text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <Link href={route('register')} className="text-[#0891B2] font-medium hover:underline">
+                            <Link href={route('register')} className="text-[#1A1816] font-medium hover:underline">
                                 Sign up
                             </Link>
                         </p>

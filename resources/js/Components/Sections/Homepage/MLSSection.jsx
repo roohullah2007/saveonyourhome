@@ -89,29 +89,29 @@ const MLSSection = () => {
   ];
 
   return (
-    <section className="bg-[#F5F4F1] py-20 md:py-24">
+    <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
       <div
         ref={sectionRef}
-        className={`max-w-[1280px] mx-auto px-4 sm:px-6 transition-all duration-700 ${
+        className={`mx-auto px-4 sm:px-6 lg:px-[40px] py-20 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
+        style={{ maxWidth: '1400px' }}
       >
         {/* Section Header */}
         <div className="text-center mb-14">
-          {/* Badge */}
-          <div className="inline-flex items-center bg-[#0891B2]/[0.08] rounded-full px-4 py-1.5 mb-6">
-            <span className="text-[#0891B2] text-[13px] font-inter font-semibold tracking-wide uppercase">
-              MLS Listing
+          <div className="mb-4">
+            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+              MLS LISTING
             </span>
           </div>
-
-          <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-inter font-bold text-[#111] mb-4 tracking-[-0.03em] leading-[1.15]">
-            Get Maximum Exposure by Listing on the MLS
+          <h2
+            className="mb-4 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+            style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
+          >
+            Get Maximum Exposure on the MLS
           </h2>
-          <p className="text-[15px] md:text-[16px] text-gray-500 font-inter max-w-3xl mx-auto leading-[1.7]">
-            Reach More Buyers by Working with Agents.
-            <br className="hidden sm:block" />
-            A local flat-fee MLS listing increases the likelihood of selling your property faster.
+          <p style={{ fontSize: '15px', color: 'rgb(100, 100, 100)', maxWidth: '600px', margin: '0 auto', lineHeight: '24px' }}>
+            Reach more buyers by working with agents. A local flat-fee MLS listing increases the likelihood of selling your property faster.
           </p>
         </div>
 
@@ -124,16 +124,16 @@ const MLSSection = () => {
                 key={index}
                 className="bg-white rounded-2xl p-6 text-center card-hover border border-gray-100/80 group"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#0891B2]/10 to-[#06B6D4]/5 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <IconComponent className="w-5 h-5 text-[#0891B2]" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#1A1816]/10 to-[#1A1816]/5 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <IconComponent className="w-5 h-5 text-[#1A1816]" />
                 </div>
-                <h4 className="text-[22px] sm:text-[28px] md:text-[36px] text-[#111] font-inter font-bold mb-1 tracking-[-0.03em]">
+                <h4 className="text-[22px] sm:text-[28px] md:text-[36px] text-[#111] font-bold mb-1 tracking-[-0.03em]">
                   {stat.value}
                 </h4>
-                <p className="text-[13px] text-[#111] font-inter font-semibold mb-0.5">
+                <p className="text-[13px] text-[#111] font-semibold mb-0.5">
                   {stat.label}
                 </p>
-                <p className="text-[12px] text-gray-400 font-inter">
+                <p className="text-[12px] text-gray-400">
                   {stat.description}
                 </p>
               </div>
@@ -145,17 +145,17 @@ const MLSSection = () => {
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* Left Column - Why List on MLS */}
           <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-100/80 shadow-sm">
-            <h3 className="text-[22px] font-inter font-bold text-[#111] mb-5 tracking-[-0.02em]">
+            <h3 className="text-[22px] font-bold text-[#111] mb-5 tracking-[-0.02em]">
               Why List on the MLS?
             </h3>
-            <p className="text-[15px] text-gray-500 mb-6 leading-[1.7] font-inter">
+            <p className="text-[15px] text-gray-500 mb-6 leading-[1.7]">
               Listing on the MLS significantly increases your chances of selling your house faster. 96.5% of our sellers who have listed and sold on the MLS were referred by a buyer's agent who found the listing on the MLS.
             </p>
             <ul className="space-y-4 mb-8">
               {benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-[#0891B2] rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-[14px] text-gray-500 font-inter">
+                  <div className="w-2 h-2 bg-[#1A1816] rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-[14px] text-gray-500">
                     <strong className="text-[#111] font-semibold">{benefit.title}:</strong> {benefit.description}
                   </p>
                 </li>
@@ -163,16 +163,17 @@ const MLSSection = () => {
             </ul>
             <Link
               href="/our-packages"
-              className="inline-flex items-center gap-2.5 bg-[#0891B2] text-white rounded-full px-7 py-3.5 font-inter font-semibold text-[14px] transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg hover:shadow-[#0891B2]/20 hover:-translate-y-[1px]"
+              className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
             >
-              <span>View MLS Packages</span>
+              View MLS Packages
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Right Column - How It Works */}
           <div>
-            <h3 className="text-[22px] font-inter font-bold text-[#111] mb-6 tracking-[-0.02em]">
+            <h3 className="text-[22px] font-bold text-[#111] mb-6 tracking-[-0.02em]">
               How a Flat-Fee MLS Listing Works
             </h3>
             <div className="space-y-3">
@@ -182,14 +183,14 @@ const MLSSection = () => {
                   className="bg-white rounded-2xl p-5 card-hover border border-gray-100/80 group"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-[#0891B2] rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-[#0891B2]/20 group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-white text-[12px] font-inter font-bold">{step.number}</span>
+                    <div className="w-10 h-10 bg-[#1A1816] rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-[#1A1816]/20 group-hover:scale-110 transition-transform duration-300">
+                      <span className="text-white text-[12px] font-bold">{step.number}</span>
                     </div>
                     <div>
-                      <h4 className="text-[15px] font-inter font-semibold text-[#111] mb-1 tracking-[-0.01em]">
+                      <h4 className="text-[15px] font-semibold text-[#111] mb-1 tracking-[-0.01em]">
                         {step.title}
                       </h4>
-                      <p className="text-[13px] text-gray-500 font-inter leading-[1.6]">
+                      <p className="text-[13px] text-gray-500 leading-[1.6]">
                         {step.description}
                       </p>
                     </div>
@@ -198,8 +199,8 @@ const MLSSection = () => {
               ))}
             </div>
             {/* Highlight Text */}
-            <div className="mt-5 bg-gradient-to-r from-[#0891B2]/10 to-[#06B6D4]/5 rounded-2xl p-5 border border-[#0891B2]/15">
-              <p className="text-[14px] md:text-[15px] text-[#0891B2] font-inter font-semibold text-center tracking-[-0.01em]">
+            <div className="mt-5 bg-gradient-to-r from-[#1A1816]/10 to-[#1A1816]/5 rounded-2xl p-5 border border-[#1A1816]/15">
+              <p className="text-[14px] md:text-[15px] text-[#1A1816] font-semibold text-center tracking-[-0.01em]">
                 If you find your own buyer, pay nothing in broker commissions!
               </p>
             </div>

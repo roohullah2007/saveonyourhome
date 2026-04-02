@@ -11,7 +11,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
         className="w-full flex items-center justify-between p-6 text-left transition-colors group"
       >
         <span
-          style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+         
           className="text-[18px] font-medium text-[#111] pr-4 transition-colors"
         >
           {question}
@@ -28,7 +28,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
       {isOpen && (
         <div className="px-6 pb-6 pt-0 animate-fadeIn">
           <p
-            style={{ fontFamily: '"Instrument Sans", sans-serif' }}
+           
             className="text-[14px] font-medium text-[#666] leading-relaxed"
           >
             {answer}
@@ -168,7 +168,7 @@ function FAQs() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 mb-6">
                 <HelpCircle className="w-4 h-4 text-white" />
-                <span className="text-white text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-white text-sm font-medium">
                   Help Center
                 </span>
               </div>
@@ -176,7 +176,7 @@ function FAQs() {
               {/* Main Heading */}
               <h1
                 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Frequently Asked Questions
               </h1>
@@ -184,7 +184,7 @@ function FAQs() {
               {/* Subheading */}
               <p
                 className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Find answers to common questions about buying and selling homes through SaveOnYourHome.com. We're here to make real estate more accessible, transparent, and cost-effective. Can't find what you're looking for? Contact our support team.
               </p>
@@ -192,8 +192,8 @@ function FAQs() {
               {/* CTA Button */}
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+               
               >
                 <span>Contact Support</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -223,13 +223,13 @@ function FAQs() {
               <div className="mb-10">
                 <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
                   <IconComponent className="w-4 h-4 text-[#666]" />
-                  <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <span className="text-[#666] text-sm font-medium">
                     {category.title}
                   </span>
                 </div>
                 <h2
                   className="text-[32px] md:text-[48px] font-medium text-[#111] leading-tight"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   {category.title}
                 </h2>
@@ -256,32 +256,32 @@ function FAQs() {
       })}
 
       {/* Still Have Questions CTA */}
-      <section className="bg-[#0891B2] py-16 md:py-20">
+      <section className="bg-[#1A1816] py-16 md:py-20">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 text-center">
           <h2
             className="text-white text-[32px] md:text-[48px] font-medium mb-4"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             Still Have Questions?
           </h2>
           <p
             className="text-white/90 text-[16px] font-medium mb-8 max-w-2xl mx-auto"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             Whether you're a seller looking for a better way or a buyer seeking a seamless experience, our team is here to help. Get in touch and we'll respond within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-white text-[#0891B2] rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-white/90"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center justify-center gap-2 bg-white text-[#1A1816] rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-white/90"
+             
             >
               Contact Us
             </Link>
             <Link
               href="/list-property"
               className="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-white text-white rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-white/10"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               List Your Property
             </Link>

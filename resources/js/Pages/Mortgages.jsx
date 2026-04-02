@@ -130,7 +130,7 @@ function Mortgages() {
             <div className="max-w-3xl">
               {/* Badge */}
               <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                <span className="text-white text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-white text-sm font-medium">
                   Powered by Annie Mac Mortgage
                 </span>
               </div>
@@ -138,7 +138,7 @@ function Mortgages() {
               {/* Main Heading */}
               <h1
                 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Get a mortgage from<br />Annie Mac Mortgage
               </h1>
@@ -146,7 +146,7 @@ function Mortgages() {
               {/* Subheading */}
               <p
                 className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 SaveOnYourHome has partnered with Annie Mac Mortgage as its preferred lender. Get pre-approved in minutes, compare rates from 25+ lenders, and close with confidence—one seamless experience from home search to keys in hand.
               </p>
@@ -157,8 +157,8 @@ function Mortgages() {
                   href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="button inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="button inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+                 
                 >
                   <BadgeCheck className="w-5 h-5" />
                   <span>Get Pre-Approved</span>
@@ -168,7 +168,7 @@ function Mortgages() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="button inline-flex items-center gap-[0.4rem] bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <Calculator className="w-5 h-5" />
                   <span>Compare Rates</span>
@@ -176,7 +176,7 @@ function Mortgages() {
                 <Link
                   href="#why-us"
                   className="button inline-flex items-center gap-[0.4rem] bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <Info className="w-5 h-5" />
                   <span>Why Annie Mac?</span>
@@ -192,25 +192,25 @@ function Mortgages() {
         <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 py-10 md:py-14">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div className="bg-white rounded-2xl p-6 md:p-8 hover:shadow-lg transition-all duration-300 text-center">
-              <div className="bg-[#0891B2]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Percent className="w-8 h-8 text-[#0891B2]" />
+              <div className="bg-[#1A1816]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Percent className="w-8 h-8 text-[#1A1816]" />
               </div>
-              <h3 className="text-[#111] font-semibold text-xl mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>25+ Lender Network</h3>
-              <p className="text-[#666] text-sm leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Instantly find the most competitive deal from over 25 lenders in our network.</p>
+              <h3 className="text-[#111] font-semibold text-xl mb-2">25+ Lender Network</h3>
+              <p className="text-[#666] text-sm leading-relaxed">Instantly find the most competitive deal from over 25 lenders in our network.</p>
             </div>
             <div className="bg-white rounded-2xl p-6 md:p-8 hover:shadow-lg transition-all duration-300 text-center">
-              <div className="bg-[#0891B2]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-[#0891B2]" />
+              <div className="bg-[#1A1816]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Clock className="w-8 h-8 text-[#1A1816]" />
               </div>
-              <h3 className="text-[#111] font-semibold text-xl mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Get Pre-Approval</h3>
-              <p className="text-[#666] text-sm leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Complete a simple online application to receive fast pre-approval, giving you confidence and leverage in your home search.</p>
+              <h3 className="text-[#111] font-semibold text-xl mb-2">Get Pre-Approval</h3>
+              <p className="text-[#666] text-sm leading-relaxed">Complete a simple online application to receive fast pre-approval, giving you confidence and leverage in your home search.</p>
             </div>
             <div className="bg-white rounded-2xl p-6 md:p-8 hover:shadow-lg transition-all duration-300 text-center">
-              <div className="bg-[#0891B2]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Handshake className="w-8 h-8 text-[#0891B2]" />
+              <div className="bg-[#1A1816]/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Handshake className="w-8 h-8 text-[#1A1816]" />
               </div>
-              <h3 className="text-[#111] font-semibold text-xl mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Close with Ease</h3>
-              <p className="text-[#666] text-sm leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Enjoy a streamlined closing process with digital tools and expert support, making finalizing your mortgage quick and hassle-free.</p>
+              <h3 className="text-[#111] font-semibold text-xl mb-2">Close with Ease</h3>
+              <p className="text-[#666] text-sm leading-relaxed">Enjoy a streamlined closing process with digital tools and expert support, making finalizing your mortgage quick and hassle-free.</p>
             </div>
           </div>
         </div>
@@ -223,8 +223,8 @@ function Mortgages() {
             {/* Left Side - Content */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center bg-[#0891B2]/10 rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#0891B2] text-sm font-semibold" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="inline-flex items-center bg-[#1A1816]/10 rounded-lg px-4 py-2 mb-6">
+                <span className="text-[#1A1816] text-sm font-semibold">
                   Annie Mac Mortgage
                 </span>
               </div>
@@ -232,7 +232,7 @@ function Mortgages() {
               {/* Main Heading */}
               <h2
                 className="text-[28px] md:text-[36px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                style={{ fontWeight: 500 }}
               >
                 Why use Annie Mac Mortgage?
               </h2>
@@ -240,7 +240,7 @@ function Mortgages() {
               {/* Description */}
               <p
                 className="text-[16px] text-[#666] font-medium mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                style={{ fontWeight: 500 }}
               >
                 When you find your dream home on SaveOnYourHome, getting financing shouldn't slow you down. Annie Mac Mortgage is our preferred mortgage partner, providing you with a seamless home-buying experience from start to finish.
               </p>
@@ -248,31 +248,31 @@ function Mortgages() {
               {/* Benefits */}
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-[#0891B2] flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-[#1A1816] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Affordability</h4>
-                    <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Services and tools that make buying a home affordable for you.</p>
+                    <h4 className="font-semibold text-[#111]">Affordability</h4>
+                    <p className="text-sm text-[#666]">Services and tools that make buying a home affordable for you.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-[#0891B2] flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-[#1A1816] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Low Price</h4>
-                    <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Competitive pricing from our marketplace of top lenders.</p>
+                    <h4 className="font-semibold text-[#111]">Low Price</h4>
+                    <p className="text-sm text-[#666]">Competitive pricing from our marketplace of top lenders.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-[#0891B2] flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-[#1A1816] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Marketplace</h4>
-                    <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Thousands of home financing options that can fit your needs.</p>
+                    <h4 className="font-semibold text-[#111]">Marketplace</h4>
+                    <p className="text-sm text-[#666]">Thousands of home financing options that can fit your needs.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-[#0891B2] flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-[#1A1816] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Oklahoma Focused</h4>
-                    <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Local expertise with knowledge of Oklahoma-specific programs and assistance.</p>
+                    <h4 className="font-semibold text-[#111]">Oklahoma Focused</h4>
+                    <p className="text-sm text-[#666]">Local expertise with knowledge of Oklahoma-specific programs and assistance.</p>
                   </div>
                 </div>
               </div>
@@ -282,8 +282,8 @@ function Mortgages() {
                 href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium hover:bg-[#0E7490] transition-all duration-300"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium hover:bg-[#111111] transition-all duration-300"
+               
               >
                 Start Your Application
                 <ChevronRight className="w-5 h-5" />
@@ -291,15 +291,15 @@ function Mortgages() {
             </div>
 
             {/* Right Side - Card */}
-            <div className="bg-gradient-to-br from-[#0891B2] to-[#7A1628] rounded-3xl p-8 md:p-10 text-white">
+            <div className="bg-gradient-to-br from-[#1A1816] to-[#7A1628] rounded-3xl p-8 md:p-10 text-white">
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
                   <Home className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-medium mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h3 className="text-2xl md:text-3xl font-medium mb-3">
                   Ready to Get Pre-Approved?
                 </h3>
-                <p className="text-white/80 text-sm leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-white/80 text-sm leading-relaxed">
                   It only takes 15 minutes
                 </p>
               </div>
@@ -310,8 +310,8 @@ function Mortgages() {
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Simple Online Application</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Complete from your phone or computer</p>
+                    <p className="font-medium">Simple Online Application</p>
+                    <p className="text-white/70 text-sm">Complete from your phone or computer</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-white/10 rounded-xl p-4">
@@ -319,8 +319,8 @@ function Mortgages() {
                     <Shield className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Secure & Confidential</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Bank-level encryption protects your data</p>
+                    <p className="font-medium">Secure & Confidential</p>
+                    <p className="text-white/70 text-sm">Bank-level encryption protects your data</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-white/10 rounded-xl p-4">
@@ -328,8 +328,8 @@ function Mortgages() {
                     <User className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Personal Support</p>
-                    <p className="text-white/70 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Real humans available to help you</p>
+                    <p className="font-medium">Personal Support</p>
+                    <p className="text-white/70 text-sm">Real humans available to help you</p>
                   </div>
                 </div>
               </div>
@@ -338,8 +338,8 @@ function Mortgages() {
                 href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-white text-[#0891B2] text-center py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="block w-full bg-white text-[#1A1816] text-center py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300"
+               
               >
                 Get Pre-Approved Now
               </a>
@@ -354,22 +354,22 @@ function Mortgages() {
           {/* Section Header */}
           <div className="text-center">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Compare Rates
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Mortgage Rates Today
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-3xl mx-auto mb-8" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-3xl mx-auto mb-8">
               We search thousands of loan options so you don't have to! Find the most competitive rates including: 15, 20 and 30-year fixed rates, 10/6, 7/6 and 5/6 ARMs, FHA, Jumbo, low down payment options and more.
             </p>
             <a
               href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium hover:bg-[#0E7490] transition-all duration-300"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium hover:bg-[#111111] transition-all duration-300"
+             
             >
               <TrendingUp className="w-5 h-5" />
               View Today's Live Rates
@@ -385,14 +385,14 @@ function Mortgages() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Simple Process
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               How It Works
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               Get from application to closing in three simple steps
             </p>
           </div>
@@ -404,16 +404,16 @@ function Mortgages() {
               return (
                 <div key={index} className="relative">
                   <div className="bg-[#EEEDEA] rounded-2xl p-8 h-full hover:shadow-lg transition-all duration-300 text-center">
-                    <div className="bg-[#0891B2] p-4 rounded-full w-16 h-16 mx-auto mb-5 flex items-center justify-center">
+                    <div className="bg-[#1A1816] p-4 rounded-full w-16 h-16 mx-auto mb-5 flex items-center justify-center">
                       <IconComponent className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-[#0891B2] text-sm font-semibold mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <div className="text-[#1A1816] text-sm font-semibold mb-2">
                       STEP {item.step}
                     </div>
-                    <h3 className="text-xl font-semibold text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <h3 className="text-xl font-semibold text-[#111] mb-3">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <p className="text-sm text-[#666] font-medium leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -433,8 +433,8 @@ function Mortgages() {
               href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-4 font-medium hover:bg-[#0E7490] transition-all duration-300"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium hover:bg-[#111111] transition-all duration-300"
+             
             >
               Get Pre-Approved with Annie Mac
               <ChevronRight className="w-5 h-5" />
@@ -449,14 +449,14 @@ function Mortgages() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Loan Options
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Types of Mortgages
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               Choose the right loan type for your situation. Each has unique benefits and requirements.
             </p>
           </div>
@@ -472,10 +472,10 @@ function Mortgages() {
                       <IconComponent className="w-6 h-6 text-[#3D3D3D]" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <h3 className="text-xl font-medium text-[#111] mb-2">
                         {type.title}
                       </h3>
-                      <p className="text-sm text-[#666] leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <p className="text-sm text-[#666] leading-relaxed">
                         {type.description}
                       </p>
                     </div>
@@ -483,8 +483,8 @@ function Mortgages() {
                   <ul className="space-y-2 ml-[60px]">
                     {type.features.map((feature, fIndex) => (
                       <li key={fIndex} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#0891B2] flex-shrink-0" />
-                        <span className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{feature}</span>
+                        <CheckCircle className="w-4 h-4 text-[#1A1816] flex-shrink-0" />
+                        <span className="text-sm text-[#666]">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -497,49 +497,49 @@ function Mortgages() {
           <div className="bg-white rounded-2xl p-8 md:p-10 mt-8">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-2xl font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h3 className="text-2xl font-medium text-[#111] mb-4">
                   Oklahoma Assistance Programs
                 </h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>OHFA (Oklahoma Housing Finance Agency) first-time buyer programs</span>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-[#666]">OHFA (Oklahoma Housing Finance Agency) first-time buyer programs</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Down payment assistance up to 3.5% of the loan amount</span>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-[#666]">Down payment assistance up to 3.5% of the loan amount</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Homebuyer education classes that unlock special rates</span>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-[#666]">Homebuyer education classes that unlock special rates</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Teacher, police, and firefighter home purchase programs</span>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-[#666]">Teacher, police, and firefighter home purchase programs</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Rural development loans with no down payment required</span>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-[#666]">Rural development loans with no down payment required</span>
                   </li>
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-[#0891B2] to-[#7A1628] rounded-xl p-6 text-white">
+              <div className="bg-gradient-to-br from-[#1A1816] to-[#7A1628] rounded-xl p-6 text-white">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-full mb-4">
                     <BadgeCheck className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-medium mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h4 className="text-lg font-medium mb-2">
                     Get Pre-Approved with Annie Mac
                   </h4>
-                  <p className="text-sm text-white/80 mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-white/80 mb-4">
                     Our preferred mortgage team understands Oklahoma programs and FSBO transactions. Let us help you get the best rate.
                   </p>
                   <a
                     href="https://simplenexus.annie-mac.com/homehub/signup/THASSELL@ANNIE-MAC.COM"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white text-[#0891B2] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-gray-100"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                    className="inline-flex items-center gap-2 bg-white text-[#1A1816] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-gray-100"
+                   
                   >
                     Start Application
                     <ChevronRight className="w-4 h-4" />
@@ -557,14 +557,14 @@ function Mortgages() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Expert Advice
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Mortgage Tips
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               Innovative strategies to get the best mortgage terms and save money over the life of your loan
             </p>
           </div>
@@ -578,10 +578,10 @@ function Mortgages() {
                   <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4">
                     <IconComponent className="w-6 h-6 text-[#3D3D3D]" />
                   </div>
-                  <h3 className="text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-xl font-medium text-[#111] mb-3">
                     {tip.title}
                   </h3>
-                  <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-[#666] font-medium leading-relaxed">
                     {tip.description}
                   </p>
                 </div>
@@ -598,14 +598,14 @@ function Mortgages() {
             {/* Left Side - Header */}
             <div>
               <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   FAQs
                 </span>
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4">
                 Mortgage Questions<br />Answered
               </h2>
-              <p className="text-[16px] text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-[16px] text-[#666] font-medium leading-relaxed">
                 Common questions about home financing, answered simply. Still have questions? Contact us for personalized guidance.
               </p>
             </div>
@@ -614,10 +614,10 @@ function Mortgages() {
             <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <div key={index} className="bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
-                  <h3 className="text-lg font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-lg font-medium text-[#111] mb-2">
                     {faq.question}
                   </h3>
-                  <p className="text-sm text-[#666] leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-[#666] leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

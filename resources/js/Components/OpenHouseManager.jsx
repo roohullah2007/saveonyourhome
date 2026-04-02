@@ -104,15 +104,15 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                    <Calendar className="w-5 h-5 text-[#0891B2]" />
+                <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-[#1A1816]" />
                     Open Houses
                 </h2>
                 {!showForm && (
                     <button
                         type="button"
                         onClick={() => { setShowForm(true); setEditingId(null); setForm(emptyForm); }}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0891B2] text-white rounded-lg text-sm font-medium hover:bg-[#0E7490] transition-colors"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                         Add Open House
@@ -156,7 +156,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                                 <button
                                     type="button"
                                     onClick={() => handleEdit(oh)}
-                                    className="p-2 text-gray-400 hover:text-[#0891B2] hover:bg-white rounded-lg transition-colors"
+                                    className="p-2 text-gray-400 hover:text-[#555] hover:bg-white rounded-lg transition-colors"
                                     title="Edit"
                                 >
                                     <Edit3 className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
 
             {/* Add/Edit Form */}
             {showForm && (
-                <div className="border border-[#0891B2]/20 rounded-xl p-4 bg-red-50/30">
+                <div className="border border-[#1A1816]/20 rounded-xl p-4 bg-red-50/30">
                     <h3 className="text-sm font-semibold text-gray-700 mb-3">
                         {editingId ? 'Edit Open House' : 'New Open House'}
                     </h3>
@@ -194,7 +194,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                                 value={form.date}
                                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                                 min={new Date().toISOString().split('T')[0]}
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${errors.date ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${errors.date ? 'border-red-500' : 'border-gray-300'}`}
                             />
                             {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date}</p>}
                         </div>
@@ -204,7 +204,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                                 type="time"
                                 value={form.start_time}
                                 onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${errors.start_time ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${errors.start_time ? 'border-red-500' : 'border-gray-300'}`}
                             />
                             {errors.start_time && <p className="text-red-500 text-xs mt-1">{errors.start_time}</p>}
                         </div>
@@ -214,7 +214,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                                 type="time"
                                 value={form.end_time}
                                 onChange={(e) => setForm({ ...form, end_time: e.target.value })}
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${errors.end_time ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${errors.end_time ? 'border-red-500' : 'border-gray-300'}`}
                             />
                             {errors.end_time && <p className="text-red-500 text-xs mt-1">{errors.end_time}</p>}
                         </div>
@@ -227,7 +227,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                             onChange={(e) => setForm({ ...form, description: e.target.value })}
                             placeholder="e.g., Light refreshments provided, come meet the owner!"
                             maxLength={500}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
                         />
                         {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
                     </div>
@@ -236,7 +236,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                             type="button"
                             onClick={handleSubmit}
                             disabled={saving}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0891B2] text-white rounded-lg text-sm font-medium hover:bg-[#0E7490] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
                         >
                             <Check className="w-4 h-4" />
                             {saving ? 'Saving...' : editingId ? 'Update' : 'Add'}

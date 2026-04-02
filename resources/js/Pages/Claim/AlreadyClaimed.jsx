@@ -8,7 +8,7 @@ export default function AlreadyClaimed({ property }) {
             <div className="min-h-screen bg-gray-50 flex flex-col">
                 <header className="bg-white border-b">
                     <div className="max-w-5xl mx-auto px-4 py-4">
-                        <Link href="/" className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                        <Link href="/" className="text-2xl font-bold text-[#1A1816]">
                             SaveOnYourHome
                         </Link>
                     </div>
@@ -29,7 +29,7 @@ export default function AlreadyClaimed({ property }) {
                             <div className="space-y-3">
                                 <Link
                                     href={route('login')}
-                                    className="block w-full py-3 bg-[#0891B2] text-white rounded-lg font-semibold hover:bg-[#8a1a2c] transition-colors"
+                                    className="block w-full py-3 bg-[#1A1816] text-white rounded-lg font-semibold hover:bg-[#8a1a2c] transition-colors"
                                 >
                                     Log In to Your Account
                                 </Link>

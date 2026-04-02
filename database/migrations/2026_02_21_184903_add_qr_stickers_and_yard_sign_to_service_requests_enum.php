@@ -10,7 +10,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE service_requests MODIFY COLUMN service_type ENUM('photos', 'virtual_tour', 'video', 'mls', 'qr_stickers', 'yard_sign')");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE service_requests MODIFY COLUMN service_type ENUM('photos', 'virtual_tour', 'video', 'mls', 'qr_stickers', 'yard_sign')");
+        }
     }
 
     /**
@@ -18,6 +20,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE service_requests MODIFY COLUMN service_type ENUM('photos', 'virtual_tour', 'video', 'mls')");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE service_requests MODIFY COLUMN service_type ENUM('photos', 'virtual_tour', 'video', 'mls')");
+        }
     }
 };

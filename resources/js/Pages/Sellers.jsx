@@ -193,7 +193,7 @@ function Sellers() {
               {/* Main Heading */}
               <h1
                 className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Sell Your Home with<br />Confidence and Ease!
               </h1>
@@ -201,7 +201,7 @@ function Sellers() {
               {/* Subheading */}
               <p
                 className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Take control of your home sale with SaveOnYourHome.com. Benefit from commission-free savings and embark on your path to a successful sale right here.
               </p>
@@ -210,8 +210,8 @@ function Sellers() {
               <div className="flex flex-col sm:flex-row gap-[0.4rem] mb-12">
                 <Link
                   href="/list-property"
-                  className="button inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="button inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+                 
                 >
                   <span>List My Home</span>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -226,7 +226,7 @@ function Sellers() {
                 <Link
                   href="#services"
                   className="button inline-flex items-center gap-[0.4rem] bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <span>Why Choose FSBO?</span>
                   <ChevronRight className="w-5 h-5" />
@@ -246,8 +246,8 @@ function Sellers() {
                 <Zap className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div className="text-left whitespace-nowrap">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Free Listing</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>List for $0</div>
+                <div className="text-[#111] font-semibold text-base">Free Listing</div>
+                <div className="text-[#666] text-sm">List for $0</div>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
@@ -255,8 +255,8 @@ function Sellers() {
                 <Camera className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div className="text-left whitespace-nowrap">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Photos & Media</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Pro Quality</div>
+                <div className="text-[#111] font-semibold text-base">Photos & Media</div>
+                <div className="text-[#666] text-sm">Pro Quality</div>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
@@ -264,8 +264,8 @@ function Sellers() {
                 <BarChart3 className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div className="text-left whitespace-nowrap">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>MLS Access</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Max Exposure</div>
+                <div className="text-[#111] font-semibold text-base">MLS Access</div>
+                <div className="text-[#666] text-sm">Max Exposure</div>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
@@ -273,8 +273,8 @@ function Sellers() {
                 <Users className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div className="text-left whitespace-nowrap">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Direct Contact</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Talk to Buyers</div>
+                <div className="text-[#111] font-semibold text-base">Direct Contact</div>
+                <div className="text-[#666] text-sm">Talk to Buyers</div>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-white rounded-xl px-6 py-4 hover:shadow-md transition-all duration-300">
@@ -282,8 +282,8 @@ function Sellers() {
                 <DollarSign className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div className="text-left whitespace-nowrap">
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Keep Your Equity</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>No Commissions</div>
+                <div className="text-[#111] font-semibold text-base">Keep Your Equity</div>
+                <div className="text-[#666] text-sm">No Commissions</div>
               </div>
             </div>
           </div>
@@ -298,7 +298,7 @@ function Sellers() {
             <div>
               {/* Badge */}
               <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   Why Choose FSBO?
                 </span>
               </div>
@@ -306,7 +306,7 @@ function Sellers() {
               {/* Main Heading */}
               <h2
                 className="text-[24px] md:text-[28px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                style={{ fontWeight: 500 }}
               >
                 Sell Your Way, Your Terms. Imagine being able to take full control of your home sale. SaveOnYourHome.com provides the tools and resources to sell your home confidently, without paying hefty broker commissions.
               </h2>
@@ -314,7 +314,7 @@ function Sellers() {
               {/* Subheading */}
               <p
                 className="text-[14px] text-[#666] font-medium mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif', fontWeight: 500 }}
+                style={{ fontWeight: 500 }}
               >
                 Maximize your savings, connect directly with buyers, and experience a transparent, trust-based selling process. Empower your journey by choosing SaveOnYourHome.
               </p>
@@ -322,8 +322,8 @@ function Sellers() {
               {/* Button */}
               <Link
                 href="/list-property"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+               
               >
                 <span>List Your Property</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -381,8 +381,8 @@ function Sellers() {
             {/* Left Side - Content */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center bg-[#0891B2] rounded-lg px-4 py-2 mb-6">
-                <span className="text-white text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="inline-flex items-center bg-[#1A1816] rounded-lg px-4 py-2 mb-6">
+                <span className="text-white text-sm font-medium">
                   FREE
                 </span>
               </div>
@@ -390,7 +390,7 @@ function Sellers() {
               {/* Main Heading */}
               <h2
                 className="text-[32px] md:text-[40px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 List Your Property for Free
               </h2>
@@ -398,7 +398,7 @@ function Sellers() {
               {/* Subheading */}
               <p
                 className="text-[16px] text-[#666] font-medium mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Get your property in front of thousands of buyers without spending a dime.
                 Our free listing includes everything you need to sell your home with confidence and ease.
@@ -408,8 +408,8 @@ function Sellers() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {freeListingFeatures.map((feature, index) => (
                   <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-[#0891B2] flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <CheckCircle className="w-5 h-5 text-[#1A1816] flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-[#666]">
                       {feature}
                     </span>
                   </div>
@@ -419,8 +419,8 @@ function Sellers() {
               {/* CTA Button */}
               <Link
                 href="/list-property"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+               
               >
                 <span>Start Your Free Listing</span>
                 <ChevronRight className="w-5 h-5" />
@@ -438,8 +438,8 @@ function Sellers() {
               </div>
               {/* Price Tag */}
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-6 shadow-xl">
-                <div className="text-[#0891B2] text-4xl font-bold" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>$0</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Forever Free</div>
+                <div className="text-[#1A1816] text-4xl font-bold">$0</div>
+                <div className="text-[#666] text-sm">Forever Free</div>
               </div>
             </div>
           </div>
@@ -452,14 +452,14 @@ function Sellers() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Professional Media
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Make Your Listing Stand Out
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               Professional photos sell homes faster and for more money. Our photographers
               will showcase your property in the best possible light.
             </p>
@@ -474,10 +474,10 @@ function Sellers() {
                   <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4">
                     <IconComponent className="w-6 h-6 text-[#3D3D3D]" />
                   </div>
-                  <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h3 className="text-xl font-medium text-[#111] mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-[#666] leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-[#666] leading-relaxed">
                     {service.description}
                   </p>
                 </div>
@@ -490,7 +490,7 @@ function Sellers() {
             <Link
               href="/our-packages"
               className="inline-flex items-center gap-2 bg-[#413936] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#312926]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               View Packages
               <ChevronRight className="w-5 h-5" />
@@ -510,10 +510,10 @@ function Sellers() {
                   <div className="bg-[#F5F3F0] rounded-2xl p-4 mb-4 inline-block">
                     <img src="/images/saveonyourhome-logo.png" alt="SaveOnYourHome" className="h-12 w-auto" />
                   </div>
-                  <h4 className="text-lg font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <h4 className="text-lg font-semibold text-[#111]">
                     Your MLS Listing
                   </h4>
-                  <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-[#666]">
                     Syndicates to 100+ sites automatically
                   </p>
                 </div>
@@ -521,8 +521,8 @@ function Sellers() {
                 <CompanyLogosGrid variant="cards" />
 
                 <div className="mt-6 pt-6 border-t border-[#E5E1DC] text-center">
-                  <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                    <span className="font-semibold text-[#0891B2]">+100 more</span> real estate websites
+                  <p className="text-sm text-[#666]">
+                    <span className="font-semibold text-[#1A1816]">+100 more</span> real estate websites
                   </p>
                 </div>
               </div>
@@ -532,7 +532,7 @@ function Sellers() {
             <div className="order-1 lg:order-2">
               {/* Badge */}
               <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   MLS Exposure
                 </span>
               </div>
@@ -540,7 +540,7 @@ function Sellers() {
               {/* Main Heading */}
               <h2
                 className="text-[32px] md:text-[40px] text-[#111] font-medium leading-tight mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Get Your Property on the MLS
               </h2>
@@ -548,7 +548,7 @@ function Sellers() {
               {/* Subheading */}
               <p
                 className="text-[16px] text-[#666] font-medium mb-8 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 The MLS (Multiple Listing Service) is where real estate agents find properties for their buyers.
                 With MLS syndication, your listing appears on Zillow, Realtor.com, Redfin, and hundreds of other sites.
@@ -561,13 +561,13 @@ function Sellers() {
                   return (
                     <div key={index} className="flex items-start gap-4">
                       <div className="bg-white p-2 rounded-lg flex-shrink-0">
-                        <IconComponent className="w-5 h-5 text-[#0891B2]" />
+                        <IconComponent className="w-5 h-5 text-[#1A1816]" />
                       </div>
                       <div>
-                        <h4 className="text-[#111] font-medium mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                        <h4 className="text-[#111] font-medium mb-1">
                           {benefit.title}
                         </h4>
-                        <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                        <p className="text-sm text-[#666]">
                           {benefit.description}
                         </p>
                       </div>
@@ -579,8 +579,8 @@ function Sellers() {
               {/* CTA Button */}
               <Link
                 href="/our-packages"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+               
               >
                 <span>Learn About MLS Options</span>
                 <ChevronRight className="w-5 h-5" />
@@ -596,14 +596,14 @@ function Sellers() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Save Thousands
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Compare Your Options
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               See how much you can save compared to traditional real estate agents
             </p>
           </div>
@@ -613,16 +613,16 @@ function Sellers() {
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
               {/* Header */}
               <div className="grid grid-cols-4 gap-4 p-6 bg-[#413936]">
-                <div className="text-white font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-white font-medium">
                   Feature
                 </div>
-                <div className="text-white font-medium text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-white font-medium text-center">
                   SaveOnYourHome
                 </div>
-                <div className="text-white font-medium text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-white font-medium text-center">
                   Flat Fee MLS
                 </div>
-                <div className="text-white font-medium text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-white font-medium text-center">
                   Traditional Agent
                 </div>
               </div>
@@ -633,16 +633,16 @@ function Sellers() {
                   key={index}
                   className={`grid grid-cols-4 gap-4 p-6 ${index % 2 === 0 ? 'bg-white' : 'bg-[#F8F7F5]'}`}
                 >
-                  <div className="text-[#111] font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-[#111] font-medium">
                     {row.feature}
                   </div>
-                  <div className="text-[#0891B2] font-medium text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-[#1A1816] font-medium text-center">
                     {row.saveOnYourHome}
                   </div>
-                  <div className="text-[#666] text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-[#666] text-center">
                     {row.flatFee}
                   </div>
-                  <div className="text-[#666] text-center" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-[#666] text-center">
                     {row.traditional}
                   </div>
                 </div>
@@ -658,14 +658,14 @@ function Sellers() {
           {/* Section Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Simple Process
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
               Your Step-by-Step Guide to Success
             </h2>
-            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] font-medium max-w-2xl mx-auto">
               Follow these simple steps to sell your home successfully
             </p>
           </div>
@@ -680,13 +680,13 @@ function Sellers() {
                     <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4">
                       <IconComponent className="w-6 h-6 text-[#3D3D3D]" />
                     </div>
-                    <div className="text-[#0891B2] text-sm font-medium mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <div className="text-[#1A1816] text-sm font-medium mb-2">
                       STEP {item.step}
                     </div>
-                    <h3 className="text-xl font-medium text-[#111] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <h3 className="text-xl font-medium text-[#111] mb-3">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-[#666] font-medium leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                    <p className="text-sm text-[#666] font-medium leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -705,7 +705,7 @@ function Sellers() {
             <div>
               {/* Badge */}
               <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   Testimonials
                 </span>
               </div>
@@ -713,7 +713,7 @@ function Sellers() {
               {/* Heading */}
               <h2
                 className="text-[32px] md:text-[48px] font-medium text-[#111] leading-tight"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 What Homeowners are Saying
               </h2>
@@ -732,7 +732,7 @@ function Sellers() {
                   {/* Quote */}
                   <p
                     className="text-[#111] text-[18px] font-medium leading-relaxed"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   >
                     "{testimonial.quote}"
                   </p>
@@ -742,13 +742,13 @@ function Sellers() {
                 <div className="mt-8">
                   <h4
                     className="text-[#111] text-[18px] font-medium mb-1"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   >
                     {testimonial.name}
                   </h4>
                   <p
                     className="text-[#111] text-[14px] font-medium opacity-70"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   >
                     {testimonial.role}
                   </p>
@@ -764,7 +764,7 @@ function Sellers() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           {/* Badge */}
           <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-8">
-            <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span className="text-[#666] text-sm font-medium">
               FAQs
             </span>
           </div>
@@ -774,20 +774,20 @@ function Sellers() {
             <div>
               <h2
                 className="text-[40px] md:text-[48px] font-semibold leading-[120%] text-[#111] mb-6"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Frequently Asked<br />Questions
               </h2>
               <p
                 className="text-[14px] font-medium text-[#666] mb-10 leading-relaxed"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Can't find an answer to your question? Contact us, we will be happy to answer your questions.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-[0.4rem] bg-[#0891B2] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#0E7490]"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center gap-[0.4rem] bg-[#1A1816] text-white rounded-full px-5 py-[0.875rem] font-medium leading-[120%] transition-all duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+               
               >
                 <span>Ask Questions</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -811,7 +811,7 @@ function Sellers() {
                   >
                     <span
                       className="text-[18px] font-medium text-[#111] pr-4 transition-colors"
-                      style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                     
                     >
                       {faq.question}
                     </span>
@@ -828,7 +828,7 @@ function Sellers() {
                     <div className="px-6 pb-6 pt-0">
                       <p
                         className="text-[14px] font-medium text-[#666] leading-relaxed"
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                       
                       >
                         {faq.answer}
                       </p>
@@ -844,16 +844,16 @@ function Sellers() {
       {/* CTA Section */}
       <section className="bg-[#EEEDEA] py-20 border-t border-[#D0CCC7]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
             Ready to List Your Property?
           </h2>
-          <p className="text-[16px] text-[#666] font-medium mb-8 max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[16px] text-[#666] font-medium mb-8 max-w-2xl mx-auto">
             Start now, craft a captivating listing, and attract buyers effortlessly on our platform. Your selling journey is bound to be seamless and successful!
           </p>
           <Link
             href="/list-property"
-            className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+            className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+           
           >
             List My Property
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

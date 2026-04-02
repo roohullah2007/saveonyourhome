@@ -576,7 +576,7 @@ function Packages({ userListings = [] }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-2xl font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111]">
             Service Areas
           </h3>
           <button
@@ -587,7 +587,7 @@ function Packages({ userListings = [] }) {
           </button>
         </div>
         <div className="p-6">
-          <p className="text-[#666] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666] mb-6">
             Our professional photography services are available in the Tulsa and Oklahoma City metro areas.
             Properties outside these areas may incur a travel fee (typically $25-$35).
           </p>
@@ -595,7 +595,7 @@ function Packages({ userListings = [] }) {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Tulsa Service Area */}
             <div className="bg-[#EEEDEA] rounded-xl p-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h4 className="text-lg font-medium text-[#111] mb-4">
                 Tulsa Metro Area
               </h4>
               <div className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
@@ -609,14 +609,14 @@ function Packages({ userListings = [] }) {
                   className="rounded-lg"
                 ></iframe>
               </div>
-              <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666]">
                 Coverage includes Tulsa and surrounding areas within approximately 30 miles.
               </p>
             </div>
 
             {/* OKC Service Area */}
             <div className="bg-[#EEEDEA] rounded-xl p-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h4 className="text-lg font-medium text-[#111] mb-4">
                 Oklahoma City Metro Area
               </h4>
               <div className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
@@ -630,7 +630,7 @@ function Packages({ userListings = [] }) {
                   className="rounded-lg"
                 ></iframe>
               </div>
-              <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666]">
                 Coverage includes Oklahoma City and surrounding areas within approximately 30 miles.
               </p>
             </div>
@@ -640,10 +640,10 @@ function Packages({ userListings = [] }) {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm text-amber-800 font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-amber-800 font-medium">
                   Outside our service area?
                 </p>
-                <p className="text-sm text-amber-700 mt-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-amber-700 mt-1">
                   No problem! Properties outside these areas may incur a small travel fee.
                   <Link href="/contact" className="underline font-medium ml-1">Contact us</Link> for a custom quote.
                 </p>
@@ -654,8 +654,8 @@ function Packages({ userListings = [] }) {
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setShowServiceAreaModal(false)}
-              className="bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+             
             >
               Got it, Continue
             </button>
@@ -670,7 +670,7 @@ function Packages({ userListings = [] }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-lg w-full">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-2xl font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111]">
             Request a Quote
           </h3>
           <button
@@ -685,10 +685,10 @@ function Packages({ userListings = [] }) {
             <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Building className="w-8 h-8 text-amber-600" />
             </div>
-            <h4 className="text-lg font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-lg font-medium text-[#111] mb-2">
               Special Quote Required
             </h4>
-            <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666]">
               Properties over 6,000 square feet or outside our normal service areas require a custom quote.
             </p>
           </div>
@@ -696,8 +696,8 @@ function Packages({ userListings = [] }) {
           <div className="space-y-4">
             <Link
               href="/contact"
-              className="w-full flex items-center justify-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+             
             >
               <Mail className="w-5 h-5" />
               Request a Quote
@@ -705,7 +705,7 @@ function Packages({ userListings = [] }) {
             <a
               href="tel:888-441-6526"
               className="w-full flex items-center justify-center gap-2 bg-[#413936] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#312926]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               <Phone className="w-5 h-5" />
               Call 888-441-OKBO (6526)
@@ -718,7 +718,7 @@ function Packages({ userListings = [] }) {
               setFormData(prev => ({ ...prev, sqft: '' }));
             }}
             className="w-full mt-4 text-[#666] hover:text-[#111] text-sm transition-colors"
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             Go back and select different square footage
           </button>
@@ -763,10 +763,10 @@ function Packages({ userListings = [] }) {
         >
           <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
             <div className="flex items-center gap-3">
-              <div className="bg-[#0891B2] p-3 rounded-xl">
+              <div className="bg-[#1A1816] p-3 rounded-xl">
                 <IconComponent className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-2xl font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-2xl font-medium text-[#111]">
                 {selectedService.title}
               </h3>
             </div>
@@ -780,28 +780,28 @@ function Packages({ userListings = [] }) {
 
           <div className="p-6">
             {/* Description */}
-            <p className="text-[#666] mb-6 leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666] mb-6 leading-relaxed">
               {selectedService.description}
             </p>
 
             {/* Turnaround Time */}
             <div className="flex items-center gap-2 mb-6 bg-green-50 text-green-700 rounded-lg px-4 py-2 w-fit">
               <Clock className="w-4 h-4" />
-              <span className="text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-sm font-medium">
                 Turnaround: {selectedService.turnaround}
               </span>
             </div>
 
             {/* Features */}
             <div className="mb-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h4 className="text-lg font-medium text-[#111] mb-4">
                 What's Included
               </h4>
               <ul className="space-y-3">
                 {selectedService.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{feature}</span>
+                    <span className="text-[#666]">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -809,7 +809,7 @@ function Packages({ userListings = [] }) {
 
             {/* Pricing Table */}
             <div className="mb-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h4 className="text-lg font-medium text-[#111] mb-4">
                 Pricing
               </h4>
               {selectedService.pricing ? (
@@ -817,15 +817,15 @@ function Packages({ userListings = [] }) {
                   <table className="w-full">
                     <thead className="bg-[#EEEDEA]">
                       <tr>
-                        <th className="text-left px-4 py-3 text-sm font-medium text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Square Footage</th>
-                        <th className="text-right px-4 py-3 text-sm font-medium text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Price</th>
+                        <th className="text-left px-4 py-3 text-sm font-medium text-[#666]">Square Footage</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-[#666]">Price</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                       {selectedService.pricing.map((tier, index) => (
                         <tr key={index} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>{tier.range} sq ft</td>
-                          <td className="px-4 py-3 text-sm text-[#0891B2] font-bold text-right" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>${tier.price}</td>
+                          <td className="px-4 py-3 text-sm text-[#666]">{tier.range} sq ft</td>
+                          <td className="px-4 py-3 text-sm text-[#1A1816] font-bold text-right">${tier.price}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -833,10 +833,10 @@ function Packages({ userListings = [] }) {
                 </div>
               ) : (
                 <div className="bg-[#EEEDEA] rounded-xl px-6 py-4">
-                  <span className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <span className="text-2xl font-bold text-[#1A1816]">
                     ${selectedService.flatPrice}
                   </span>
-                  <span className="text-[#666] ml-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <span className="text-[#666] ml-2">
                     {selectedService.priceNote}
                   </span>
                 </div>
@@ -850,8 +850,8 @@ function Packages({ userListings = [] }) {
                   href={selectedService.sampleUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#0891B2] hover:text-[#0E7490] font-medium transition-colors"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="inline-flex items-center gap-2 text-[#1A1816] hover:text-[#111111] font-medium transition-colors"
+                 
                 >
                   <Eye className="w-5 h-5" />
                   View Sample Work
@@ -862,20 +862,20 @@ function Packages({ userListings = [] }) {
 
             {/* How It Works Section */}
             <div className="mb-6 bg-[#EEEDEA] rounded-xl p-5">
-              <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h4 className="text-lg font-medium text-[#111] mb-4">
                 How It Works
               </h4>
               <div className="space-y-4">
                 {howItWorksSteps.map((step, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-7 h-7 bg-[#0891B2] text-white rounded-full flex items-center justify-center text-sm font-bold">
+                    <div className="flex-shrink-0 w-7 h-7 bg-[#1A1816] text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {step.number}
                     </div>
                     <div>
-                      <h5 className="font-medium text-[#111] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <h5 className="font-medium text-[#111] text-sm">
                         {step.title}
                       </h5>
-                      <p className="text-xs text-[#666] mt-0.5" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <p className="text-xs text-[#666] mt-0.5">
                         {step.description}
                       </p>
                     </div>
@@ -889,7 +889,7 @@ function Packages({ userListings = [] }) {
               <div className="flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm text-amber-800" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-amber-800">
                     <strong>Note:</strong> Multimedia services are ordered from your seller dashboard after creating your free listing. Our photographer will schedule a visit once you place your order.
                   </p>
                 </div>
@@ -901,8 +901,8 @@ function Packages({ userListings = [] }) {
               {auth?.user ? (
                 <Link
                   href="/dashboard/listings"
-                  className="w-full flex items-center justify-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111]"
+                 
                 >
                   <Home className="w-5 h-5" />
                   Go to My Listings
@@ -911,8 +911,8 @@ function Packages({ userListings = [] }) {
               ) : (
                 <Link
                   href="/list-property"
-                  className="w-full flex items-center justify-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490]"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111]"
+                 
                 >
                   <Home className="w-5 h-5" />
                   List Your Property Free
@@ -938,7 +938,7 @@ function Packages({ userListings = [] }) {
             <div className="bg-[#E5E1DC] p-3 rounded-xl">
               <HelpCircle className="w-6 h-6 text-[#3D3D3D]" />
             </div>
-            <h3 className="text-2xl font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h3 className="text-2xl font-medium text-[#111]">
               How It Works
             </h3>
           </div>
@@ -951,37 +951,37 @@ function Packages({ userListings = [] }) {
         </div>
 
         <div className="p-6">
-          <p className="text-[#666] mb-6 leading-relaxed" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666] mb-6 leading-relaxed">
             Our simple 4-step process makes ordering professional real estate photography quick and easy.
           </p>
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#0891B2] text-white flex items-center justify-center font-medium flex-shrink-0">1</div>
+              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">1</div>
               <div>
-                <h4 className="text-lg font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Select Your Services</h4>
-                <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Choose photos, drone, 3D tours, video, and more. Add MLS listing if desired.</p>
+                <h4 className="text-lg font-medium text-[#111] mb-1">Select Your Services</h4>
+                <p className="text-[#666]">Choose photos, drone, 3D tours, video, and more. Add MLS listing if desired.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#0891B2] text-white flex items-center justify-center font-medium flex-shrink-0">2</div>
+              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">2</div>
               <div>
-                <h4 className="text-lg font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Schedule Your Appointment</h4>
-                <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Tell us your preferred date and time. We'll confirm within 24 hours.</p>
+                <h4 className="text-lg font-medium text-[#111] mb-1">Schedule Your Appointment</h4>
+                <p className="text-[#666]">Tell us your preferred date and time. We'll confirm within 24 hours.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#0891B2] text-white flex items-center justify-center font-medium flex-shrink-0">3</div>
+              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">3</div>
               <div>
-                <h4 className="text-lg font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Prepare Your Property</h4>
-                <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Receive instructions on preparing your home for the best photos.</p>
+                <h4 className="text-lg font-medium text-[#111] mb-1">Prepare Your Property</h4>
+                <p className="text-[#666]">Receive instructions on preparing your home for the best photos.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#0891B2] text-white flex items-center justify-center font-medium flex-shrink-0">4</div>
+              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">4</div>
               <div>
-                <h4 className="text-lg font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Receive Your Photos</h4>
-                <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Get your professionally edited photos via email the next day. Pay after delivery.</p>
+                <h4 className="text-lg font-medium text-[#111] mb-1">Receive Your Photos</h4>
+                <p className="text-[#666]">Get your professionally edited photos via email the next day. Pay after delivery.</p>
               </div>
             </div>
           </div>
@@ -992,8 +992,8 @@ function Packages({ userListings = [] }) {
                 setShowHowItWorksModal(false);
                 goToOrderForm();
               }}
-              className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#111111]"
+             
             >
               <Camera className="w-5 h-5" />
               Start Your Order
@@ -1013,10 +1013,10 @@ function Packages({ userListings = [] }) {
           <div
             className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-all ${
               currentStep >= step
-                ? 'bg-[#0891B2] text-white'
+                ? 'bg-[#1A1816] text-white'
                 : 'bg-[#E5E1DC] text-[#666]'
             }`}
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             {currentStep > step ? (
               <CheckCircle className="w-5 h-5" />
@@ -1027,7 +1027,7 @@ function Packages({ userListings = [] }) {
           {index < 3 && (
             <div
               className={`w-16 h-1 mx-2 rounded ${
-                currentStep > step ? 'bg-[#0891B2]' : 'bg-[#E5E1DC]'
+                currentStep > step ? 'bg-[#1A1816]' : 'bg-[#E5E1DC]'
               }`}
             />
           )}
@@ -1043,29 +1043,29 @@ function Packages({ userListings = [] }) {
       return (
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h3 className="text-2xl font-medium text-[#111] mb-2">
               Create Your Listing First
             </h3>
-            <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666]">
               To order photos and media packages, you need to create a free listing first.
             </p>
           </div>
 
           <div className="bg-[#FFF8F0] border border-[#F0E6D8] rounded-2xl p-8 text-center">
-            <div className="w-16 h-16 bg-[#0891B2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Home className="w-8 h-8 text-[#0891B2]" />
+            <div className="w-16 h-16 bg-[#1A1816]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Home className="w-8 h-8 text-[#1A1816]" />
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               Free Listing Required
             </h4>
-            <p className="text-[#666] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666] mb-6">
               Create your free property listing on SaveOnYourHome, then come back to order professional photos, videos, and more.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/list-property"
-                className="inline-flex items-center justify-center gap-2 bg-[#0891B2] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                className="inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
+               
               >
                 <Home className="w-5 h-5" />
                 Create Free Listing
@@ -1073,7 +1073,7 @@ function Packages({ userListings = [] }) {
               <Link
                 href="/login"
                 className="inline-flex items-center justify-center gap-2 border border-[#D0CCC7] text-[#111] px-6 py-3 rounded-full font-medium hover:bg-[#F5F3F0] transition-colors"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Already have an account? Login
               </Link>
@@ -1088,28 +1088,28 @@ function Packages({ userListings = [] }) {
       return (
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h3 className="text-2xl font-medium text-[#111] mb-2">
               Create Your Listing First
             </h3>
-            <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666]">
               You don't have any active listings yet. Create a free listing to order packages.
             </p>
           </div>
 
           <div className="bg-[#FFF8F0] border border-[#F0E6D8] rounded-2xl p-8 text-center">
-            <div className="w-16 h-16 bg-[#0891B2]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Home className="w-8 h-8 text-[#0891B2]" />
+            <div className="w-16 h-16 bg-[#1A1816]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Home className="w-8 h-8 text-[#1A1816]" />
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               No Active Listings Found
             </h4>
-            <p className="text-[#666] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[#666] mb-6">
               Create your free property listing on SaveOnYourHome first, then come back to order professional photos, videos, 3D tours, and more.
             </p>
             <Link
               href="/list-property"
-              className="inline-flex items-center justify-center gap-2 bg-[#0891B2] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
+             
             >
               <Home className="w-5 h-5" />
               Create Free Listing
@@ -1123,26 +1123,26 @@ function Packages({ userListings = [] }) {
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111] mb-2">
             Select Your Property
           </h3>
-          <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666]">
             Choose which listing you want to order photos and media for.
           </p>
         </div>
 
         {/* Listing Selector */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <label className="block text-sm font-medium text-[#111] mb-2">
             Select Your Listing *
           </label>
           <select
             value={selectedListing?.id || ''}
             onChange={(e) => handleListingSelect(e.target.value)}
-            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
               errors.propertyId ? 'border-red-500' : 'border-[#D0CCC7]'
             }`}
-            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+           
           >
             <option value="">-- Select a listing --</option>
             {userListings.map(listing => (
@@ -1160,14 +1160,14 @@ function Packages({ userListings = [] }) {
             <div className="flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
               <div>
-                <p className="font-medium text-green-900" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="font-medium text-green-900">
                   {selectedListing.property_title || selectedListing.address}
                 </p>
-                <p className="text-sm text-green-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-green-700">
                   {selectedListing.address}, {selectedListing.city}, {selectedListing.state} {selectedListing.zip_code}
                 </p>
                 {selectedListing.sqft && (
-                  <p className="text-sm text-green-600 mt-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-sm text-green-600 mt-1">
                     {parseInt(selectedListing.sqft).toLocaleString()} sq ft
                   </p>
                 )}
@@ -1178,9 +1178,9 @@ function Packages({ userListings = [] }) {
 
         {/* Add new listing link */}
         <div className="text-center mb-6">
-          <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-sm text-[#666]">
             Don't see your property?{' '}
-            <Link href="/list-property" className="text-[#0891B2] hover:underline font-medium">
+            <Link href="/list-property" className="text-[#1A1816] hover:underline font-medium">
               Create a new listing
             </Link>
           </p>
@@ -1192,7 +1192,7 @@ function Packages({ userListings = [] }) {
             <div className="grid md:grid-cols-2 gap-6">
               {/* Address - Pre-filled and readonly */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   Property Address
                 </label>
                 <div className="relative">
@@ -1202,22 +1202,22 @@ function Packages({ userListings = [] }) {
                     value={formData.address}
                     readOnly
                     className="w-full pl-12 pr-4 py-3 border border-[#D0CCC7] rounded-xl bg-gray-50 text-[#666]"
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   />
                 </div>
               </div>
 
               {/* Square Footage - Pre-filled */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   Square Footage
                 </label>
                 <select
                   name="sqft"
                   value={formData.sqft}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all"
+                 
                 >
                   {SQFT_OPTIONS.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -1227,17 +1227,17 @@ function Packages({ userListings = [] }) {
 
               {/* Access Method */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   How will the photographer access the home? *
                 </label>
                 <select
                   name="accessMethod"
                   value={formData.accessMethod}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                     errors.accessMethod ? 'border-red-500' : 'border-[#D0CCC7]'
                   }`}
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <option value="">Select access method</option>
                   <option value="homeowner">Homeowner will be present</option>
@@ -1250,7 +1250,7 @@ function Packages({ userListings = [] }) {
               {/* Combo/Garage Code - Only show if combo or garage selected */}
               {(formData.accessMethod === 'combo' || formData.accessMethod === 'garage') && (
                 <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <label className="block text-sm font-medium text-[#111] mb-2">
                     {formData.accessMethod === 'combo' ? 'Combo/Lock Box Code' : 'Garage Code'} *
                   </label>
                   <input
@@ -1259,10 +1259,10 @@ function Packages({ userListings = [] }) {
                     value={formData.comboCode}
                     onChange={handleInputChange}
                     placeholder="Enter code"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                       errors.comboCode ? 'border-red-500' : 'border-[#D0CCC7]'
                     }`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   />
                   {errors.comboCode && <p className="text-red-500 text-sm mt-1">{errors.comboCode}</p>}
                 </div>
@@ -1270,17 +1270,17 @@ function Packages({ userListings = [] }) {
 
               {/* Occupied Status */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   Is the property occupied or vacant? *
                 </label>
                 <select
                   name="occupiedStatus"
                   value={formData.occupiedStatus}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                     errors.occupiedStatus ? 'border-red-500' : 'border-[#D0CCC7]'
                   }`}
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <option value="">Select status</option>
                   <option value="occupied">Occupied</option>
@@ -1291,7 +1291,7 @@ function Packages({ userListings = [] }) {
 
               {/* Subdivision */}
               <div>
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   Housing Addition/Subdivision (if applicable)
                 </label>
                 <input
@@ -1300,14 +1300,14 @@ function Packages({ userListings = [] }) {
                   value={formData.subdivision}
                   onChange={handleInputChange}
                   placeholder="Enter subdivision name"
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all"
+                 
                 />
               </div>
 
               {/* Notes */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <label className="block text-sm font-medium text-[#111] mb-2">
                   Notes for Photographer
                 </label>
                 <textarea
@@ -1316,10 +1316,10 @@ function Packages({ userListings = [] }) {
                   onChange={handleInputChange}
                   rows={3}
                   placeholder="Any special instructions? (e.g., park or pool shots needed, pets on property, etc.)"
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all resize-none"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all resize-none"
+                 
                 />
-                <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-xs text-[#666] mt-1">
                   *If a park or public pool shot is needed, we ask the homeowner to accompany the photographer.
                 </p>
               </div>
@@ -1330,10 +1330,10 @@ function Packages({ userListings = [] }) {
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm text-blue-800 font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-blue-800 font-medium">
                   Check Service Area
                 </p>
-                <p className="text-sm text-blue-700 mt-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-blue-700 mt-1">
                   We service Tulsa and OKC metro areas.
                   <button
                     onClick={() => setShowServiceAreaModal(true)}
@@ -1358,15 +1358,15 @@ function Packages({ userListings = [] }) {
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111] mb-2">
             Select Your Photo Package
           </h3>
-          <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666]">
             Professional real estate photography is the ideal starting point if you want your listing to stand out.
           </p>
         </div>
 
-        <p className="text-sm text-[#666] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <p className="text-sm text-[#666] mb-6">
           This is full-coverage photography with full use rights for your real estate listings. Your photos are sized to work great on SaveOnYourHome and other listing sites, like the MLS, Zillow, and Trulia. We include interiors, exteriors, and details with every appointment, as well as neighborhood amenities at your request.
         </p>
 
@@ -1376,8 +1376,8 @@ function Packages({ userListings = [] }) {
             onClick={() => setFormData(prev => ({ ...prev, photoPackage: 'photos' }))}
             className={`cursor-pointer border-2 rounded-2xl p-6 transition-all ${
               formData.photoPackage === 'photos'
-                ? 'border-[#0891B2] bg-[#0891B2]/5'
-                : 'border-[#D0CCC7] hover:border-[#0891B2]/50'
+                ? 'border-[#1A1816] bg-[#1A1816]/5'
+                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
             }`}
           >
             <div className="flex items-start justify-between mb-4">
@@ -1386,7 +1386,7 @@ function Packages({ userListings = [] }) {
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                 formData.photoPackage === 'photos'
-                  ? 'border-[#0891B2] bg-[#0891B2]'
+                  ? 'border-[#1A1816] bg-[#1A1816]'
                   : 'border-[#D0CCC7]'
               }`}>
                 {formData.photoPackage === 'photos' && (
@@ -1394,10 +1394,10 @@ function Packages({ userListings = [] }) {
                 )}
               </div>
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               Photos Only
             </h4>
-            <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#666] mb-4">
               Real estate photos for listing sites
             </p>
             <ul className="space-y-2 mb-4">
@@ -1415,7 +1415,7 @@ function Packages({ userListings = [] }) {
               </li>
             </ul>
             {photoPrice && (
-              <div className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="text-2xl font-bold text-[#1A1816]">
                 ${photoPrice}
               </div>
             )}
@@ -1426,8 +1426,8 @@ function Packages({ userListings = [] }) {
             onClick={() => setFormData(prev => ({ ...prev, photoPackage: 'photosDrone' }))}
             className={`cursor-pointer border-2 rounded-2xl p-6 transition-all relative ${
               formData.photoPackage === 'photosDrone'
-                ? 'border-[#0891B2] bg-[#0891B2]/5'
-                : 'border-[#D0CCC7] hover:border-[#0891B2]/50'
+                ? 'border-[#1A1816] bg-[#1A1816]/5'
+                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
             }`}
           >
             <div className="absolute -top-3 right-4 bg-green-600 text-white text-xs font-medium px-3 py-1 rounded-full">
@@ -1439,7 +1439,7 @@ function Packages({ userListings = [] }) {
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                 formData.photoPackage === 'photosDrone'
-                  ? 'border-[#0891B2] bg-[#0891B2]'
+                  ? 'border-[#1A1816] bg-[#1A1816]'
                   : 'border-[#D0CCC7]'
               }`}>
                 {formData.photoPackage === 'photosDrone' && (
@@ -1447,10 +1447,10 @@ function Packages({ userListings = [] }) {
                 )}
               </div>
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               Photos + Drone
             </h4>
-            <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#666] mb-4">
               Drone photos included at no extra charge!
             </p>
             <ul className="space-y-2 mb-4">
@@ -1472,7 +1472,7 @@ function Packages({ userListings = [] }) {
               </li>
             </ul>
             {photoPrice && (
-              <div className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <div className="text-2xl font-bold text-[#1A1816]">
                 ${photoPrice}
                 <span className="text-sm font-normal text-[#666] ml-2">Same price!</span>
               </div>
@@ -1556,10 +1556,10 @@ function Packages({ userListings = [] }) {
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111] mb-2">
             Add More Media Products
           </h3>
-          <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666]">
             Professional real estate marketing sets your listing apart from the rest.
             These services are optional but highly recommended.
           </p>
@@ -1584,8 +1584,8 @@ function Packages({ userListings = [] }) {
                 }}
                 className={`cursor-pointer border-2 rounded-xl p-4 transition-all ${
                   isSelected
-                    ? 'border-[#0891B2] bg-[#0891B2]/5'
-                    : 'border-[#D0CCC7] hover:border-[#0891B2]/50'
+                    ? 'border-[#1A1816] bg-[#1A1816]/5'
+                    : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
                 }`}
               >
                 <div className="flex items-start justify-between mb-3">
@@ -1594,7 +1594,7 @@ function Packages({ userListings = [] }) {
                   </div>
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
                     isSelected
-                      ? 'border-[#0891B2] bg-[#0891B2]'
+                      ? 'border-[#1A1816] bg-[#1A1816]'
                       : 'border-[#D0CCC7]'
                   }`}>
                     {isSelected && (
@@ -1602,10 +1602,10 @@ function Packages({ userListings = [] }) {
                     )}
                   </div>
                 </div>
-                <h4 className="text-base font-medium text-[#111] mb-1" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h4 className="text-base font-medium text-[#111] mb-1">
                   {product.title}
                 </h4>
-                <p className="text-xs text-[#666] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-xs text-[#666] mb-3">
                   {product.description}
                 </p>
                 <ul className="space-y-1 mb-3">
@@ -1622,12 +1622,12 @@ function Packages({ userListings = [] }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-[#0891B2] underline mb-2 inline-block"
+                    className="text-xs text-[#1A1816] underline mb-2 inline-block"
                   >
                     View Sample
                   </a>
                 )}
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   ${product.price}
                   {product.isPerPhoto && <span className="text-xs font-normal text-[#666]">/photo</span>}
                   {product.isFlat && <span className="text-xs font-normal text-[#666]"> flat rate</span>}
@@ -1640,7 +1640,7 @@ function Packages({ userListings = [] }) {
         {/* Virtual Twilight Count */}
         {formData.additionalMedia.virtualTwilight && (
           <div className="bg-[#EEEDEA] rounded-xl p-4">
-            <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <label className="block text-sm font-medium text-[#111] mb-2">
               How many Virtual Twilight photos?
             </label>
             <div className="flex items-center gap-4">
@@ -1680,7 +1680,7 @@ function Packages({ userListings = [] }) {
           </div>
         )}
 
-        <p className="text-sm text-center text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <p className="text-sm text-center text-[#666]">
           You can skip this step if you only want photos. These are optional add-ons.
         </p>
       </div>
@@ -1693,10 +1693,10 @@ function Packages({ userListings = [] }) {
       {/* MLS Packages Section */}
       <div>
         <div className="text-center mb-6">
-          <h3 className="text-2xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h3 className="text-2xl font-medium text-[#111] mb-2">
             MLS Listing Options
           </h3>
-          <p className="text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-[#666]">
             Get your property on the Multiple Listing Service for maximum exposure. Optional but highly recommended.
           </p>
         </div>
@@ -1710,8 +1710,8 @@ function Packages({ userListings = [] }) {
             }))}
             className={`cursor-pointer border-2 rounded-2xl p-6 transition-all ${
               formData.mlsPackage === 'basic'
-                ? 'border-[#0891B2] bg-[#0891B2]/5'
-                : 'border-[#D0CCC7] hover:border-[#0891B2]/50'
+                ? 'border-[#1A1816] bg-[#1A1816]/5'
+                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
             }`}
           >
             <div className="flex items-start justify-between mb-4">
@@ -1720,7 +1720,7 @@ function Packages({ userListings = [] }) {
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                 formData.mlsPackage === 'basic'
-                  ? 'border-[#0891B2] bg-[#0891B2]'
+                  ? 'border-[#1A1816] bg-[#1A1816]'
                   : 'border-[#D0CCC7]'
               }`}>
                 {formData.mlsPackage === 'basic' && (
@@ -1728,10 +1728,10 @@ function Packages({ userListings = [] }) {
                 )}
               </div>
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               Basic MLS
             </h4>
-            <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#666] mb-4">
               6-month MLS listing
             </p>
             <ul className="space-y-2 mb-4">
@@ -1748,7 +1748,7 @@ function Packages({ userListings = [] }) {
                 <span>6-month listing period</span>
               </li>
             </ul>
-            <div className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <div className="text-2xl font-bold text-[#1A1816]">
               $250
             </div>
           </div>
@@ -1761,11 +1761,11 @@ function Packages({ userListings = [] }) {
             }))}
             className={`cursor-pointer border-2 rounded-2xl p-6 transition-all relative ${
               formData.mlsPackage === 'deluxe'
-                ? 'border-[#0891B2] bg-[#0891B2]/5'
-                : 'border-[#D0CCC7] hover:border-[#0891B2]/50'
+                ? 'border-[#1A1816] bg-[#1A1816]/5'
+                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
             }`}
           >
-            <div className="absolute -top-3 right-4 bg-[#0891B2] text-white text-xs font-medium px-3 py-1 rounded-full">
+            <div className="absolute -top-3 right-4 bg-[#1A1816] text-white text-xs font-medium px-3 py-1 rounded-full">
               BEST VALUE
             </div>
             <div className="flex items-start justify-between mb-4">
@@ -1774,7 +1774,7 @@ function Packages({ userListings = [] }) {
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                 formData.mlsPackage === 'deluxe'
-                  ? 'border-[#0891B2] bg-[#0891B2]'
+                  ? 'border-[#1A1816] bg-[#1A1816]'
                   : 'border-[#D0CCC7]'
               }`}>
                 {formData.mlsPackage === 'deluxe' && (
@@ -1782,10 +1782,10 @@ function Packages({ userListings = [] }) {
                 )}
               </div>
             </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium text-[#111] mb-2">
               MLS Deluxe
             </h4>
-            <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#666] mb-4">
               Everything in Basic plus premium features
             </p>
             <ul className="space-y-2 mb-4">
@@ -1806,7 +1806,7 @@ function Packages({ userListings = [] }) {
                 <span>M&T Realty Yard Sign</span>
               </li>
             </ul>
-            <div className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <div className="text-2xl font-bold text-[#1A1816]">
               $350
             </div>
           </div>
@@ -1815,10 +1815,10 @@ function Packages({ userListings = [] }) {
         {/* MLS Signers - Only show if MLS selected */}
         {formData.mlsPackage && (
           <div className="bg-[#EEEDEA] rounded-xl p-6">
-            <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-lg font-medium text-[#111] mb-4">
               MLS Form Signers
             </h4>
-            <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-sm text-[#666] mb-4">
               Please provide the names and email addresses of everyone who needs to sign the MLS forms.
             </p>
             {formData.mlsSigners.map((signer, index) => (
@@ -1829,10 +1829,10 @@ function Packages({ userListings = [] }) {
                     value={signer.name}
                     onChange={(e) => handleMLSSignerChange(index, 'name', e.target.value)}
                     placeholder="Full Name"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                       errors[`signer_${index}_name`] ? 'border-red-500' : 'border-[#D0CCC7]'
                     }`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   />
                 </div>
                 <div className="flex-1">
@@ -1841,10 +1841,10 @@ function Packages({ userListings = [] }) {
                     value={signer.email}
                     onChange={(e) => handleMLSSignerChange(index, 'email', e.target.value)}
                     placeholder="Email Address"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                       errors[`signer_${index}_email`] ? 'border-red-500' : 'border-[#D0CCC7]'
                     }`}
-                    style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                   
                   />
                 </div>
                 {formData.mlsSigners.length > 1 && (
@@ -1861,8 +1861,8 @@ function Packages({ userListings = [] }) {
             <button
               type="button"
               onClick={addMLSSigner}
-              className="text-[#0891B2] text-sm font-medium hover:underline"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="text-[#1A1816] text-sm font-medium hover:underline"
+             
             >
               + Add Another Signer
             </button>
@@ -1877,10 +1877,10 @@ function Packages({ userListings = [] }) {
             <Shield className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1">
-            <h4 className="text-xl font-medium mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h4 className="text-xl font-medium mb-2">
               Broker-Assisted Program
             </h4>
-            <p className="text-white/80 text-sm mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-white/80 text-sm mb-4">
               Get professional broker assistance throughout the entire selling process for a fraction of the traditional commission.
             </p>
             <ul className="space-y-2 mb-4">
@@ -1907,9 +1907,9 @@ function Packages({ userListings = [] }) {
                 name="brokerAssisted"
                 checked={formData.brokerAssisted}
                 onChange={handleInputChange}
-                className="w-5 h-5 rounded border-white/30 bg-white/10 text-[#0891B2] focus:ring-[#0891B2]"
+                className="w-5 h-5 rounded border-white/30 bg-white/10 text-[#1A1816] focus:ring-[#1A1816]"
               />
-              <span className="text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-sm font-medium">
                 Yes, I'm interested in Broker Assistance
               </span>
             </label>
@@ -1919,15 +1919,15 @@ function Packages({ userListings = [] }) {
 
       {/* Scheduling Section */}
       <div>
-        <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <h4 className="text-lg font-medium text-[#111] mb-4">
           Scheduling Preferences
         </h4>
-        <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <p className="text-sm text-[#666] mb-4">
           The estimated photo session is 60-90 minutes. We'll contact you to confirm the exact appointment time.
         </p>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <label className="block text-sm font-medium text-[#111] mb-2">
               When are you ready for photos?
             </label>
             <input
@@ -1936,22 +1936,22 @@ function Packages({ userListings = [] }) {
               value={formData.preferredDate}
               onChange={handleInputChange}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all"
+             
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <label className="block text-sm font-medium text-[#111] mb-2">
               What time of day works best? *
             </label>
             <select
               name="preferredTime"
               value={formData.preferredTime}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+              className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                 errors.preferredTime ? 'border-red-500' : 'border-[#D0CCC7]'
               }`}
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               <option value="">Select preferred time</option>
               <option value="morning">Morning (8am - 12pm)</option>
@@ -1966,15 +1966,15 @@ function Packages({ userListings = [] }) {
       {/* Account/Contact Section */}
       {!auth?.user && (
         <div>
-          <h4 className="text-lg font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <h4 className="text-lg font-medium text-[#111] mb-4">
             Create Your Account
           </h4>
-          <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-sm text-[#666] mb-4">
             Create an account to manage your content, marketing, and listings easily.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 First Name *
               </label>
               <input
@@ -1982,15 +1982,15 @@ function Packages({ userListings = [] }) {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.firstName ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 Last Name *
               </label>
               <input
@@ -1998,15 +1998,15 @@ function Packages({ userListings = [] }) {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.lastName ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 Email Address *
               </label>
               <input
@@ -2014,15 +2014,15 @@ function Packages({ userListings = [] }) {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.email ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 Phone Number *
               </label>
               <input
@@ -2030,15 +2030,15 @@ function Packages({ userListings = [] }) {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.phone ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 Password *
               </label>
               <input
@@ -2046,15 +2046,15 @@ function Packages({ userListings = [] }) {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.password ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <label className="block text-sm font-medium text-[#111] mb-2">
                 Confirm Password *
               </label>
               <input
@@ -2062,10 +2062,10 @@ function Packages({ userListings = [] }) {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] transition-all ${
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
                   errors.confirmPassword ? 'border-red-500' : 'border-[#D0CCC7]'
                 }`}
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               />
               {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
             </div>
@@ -2078,10 +2078,10 @@ function Packages({ userListings = [] }) {
           <div className="flex items-center gap-3">
             <CheckCircle className="w-5 h-5 text-green-600" />
             <div>
-              <p className="text-sm text-green-800 font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-green-800 font-medium">
                 Logged in as {auth.user.name}
               </p>
-              <p className="text-sm text-green-700" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-green-700">
                 Your order will be linked to your existing account.
               </p>
             </div>
@@ -2098,7 +2098,7 @@ function Packages({ userListings = [] }) {
 
     return (
       <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
-        <h4 className="text-lg font-medium text-[#111] mb-4 pb-4 border-b border-gray-200" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        <h4 className="text-lg font-medium text-[#111] mb-4 pb-4 border-b border-gray-200">
           Order Summary
         </h4>
 
@@ -2171,17 +2171,17 @@ function Packages({ userListings = [] }) {
           {formData.brokerAssisted && (
             <div className="flex justify-between text-sm">
               <span className="text-[#666]">Broker Assisted</span>
-              <span className="font-medium text-[#0891B2]">At closing</span>
+              <span className="font-medium text-[#1A1816]">At closing</span>
             </div>
           )}
         </div>
 
         <div className="border-t border-gray-200 pt-4">
           <div className="flex justify-between items-center">
-            <span className="text-lg font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span className="text-lg font-medium text-[#111]">
               Total
             </span>
-            <span className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <span className="text-2xl font-bold text-[#1A1816]">
               ${total}
             </span>
           </div>
@@ -2193,7 +2193,7 @@ function Packages({ userListings = [] }) {
         </div>
 
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-          <p className="text-xs text-blue-800" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+          <p className="text-xs text-blue-800">
             <strong>No payment required today.</strong> We accept Venmo, CashApp, PayPal, Cash, or Check once photos are taken or MLS is listed.
           </p>
         </div>
@@ -2221,14 +2221,14 @@ function Packages({ userListings = [] }) {
             <div className="max-w-3xl">
               <h1
                 className="text-white text-[36px] sm:text-[44px] md:text-[52px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Professional Multimedia Marketing for FSBO Sellers
               </h1>
 
               <p
                 className="text-white text-[15px] md:text-[17px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 SaveOnYourHome is your real estate multimedia marketing company for sellers who choose to sell without the use of a traditional real estate agent. Get a free listing to manage your online presence, then upgrade to add professional multimedia, including photos, drones, floor plans, and 3D tours. Want to be on the Multiple Listing Service (MLS) with a flat-fee listing? We have you covered!
               </p>
@@ -2236,8 +2236,8 @@ function Packages({ userListings = [] }) {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={goToOrderForm}
-                  className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                  className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+                 
                 >
                   <Camera className="w-5 h-5" />
                   Order Photos & Media
@@ -2246,7 +2246,7 @@ function Packages({ userListings = [] }) {
                 <Link
                   href="/list-property"
                   className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-white/20"
-                  style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                 
                 >
                   <Zap className="w-5 h-5" />
                   Create Free Listing First
@@ -2266,8 +2266,8 @@ function Packages({ userListings = [] }) {
                 <Camera className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div>
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>From $175</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Pro Photos + Drone</div>
+                <div className="text-[#111] font-semibold text-base">From $175</div>
+                <div className="text-[#666] text-sm">Pro Photos + Drone</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
@@ -2275,8 +2275,8 @@ function Packages({ userListings = [] }) {
                 <Clock className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div>
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Next Day</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Photo Delivery</div>
+                <div className="text-[#111] font-semibold text-base">Next Day</div>
+                <div className="text-[#666] text-sm">Photo Delivery</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
@@ -2284,8 +2284,8 @@ function Packages({ userListings = [] }) {
                 <Globe className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div>
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>From $250</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>MLS Listing</div>
+                <div className="text-[#111] font-semibold text-base">From $250</div>
+                <div className="text-[#666] text-sm">MLS Listing</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
@@ -2293,8 +2293,8 @@ function Packages({ userListings = [] }) {
                 <DollarSign className="w-5 h-5 text-[#3D3D3D]" />
               </div>
               <div>
-                <div className="text-[#111] font-semibold text-base" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Pay Later</div>
-                <div className="text-[#666] text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>After Service</div>
+                <div className="text-[#111] font-semibold text-base">Pay Later</div>
+                <div className="text-[#666] text-sm">After Service</div>
               </div>
             </div>
           </div>
@@ -2306,14 +2306,14 @@ function Packages({ userListings = [] }) {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <span className="text-[#666] text-sm font-medium">
                 Our Services
               </span>
             </div>
-            <h2 className="text-[32px] md:text-[44px] font-medium text-[#111] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <h2 className="text-[32px] md:text-[44px] font-medium text-[#111] mb-4">
               Professional Real Estate Marketing
             </h2>
-            <p className="text-[16px] text-[#666] max-w-2xl mx-auto" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+            <p className="text-[16px] text-[#666] max-w-2xl mx-auto">
               Everything you need to market your property like a pro. If you were to list with a traditional real estate agent, you'd expect professional marketing - so why not do the same?<br />Sell by owner!
             </p>
           </div>
@@ -2324,20 +2324,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.photosDrone)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Camera className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Professional Photos + Drone
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 30-40 HDR photos including aerial drone shots. Next day delivery. Full use rights for all listing sites.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   From $175
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2348,20 +2348,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.zillow3D)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Layers className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Zillow 3D + Floor Plan
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 360 photo tour with interactive 2D floor plan. Perfect for Zillow listings.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   From $135
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2372,20 +2372,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.videoWalkthrough)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Video className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Video Walkthrough
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 Cinematic video tour of your entire property. Two-day turnaround.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   From $175
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2396,20 +2396,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.matterport)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Box className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Matterport 3D Tour
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 Fully immersive 3D experience with dollhouse view. 1 year hosting included.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   From $300
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2420,20 +2420,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.reelsTikTok)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Play className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Reels/TikTok Video
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 Social media optimized short-form video. Perfect for Instagram and TikTok.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   From $150
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2444,20 +2444,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.virtualTwilight)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <Sun className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 Virtual Twilight
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 Transform daytime photos into stunning twilight shots digitally.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   $15/photo
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2468,20 +2468,20 @@ function Packages({ userListings = [] }) {
               onClick={() => setSelectedService(SERVICES_DATA.floorPlan)}
               className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#0891B2] transition-colors">
+              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
                 <FileText className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
-              <h3 className="text-xl font-medium text-[#111] mb-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-[#111] mb-2">
                 2D Floor Plan
               </h3>
-              <p className="text-sm text-[#666] mb-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-sm text-[#666] mb-4">
                 Professional property floor plan to help buyers visualize the space.
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold text-[#0891B2]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <div className="text-lg font-bold text-[#1A1816]">
                   $40 flat
                 </div>
-                <span className="text-sm text-[#0891B2] group-hover:underline" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-sm text-[#1A1816] group-hover:underline">
                   View Details →
                 </span>
               </div>
@@ -2491,8 +2491,8 @@ function Packages({ userListings = [] }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <button
               onClick={goToOrderForm}
-              className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0E7490] hover:shadow-lg"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+             
             >
               <Camera className="w-5 h-5" />
               Start Your Order
@@ -2500,8 +2500,8 @@ function Packages({ userListings = [] }) {
             </button>
             <button
               onClick={() => setShowHowItWorksModal(true)}
-              className="inline-flex items-center gap-2 bg-white border-2 border-[#0891B2] text-[#0891B2] rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#0891B2] hover:text-white hover:shadow-lg"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+              className="inline-flex items-center gap-2 bg-white border-2 border-[#1A1816] text-[#1A1816] rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1A1816] hover:text-white hover:shadow-lg"
+             
             >
               <HelpCircle className="w-5 h-5" />
               How It Works
@@ -2516,35 +2516,35 @@ function Packages({ userListings = [] }) {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-[#666] text-sm font-medium">
                   MLS Listing
                 </span>
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-6">
                 Get on the MLS for Maximum Exposure
               </h2>
-              <p className="text-[16px] text-[#666] mb-8" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-[16px] text-[#666] mb-8">
                 The MLS is where real estate agents find properties for their buyers. Your listing will appear on Zillow, Realtor.com, Redfin, and hundreds of other sites.
               </p>
 
               <div className="space-y-6">
                 <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group">
                   <div className="flex items-start gap-4">
-                    <div className="bg-[#E5E1DC] p-2 rounded-lg group-hover:bg-[#0891B2] transition-colors">
+                    <div className="bg-[#E5E1DC] p-2 rounded-lg group-hover:bg-[#1A1816] transition-colors">
                       <Globe className="w-5 h-5 text-[#3D3D3D] group-hover:text-white transition-colors" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-lg font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>Basic MLS</h4>
-                        <span className="text-xl font-bold text-[#0891B2]">$250</span>
+                        <h4 className="text-lg font-medium text-[#111]">Basic MLS</h4>
+                        <span className="text-xl font-bold text-[#1A1816]">$250</span>
                       </div>
-                      <p className="text-sm text-[#666] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <p className="text-sm text-[#666] mb-3">
                         6-month MLS listing with syndication to all major real estate websites.
                       </p>
                       <Link
                         href="/list-property"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-[#0891B2] hover:underline"
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-[#1A1816] hover:underline"
+                       
                       >
                         Create Your Listing
                         <ChevronRight className="w-4 h-4" />
@@ -2553,26 +2553,26 @@ function Packages({ userListings = [] }) {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-6 border-2 border-[#0891B2] hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="bg-white rounded-xl p-6 border-2 border-[#1A1816] hover:shadow-lg transition-all duration-300 cursor-pointer group">
                   <div className="flex items-start gap-4">
-                    <div className="bg-[#0891B2] p-2 rounded-lg">
+                    <div className="bg-[#1A1816] p-2 rounded-lg">
                       <Star className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <div>
-                          <h4 className="text-lg font-medium text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>MLS Deluxe</h4>
-                          <span className="text-xs bg-[#0891B2] text-white px-2 py-0.5 rounded-full">BEST VALUE</span>
+                          <h4 className="text-lg font-medium text-[#111]">MLS Deluxe</h4>
+                          <span className="text-xs bg-[#1A1816] text-white px-2 py-0.5 rounded-full">BEST VALUE</span>
                         </div>
-                        <span className="text-xl font-bold text-[#0891B2]">$350</span>
+                        <span className="text-xl font-bold text-[#1A1816]">$350</span>
                       </div>
-                      <p className="text-sm text-[#666] mb-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      <p className="text-sm text-[#666] mb-3">
                         Everything in Basic plus ShowingTime, SentriLock, and M&T Realty Yard Sign.
                       </p>
                       <Link
                         href="/list-property"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-[#0891B2] hover:underline"
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-[#1A1816] hover:underline"
+                       
                       >
                         Create Your Listing
                         <ChevronRight className="w-4 h-4" />
@@ -2594,10 +2594,10 @@ function Packages({ userListings = [] }) {
                     className="h-12 w-auto"
                   />
                 </div>
-                <h4 className="text-lg font-semibold text-[#111]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <h4 className="text-lg font-semibold text-[#111]">
                   Your MLS Listing
                 </h4>
-                <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <p className="text-sm text-[#666]">
                   Syndicates to 100+ sites automatically
                 </p>
               </div>
@@ -2607,8 +2607,8 @@ function Packages({ userListings = [] }) {
 
               {/* Bottom text */}
               <div className="mt-6 pt-6 border-t border-[#E5E1DC] text-center">
-                <p className="text-sm text-[#666]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-                  <span className="font-semibold text-[#0891B2]">+100 more</span> real estate websites
+                <p className="text-sm text-[#666]">
+                  <span className="font-semibold text-[#1A1816]">+100 more</span> real estate websites
                 </p>
               </div>
             </div>
@@ -2622,46 +2622,46 @@ function Packages({ userListings = [] }) {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center bg-white/20 rounded-lg px-4 py-2 mb-6">
-                <span className="text-white text-sm font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                <span className="text-white text-sm font-medium">
                   Broker Assistance
                 </span>
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-6">
                 Need Help?<br />Get Broker Assistance
               </h2>
-              <p className="text-[16px] text-white/80 mb-8" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-[16px] text-white/80 mb-8">
                 Should you prefer to have Broker-Assistance available throughout the entire process to closing, upgrade to Broker-Assistance. Save thousands compared to traditional real estate commissions.
               </p>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-white/90">
                     <strong>1.5% of the final sales price</strong> or a minimum of $2,500 (paid at closing)
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-white/90">
                     If the seller finds an unrepresented buyer: <strong>3% or $5,000 minimum</strong> fee to handle both sides
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <p className="text-white/90">
                     Only collected if your property successfully closes
                   </p>
                 </div>
               </div>
 
-              <p className="text-xs text-white/60 mb-6 bg-white/10 rounded-lg p-3" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-xs text-white/60 mb-6 bg-white/10 rounded-lg p-3">
                 All real estate services to be performed by M&T Realty Group, License #180717.
               </p>
 
               <Link
                 href="/our-packages"
                 className="inline-flex items-center gap-2 bg-white text-[#413936] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-gray-100"
-                style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+               
               >
                 Learn More
                 <ChevronRight className="w-5 h-5" />
@@ -2669,7 +2669,7 @@ function Packages({ userListings = [] }) {
             </div>
 
             <div className="bg-white/10 rounded-2xl p-8">
-              <h3 className="text-xl font-medium text-white mb-6" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <h3 className="text-xl font-medium text-white mb-6">
                 Compare Savings
               </h3>
 
@@ -2678,17 +2678,17 @@ function Packages({ userListings = [] }) {
                 {/* Header Row */}
                 <div className="grid grid-cols-3 gap-2 mb-2">
                   <div></div>
-                  <div className="text-center text-white/80 text-sm font-medium py-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-center text-white/80 text-sm font-medium py-2">
                     With Buyer's Agent
                   </div>
-                  <div className="text-center text-white/80 text-sm font-medium py-2" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-center text-white/80 text-sm font-medium py-2">
                     No Buyer's Agent
                   </div>
                 </div>
 
                 {/* Traditional Agent Row */}
                 <div className="grid grid-cols-3 gap-2 py-3 border-b border-white/20">
-                  <div className="text-white/80 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-white/80 text-sm">
                     Traditional Agent (6%)
                   </div>
                   <div className="text-center text-white font-medium">$18,000</div>
@@ -2697,7 +2697,7 @@ function Packages({ userListings = [] }) {
 
                 {/* M&T Broker Assisted Row */}
                 <div className="grid grid-cols-3 gap-2 py-3 border-b border-white/20">
-                  <div className="text-white/80 text-sm" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-white/80 text-sm">
                     M&T Broker Assisted
                   </div>
                   <div className="text-center text-green-400 font-medium">$13,500</div>
@@ -2706,7 +2706,7 @@ function Packages({ userListings = [] }) {
 
                 {/* Your Savings Row */}
                 <div className="grid grid-cols-3 gap-2 py-4 bg-white/5 rounded-lg mt-2">
-                  <div className="text-white font-medium" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                  <div className="text-white font-medium">
                     Your Savings
                   </div>
                   <div className="text-center text-xl font-bold text-green-400">$4,500</div>
@@ -2714,7 +2714,7 @@ function Packages({ userListings = [] }) {
                 </div>
               </div>
 
-              <p className="text-xs text-white/60 mt-4" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+              <p className="text-xs text-white/60 mt-4">
                 *Based on a $300,000 home sale price, and 3% going to the buyer's agent.
               </p>
             </div>
@@ -2751,7 +2751,7 @@ function Packages({ userListings = [] }) {
             <button
               onClick={() => currentStep === 1 ? goToOverview() : prevStep()}
               className="inline-flex items-center gap-2 text-[#666] hover:text-[#111] mb-6 transition-colors"
-              style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+             
             >
               <ArrowLeft className="w-5 h-5" />
               {currentStep === 1 ? 'Back to Packages' : 'Previous Step'}
@@ -2781,7 +2781,7 @@ function Packages({ userListings = [] }) {
                             : 'text-[#666] hover:text-[#111] hover:bg-gray-100'
                         }`}
                         disabled={currentStep === 1}
-                        style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                       
                       >
                         <ArrowLeft className="w-5 h-5" />
                         Previous
@@ -2793,8 +2793,8 @@ function Packages({ userListings = [] }) {
                           <button
                             type="button"
                             onClick={nextStep}
-                            className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490]"
-                            style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                            className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+                           
                           >
                             {currentStep === 3 ? 'Continue to MLS & Scheduling' : 'Continue'}
                             <ChevronRight className="w-5 h-5" />
@@ -2804,8 +2804,8 @@ function Packages({ userListings = [] }) {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="inline-flex items-center gap-2 bg-[#0891B2] text-white rounded-full px-8 py-3 font-medium transition-all duration-300 hover:bg-[#0E7490] disabled:opacity-50 disabled:cursor-not-allowed"
-                          style={{ fontFamily: 'Instrument Sans, sans-serif' }}
+                          className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-3 font-medium transition-all duration-300 hover:bg-[#111111] disabled:opacity-50 disabled:cursor-not-allowed"
+                         
                         >
                           {isSubmitting ? 'Submitting...' : 'Submit Order Request'}
                           <CheckCircle className="w-5 h-5" />

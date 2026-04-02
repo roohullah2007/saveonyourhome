@@ -455,7 +455,7 @@ export default function EditListing({ property }) {
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Edit Listing
                     </h1>
                     <p className="text-gray-500">Update your property details</p>
@@ -504,8 +504,8 @@ export default function EditListing({ property }) {
 
                 {/* Basic Information */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <Home className="w-5 h-5 text-[#0891B2]" />
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <Home className="w-5 h-5 text-[#1A1816]" />
                         Basic Information
                     </h2>
 
@@ -518,7 +518,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.property_title}
                                 onChange={(e) => setData('property_title', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.property_title ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., Beautiful 3 Bedroom Family Home"
@@ -535,7 +535,7 @@ export default function EditListing({ property }) {
                             <select
                                 value={data.property_type}
                                 onChange={(e) => setData('property_type', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.property_type ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             >
@@ -569,7 +569,7 @@ export default function EditListing({ property }) {
                                         status: statusMap[newListingStatus] || 'for-sale'
                                     }));
                                 }}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.listing_status ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             >
@@ -594,7 +594,7 @@ export default function EditListing({ property }) {
                                 type="number"
                                 value={data.price}
                                 onChange={(e) => setData('price', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.price ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., 350000"
@@ -608,8 +608,8 @@ export default function EditListing({ property }) {
 
                 {/* Location */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <MapPin className="w-5 h-5 text-[#0891B2]" />
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <MapPin className="w-5 h-5 text-[#1A1816]" />
                         Location
                     </h2>
 
@@ -622,7 +622,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.address}
                                 onChange={(e) => setData('address', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.address ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., 123 Main Street"
@@ -640,7 +640,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.city}
                                 onChange={(e) => setData('city', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.city ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., Oklahoma City"
@@ -658,7 +658,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.state}
                                 onChange={(e) => setData('state', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.state ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., OK"
@@ -676,7 +676,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.zip_code}
                                 onChange={(e) => setData('zip_code', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.zip_code ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., 73102"
@@ -703,8 +703,8 @@ export default function EditListing({ property }) {
 
                 {/* School Information */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <svg className="w-5 h-5 text-[#0891B2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-[#1A1816]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                         </svg>
@@ -720,7 +720,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.school_district}
                                 onChange={(e) => setData('school_district', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.school_district ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., Tulsa Public Schools"
@@ -738,7 +738,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.grade_school}
                                 onChange={(e) => setData('grade_school', e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 placeholder="Elementary school name"
                             />
                         </div>
@@ -751,7 +751,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.middle_school}
                                 onChange={(e) => setData('middle_school', e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 placeholder="Middle school name"
                             />
                         </div>
@@ -764,7 +764,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.high_school}
                                 onChange={(e) => setData('high_school', e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 placeholder="High school name"
                             />
                         </div>
@@ -773,8 +773,8 @@ export default function EditListing({ property }) {
 
                 {/* Property Details / Lot Details */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <FileText className="w-5 h-5 text-[#0891B2]" />
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-[#1A1816]" />
                         {data.property_type === 'land' ? 'Lot Details' : 'Property Details'}
                     </h2>
 
@@ -791,7 +791,7 @@ export default function EditListing({ property }) {
                                         type="number"
                                         value={data.bedrooms}
                                         onChange={(e) => setData('bedrooms', e.target.value)}
-                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                             errors.bedrooms ? 'border-red-500' : 'border-gray-200'
                                         }`}
                                         min="0"
@@ -810,7 +810,7 @@ export default function EditListing({ property }) {
                                         type="number"
                                         value={data.full_bathrooms}
                                         onChange={(e) => setData('full_bathrooms', e.target.value)}
-                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                             errors.full_bathrooms ? 'border-red-500' : 'border-gray-200'
                                         }`}
                                         min="0"
@@ -829,7 +829,7 @@ export default function EditListing({ property }) {
                                         type="number"
                                         value={data.half_bathrooms}
                                         onChange={(e) => setData('half_bathrooms', e.target.value)}
-                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                             errors.half_bathrooms ? 'border-red-500' : 'border-gray-200'
                                         }`}
                                         min="0"
@@ -848,7 +848,7 @@ export default function EditListing({ property }) {
                                         type="number"
                                         value={data.sqft}
                                         onChange={(e) => setData('sqft', e.target.value)}
-                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                             errors.sqft ? 'border-red-500' : 'border-gray-200'
                                         }`}
                                         min="0"
@@ -867,7 +867,7 @@ export default function EditListing({ property }) {
                                         type="number"
                                         value={data.year_built}
                                         onChange={(e) => setData('year_built', e.target.value)}
-                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                        className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                             errors.year_built ? 'border-red-500' : 'border-gray-200'
                                         }`}
                                         min="1800"
@@ -888,7 +888,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.lot_size}
                                 onChange={(e) => setData('lot_size', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.lot_size ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="e.g., 43560"
@@ -909,7 +909,7 @@ export default function EditListing({ property }) {
                                         step="0.0001"
                                         value={data.acres}
                                         onChange={(e) => setData('acres', e.target.value)}
-                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                         placeholder="e.g., 5.5"
                                     />
                                     <p className="text-xs text-gray-400 mt-1">Acres x 43,560 = sqft</p>
@@ -923,7 +923,7 @@ export default function EditListing({ property }) {
                                         type="text"
                                         value={data.zoning}
                                         onChange={(e) => setData('zoning', e.target.value)}
-                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                         placeholder="e.g., Agricultural, Residential"
                                     />
                                 </div>
@@ -939,7 +939,7 @@ export default function EditListing({ property }) {
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
                             rows={5}
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             placeholder={data.property_type === 'land' ? 'Describe your lot/land...' : 'Describe your property...'}
                         />
                     </div>
@@ -947,7 +947,7 @@ export default function EditListing({ property }) {
 
                 {/* Features */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
                         {data.property_type === 'land' ? 'Land Features' : 'Features & Amenities'}
                     </h2>
 
@@ -960,7 +960,7 @@ export default function EditListing({ property }) {
                                     key={feature}
                                     className={`flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-colors ${
                                         isSelected
-                                            ? 'border-[#0891B2] bg-[#0891B2]/5 text-[#0891B2]'
+                                            ? 'border-[#1A1816] bg-[#1A1816]/5 text-[#1A1816]'
                                             : 'border-gray-200 hover:border-gray-300'
                                     }`}
                                 >
@@ -972,7 +972,7 @@ export default function EditListing({ property }) {
                                     />
                                     <span className={`w-4 h-4 rounded border flex items-center justify-center ${
                                         isSelected
-                                            ? 'bg-[#0891B2] border-[#0891B2]'
+                                            ? 'bg-[#1A1816] border-[#1A1816]'
                                             : 'border-gray-300'
                                     }`}>
                                         {isSelected && (
@@ -990,8 +990,8 @@ export default function EditListing({ property }) {
 
                 {/* Virtual Tours & Media */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <svg className="w-5 h-5 text-[#0891B2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-[#1A1816]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                         </svg>
                         Virtual Tours & Media
@@ -1006,7 +1006,7 @@ export default function EditListing({ property }) {
                                 type="url"
                                 value={data.virtual_tour_url}
                                 onChange={(e) => setData('virtual_tour_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.virtual_tour_url ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="https://..."
@@ -1024,7 +1024,7 @@ export default function EditListing({ property }) {
                                 type="url"
                                 value={data.matterport_url}
                                 onChange={(e) => setData('matterport_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.matterport_url ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="https://my.matterport.com/show/?m=..."
@@ -1042,7 +1042,7 @@ export default function EditListing({ property }) {
                                 type="url"
                                 value={data.video_tour_url}
                                 onChange={(e) => setData('video_tour_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.video_tour_url ? 'border-red-500' : 'border-gray-200'
                                 }`}
                                 placeholder="https://..."
@@ -1069,8 +1069,8 @@ export default function EditListing({ property }) {
 
                 {/* Contact Information */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                        <User className="w-5 h-5 text-[#0891B2]" />
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <User className="w-5 h-5 text-[#1A1816]" />
                         Contact Information
                     </h2>
 
@@ -1084,7 +1084,7 @@ export default function EditListing({ property }) {
                                 type="text"
                                 value={data.contact_name}
                                 onChange={(e) => setData('contact_name', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.contact_name ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             />
@@ -1102,7 +1102,7 @@ export default function EditListing({ property }) {
                                 type="email"
                                 value={data.contact_email}
                                 onChange={(e) => setData('contact_email', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.contact_email ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             />
@@ -1120,7 +1120,7 @@ export default function EditListing({ property }) {
                                 type="tel"
                                 value={data.contact_phone}
                                 onChange={(e) => setData('contact_phone', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2] ${
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.contact_phone ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             />
@@ -1134,15 +1134,15 @@ export default function EditListing({ property }) {
                 {/* Photo Management */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
-                            <Image className="w-5 h-5 text-[#0891B2]" />
+                        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                            <Image className="w-5 h-5 text-[#1A1816]" />
                             Photos ({totalPhotos}/{maxPhotos})
                         </h2>
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
                             disabled={isUploading || totalPhotos >= maxPhotos}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#0891B2] text-white rounded-xl text-sm font-medium hover:bg-[#0E7490] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#1A1816] text-white rounded-xl text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
                         >
                             {isUploading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -1175,7 +1175,7 @@ export default function EditListing({ property }) {
                             <div className="flex items-center gap-3">
                                 {newPhotoPreviews.some(p => p.uploading) && (
                                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                                        <Loader2 className="w-4 h-4 animate-spin text-[#0891B2]" />
+                                        <Loader2 className="w-4 h-4 animate-spin text-[#1A1816]" />
                                         <span>Uploading {newPhotoPreviews.filter(p => p.uploading).length} photo(s)...</span>
                                     </div>
                                 )}
@@ -1317,7 +1317,7 @@ export default function EditListing({ property }) {
                                         />
                                         {/* Main Photo Badge */}
                                         {index === 0 && (
-                                            <span className="absolute top-2 left-2 bg-[#0891B2] text-white text-xs px-2 py-1 rounded-full font-medium">
+                                            <span className="absolute top-2 left-2 bg-[#1A1816] text-white text-xs px-2 py-1 rounded-full font-medium">
                                                 Main Photo
                                             </span>
                                         )}
@@ -1361,10 +1361,10 @@ export default function EditListing({ property }) {
                                 <Mail className="w-5 h-5 text-blue-600" />
                             </div>
                             <div>
-                                <p className="text-sm font-semibold text-blue-800" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                <p className="text-sm font-semibold text-blue-800">
                                     Have many photos or large files?
                                 </p>
-                                <p className="text-sm text-blue-700 mt-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                <p className="text-sm text-blue-700 mt-1">
                                     Email up to 50 photos to{' '}
                                     <a href="mailto:photos@saveonyourhome.com" className="font-medium underline hover:text-blue-900">
                                         photos@saveonyourhome.com
@@ -1392,7 +1392,7 @@ export default function EditListing({ property }) {
                     <button
                         type="submit"
                         disabled={processing || savingPhotos || isUploading}
-                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0891B2] text-white rounded-xl font-medium hover:bg-[#0E7490] transition-colors disabled:opacity-50"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-xl font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
                     >
                         {(processing || savingPhotos) ? (
                             <Loader2 className="w-5 h-5 animate-spin" />

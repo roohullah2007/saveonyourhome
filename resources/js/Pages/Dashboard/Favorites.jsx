@@ -65,14 +65,14 @@ export default function Favorites({ favorites, filters = {} }) {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                    <h1 className="text-2xl font-bold text-gray-900">
                         Saved Properties
                     </h1>
                     <p className="text-gray-500">{totalCount} properties saved</p>
                 </div>
                 <Link
                     href="/properties"
-                    className="inline-flex items-center gap-2 bg-[#0891B2] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#0E7490] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
                 >
                     <Home className="w-5 h-5" />
                     Browse Properties
@@ -89,7 +89,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             placeholder="Search saved properties..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891B2]/20 focus:border-[#0891B2]"
+                            className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         />
                     </form>
                     <div className="flex gap-2">
@@ -97,7 +97,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             onClick={() => setViewMode('grid')}
                             className={`p-2.5 rounded-lg transition-colors ${
                                 viewMode === 'grid'
-                                    ? 'bg-[#0891B2] text-white'
+                                    ? 'bg-[#1A1816] text-white'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                         >
@@ -107,7 +107,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             onClick={() => setViewMode('list')}
                             className={`p-2.5 rounded-lg transition-colors ${
                                 viewMode === 'list'
-                                    ? 'bg-[#0891B2] text-white'
+                                    ? 'bg-[#1A1816] text-white'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                         >
@@ -127,7 +127,7 @@ export default function Favorites({ favorites, filters = {} }) {
                     </p>
                     <Link
                         href="/properties"
-                        className="inline-flex items-center gap-2 bg-[#0891B2] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#0E7490] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
                     >
                         <Home className="w-5 h-5" />
                         Browse Properties
@@ -160,13 +160,13 @@ export default function Favorites({ favorites, filters = {} }) {
                                     }}
                                     className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
                                 >
-                                    <Heart className="w-5 h-5 text-[#0891B2] fill-[#0891B2]" />
+                                    <Heart className="w-5 h-5 text-[#1A1816] fill-[#1A1816]" />
                                 </button>
                             </div>
 
                             {/* Content */}
                             <div className="p-4">
-                                <h3 className="font-semibold text-gray-900 mb-1" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                <h3 className="font-semibold text-gray-900 mb-1">
                                     {property.property_title}
                                 </h3>
                                 <p className="text-sm text-gray-500 flex items-center gap-1 mb-3">
@@ -192,12 +192,12 @@ export default function Favorites({ favorites, filters = {} }) {
                                 </div>
 
                                 <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                                    <span className="text-xl font-bold text-[#0891B2]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                    <span className="text-xl font-bold text-[#1A1816]">
                                         ${Number(property.price).toLocaleString()}
                                     </span>
                                     <Link
                                         href={`/properties/${property.slug || property.id}`}
-                                        className="flex items-center gap-1 text-sm text-gray-600 hover:text-[#0891B2]"
+                                        className="flex items-center gap-1 text-sm text-gray-600 hover:text-[#555]"
                                     >
                                         View <ExternalLink className="w-4 h-4" />
                                     </Link>
@@ -233,7 +233,7 @@ export default function Favorites({ favorites, filters = {} }) {
                                 <div className="flex-1 p-4 sm:p-6">
                                     <div className="flex items-start justify-between gap-4">
                                         <div>
-                                            <h3 className="font-semibold text-gray-900 text-lg" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                            <h3 className="font-semibold text-gray-900 text-lg">
                                                 {property.property_title}
                                             </h3>
                                             <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
@@ -271,7 +271,7 @@ export default function Favorites({ favorites, filters = {} }) {
                                     </div>
 
                                     <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                                        <span className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: '"Instrument Sans", sans-serif' }}>
+                                        <span className="text-2xl font-bold text-[#1A1816]">
                                             ${Number(property.price).toLocaleString()}
                                         </span>
                                         <div className="flex items-center gap-3">
@@ -282,7 +282,7 @@ export default function Favorites({ favorites, filters = {} }) {
                                             )}
                                             <Link
                                                 href={`/properties/${property.slug || property.id}`}
-                                                className="inline-flex items-center gap-1 px-4 py-2 bg-[#0891B2] text-white rounded-lg text-sm font-medium hover:bg-[#0E7490] transition-colors"
+                                                className="inline-flex items-center gap-1 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors"
                                             >
                                                 View Property
                                                 <ExternalLink className="w-4 h-4" />
