@@ -389,8 +389,8 @@ class UserDashboardController extends Controller
 
         $receivedCounts = [
             'all' => $receivedAll,
-            'unread' => $sellerUnread,
-            'read' => $receivedAll - $sellerUnread,
+            'unread' => $totalUnread,
+            'read' => max(0, $receivedAll - $totalUnread),
         ];
 
         $sentCount = Inquiry::where($userInquiryScope)->count();
