@@ -350,41 +350,63 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                 )}
                             </div>
 
-                            {/* Message Content */}
+                            {/* Message Content — Chat Thread */}
                             <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
                                 {(() => {
-                                    const isBuyer = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
-                                    const isPropertyOwner = selectedMessage.property?.user_id === currentUser?.id;
+                                    const isBuyerMe = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
                                     const buyerName = selectedMessage.name || 'Buyer';
                                     const sellerName = selectedMessage.property?.contact_name || 'Seller';
+                                    const replies = selectedMessage.replies || [];
 
                                     return (
                                         <>
                                             {/* Original inquiry message */}
                                             <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
                                                 <User className="w-3.5 h-3.5" />
-                                                <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isBuyer ? 'You' : buyerName}</span>
+                                                <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isBuyerMe ? 'You' : buyerName}</span>
                                                 <span>•</span>
                                                 <Clock className="w-3.5 h-3.5" />
                                                 {formatDate(selectedMessage.created_at)} • {formatTime(selectedMessage.created_at)}
                                             </div>
-                                            <div className={`rounded-xl p-4 mb-4 ${isBuyer ? 'bg-[#1A1816]/5 ml-8' : 'bg-gray-50 mr-8'}`}>
+                                            <div className={`rounded-xl p-4 mb-4 ${isBuyerMe ? 'bg-[#1A1816]/5 ml-8' : 'bg-gray-50 mr-8'}`}>
                                                 <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
                                                     {selectedMessage.message}
                                                 </p>
                                             </div>
 
-                                            {/* Seller reply */}
-                                            {selectedMessage.seller_reply && (
+                                            {/* All replies in chronological order */}
+                                            {replies.map((reply, idx) => {
+                                                const isMe = reply.user_id === currentUser?.id;
+                                                const replyerName = reply.user?.name || (isMe ? 'You' : 'Unknown');
+                                                return (
+                                                    <div key={reply.id || idx} className="mt-3">
+                                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                                                            <Reply className="w-3.5 h-3.5" />
+                                                            <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isMe ? 'You' : replyerName}</span>
+                                                            <span>•</span>
+                                                            <Clock className="w-3.5 h-3.5" />
+                                                            {formatTime(reply.created_at)}
+                                                        </div>
+                                                        <div className={`rounded-xl p-4 ${isMe ? 'bg-[#1A1816]/5 ml-8' : 'bg-green-50 border border-green-100 mr-8'}`}>
+                                                            <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
+                                                                {reply.message}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+
+                                            {/* Fallback: show seller_reply if no replies in table yet */}
+                                            {replies.length === 0 && selectedMessage.seller_reply && (
                                                 <div className="mt-3">
                                                     <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
                                                         <Reply className="w-3.5 h-3.5" />
-                                                        <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isPropertyOwner ? 'You' : sellerName}</span>
+                                                        <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{sellerName}</span>
                                                         <span>•</span>
                                                         <Clock className="w-3.5 h-3.5" />
                                                         {selectedMessage.seller_replied_at ? formatTime(selectedMessage.seller_replied_at) : ''}
                                                     </div>
-                                                    <div className={`rounded-xl p-4 ${isPropertyOwner ? 'bg-[#1A1816]/5 ml-8' : 'bg-green-50 border border-green-100 mr-8'}`}>
+                                                    <div className="rounded-xl p-4 bg-green-50 border border-green-100 mr-8">
                                                         <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
                                                             {selectedMessage.seller_reply}
                                                         </p>
@@ -398,19 +420,13 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
 
                             {/* Reply Section */}
                             <div className="p-4 sm:p-6 border-t border-gray-100">
-                                {activeTab === 'sent' ? (
-                                    /* Buyer view — no reply form, just status info */
-                                    <div className="text-center py-2">
-                                        {selectedMessage.seller_reply ? (
-                                            <p style={{ fontSize: '13px', color: 'rgb(22,163,74)', fontWeight: 500 }}>The seller has replied to your inquiry.</p>
-                                        ) : (
-                                            <p style={{ fontSize: '13px', color: 'rgb(107,114,128)' }}>Waiting for seller response...</p>
-                                        )}
-                                    </div>
-                                ) : showReplyForm ? (
+                                {showReplyForm ? (
                                     <div>
                                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
-                                            Reply to {selectedMessage.name}
+                                            {(() => {
+                                                const isBuyerMe = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
+                                                return isBuyerMe ? `Reply to ${selectedMessage.property?.contact_name || 'Seller'}` : `Reply to ${selectedMessage.name}`;
+                                            })()}
                                         </label>
                                         <textarea
                                             value={replyText}
@@ -432,10 +448,16 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                                         onSuccess: () => {
                                                             setReplySending(false);
                                                             setShowReplyForm(false);
+                                                            const newReply = {
+                                                                id: Date.now(),
+                                                                user_id: currentUser?.id,
+                                                                user: { id: currentUser?.id, name: currentUser?.name },
+                                                                message: replyText,
+                                                                created_at: new Date().toISOString(),
+                                                            };
                                                             setSelectedMessage({
                                                                 ...selectedMessage,
-                                                                seller_reply: replyText,
-                                                                seller_replied_at: new Date().toISOString(),
+                                                                replies: [...(selectedMessage.replies || []), newReply],
                                                                 status: 'responded',
                                                             });
                                                             setReplyText('');

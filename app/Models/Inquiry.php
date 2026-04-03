@@ -53,6 +53,11 @@ class Inquiry extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function replies()
+    {
+        return $this->hasMany(MessageReply::class)->with('user:id,name')->orderBy('created_at', 'asc');
+    }
+
     /**
      * Scope for new inquiries
      */

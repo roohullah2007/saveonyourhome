@@ -343,7 +343,7 @@ class UserDashboardController extends Controller
             }
         }
 
-        $messages = $query->latest()->paginate(20)->withQueryString();
+        $messages = $query->with('replies')->latest()->paginate(20)->withQueryString();
 
         // Received counts: seller's property inquiries + buyer's replied inquiries
         $receivedAll = Inquiry::where(function($q) use ($propertyIds, $hasProperties, $userInquiryScope) {
@@ -428,7 +428,12 @@ class UserDashboardController extends Controller
      */
     public function replyToMessage(Request $request, Inquiry $inquiry)
     {
-        if ($inquiry->property->user_id !== Auth::id()) {
+        $user = Auth::user();
+        $isPropertyOwner = $inquiry->property->user_id === $user->id;
+        $isInquirySender = $inquiry->user_id === $user->id || $inquiry->email === $user->email;
+
+        // Only the property owner or the inquiry sender can reply
+        if (!$isPropertyOwner && !$isInquirySender) {
             abort(403);
         }
 
@@ -436,6 +441,14 @@ class UserDashboardController extends Controller
             'reply' => 'required|string|max:2000',
         ]);
 
+        // Store reply in message_replies table
+        \App\Models\MessageReply::create([
+            'inquiry_id' => $inquiry->id,
+            'user_id' => $user->id,
+            'message' => $validated['reply'],
+        ]);
+
+        // Also update the inquiry status
         $inquiry->update([
             'seller_reply' => $validated['reply'],
             'seller_replied_at' => now(),
@@ -443,17 +456,17 @@ class UserDashboardController extends Controller
             'responded_at' => now(),
         ]);
 
-        // Send reply email to buyer
-        if (EmailService::isEnabled() && $inquiry->email) {
+        // Send email notification to the other party
+        if (EmailService::isEnabled()) {
             $property = $inquiry->property;
-            $sellerName = $property->contact_name ?? Auth::user()->name;
-
-            EmailService::sendToUser(
-                $inquiry->email,
-                new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
-            );
-
-            $inquiry->update(['email_delivered_at' => now()]);
+            if ($isPropertyOwner && $inquiry->email) {
+                // Seller replying → email the buyer
+                $sellerName = $property->contact_name ?? $user->name;
+                EmailService::sendToUser(
+                    $inquiry->email,
+                    new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
+                );
+            }
         }
 
         return back()->with('success', 'Reply sent successfully!');
