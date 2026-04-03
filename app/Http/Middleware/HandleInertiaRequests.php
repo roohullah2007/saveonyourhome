@@ -36,8 +36,20 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'unreadMessages' => fn () => $request->user()
-                    ? Inquiry::whereIn('property_id', $request->user()->properties()->pluck('id'))
-                        ->where('status', 'new')->count()
+                    ? (function() use ($request) {
+                        $user = $request->user();
+                        $sellerUnread = Inquiry::whereIn('property_id', $user->properties()->pluck('id'))
+                            ->where('status', 'new')->count();
+                        $buyerUnread = Inquiry::where(function($q) use ($user) {
+                                $q->where('user_id', $user->id)->orWhere('email', $user->email);
+                            })
+                            ->whereHas('replies', function($q) use ($user) {
+                                $q->where('user_id', '!=', $user->id);
+                            })
+                            ->where('status', 'responded')
+                            ->count();
+                        return $sellerUnread + $buyerUnread;
+                    })()
                     : 0,
             ],
             'googleMapsApiKey' => config('services.google.maps_api_key'),

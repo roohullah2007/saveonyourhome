@@ -343,9 +343,15 @@ class UserDashboardController extends Controller
             }
         }
 
-        $messages = $query->with('replies')->latest()->paginate(20)->withQueryString();
+        // Sort by latest activity (latest reply or inquiry creation)
+        $messages = $query->with('replies')
+            ->addSelect(['latest_activity' => \App\Models\MessageReply::selectRaw('MAX(created_at)')
+                ->whereColumn('inquiry_id', 'inquiries.id')
+            ])
+            ->orderByRaw('COALESCE(latest_activity, inquiries.created_at) DESC')
+            ->paginate(20)->withQueryString();
 
-        // Received counts: seller's property inquiries + buyer's replied inquiries
+        // Received counts
         $receivedAll = Inquiry::where(function($q) use ($propertyIds, $hasProperties, $userInquiryScope) {
             if ($hasProperties) $q->whereIn('property_id', $propertyIds);
             $q->orWhere(function($q2) use ($userInquiryScope) {
@@ -353,20 +359,32 @@ class UserDashboardController extends Controller
             });
         })->count();
 
-        $receivedUnread = Inquiry::where(function($q) use ($propertyIds, $hasProperties) {
-            if ($hasProperties) $q->whereIn('property_id', $propertyIds);
-        })->where('status', 'new')->count();
+        // Unread: for sellers = new inquiries on their properties
+        //         for buyers = inquiries with replies from others since last view
+        $sellerUnread = $hasProperties
+            ? Inquiry::whereIn('property_id', $propertyIds)->where('status', 'new')->count()
+            : 0;
+
+        // Buyer unread: inquiries where the latest reply is NOT from the current user
+        $buyerUnread = Inquiry::where($userInquiryScope)
+            ->whereHas('replies', function($q) use ($user) {
+                $q->where('user_id', '!=', $user->id);
+            })
+            ->where('status', 'responded')
+            ->count();
+
+        $totalUnread = $sellerUnread + $buyerUnread;
 
         $receivedCounts = [
             'all' => $receivedAll,
-            'unread' => $receivedUnread,
-            'read' => $receivedAll - $receivedUnread,
+            'unread' => $sellerUnread,
+            'read' => $receivedAll - $sellerUnread,
         ];
 
         $sentCount = Inquiry::where($userInquiryScope)->count();
 
         // Unread notification count for nav badge
-        $unreadCount = $receivedUnread;
+        $unreadCount = $totalUnread;
 
         return Inertia::render('Dashboard/Messages', [
             'messages' => $messages,
