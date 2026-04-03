@@ -221,9 +221,9 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                 <button
                                     key={msg.id}
                                     onClick={() => {
-                                        setSelectedMessage(msg);
-                                        // Mark as seen
-                                        router.post(route('dashboard.messages.seen', msg.id), {}, { preserveState: true, preserveScroll: true });
+                                        setSelectedMessage({ ...msg, last_seen_at: new Date().toISOString(), status: msg.status === 'new' ? 'read' : msg.status });
+                                        // Mark as seen on server — refresh page data to update counts and list
+                                        router.post(route('dashboard.messages.seen', msg.id), {}, { preserveScroll: true });
                                     }}
                                     className={`w-full p-4 text-left border-b border-gray-100 hover:bg-gray-50 transition-colors ${
                                         selectedMessage?.id === msg.id ? 'bg-[#1A1816]/5 border-l-2 border-l-[#1A1816]' : ''
