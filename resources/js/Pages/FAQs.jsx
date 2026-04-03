@@ -56,7 +56,7 @@ function FAQs() {
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
-        <img src="/images/home-img-2.webp" alt="FAQs" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="FAQs" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
         <div className="relative flex flex-col h-full">
