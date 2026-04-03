@@ -396,7 +396,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                                 );
                                             })}
 
-                                            {/* Fallback: show seller_reply if no replies in table yet */}
+                                            {/* Fallback: show seller_reply if no replies in message_replies table */}
                                             {replies.length === 0 && selectedMessage.seller_reply && (
                                                 <div className="mt-3">
                                                     <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
@@ -411,6 +411,13 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                                             {selectedMessage.seller_reply}
                                                         </p>
                                                     </div>
+                                                </div>
+                                            )}
+
+                                            {/* End of chat indicator */}
+                                            {(replies.length > 0 || selectedMessage.seller_reply) && (
+                                                <div className="mt-4 text-center">
+                                                    <span style={{ fontSize: '11px', color: 'rgb(156,163,175)' }}>End of conversation</span>
                                                 </div>
                                             )}
                                         </>
@@ -441,26 +448,21 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                                 onClick={() => {
                                                     if (!replyText.trim()) return;
                                                     setReplySending(true);
-                                                    router.post(route('dashboard.messages.reply', selectedMessage.id), {
+                                                    const msgId = selectedMessage.id;
+                                                    router.post(route('dashboard.messages.reply', msgId), {
                                                         reply: replyText,
                                                     }, {
-                                                        preserveState: true,
-                                                        onSuccess: () => {
+                                                        preserveScroll: true,
+                                                        onSuccess: (page) => {
                                                             setReplySending(false);
                                                             setShowReplyForm(false);
-                                                            const newReply = {
-                                                                id: Date.now(),
-                                                                user_id: currentUser?.id,
-                                                                user: { id: currentUser?.id, name: currentUser?.name },
-                                                                message: replyText,
-                                                                created_at: new Date().toISOString(),
-                                                            };
-                                                            setSelectedMessage({
-                                                                ...selectedMessage,
-                                                                replies: [...(selectedMessage.replies || []), newReply],
-                                                                status: 'responded',
-                                                            });
                                                             setReplyText('');
+                                                            // Find the updated message from refreshed data
+                                                            const updatedMessages = page.props.messages?.data || page.props.messages || [];
+                                                            const updated = updatedMessages.find(m => m.id === msgId);
+                                                            if (updated) {
+                                                                setSelectedMessage(updated);
+                                                            }
                                                         },
                                                         onError: () => setReplySending(false),
                                                     });

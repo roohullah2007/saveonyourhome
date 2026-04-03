@@ -441,7 +441,19 @@ class UserDashboardController extends Controller
             'reply' => 'required|string|max:2000',
         ]);
 
-        // Store reply in message_replies table
+        // Auto-migrate old seller_reply if not yet in message_replies
+        if ($inquiry->seller_reply && $inquiry->replies()->count() === 0) {
+            $sellerId = $inquiry->property->user_id;
+            \App\Models\MessageReply::create([
+                'inquiry_id' => $inquiry->id,
+                'user_id' => $sellerId,
+                'message' => $inquiry->seller_reply,
+                'created_at' => $inquiry->seller_replied_at ?? $inquiry->updated_at,
+                'updated_at' => $inquiry->seller_replied_at ?? $inquiry->updated_at,
+            ]);
+        }
+
+        // Store new reply in message_replies table
         \App\Models\MessageReply::create([
             'inquiry_id' => $inquiry->id,
             'user_id' => $user->id,
