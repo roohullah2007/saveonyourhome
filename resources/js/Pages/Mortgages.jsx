@@ -41,7 +41,7 @@ function Mortgages() {
       <Head title="Mortgages - SaveOnYourHome" />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden" style={{ height: '600px' }}>
+      <section className="relative w-full overflow-hidden h-[420px] md:h-[500px] lg:h-[600px]">
         <img src="https://images.pexels.com/photos/7578939/pexels-photo-7578939.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Mortgage & financing" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
@@ -58,7 +58,7 @@ function Mortgages() {
               <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
                 Compare rates from over 25 lenders, get pre-approved fast, and close with confidence. Your home financing journey starts here.
               </p>
-              <div className="mt-8 flex gap-3">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
                 <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>Get Pre-Approved <ArrowRight className="w-4 h-4" /></Link>
                 <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>Browse Properties</Link>
               </div>
@@ -69,7 +69,7 @@ function Mortgages() {
 
       {/* How It Works */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>HOW IT WORKS</span></div>
           <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Simple Steps to Your Mortgage</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -89,7 +89,7 @@ function Mortgages() {
 
       {/* Mortgage Types */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>LOAN OPTIONS</span></div>
           <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Find the Right Loan for You</h2>
           <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)', maxWidth: '560px', margin: '0 auto 56px' }}>
@@ -118,7 +118,7 @@ function Mortgages() {
 
       {/* Tips */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE TIPS</span></div>
           <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Prepare for Your Mortgage</h2>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -140,7 +140,7 @@ function Mortgages() {
       {/* Pre-Approval CTA */}
       <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20 relative z-10" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
             <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>GET STARTED TODAY</span></div>
             <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
@@ -163,7 +163,7 @@ function Mortgages() {
 
       {/* FAQs */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE FAQS</span></div>
           <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-3">

@@ -92,7 +92,7 @@ const MLSSection = () => {
     <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
       <div
         ref={sectionRef}
-        className={`mx-auto px-4 sm:px-6 lg:px-[40px] py-20 transition-all duration-700 ${
+        className={`mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
         style={{ maxWidth: '1400px' }}

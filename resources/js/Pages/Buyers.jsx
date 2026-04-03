@@ -92,7 +92,7 @@ function Buyers() {
       <Head title="Buyers Guide - SaveOnYourHome" />
 
       {/* Hero Section */}
-      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+      <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">
         <img src="https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Find your dream home" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10, 15, 30, 0.75) 0%, rgba(10, 15, 30, 0.45) 50%, rgba(10, 15, 30, 0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249, 250, 251, 0.4) 50%, rgb(249, 250, 251) 100%)' }} />
@@ -110,7 +110,7 @@ function Buyers() {
               <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', fontWeight: 400, color: 'rgba(255, 255, 255, 0.75)', maxWidth: '480px' }}>
                 Whether you're searching for your first home or investment properties, SaveOnYourHome.com guides you through the entire process.
               </p>
-              <div className="mt-8 flex gap-3">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
                 <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
                   Search Properties <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -125,7 +125,7 @@ function Buyers() {
 
       {/* Buyer FAQs */}
       <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center">
             <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYER FAQS</span>
           </div>
@@ -175,7 +175,7 @@ function Buyers() {
 
       {/* Pre-Approval Section */}
       <section style={{ backgroundColor: 'rgb(255, 255, 255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
             <div className="grid lg:grid-cols-2 gap-0">
               <div className="relative overflow-hidden group">
@@ -264,7 +264,7 @@ function Buyers() {
           ].map((row, rowIdx) => (
             <div key={rowIdx} className={`grid lg:grid-cols-2 gap-8 items-stretch ${rowIdx > 0 ? 'mt-8' : ''}`}>
               {/* Image Side */}
-              <div className={`relative rounded-2xl overflow-hidden group ${row.imageLeft ? 'order-1' : 'order-1 lg:order-2'}`} style={{ minHeight: '380px', boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 32px' }}>
+              <div className={`relative rounded-2xl overflow-hidden group ${row.imageLeft ? 'order-1' : 'order-1 lg:order-2'}`} className="h-[260px] md:h-[320px] lg:h-auto" style={{ minHeight: '0', boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 32px' }}>
                 <img src={row.image} alt={row.alt} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{ background: row.imageLeft ? 'linear-gradient(135deg, rgba(10,15,30,0.5) 0%, rgba(10,15,30,0.15) 100%)' : 'linear-gradient(225deg, rgba(10,15,30,0.5) 0%, rgba(10,15,30,0.15) 100%)' }} />
                 {/* Badge */}

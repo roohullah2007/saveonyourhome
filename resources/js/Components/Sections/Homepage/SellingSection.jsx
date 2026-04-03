@@ -53,7 +53,7 @@ const SellingSection = () => {
 
   return (
     <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
-      <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+      <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
         {/* Section Header */}
         <div className="mb-4 text-center">
           <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
@@ -68,7 +68,7 @@ const SellingSection = () => {
         </h2>
 
         {/* 5 Step Cards */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
           {steps.map((step, index) => (
             <div
               key={index}

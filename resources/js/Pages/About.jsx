@@ -28,7 +28,7 @@ function About() {
       <Head title="About - SaveOnYourHome" />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+      <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">
         <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="About SaveOnYourHome" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
@@ -52,7 +52,7 @@ function About() {
 
       {/* Story Section — Image + Text */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
             <div className="grid lg:grid-cols-2 gap-0">
               <div className="relative overflow-hidden group">
@@ -89,7 +89,7 @@ function About() {
 
       {/* Our Mission — 5 Cards */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>OUR MISSION</span></div>
           <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
             Transforming Real Estate for Everyone
@@ -97,7 +97,7 @@ function About() {
           <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)', maxWidth: '600px', margin: '0 auto 56px' }}>
             We're on a mission to make real estate more accessible, transparent, and cost-effective for everyone involved.
           </p>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
             {missions.map((m, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-6 text-center group" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
@@ -112,7 +112,7 @@ function About() {
 
       {/* FAQs */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>FREQUENTLY ASKED QUESTIONS</span></div>
           <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
             Frequently Asked Questions
@@ -138,7 +138,7 @@ function About() {
 
       {/* CTA Cards */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               { title: 'LIST YOUR HOME', desc: 'Expose your property to buyers. Get offers to your inbox and start saving commissions with SaveOnYourHome.', link: '/list-property', linkText: 'List Your Home', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>) },

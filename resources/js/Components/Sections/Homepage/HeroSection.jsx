@@ -40,7 +40,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
   };
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ height: '860px' }}>
+    <section className="relative w-full overflow-hidden h-[580px] md:h-[700px] lg:h-[860px]">
       {/* Single Background Image */}
       <img
         src="/images/home-img.webp"
@@ -221,7 +221,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
               </div>
 
               {/* Stats */}
-              <div className="mt-8 flex gap-8">
+              <div className="mt-6 sm:mt-8 flex gap-5 sm:gap-8">
                 <div>
                   <div style={{ fontSize: '24px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>$27K+</div>
                   <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Avg. Savings</div>

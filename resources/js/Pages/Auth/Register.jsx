@@ -43,28 +43,25 @@ function Register() {
         <>
             <Head title="Create Account" />
 
-            <div className="min-h-screen bg-white flex flex-col">
+            <div className="min-h-screen bg-gray-50 flex flex-col">
                 {/* Logo Header */}
-                <div className="flex justify-center items-center px-8 py-8">
+                <div className="flex justify-center items-center px-4 py-6 sm:py-8">
                     <Link href="/">
                         <img
                             src="/images/saveonyourhome-logo.png"
                             alt="SaveOnYourHome"
-                            className="h-10"
+                            className="h-[36px] sm:h-[42px] w-auto"
                         />
                     </Link>
                 </div>
 
                 {/* Main Content */}
                 <div className="flex-1 flex items-start justify-center px-4 py-4 pb-12">
-                    <div className="w-full max-w-[400px]">
-                        <h1
-                            className="text-[28px] font-bold text-[#111111] mb-2 text-center"
-                           
-                        >
+                    <div className="w-full max-w-[420px] rounded-2xl border border-gray-200/60 p-6 sm:p-8" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+                        <h1 className="text-[22px] sm:text-[26px] font-bold text-[#111111] mb-1 text-center">
                             Create your account
                         </h1>
-                        <p className="text-gray-500 text-center mb-8" style={{ fontFamily: '"Poppins", sans-serif' }}>
+                        <p className="text-gray-500 text-center mb-6 sm:mb-8" style={{ fontSize: '14px' }}>
                             Join SaveOnYourHome to start your journey
                         </p>
 
@@ -95,7 +92,7 @@ function Register() {
                         <form onSubmit={submit} className="space-y-4">
                             {/* User Type Selection */}
                             <div>
-                                <label className="block text-sm font-bold text-[#111111] mb-3">
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '8px' }}>
                                     I am a
                                 </label>
                                 <div className="grid grid-cols-2 gap-3">
@@ -155,7 +152,7 @@ function Register() {
 
                             {/* Name Field */}
                             <div>
-                                <label htmlFor="name" className="block text-sm font-bold text-[#111111] mb-2">
+                                <label htmlFor="name" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
                                     Full Name
                                 </label>
                                 <input
@@ -163,7 +160,7 @@ function Register() {
                                     type="text"
                                     name="name"
                                     value={data.name}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
+                                    className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                     placeholder="John Doe"
                                     autoComplete="name"
                                     autoFocus
@@ -177,7 +174,7 @@ function Register() {
 
                             {/* Email Field */}
                             <div>
-                                <label htmlFor="email" className="block text-sm font-bold text-[#111111] mb-2">
+                                <label htmlFor="email" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
                                     Email
                                 </label>
                                 <input
@@ -185,7 +182,7 @@ function Register() {
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
+                                    className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                     placeholder="you@example.com"
                                     autoComplete="username"
                                     onChange={(e) => setData('email', e.target.value)}
@@ -198,7 +195,7 @@ function Register() {
 
                             {/* Phone Field */}
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-bold text-[#111111] mb-2">
+                                <label htmlFor="phone" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
                                     Phone <span className="text-gray-400 font-normal">(optional)</span>
                                 </label>
                                 <input
@@ -206,7 +203,7 @@ function Register() {
                                     type="tel"
                                     name="phone"
                                     value={data.phone}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all"
+                                    className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                     placeholder="(918) 555-0123"
                                     autoComplete="tel"
                                     onChange={(e) => setData('phone', e.target.value)}
@@ -228,7 +225,7 @@ function Register() {
 
                             {/* Password Field */}
                             <div>
-                                <label htmlFor="password" className="block text-sm font-bold text-[#111111] mb-2">
+                                <label htmlFor="password" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
                                     Password
                                 </label>
                                 <div className="relative">
@@ -237,7 +234,7 @@ function Register() {
                                         type={showPassword ? 'text' : 'password'}
                                         name="password"
                                         value={data.password}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all pr-12"
+                                        className="w-full rounded-xl border border-gray-300 px-4 pr-12 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                         placeholder="Create a strong password"
                                         autoComplete="new-password"
                                         onChange={(e) => setData('password', e.target.value)}
@@ -283,7 +280,7 @@ function Register() {
 
                             {/* Confirm Password Field */}
                             <div>
-                                <label htmlFor="password_confirmation" className="block text-sm font-bold text-[#111111] mb-2">
+                                <label htmlFor="password_confirmation" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
                                     Confirm Password
                                 </label>
                                 <div className="relative">
@@ -292,7 +289,7 @@ function Register() {
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         name="password_confirmation"
                                         value={data.password_confirmation}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1A1816] focus:ring-2 focus:ring-[#1A1816]/20 transition-all pr-12"
+                                        className="w-full rounded-xl border border-gray-300 px-4 pr-12 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                         placeholder="Confirm your password"
                                         autoComplete="new-password"
                                         onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -331,7 +328,8 @@ function Register() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full py-3 px-4 bg-[#111111] text-white rounded-full text-sm font-semibold hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                                className="w-full rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                                style={{ backgroundColor: 'rgb(26,24,22)', height: '48px', fontSize: '15px', fontWeight: 600 }}
                             >
                                 {processing ? 'Creating Account...' : 'Create Account'}
                             </button>

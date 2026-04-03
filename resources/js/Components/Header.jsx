@@ -18,7 +18,7 @@ const Header = ({ maxWidth, noPadding }) => {
               <img
                 src="/images/saveonyourhome-logo.png"
                 alt="SaveOnYourHome"
-                style={{ height: '52px', width: 'auto' }}
+                className="h-[40px] sm:h-[48px] lg:h-[52px] w-auto"
               />
             </Link>
 

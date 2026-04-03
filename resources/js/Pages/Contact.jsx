@@ -46,7 +46,7 @@ function Contact() {
       <Head title="Contact Us - SaveOnYourHome" />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+      <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">
         <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Contact us" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
@@ -70,7 +70,7 @@ function Contact() {
 
       {/* Contact Info Cards */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-16">
             {contactInfo.map((c, i) => (
               <a key={i} href={c.link || '#'} target={c.link?.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-6 flex flex-col items-center text-center group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
@@ -182,7 +182,7 @@ function Contact() {
 
       {/* FAQs */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>QUICK ANSWERS</span></div>
           <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-3">

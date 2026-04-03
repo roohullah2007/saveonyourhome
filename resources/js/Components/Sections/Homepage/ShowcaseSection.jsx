@@ -47,7 +47,7 @@ const ShowcaseSection = () => {
 
   return (
     <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
-      <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+      <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
         {/* Section Header */}
         <div className="mb-4 text-center">
           <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>

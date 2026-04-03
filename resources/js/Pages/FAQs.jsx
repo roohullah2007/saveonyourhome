@@ -55,7 +55,7 @@ function FAQs() {
       <Head title="FAQs - SaveOnYourHome" />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+      <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">
         <img src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="FAQs" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
@@ -79,7 +79,7 @@ function FAQs() {
 
       {/* FAQ Section */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           {/* Category Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-12">
             {categories.map((cat, i) => (
@@ -121,7 +121,7 @@ function FAQs() {
       {/* Contact CTA */}
       <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20 relative z-10" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
             <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>STILL HAVE QUESTIONS?</span></div>
             <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
