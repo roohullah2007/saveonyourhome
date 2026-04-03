@@ -300,8 +300,11 @@ class UserDashboardController extends Controller
         $tab = $request->tab ?? 'received';
 
         if ($tab === 'sent') {
-            // Buyer view: inquiries sent by this user
-            $query = Inquiry::where('user_id', $user->id)->with('property');
+            // Buyer view: inquiries sent by this user (by user_id OR email match)
+            $query = Inquiry::where(function($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            })->with('property');
         } else {
             // Seller view: inquiries received on user's properties
             $query = Inquiry::whereIn('property_id', $propertyIds)->with('property');
@@ -335,7 +338,9 @@ class UserDashboardController extends Controller
             'read' => Inquiry::whereIn('property_id', $propertyIds)->whereIn('status', ['read', 'responded'])->count(),
         ];
 
-        $sentCount = Inquiry::where('user_id', $user->id)->count();
+        $sentCount = Inquiry::where(function($q) use ($user) {
+            $q->where('user_id', $user->id)->orWhere('email', $user->email);
+        })->count();
 
         return Inertia::render('Dashboard/Messages', [
             'messages' => $messages,

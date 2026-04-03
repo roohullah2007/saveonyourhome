@@ -33,11 +33,11 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(route('dashboard.messages'), { ...filters, search }, { preserveState: true });
+        router.get(route('dashboard.messages'), { ...filters, tab: activeTab, search }, { preserveState: true });
     };
 
     const handleFilter = (status) => {
-        router.get(route('dashboard.messages'), { ...filters, status }, { preserveState: true });
+        router.get(route('dashboard.messages'), { ...filters, tab: activeTab, status }, { preserveState: true });
     };
 
     const handleMarkRead = (inquiry) => {
@@ -138,7 +138,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                         {/* Received / Sent Tabs */}
                         <div className="flex items-center gap-1 mb-4 bg-gray-100 rounded-lg p-1">
                             <button
-                                onClick={() => router.get(route('dashboard.messages'), { tab: 'received' }, { preserveState: true })}
+                                onClick={() => { setSelectedMessage(null); setShowReplyForm(false); router.get(route('dashboard.messages'), { tab: 'received' }); }}
                                 className="flex-1 rounded-md py-2 text-xs font-semibold transition-colors text-center"
                                 style={{
                                     backgroundColor: activeTab === 'received' ? 'rgb(26,24,22)' : 'transparent',
@@ -148,7 +148,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                 Received {counts.all > 0 && <span className="ml-1">({counts.all})</span>}
                             </button>
                             <button
-                                onClick={() => router.get(route('dashboard.messages'), { tab: 'sent' }, { preserveState: true })}
+                                onClick={() => { setSelectedMessage(null); setShowReplyForm(false); router.get(route('dashboard.messages'), { tab: 'sent' }); }}
                                 className="flex-1 rounded-md py-2 text-xs font-semibold transition-colors text-center"
                                 style={{
                                     backgroundColor: activeTab === 'sent' ? 'rgb(26,24,22)' : 'transparent',
