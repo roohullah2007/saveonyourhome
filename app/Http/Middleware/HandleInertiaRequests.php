@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\CompanyLogo;
+use App\Models\Inquiry;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -34,6 +35,10 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'unreadMessages' => fn () => $request->user()
+                    ? Inquiry::whereIn('property_id', $request->user()->properties()->pluck('id'))
+                        ->where('status', 'new')->count()
+                    : 0,
             ],
             'googleMapsApiKey' => config('services.google.maps_api_key'),
             'companyLogos' => fn () => CompanyLogo::getActive(),

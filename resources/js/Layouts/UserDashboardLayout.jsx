@@ -15,12 +15,13 @@ import {
 export default function UserDashboardLayout({ children, title }) {
     const { auth } = usePage().props;
     const user = auth.user;
+    const unreadMessages = auth.unreadMessages || 0;
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navigation = [
         { name: 'Overview', href: route('dashboard'), icon: LayoutDashboard, current: route().current('dashboard') && !route().current('dashboard.*') },
         { name: 'My Listings', href: route('dashboard.listings'), icon: Home, current: route().current('dashboard.listings*') },
-        { name: 'Messages', href: route('dashboard.messages'), icon: MessageSquare, current: route().current('dashboard.messages*') },
+        { name: 'Messages', href: route('dashboard.messages'), icon: MessageSquare, current: route().current('dashboard.messages*'), badge: unreadMessages },
         { name: 'Saved Properties', href: route('dashboard.favorites'), icon: Heart, current: route().current('dashboard.favorites*') },
         { name: 'Profile', href: route('profile.edit'), icon: User, current: route().current('profile.edit') },
     ];
@@ -88,7 +89,12 @@ export default function UserDashboardLayout({ children, title }) {
                                
                             >
                                 <item.icon className="w-5 h-5" />
-                                <span className="font-medium">{item.name}</span>
+                                <span className="font-medium flex-1">{item.name}</span>
+                                {item.badge > 0 && (
+                                    <span className="flex items-center justify-center rounded-full text-white text-[10px] font-bold" style={{ backgroundColor: 'rgb(239,68,68)', minWidth: '20px', height: '20px', padding: '0 6px' }}>
+                                        {item.badge}
+                                    </span>
+                                )}
                             </Link>
                         ))}
                     </nav>

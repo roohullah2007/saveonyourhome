@@ -297,17 +297,31 @@ class UserDashboardController extends Controller
     {
         $user = Auth::user();
         $propertyIds = $user->properties()->pluck('id');
+        $hasProperties = $propertyIds->isNotEmpty();
         $tab = $request->tab ?? 'received';
 
+        // Helper: user's own inquiries (sent by them)
+        $userInquiryScope = function($q) use ($user) {
+            $q->where('user_id', $user->id)->orWhere('email', $user->email);
+        };
+
         if ($tab === 'sent') {
-            // Buyer view: inquiries sent by this user (by user_id OR email match)
-            $query = Inquiry::where(function($q) use ($user) {
-                $q->where('user_id', $user->id)
-                  ->orWhere('email', $user->email);
-            })->with('property');
+            // All inquiries sent by this user
+            $query = Inquiry::where($userInquiryScope)->with('property');
         } else {
-            // Seller view: inquiries received on user's properties
-            $query = Inquiry::whereIn('property_id', $propertyIds)->with('property');
+            // "Received" tab:
+            // - Seller: inquiries received on their properties
+            // - Buyer: their inquiries that have a seller reply (responses received)
+            // - Both: combine if user is both seller and buyer
+            $query = Inquiry::where(function($q) use ($propertyIds, $hasProperties, $userInquiryScope) {
+                if ($hasProperties) {
+                    $q->whereIn('property_id', $propertyIds);
+                }
+                // Also show buyer's inquiries that have seller replies
+                $q->orWhere(function($q2) use ($userInquiryScope) {
+                    $q2->where($userInquiryScope)->whereNotNull('seller_reply');
+                });
+            })->with('property');
         }
 
         // Search
@@ -331,16 +345,28 @@ class UserDashboardController extends Controller
 
         $messages = $query->latest()->paginate(20)->withQueryString();
 
-        // Get counts for received tab
+        // Received counts: seller's property inquiries + buyer's replied inquiries
+        $receivedAll = Inquiry::where(function($q) use ($propertyIds, $hasProperties, $userInquiryScope) {
+            if ($hasProperties) $q->whereIn('property_id', $propertyIds);
+            $q->orWhere(function($q2) use ($userInquiryScope) {
+                $q2->where($userInquiryScope)->whereNotNull('seller_reply');
+            });
+        })->count();
+
+        $receivedUnread = Inquiry::where(function($q) use ($propertyIds, $hasProperties) {
+            if ($hasProperties) $q->whereIn('property_id', $propertyIds);
+        })->where('status', 'new')->count();
+
         $receivedCounts = [
-            'all' => Inquiry::whereIn('property_id', $propertyIds)->count(),
-            'unread' => Inquiry::whereIn('property_id', $propertyIds)->where('status', 'new')->count(),
-            'read' => Inquiry::whereIn('property_id', $propertyIds)->whereIn('status', ['read', 'responded'])->count(),
+            'all' => $receivedAll,
+            'unread' => $receivedUnread,
+            'read' => $receivedAll - $receivedUnread,
         ];
 
-        $sentCount = Inquiry::where(function($q) use ($user) {
-            $q->where('user_id', $user->id)->orWhere('email', $user->email);
-        })->count();
+        $sentCount = Inquiry::where($userInquiryScope)->count();
+
+        // Unread notification count for nav badge
+        $unreadCount = $receivedUnread;
 
         return Inertia::render('Dashboard/Messages', [
             'messages' => $messages,
@@ -348,6 +374,7 @@ class UserDashboardController extends Controller
             'counts' => $receivedCounts,
             'sentCount' => $sentCount,
             'activeTab' => $tab,
+            'unreadCount' => $unreadCount,
         ]);
     }
 
