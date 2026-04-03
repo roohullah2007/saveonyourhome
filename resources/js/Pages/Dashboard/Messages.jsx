@@ -13,17 +13,21 @@ import {
     ChevronRight,
     ChevronLeft,
     Mail,
-    Phone
+    Phone,
+    Reply
 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Messages({ messages, filters = {}, counts = {} }) {
+export default function Messages({ messages, filters = {}, counts = {}, sentCount = 0, activeTab = 'received' }) {
     const [search, setSearch] = useState(filters.search || '');
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [messageToDelete, setMessageToDelete] = useState(null);
     const [deleting, setDeleting] = useState(false);
     const [actionLoading, setActionLoading] = useState(false);
+    const [showReplyForm, setShowReplyForm] = useState(false);
+    const [replyText, setReplyText] = useState('');
+    const [replySending, setReplySending] = useState(false);
 
     const messagesData = messages?.data || messages || [];
 
@@ -131,15 +135,28 @@ export default function Messages({ messages, filters = {}, counts = {} }) {
                 <div className="lg:w-96 flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden">
                     {/* Header */}
                     <div className="p-4 border-b border-gray-100">
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-semibold text-gray-900">
-                                Inbox
-                            </h2>
-                            {counts.unread > 0 && (
-                                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-[#1A1816] text-white">
-                                    {counts.unread} new
-                                </span>
-                            )}
+                        {/* Received / Sent Tabs */}
+                        <div className="flex items-center gap-1 mb-4 bg-gray-100 rounded-lg p-1">
+                            <button
+                                onClick={() => router.get(route('dashboard.messages'), { tab: 'received' }, { preserveState: true })}
+                                className="flex-1 rounded-md py-2 text-xs font-semibold transition-colors text-center"
+                                style={{
+                                    backgroundColor: activeTab === 'received' ? 'rgb(26,24,22)' : 'transparent',
+                                    color: activeTab === 'received' ? 'white' : 'rgb(107,114,128)',
+                                }}
+                            >
+                                Received {counts.all > 0 && <span className="ml-1">({counts.all})</span>}
+                            </button>
+                            <button
+                                onClick={() => router.get(route('dashboard.messages'), { tab: 'sent' }, { preserveState: true })}
+                                className="flex-1 rounded-md py-2 text-xs font-semibold transition-colors text-center"
+                                style={{
+                                    backgroundColor: activeTab === 'sent' ? 'rgb(26,24,22)' : 'transparent',
+                                    color: activeTab === 'sent' ? 'white' : 'rgb(107,114,128)',
+                                }}
+                            >
+                                Sent {sentCount > 0 && <span className="ml-1">({sentCount})</span>}
+                            </button>
                         </div>
 
                         {/* Search */}
@@ -333,40 +350,134 @@ export default function Messages({ messages, filters = {}, counts = {} }) {
 
                             {/* Message Content */}
                             <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
-                                <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
+                                {/* Buyer's message */}
+                                <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
                                     <Clock className="w-4 h-4" />
                                     {formatDate(selectedMessage.created_at)} • {formatTime(selectedMessage.created_at)}
                                 </div>
-                                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                                    {selectedMessage.message}
-                                </p>
+                                <div className="bg-gray-50 rounded-xl p-4 mb-4">
+                                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
+                                        {selectedMessage.message}
+                                    </p>
+                                </div>
+
+                                {/* Previous reply if exists */}
+                                {selectedMessage.seller_reply && (
+                                    <div className="mt-4">
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                            <Reply className="w-4 h-4" />
+                                            Your reply • {selectedMessage.seller_replied_at ? formatTime(selectedMessage.seller_replied_at) : ''}
+                                        </div>
+                                        <div className="bg-green-50 border border-green-100 rounded-xl p-4">
+                                            <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
+                                                {selectedMessage.seller_reply}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Reply Section */}
                             <div className="p-4 sm:p-6 border-t border-gray-100">
-                                <div className="flex gap-3">
-                                    <a
-                                        href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.property?.property_title || 'Your Inquiry'}`}
-                                        onClick={() => {
-                                            if (selectedMessage.status !== 'responded') {
-                                                handleMarkResponded(selectedMessage);
-                                            }
-                                        }}
-                                        className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#111111] transition-colors"
-                                    >
-                                        <Send className="w-5 h-5" />
-                                        Reply via Email
-                                    </a>
-                                    {selectedMessage.phone && (
-                                        <a
-                                            href={`tel:${selectedMessage.phone}`}
-                                            className="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                                {activeTab === 'sent' ? (
+                                    /* Buyer view — no reply form, just status info */
+                                    <div className="text-center py-2">
+                                        {selectedMessage.seller_reply ? (
+                                            <p style={{ fontSize: '13px', color: 'rgb(22,163,74)', fontWeight: 500 }}>The seller has replied to your inquiry.</p>
+                                        ) : (
+                                            <p style={{ fontSize: '13px', color: 'rgb(107,114,128)' }}>Waiting for seller response...</p>
+                                        )}
+                                    </div>
+                                ) : showReplyForm ? (
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
+                                            Reply to {selectedMessage.name}
+                                        </label>
+                                        <textarea
+                                            value={replyText}
+                                            onChange={(e) => setReplyText(e.target.value)}
+                                            placeholder="Type your reply here..."
+                                            rows={4}
+                                            className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none mb-3"
+                                            style={{ fontSize: '14px', color: 'rgb(26,24,22)' }}
+                                        />
+                                        <div className="flex flex-col sm:flex-row gap-2">
+                                            <button
+                                                onClick={() => {
+                                                    if (!replyText.trim()) return;
+                                                    setReplySending(true);
+                                                    router.post(route('dashboard.messages.reply', selectedMessage.id), {
+                                                        reply: replyText,
+                                                    }, {
+                                                        preserveState: true,
+                                                        onSuccess: () => {
+                                                            setReplySending(false);
+                                                            setShowReplyForm(false);
+                                                            setSelectedMessage({
+                                                                ...selectedMessage,
+                                                                seller_reply: replyText,
+                                                                seller_replied_at: new Date().toISOString(),
+                                                                status: 'responded',
+                                                            });
+                                                            setReplyText('');
+                                                        },
+                                                        onError: () => setReplySending(false),
+                                                    });
+                                                }}
+                                                disabled={replySending || !replyText.trim()}
+                                                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                                                style={{ backgroundColor: 'rgb(26,24,22)', height: '42px', paddingLeft: '20px', paddingRight: '20px', fontSize: '13px', fontWeight: 600 }}
+                                            >
+                                                <Send className="w-4 h-4" />
+                                                {replySending ? 'Sending...' : 'Send Reply'}
+                                            </button>
+                                            <button
+                                                onClick={() => { setShowReplyForm(false); setReplyText(''); }}
+                                                className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
+                                                style={{ height: '42px', paddingLeft: '20px', paddingRight: '20px', fontSize: '13px', fontWeight: 600, color: 'rgb(26,24,22)' }}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        <p className="mt-2 text-xs text-gray-400">
+                                            Your reply will be emailed to {selectedMessage.email}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <button
+                                            onClick={() => setShowReplyForm(true)}
+                                            className="flex-1 inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
+                                            style={{ backgroundColor: 'rgb(26,24,22)', height: '44px', fontSize: '14px', fontWeight: 600 }}
                                         >
-                                            <Phone className="w-5 h-5" />
-                                            Call
+                                            <Reply className="w-4 h-4" />
+                                            {selectedMessage.seller_reply ? 'Reply Again' : 'Reply in Platform'}
+                                        </button>
+                                        <a
+                                            href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.property?.property_title || 'Your Inquiry'}`}
+                                            onClick={() => {
+                                                if (selectedMessage.status !== 'responded') {
+                                                    handleMarkResponded(selectedMessage);
+                                                }
+                                            }}
+                                            className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
+                                            style={{ height: '44px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
+                                        >
+                                            <Mail className="w-4 h-4" />
+                                            Reply via Email
                                         </a>
-                                    )}
-                                </div>
+                                        {selectedMessage.phone && (
+                                            <a
+                                                href={`tel:${selectedMessage.phone}`}
+                                                className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
+                                                style={{ height: '44px', paddingLeft: '20px', paddingRight: '20px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
+                                            >
+                                                <Phone className="w-4 h-4" />
+                                                Call
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </>
                     ) : (

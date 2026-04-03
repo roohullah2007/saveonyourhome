@@ -297,8 +297,15 @@ class UserDashboardController extends Controller
     {
         $user = Auth::user();
         $propertyIds = $user->properties()->pluck('id');
+        $tab = $request->tab ?? 'received';
 
-        $query = Inquiry::whereIn('property_id', $propertyIds)->with('property');
+        if ($tab === 'sent') {
+            // Buyer view: inquiries sent by this user
+            $query = Inquiry::where('user_id', $user->id)->with('property');
+        } else {
+            // Seller view: inquiries received on user's properties
+            $query = Inquiry::whereIn('property_id', $propertyIds)->with('property');
+        }
 
         // Search
         if ($request->search) {
@@ -321,17 +328,21 @@ class UserDashboardController extends Controller
 
         $messages = $query->latest()->paginate(20)->withQueryString();
 
-        // Get counts
-        $counts = [
+        // Get counts for received tab
+        $receivedCounts = [
             'all' => Inquiry::whereIn('property_id', $propertyIds)->count(),
             'unread' => Inquiry::whereIn('property_id', $propertyIds)->where('status', 'new')->count(),
             'read' => Inquiry::whereIn('property_id', $propertyIds)->whereIn('status', ['read', 'responded'])->count(),
         ];
 
+        $sentCount = Inquiry::where('user_id', $user->id)->count();
+
         return Inertia::render('Dashboard/Messages', [
             'messages' => $messages,
-            'filters' => $request->only(['search', 'status']),
-            'counts' => $counts,
+            'filters' => $request->only(['search', 'status', 'tab']),
+            'counts' => $receivedCounts,
+            'sentCount' => $sentCount,
+            'activeTab' => $tab,
         ]);
     }
 

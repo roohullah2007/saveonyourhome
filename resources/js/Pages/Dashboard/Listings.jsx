@@ -338,26 +338,6 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <Sticker className="w-3.5 h-3.5" />
                                                 Free Stickers
                                             </button>
-                                            <button
-                                                onClick={() => {
-                                                    setUpgradeListing(listing);
-                                                    setShowUpgradeModal(true);
-                                                }}
-                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
-                                            >
-                                                <Camera className="w-3.5 h-3.5" />
-                                                Order Multimedia
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    setUpgradeListing(listing);
-                                                    setShowUpgradeModal(true);
-                                                }}
-                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                                            >
-                                                <Globe className="w-3.5 h-3.5" />
-                                                Upgrade to MLS
-                                            </button>
                                             <Link
                                                 href={route('dashboard.listings.edit', listing.id)}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
@@ -715,96 +695,6 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                 </div>
             )}
 
-            {/* Upgrade Modal */}
-            {showUpgradeModal && upgradeListing && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    Upgrade Your Listing
-                                </h3>
-                                <button
-                                    onClick={() => {
-                                        setShowUpgradeModal(false);
-                                        setUpgradeListing(null);
-                                    }}
-                                    className="p-2 hover:bg-gray-100 rounded-lg"
-                                >
-                                    <X className="w-5 h-5 text-gray-400" />
-                                </button>
-                            </div>
-
-                            {/* Property Info */}
-                            <div className="bg-gray-50 rounded-xl p-4 mb-6">
-                                <p className="text-sm text-gray-500">Upgrading:</p>
-                                <p className="font-medium text-gray-900">{upgradeListing.property_title}</p>
-                                <p className="text-sm text-gray-600">{upgradeListing.address}, {upgradeListing.city}</p>
-                            </div>
-
-                            <div className="space-y-4">
-                                {/* Order Multimedia Option */}
-                                <Link
-                                    href={route('dashboard.listings.upgrade', upgradeListing.id)}
-                                    className="block border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:bg-purple-50/50 transition-colors cursor-pointer group"
-                                >
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-200 transition-colors">
-                                            <Video className="w-6 h-6 text-purple-600" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center justify-between">
-                                                <h4 className="font-semibold text-gray-900">Order Multimedia</h4>
-                                                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors" />
-                                            </div>
-                                            <p className="text-sm text-gray-600 mt-1">
-                                                Professional photography, video tours, drone footage, and virtual staging
-                                            </p>
-                                            <div className="flex flex-wrap gap-2 mt-3">
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">HD Photos</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">Video Tour</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">Drone</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">3D Tour</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
-
-                                {/* Upgrade to MLS Option */}
-                                <Link
-                                    href={route('dashboard.listings.upgrade', upgradeListing.id)}
-                                    className="block border border-gray-200 rounded-xl p-4 hover:border-blue-300 hover:bg-blue-50/50 transition-colors cursor-pointer group"
-                                >
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
-                                            <Building2 className="w-6 h-6 text-blue-600" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center justify-between">
-                                                <h4 className="font-semibold text-gray-900">Upgrade to MLS Listing</h4>
-                                                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                                            </div>
-                                            <p className="text-sm text-gray-600 mt-1">
-                                                Get your listing on the MLS and syndicated to Zillow, Realtor.com, Redfin & more
-                                            </p>
-                                            <div className="flex flex-wrap gap-2 mt-3">
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">MLS Access</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">Zillow</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">Realtor.com</span>
-                                                <span className="px-2 py-1 text-xs bg-white rounded-full text-gray-600 border">Redfin</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <p className="text-xs text-gray-500 text-center mt-6">
-                                Reach more buyers and sell faster with premium upgrades
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </UserDashboardLayout>
     );
 }
