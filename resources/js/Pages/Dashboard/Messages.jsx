@@ -377,15 +377,16 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                             {/* All replies in chronological order */}
                                             {replies.map((reply, idx) => {
                                                 const isMe = reply.user_id === currentUser?.id;
-                                                const replyerName = reply.user?.name || (isMe ? 'You' : 'Unknown');
+                                                const replyerName = reply.user?.name || 'Unknown';
+                                                const replyTime = reply.created_at ? new Date(reply.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
                                                 return (
                                                     <div key={reply.id || idx} className="mt-3">
-                                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
-                                                            <Reply className="w-3.5 h-3.5" />
-                                                            <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isMe ? 'You' : replyerName}</span>
+                                                        <div className={`flex items-center gap-2 text-xs text-gray-400 mb-1 ${isMe ? 'justify-end mr-8' : 'ml-0'}`}>
+                                                            {!isMe && <Reply className="w-3.5 h-3.5" />}
+                                                            <span className="font-semibold" style={{ color: isMe ? 'rgb(26,24,22)' : 'rgb(22,163,74)' }}>{isMe ? 'You' : replyerName}</span>
                                                             <span>•</span>
-                                                            <Clock className="w-3.5 h-3.5" />
-                                                            {formatTime(reply.created_at)}
+                                                            <span>{replyTime}</span>
+                                                            {isMe && <Reply className="w-3.5 h-3.5" />}
                                                         </div>
                                                         <div className={`rounded-xl p-4 ${isMe ? 'bg-[#1A1816]/5 ml-8' : 'bg-green-50 border border-green-100 mr-8'}`}>
                                                             <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
