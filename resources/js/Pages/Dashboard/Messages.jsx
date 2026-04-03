@@ -1,4 +1,4 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
 import {
     Search,
@@ -19,6 +19,8 @@ import {
 import { useState } from 'react';
 
 export default function Messages({ messages, filters = {}, counts = {}, sentCount = 0, activeTab = 'received' }) {
+    const { auth } = usePage().props;
+    const currentUser = auth?.user;
     const [search, setSearch] = useState(filters.search || '');
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -350,31 +352,48 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
 
                             {/* Message Content */}
                             <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
-                                {/* Buyer's message */}
-                                <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-                                    <Clock className="w-4 h-4" />
-                                    {formatDate(selectedMessage.created_at)} • {formatTime(selectedMessage.created_at)}
-                                </div>
-                                <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
-                                        {selectedMessage.message}
-                                    </p>
-                                </div>
+                                {(() => {
+                                    const isBuyer = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
+                                    const isPropertyOwner = selectedMessage.property?.user_id === currentUser?.id;
+                                    const buyerName = selectedMessage.name || 'Buyer';
+                                    const sellerName = selectedMessage.property?.contact_name || 'Seller';
 
-                                {/* Previous reply if exists */}
-                                {selectedMessage.seller_reply && (
-                                    <div className="mt-4">
-                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
-                                            <Reply className="w-4 h-4" />
-                                            Your reply • {selectedMessage.seller_replied_at ? formatTime(selectedMessage.seller_replied_at) : ''}
-                                        </div>
-                                        <div className="bg-green-50 border border-green-100 rounded-xl p-4">
-                                            <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
-                                                {selectedMessage.seller_reply}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
+                                    return (
+                                        <>
+                                            {/* Original inquiry message */}
+                                            <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                                                <User className="w-3.5 h-3.5" />
+                                                <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isBuyer ? 'You' : buyerName}</span>
+                                                <span>•</span>
+                                                <Clock className="w-3.5 h-3.5" />
+                                                {formatDate(selectedMessage.created_at)} • {formatTime(selectedMessage.created_at)}
+                                            </div>
+                                            <div className={`rounded-xl p-4 mb-4 ${isBuyer ? 'bg-[#1A1816]/5 ml-8' : 'bg-gray-50 mr-8'}`}>
+                                                <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
+                                                    {selectedMessage.message}
+                                                </p>
+                                            </div>
+
+                                            {/* Seller reply */}
+                                            {selectedMessage.seller_reply && (
+                                                <div className="mt-3">
+                                                    <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                                                        <Reply className="w-3.5 h-3.5" />
+                                                        <span className="font-medium" style={{ color: 'rgb(26,24,22)' }}>{isPropertyOwner ? 'You' : sellerName}</span>
+                                                        <span>•</span>
+                                                        <Clock className="w-3.5 h-3.5" />
+                                                        {selectedMessage.seller_replied_at ? formatTime(selectedMessage.seller_replied_at) : ''}
+                                                    </div>
+                                                    <div className={`rounded-xl p-4 ${isPropertyOwner ? 'bg-[#1A1816]/5 ml-8' : 'bg-green-50 border border-green-100 mr-8'}`}>
+                                                        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed" style={{ fontSize: '14px' }}>
+                                                            {selectedMessage.seller_reply}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                })()}
                             </div>
 
                             {/* Reply Section */}
