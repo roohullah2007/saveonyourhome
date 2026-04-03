@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare, HelpCircle, ChevronDown, CheckCircle } from 'lucide-react';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Contact() {
@@ -14,7 +14,7 @@ function Contact() {
     message: ''
   });
 
-  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
@@ -28,371 +28,173 @@ function Contact() {
     });
   };
 
-  const toggleFAQ = (index) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
-
   const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email Us',
-      info: 'hello@saveonyourhome.com',
-      link: 'mailto:hello@saveonyourhome.com'
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      info: '888-441-OKBO (6526)',
-      link: 'tel:8884416526'
-    },
-    {
-      icon: MapPin,
-      title: 'Mail Us',
-      info: '1611 S Utica Avenue #515, Tulsa, OK 74104',
-      link: 'https://maps.google.com/?q=1611+S+Utica+Avenue+%23515,+Tulsa,+OK+74104'
-    },
-    {
-      icon: Clock,
-      title: 'Business Hours',
-      info: 'Mon-Fri: 9AM - 6PM CST',
-      link: '#'
-    }
+    { title: 'EMAIL US', info: 'hello@saveonyourhome.com', link: 'mailto:hello@saveonyourhome.com', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>) },
+    { title: 'CALL US', info: '888-441-OKBO (6526)', link: 'tel:8884416526', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>) },
+    { title: 'MAIL US', info: '1611 S Utica Avenue #515, Tulsa, OK 74104', link: 'https://maps.google.com/?q=1611+S+Utica+Avenue+%23515,+Tulsa,+OK+74104', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>) },
+    { title: 'HOURS', info: 'Mon-Fri: 9AM - 6PM CST', link: null, icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>) },
   ];
 
   const faqs = [
-    {
-      question: 'How do I list my property?',
-      answer: 'Click on "List Property" and follow the simple steps to create your listing. It takes under 5 minutes! Your listing is completely free and includes up to 25 photos, a detailed description, and direct buyer contact.'
-    },
-    {
-      question: 'Is there a fee to list?',
-      answer: 'Unlike other platforms, we don\'t charge commissions or fees for your listing. Our basic listing is completely FREE forever. We\'re committed to providing free and comprehensive services to FSBO homeowners. Optional premium packages are available for additional exposure.'
-    },
-    {
-      question: 'How long does my listing stay active?',
-      answer: 'Your listing stays active until you sell your property or choose to remove it. There are no time limits. You can edit your listing anytime — update photos, change the price, or modify details as needed.'
-    }
+    { q: 'How do I list my property?', a: 'Click on "List Property" and follow the simple steps to create your listing. It takes under 5 minutes! Your listing is completely free and includes up to 25 photos, a detailed description, and direct buyer contact.' },
+    { q: 'Is there a fee to list?', a: 'No! Our basic listing is completely FREE forever. We don\'t charge commissions or fees. Optional premium packages are available for additional exposure.' },
+    { q: 'How long does my listing stay active?', a: 'Your listing stays active until you sell your property or choose to remove it. No time limits. You can edit your listing anytime.' },
   ];
 
   return (
     <>
-      <Head title="Contact Us - SAVEONYOURHOME" />
+      <Head title="Contact Us - SaveOnYourHome" />
 
-      {/* Hero Section */}
-      <div className="relative pt-0 md:pt-[77px]">
-        <div className="relative min-h-[60vh] flex items-center py-16 md:py-20 overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/home-img.webp"
-              alt="Contact us"
-              className="w-full h-full object-cover"
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
-          </div>
-
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
-            <div className="max-w-3xl">
-              {/* Main Heading */}
-              <h1
-                className="text-white text-[40px] sm:text-[50px] md:text-[60px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-               
-              >
-                Get in Touch
+      {/* Hero */}
+      <section className="relative w-full overflow-hidden" style={{ height: '500px' }}>
+        <img src="/images/home-img.webp" alt="Contact us" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
+        <div className="relative flex flex-col h-full">
+          <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
+            <div className="w-full max-w-[600px]">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
+                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
+                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>GET IN TOUCH</span>
+              </div>
+              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+                We'd Love to <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hear From You</span>
               </h1>
-
-              {/* Subheading */}
-              <p
-                className="text-white text-[14px] md:text-[16px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-               
-              >
-                Whether you're selling by owner and looking for a better way or a buyer seeking a seamless experience, our team is here to help make it happen. Reach out and we'll get back to you as soon as possible.
+              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+                Have questions about listing, buying, or our services? Our team is always ready to help you succeed.
               </p>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Contact Info Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {contactInfo.map((item, index) => {
-              const IconComponent = item.icon;
-              return (
-                <a
-                  key={index}
-                  href={item.link}
-                  className="bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group"
-                >
-                  <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-all duration-300">
-                    <IconComponent className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-all duration-300" />
-                  </div>
-                  <h3 className="text-lg font-medium text-[#111] mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#666] font-medium">
-                    {item.info}
-                  </p>
-                </a>
-              );
-            })}
-          </div>
-        </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left Side - Form */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <MessageSquare className="w-4 h-4 text-[#666]" />
-                <span className="text-[#666] text-sm font-medium">
-                  Send us a message
-                </span>
-              </div>
+      {/* Contact Info Cards */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-16">
+            {contactInfo.map((c, i) => (
+              <a key={i} href={c.link || '#'} target={c.link?.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-6 flex flex-col items-center text-center group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+                <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
+                <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245,245,244)' }}>{c.icon}</div>
+                <h3 className="mb-2" style={{ fontWeight: 700, fontSize: '12px', color: 'rgb(26,24,22)', letterSpacing: '0.5px' }}>{c.title}</h3>
+                <p style={{ fontSize: '14px', lineHeight: '20px', color: 'rgb(100,100,100)' }}>{c.info}</p>
+              </a>
+            ))}
+          </div>
 
-              <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
-                Contact Form
+          {/* Contact Form + Map */}
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Form */}
+            <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+              <div className="mb-6">
+                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>SEND A MESSAGE</span>
+              </div>
+              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] mb-6" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+                How Can We Help?
               </h2>
 
-              <p className="text-[16px] text-[#666] font-medium mb-8">
-                Our team of experienced real estate and technology professionals is ready to help. Fill out the form below and we'll get back to you within 24 hours.
-              </p>
-
-              {submitted && (
-                <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-green-700 font-medium">
-                    Thank you for your message! We'll get back to you within 24 hours.
-                  </span>
+              {(submitted || flash?.success) && (
+                <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Message sent successfully! We'll get back to you soon.</p>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={data.name}
-                    onChange={e => setData('name', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors ${errors.name ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                   
-                    placeholder="John Doe"
-                    required
-                  />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-[#111] mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={data.email}
-                      onChange={e => setData('email', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors ${errors.email ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                     
-                      placeholder="john@example.com"
-                      required
-                    />
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Full Name *</label>
+                    <input type="text" value={data.name} onChange={e => setData('name', e.target.value)} placeholder="Your name" required className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }} />
+                    {errors.name && <p style={{ fontSize: '12px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.name}</p>}
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium text-[#111] mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={data.phone}
-                      onChange={e => setData('phone', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors"
-                     
-                      placeholder="(918) 555-0123"
-                    />
-                    <label className="flex items-start gap-2 mt-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={data.sms_consent}
-                        onChange={(e) => setData('sms_consent', e.target.checked)}
-                        className="mt-0.5 rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
-                      />
-                      <span className="text-xs text-gray-600">I'd prefer texting</span>
-                    </label>
-                    <p className="text-[11px] text-gray-400 mt-1 ml-6">Msg & data rates may apply. Reply STOP to opt out.</p>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Email *</label>
+                    <input type="email" value={data.email} onChange={e => setData('email', e.target.value)} placeholder="your@email.com" required className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }} />
+                    {errors.email && <p style={{ fontSize: '12px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
                   </div>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2">
-                    Subject
-                  </label>
-                  <select
-                    name="subject"
-                    value={data.subject}
-                    onChange={e => setData('subject', e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:outline-none focus:ring-0 focus:border-black transition-colors bg-white ${errors.subject ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                   
-                    required
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="listing">Listing a Property</option>
-                    <option value="buying">Buying a Property</option>
-                    <option value="support">Technical Support</option>
-                    <option value="billing">Billing Question</option>
-                    <option value="other">Other</option>
-                  </select>
-                  {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Phone</label>
+                    <input type="tel" value={data.phone} onChange={e => setData('phone', e.target.value)} placeholder="(555) 123-4567" className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Subject</label>
+                    <select value={data.subject} onChange={e => setData('subject', e.target.value)} className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '48px', fontSize: '15px', color: data.subject ? 'rgb(26,24,22)' : 'rgb(156,163,175)' }}>
+                      <option value="">Select topic</option>
+                      <option value="listing">Listing a Property</option>
+                      <option value="buying">Buying a Property</option>
+                      <option value="packages">Media Packages</option>
+                      <option value="mls">MLS Listing</option>
+                      <option value="support">Technical Support</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-[#111] mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    value={data.message}
-                    onChange={e => setData('message', e.target.value)}
-                    rows="6"
-                    className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:border-[#1A1816] transition-colors resize-none ${errors.message ? 'border-red-500' : 'border-[#D0CCC7]'}`}
-                   
-                    placeholder="Tell us how we can help you..."
-                    required
-                  ></textarea>
-                  {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Message *</label>
+                  <textarea value={data.message} onChange={e => setData('message', e.target.value)} placeholder="How can we help you?" required rows={5} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none" style={{ fontSize: '15px', color: 'rgb(26,24,22)' }} />
+                  {errors.message && <p style={{ fontSize: '12px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.message}</p>}
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={processing}
-                  className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium transition-all duration-300 hover:bg-[#111111] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                 
-                >
-                  <Send className="w-5 h-5" />
-                  {processing ? 'Sending...' : 'Send Message'}
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={data.sms_consent} onChange={e => setData('sms_consent', e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-gray-800 focus:ring-0" />
+                  <span style={{ fontSize: '13px', color: 'rgb(107,114,128)' }}>I agree to receive SMS updates from SaveOnYourHome.com</span>
+                </label>
+                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: 'rgb(26,24,22)', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}>
+                  {processing ? 'Sending...' : 'Send Message'} <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
             </div>
 
-            {/* Right Side - FAQ */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <HelpCircle className="w-4 h-4 text-[#666]" />
-                <span className="text-[#666] text-sm font-medium">
-                  Quick Answers
-                </span>
+            {/* Map + Info */}
+            <div className="space-y-6">
+              <div className="rounded-2xl overflow-hidden" style={{ height: '360px', boxShadow: 'rgba(0,0,0,0.08) 0px 8px 32px' }}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3224.8!2d-95.9747!3d36.1397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b6ec1e0e0e0e0e%3A0x0!2s1611+S+Utica+Ave+%23515%2C+Tulsa%2C+OK+74104!5e0!3m2!1sen!2sus!4v1703561234567"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                />
               </div>
-
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-4">
-                Frequently Asked Questions
-              </h2>
-
-              <p className="text-[16px] text-[#666] font-medium mb-8">
-                Here are some common questions we receive. Don't see your question? Send us a message!
-              </p>
-
-              <div className="space-y-4">
-                {faqs.map((faq, index) => (
-                  <div key={index} className="bg-[#DCD8D5] rounded-2xl overflow-hidden transition-all duration-300">
-                    <button
-                      onClick={() => toggleFAQ(index)}
-                      className="w-full flex items-center justify-between p-6 text-left transition-colors group"
-                    >
-                      <span
-                       
-                        className="text-[18px] font-medium text-[#111] pr-4 transition-colors"
-                      >
-                        {faq.question}
-                      </span>
-                      <div className="flex-shrink-0 transition-all duration-300">
-                        <ChevronDown
-                          className={`w-6 h-6 text-[#111] transition-transform duration-300 ${
-                            openFaqIndex === index ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </div>
-                    </button>
-
-                    {openFaqIndex === index && (
-                      <div className="px-6 pb-6 pt-0 animate-fadeIn">
-                        <p
-                         
-                          className="text-[14px] font-medium text-[#666] leading-relaxed"
-                        >
-                          {faq.answer}
-                        </p>
-                      </div>
-                    )}
+              <div className="rounded-2xl border border-gray-200/60 p-6" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '12px' }}>SaveOnYourHome.com</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(100,100,100)" strokeWidth="1.5"><path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    <span style={{ fontSize: '14px', color: 'rgb(100,100,100)' }}>1611 S Utica Avenue #515, Tulsa, OK 74104</span>
                   </div>
-                ))}
-              </div>
-
-              <div className="mt-8 bg-[#1A1816] rounded-2xl p-6 text-white">
-                <h3 className="text-xl font-medium mb-2">
-                  Still have questions?
-                </h3>
-                <p className="text-sm mb-4 text-white/90">
-                  Check out our comprehensive FAQ page for more answers.
-                </p>
-                <Link
-                  href="/faqs"
-                  className="inline-flex items-center gap-2 bg-white text-[#1A1816] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-white/90"
-                 
-                >
-                  View All FAQs
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </Link>
+                  <div className="flex items-center gap-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(100,100,100)" strokeWidth="1.5"><path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                    <a href="tel:8884416526" style={{ fontSize: '14px', color: 'rgb(100,100,100)' }}>888-441-OKBO (6526)</a>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(100,100,100)" strokeWidth="1.5"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                    <a href="mailto:hello@saveonyourhome.com" style={{ fontSize: '14px', color: 'rgb(100,100,100)' }}>hello@saveonyourhome.com</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-[32px] md:text-[48px] font-medium text-[#111] mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-[16px] text-[#666] font-medium mb-8 max-w-2xl mx-auto">
-            Join us in revolutionizing the way homes are bought and sold. List your property for FREE or start browsing available homes today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/list-property"
-              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
-             
-            >
-              List Your Property
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_56_2205" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                  <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
-                </mask>
-                <g mask="url(#mask0_56_2205)">
-                  <path d="M13.459 10.8334L11.084 13.2084C10.9173 13.3751 10.8375 13.5695 10.8444 13.7918C10.8513 14.014 10.9312 14.2084 11.084 14.3751C11.2507 14.5418 11.4486 14.6286 11.6777 14.6355C11.9069 14.6425 12.1048 14.5626 12.2715 14.3959L16.084 10.5834C16.2507 10.4168 16.334 10.2223 16.334 10.0001C16.334 9.77787 16.2507 9.58343 16.084 9.41676L12.2715 5.60426C12.1048 5.43759 11.9069 5.35773 11.6777 5.36467C11.4486 5.37162 11.2507 5.45842 11.084 5.62509C10.9312 5.79176 10.8513 5.9862 10.8444 6.20842C10.8375 6.43065 10.9173 6.62509 11.084 6.79176L13.459 9.16676H4.16732C3.93121 9.16676 3.73329 9.24662 3.57357 9.40634C3.41385 9.56606 3.33398 9.76398 3.33398 10.0001C3.33398 10.2362 3.41385 10.4341 3.57357 10.5938C3.73329 10.7536 3.93121 10.8334 4.16732 10.8334H13.459Z" fill="white"/>
-                </g>
-              </svg>
-            </Link>
-            <Link
-              href="/properties"
-              className="inline-flex items-center gap-2 bg-transparent border-2 border-[#1A1816] text-[#1A1816] rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1A1816] hover:text-white"
-             
-            >
-              Browse Properties
-            </Link>
+      {/* FAQs */}
+      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>QUICK ANSWERS</span></div>
+          <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
+          <div className="max-w-3xl mx-auto space-y-3">
+            {faqs.map((faq, i) => (
+              <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '14px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -400,7 +202,6 @@ function Contact() {
   );
 }
 
-// Specify MainLayout for this page to include Header and Footer
 Contact.layout = (page) => <MainLayout>{page}</MainLayout>;
 
 export default Contact;

@@ -4,7 +4,7 @@ import {
   Camera, Video, Box, Sun, Plane, FileText, Globe, Users,
   ChevronRight, ChevronDown, CheckCircle, MapPin, Clock,
   Phone, Mail, Home, DollarSign, Star, Shield, Zap, Eye,
-  X, AlertCircle, Calendar, User, Building, Lock, ArrowLeft,
+  X, AlertCircle, Calendar, User, Building, Lock, ArrowLeft, ArrowRight,
   Play, Layers, Image, HelpCircle
 } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
@@ -2205,116 +2205,48 @@ function Packages({ userListings = [] }) {
   const OverviewContent = () => (
     <>
       {/* Hero Section */}
-      <div className="relative pt-0 md:pt-[77px]">
-        <div className="relative min-h-[50vh] flex items-center py-16 md:py-20 overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/home-img-2.webp"
-              alt="Professional real estate photography"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
-          </div>
-
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
-            <div className="max-w-3xl">
-              <h1
-                className="text-white text-[36px] sm:text-[44px] md:text-[52px] font-medium leading-[1.1] mb-5 drop-shadow-2xl"
-               
-              >
-                Professional Multimedia Marketing for FSBO Sellers
+      <section className="relative w-full overflow-hidden" style={{ height: '600px' }}>
+        <img src="/images/home-img-2.webp" alt="Professional real estate photography" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
+        <div className="relative flex flex-col h-full">
+          <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
+            <div className="w-full max-w-[600px]">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
+                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
+                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MEDIA PACKAGES</span>
+              </div>
+              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+                Professional <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Multimedia</span> Marketing
               </h1>
-
-              <p
-                className="text-white text-[15px] md:text-[17px] font-medium mb-8 leading-relaxed max-w-2xl drop-shadow-lg"
-               
-              >
-                SaveOnYourHome is your real estate multimedia marketing company for sellers who choose to sell without the use of a traditional real estate agent. Get a free listing to manage your online presence, then upgrade to add professional multimedia, including photos, drones, floor plans, and 3D tours. Want to be on the Multiple Listing Service (MLS) with a flat-fee listing? We have you covered!
+              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+                Photos, drones, floor plans, 3D tours, and MLS flat-fee listings. Everything you need to market your property like a pro.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={goToOrderForm}
-                  className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
-                 
-                >
-                  <Camera className="w-5 h-5" />
-                  Order Photos & Media
-                  <ChevronRight className="w-5 h-5" />
+              <div className="mt-8 flex gap-3">
+                <button onClick={goToOrderForm} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+                  Order Photos & Media <ArrowRight className="w-4 h-4" />
                 </button>
-                <Link
-                  href="/list-property"
-                  className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-white/20"
-                 
-                >
-                  <Zap className="w-5 h-5" />
-                  Create Free Listing First
+                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+                  Create Free Listing
                 </Link>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="bg-[#EEEDEA] border-b border-gray-300">
-        <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                <Camera className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div>
-                <div className="text-[#111] font-semibold text-base">From $175</div>
-                <div className="text-[#666] text-sm">Pro Photos + Drone</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                <Clock className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div>
-                <div className="text-[#111] font-semibold text-base">Next Day</div>
-                <div className="text-[#666] text-sm">Photo Delivery</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                <Globe className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div>
-                <div className="text-[#111] font-semibold text-base">From $250</div>
-                <div className="text-[#666] text-sm">MLS Listing</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-5 py-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                <DollarSign className="w-5 h-5 text-[#3D3D3D]" />
-              </div>
-              <div>
-                <div className="text-[#111] font-semibold text-base">Pay Later</div>
-                <div className="text-[#666] text-sm">After Service</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* Services Overview Section */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-              <span className="text-[#666] text-sm font-medium">
-                Our Services
-              </span>
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-14">
+            <div className="mb-4">
+              <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>OUR SERVICES</span>
             </div>
-            <h2 className="text-[32px] md:text-[44px] font-medium text-[#111] mb-4">
+            <h2 className="mb-4 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
               Professional Real Estate Marketing
             </h2>
-            <p className="text-[16px] text-[#666] max-w-2xl mx-auto">
-              Everything you need to market your property like a pro. If you were to list with a traditional real estate agent, you'd expect professional marketing - so why not do the same?<br />Sell by owner!
+            <p style={{ fontSize: '15px', color: 'rgb(100,100,100)', maxWidth: '600px', margin: '0 auto', lineHeight: '24px' }}>
+              Everything you need to market your property like a pro. If you'd expect professional marketing from a traditional agent — why not do the same? Sell by owner!
             </p>
           </div>
 
@@ -2322,9 +2254,9 @@ function Packages({ userListings = [] }) {
             {/* Photo Service Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.photosDrone)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Camera className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2346,9 +2278,9 @@ function Packages({ userListings = [] }) {
             {/* Zillow 3D Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.zillow3D)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Layers className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2370,9 +2302,9 @@ function Packages({ userListings = [] }) {
             {/* Video Walkthrough Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.videoWalkthrough)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Video className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2394,9 +2326,9 @@ function Packages({ userListings = [] }) {
             {/* Matterport Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.matterport)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Box className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2418,9 +2350,9 @@ function Packages({ userListings = [] }) {
             {/* Reels/TikTok Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.reelsTikTok)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Play className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2442,9 +2374,9 @@ function Packages({ userListings = [] }) {
             {/* Virtual Twilight Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.virtualTwilight)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <Sun className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2466,9 +2398,9 @@ function Packages({ userListings = [] }) {
             {/* Floor Plan Card */}
             <div
               onClick={() => setSelectedService(SERVICES_DATA.floorPlan)}
-              className="bg-[#EEEDEA] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group relative p-6" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(16px)", boxShadow: "rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset" }}
             >
-              <div className="bg-[#E5E1DC] p-3 rounded-xl w-fit mb-4 group-hover:bg-[#1A1816] transition-colors">
+              <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", backgroundColor: "rgb(245,245,244)" }}>
                 <FileText className="w-6 h-6 text-[#3D3D3D] group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-medium text-[#111] mb-2">
@@ -2511,16 +2443,14 @@ function Packages({ userListings = [] }) {
       </section>
 
       {/* MLS Section */}
-      <section className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center bg-[#E5E1DC] rounded-lg px-4 py-2 mb-6">
-                <span className="text-[#666] text-sm font-medium">
-                  MLS Listing
-                </span>
+              <div className="mb-4">
+                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MLS LISTING</span>
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-[#111] mb-6">
+              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
                 Get on the MLS for Maximum Exposure
               </h2>
               <p className="text-[16px] text-[#666] mb-8">
@@ -2617,106 +2547,70 @@ function Packages({ userListings = [] }) {
       </section>
 
       {/* Broker Assisted Section */}
-      <section className="bg-[#413936] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+      <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
+        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.1), transparent)', filter: 'blur(40px)' }} />
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center bg-white/20 rounded-lg px-4 py-2 mb-6">
-                <span className="text-white text-sm font-medium">
-                  Broker Assistance
-                </span>
+              <div className="mb-4">
+                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>BROKER ASSISTANCE</span>
               </div>
-              <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-6">
+              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6" style={{ fontWeight: 700, color: 'white' }}>
                 Need Help?<br />Get Broker Assistance
               </h2>
-              <p className="text-[16px] text-white/80 mb-8">
+              <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
                 Should you prefer to have Broker-Assistance available throughout the entire process to closing, upgrade to Broker-Assistance. Save thousands compared to traditional real estate commissions.
               </p>
 
               <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90">
-                    <strong>1.5% of the final sales price</strong> or a minimum of $2,500 (paid at closing)
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90">
-                    If the seller finds an unrepresented buyer: <strong>3% or $5,000 minimum</strong> fee to handle both sides
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/90">
-                    Only collected if your property successfully closes
-                  </p>
-                </div>
+                {[
+                  { text: <><strong style={{ color: 'white' }}>1.5% of the final sales price</strong> or a minimum of $2,500 (paid at closing)</> },
+                  { text: <>If the seller finds an unrepresented buyer: <strong style={{ color: 'white' }}>3% or $5,000 minimum</strong> fee to handle both sides</> },
+                  { text: <>Only collected if your property successfully closes</> },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgba(255,255,255,0.75)' }}>{item.text}</p>
+                  </div>
+                ))}
               </div>
 
-              <p className="text-xs text-white/60 mb-6 bg-white/10 rounded-lg p-3">
-                All real estate services to be performed by M&T Realty Group, License #180717.
-              </p>
+              <div className="rounded-xl p-4 mb-8" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>All real estate services to be performed by M&T Realty Group, License #180717.</p>
+              </div>
 
-              <Link
-                href="/our-packages"
-                className="inline-flex items-center gap-2 bg-white text-[#413936] rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-gray-100"
-               
-              >
-                Learn More
-                <ChevronRight className="w-5 h-5" />
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+                Learn More <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            <div className="bg-white/10 rounded-2xl p-8">
-              <h3 className="text-xl font-medium text-white mb-6">
-                Compare Savings
-              </h3>
-
-              {/* Two Column Comparison Table */}
+            {/* Savings Comparison Card */}
+            <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(16px)' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'white', marginBottom: '24px' }}>Compare Savings</h3>
               <div className="overflow-hidden rounded-xl">
-                {/* Header Row */}
-                <div className="grid grid-cols-3 gap-2 mb-2">
-                  <div></div>
-                  <div className="text-center text-white/80 text-sm font-medium py-2">
-                    With Buyer's Agent
-                  </div>
-                  <div className="text-center text-white/80 text-sm font-medium py-2">
-                    No Buyer's Agent
-                  </div>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  <div />
+                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.5px' }}>WITH AGENT</div>
+                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.5px' }}>NO AGENT</div>
                 </div>
-
-                {/* Traditional Agent Row */}
-                <div className="grid grid-cols-3 gap-2 py-3 border-b border-white/20">
-                  <div className="text-white/80 text-sm">
-                    Traditional Agent (6%)
-                  </div>
-                  <div className="text-center text-white font-medium">$18,000</div>
-                  <div className="text-center text-white font-medium">$18,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>Traditional Agent (6%)</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'white' }}>$18,000</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'white' }}>$18,000</div>
                 </div>
-
-                {/* M&T Broker Assisted Row */}
-                <div className="grid grid-cols-3 gap-2 py-3 border-b border-white/20">
-                  <div className="text-white/80 text-sm">
-                    M&T Broker Assisted
-                  </div>
-                  <div className="text-center text-green-400 font-medium">$13,500</div>
-                  <div className="text-center text-green-400 font-medium">$9,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>M&T Broker Assisted</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(52,211,153)' }}>$13,500</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(52,211,153)' }}>$9,000</div>
                 </div>
-
-                {/* Your Savings Row */}
-                <div className="grid grid-cols-3 gap-2 py-4 bg-white/5 rounded-lg mt-2">
-                  <div className="text-white font-medium">
-                    Your Savings
-                  </div>
-                  <div className="text-center text-xl font-bold text-green-400">$4,500</div>
-                  <div className="text-center text-xl font-bold text-green-400">$9,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4 mt-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>Your Savings</div>
+                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(52,211,153)' }}>$4,500</div>
+                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(52,211,153)' }}>$9,000</div>
                 </div>
               </div>
-
-              <p className="text-xs text-white/60 mt-4">
-                *Based on a $300,000 home sale price, and 3% going to the buyer's agent.
-              </p>
+              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', marginTop: '16px' }}>*Based on a $300,000 home sale price, and 3% going to the buyer's agent.</p>
             </div>
           </div>
         </div>

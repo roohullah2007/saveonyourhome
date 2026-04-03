@@ -219,7 +219,8 @@ function Buyers() {
 
       {/* Buyers Guide - 8 Steps */}
       <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-20" style={{ maxWidth: '1400px' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] pt-20 pb-10" style={{ maxWidth: '1400px' }}>
+          {/* Section Header */}
           <div className="mb-4 text-center">
             <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYERS GUIDE</span>
           </div>
@@ -230,43 +231,90 @@ function Buyers() {
             Are you planning to buy a home? SaveOnYourHome.com is here to guide you through the entire home-buying process, providing step-by-step instructions and connecting you with trusted service providers.
           </p>
 
-          {/* Image + Steps Grid */}
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            {/* Left - Sticky Image */}
-            <div className="hidden lg:block sticky top-24">
-              <div className="rounded-2xl overflow-hidden" style={{ boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 32px' }}>
-                <img src="/images/buyer-2.webp" alt="Home buying guide" className="w-full h-[500px] object-cover" onError={(e) => e.target.src = '/images/home-img-2.webp'} />
-              </div>
-              <div className="mt-6 rounded-2xl border border-gray-200/60 p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
-                <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
-                  As part of our dedication to transparency, all service providers must adhere to our <strong style={{ color: 'rgb(55, 55, 55)' }}>Advertiser & Sponsor Honor Pledge</strong>.
-                </p>
-              </div>
-            </div>
-
-            {/* Right - Steps */}
-            <div className="space-y-4">
-              {steps.map((step) => (
-                <div key={step.number} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
-                  <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26, 24, 22)' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{step.number}</span>
+          {/* Alternating image + steps rows */}
+          {[
+            {
+              image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
+              alt: 'Couple planning home budget together',
+              badge: 'PLAN YOUR BUDGET',
+              stepNums: ['1', '2'],
+              imageLeft: true,
+            },
+            {
+              image: 'https://images.pexels.com/photos/8293778/pexels-photo-8293778.jpeg?auto=compress&cs=tinysrgb&w=800',
+              alt: 'Home inspection with inspector and buyer',
+              badge: 'DUE DILIGENCE',
+              stepNums: ['3', '4'],
+              imageLeft: false,
+            },
+            {
+              image: 'https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?auto=compress&cs=tinysrgb&w=800',
+              alt: 'Couple signing offer documents with agent',
+              badge: 'MAKE YOUR OFFER',
+              stepNums: ['5', '6'],
+              imageLeft: true,
+            },
+            {
+              image: 'https://images.pexels.com/photos/8292887/pexels-photo-8292887.jpeg?auto=compress&cs=tinysrgb&w=800',
+              alt: 'Happy family receiving keys to new home',
+              badge: 'CLOSE & MOVE IN',
+              stepNums: ['7', '8'],
+              imageLeft: false,
+            },
+          ].map((row, rowIdx) => (
+            <div key={rowIdx} className={`grid lg:grid-cols-2 gap-8 items-stretch ${rowIdx > 0 ? 'mt-8' : ''}`}>
+              {/* Image Side */}
+              <div className={`relative rounded-2xl overflow-hidden group ${row.imageLeft ? 'order-1' : 'order-1 lg:order-2'}`} style={{ minHeight: '380px', boxShadow: 'rgba(0, 0, 0, 0.08) 0px 8px 32px' }}>
+                <img src={row.image} alt={row.alt} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0" style={{ background: row.imageLeft ? 'linear-gradient(135deg, rgba(10,15,30,0.5) 0%, rgba(10,15,30,0.15) 100%)' : 'linear-gradient(225deg, rgba(10,15,30,0.5) 0%, rgba(10,15,30,0.15) 100%)' }} />
+                {/* Badge */}
+                <div className="absolute top-5 left-5 rounded-full px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 6px rgba(52,211,153,0.6)' }} />
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', letterSpacing: '1px' }}>{row.badge}</span>
+                </div>
+                {/* Step indicators */}
+                <div className="absolute bottom-5 left-5 flex gap-2">
+                  {row.stepNums.map(n => (
+                    <div key={n} className="flex items-center justify-center rounded-lg" style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.25)' }}>
+                      <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{n}</span>
                     </div>
-                    <div className="flex-1">
-                      <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '12px' }}>Step {step.number}: {step.title}</h3>
-                      <div className="space-y-3">
-                        {step.content.map((item, i) => (
-                          <div key={i}>
-                            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(75, 75, 75)' }}>
+                  ))}
+                </div>
+              </div>
+
+              {/* Steps Side */}
+              <div className={`space-y-4 flex flex-col justify-center ${row.imageLeft ? 'order-2' : 'order-2 lg:order-1'}`}>
+                {steps.filter(s => row.stepNums.includes(s.number)).map((step) => (
+                  <div key={step.number} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6 group relative" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                    <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26, 24, 22)' }} />
+                    <div className="flex items-start gap-4">
+                      <div className="flex items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26, 24, 22)' }}>
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{step.number}</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '12px' }}>Step {step.number}: {step.title}</h3>
+                        <div className="space-y-3">
+                          {step.content.map((item, i) => (
+                            <p key={i} style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(75, 75, 75)' }}>
                               <strong style={{ color: 'rgb(26, 24, 22)' }}>{item.subtitle}:</strong> {item.text}
                             </p>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* Honor Pledge */}
+          <div className="mt-10 rounded-2xl border border-gray-200/60 p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+            <div className="flex items-center gap-3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
+                As part of our dedication to transparency, all service providers must adhere to our <strong style={{ color: 'rgb(55, 55, 55)' }}>Advertiser & Sponsor Honor Pledge</strong>.
+              </p>
             </div>
           </div>
         </div>
