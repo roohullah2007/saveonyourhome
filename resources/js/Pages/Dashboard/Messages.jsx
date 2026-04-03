@@ -207,7 +207,14 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                 </p>
                             </div>
                         ) : (
-                            messagesData.map((msg) => (
+                            messagesData.map((msg) => {
+                                const replies = msg.replies || [];
+                                const latestReply = replies.length > 0 ? replies[replies.length - 1] : null;
+                                const hasUnreadReply = latestReply && latestReply.user_id !== currentUser?.id;
+                                const isNew = msg.status === 'new' || hasUnreadReply;
+                                const latestTime = latestReply ? latestReply.created_at : msg.created_at;
+
+                                return (
                                 <button
                                     key={msg.id}
                                     onClick={() => {
@@ -218,22 +225,22 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                     }}
                                     className={`w-full p-4 text-left border-b border-gray-100 hover:bg-gray-50 transition-colors ${
                                         selectedMessage?.id === msg.id ? 'bg-[#1A1816]/5 border-l-2 border-l-[#1A1816]' : ''
-                                    } ${msg.status === 'new' ? 'bg-blue-50/50' : ''}`}
+                                    } ${isNew ? 'bg-blue-50/50' : ''}`}
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <div className="relative w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                                             <User className="w-5 h-5 text-gray-500" />
+                                            {isNew && (
+                                                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-blue-500 rounded-full border-2 border-white" />
+                                            )}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between gap-2">
-                                                <span className={`text-sm truncate ${msg.status === 'new' ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
+                                                <span className={`text-sm truncate ${isNew ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
                                                     {msg.name}
                                                 </span>
                                                 <div className="flex items-center gap-1">
-                                                    {msg.status === 'new' && (
-                                                        <span className="w-2 h-2 bg-[#1A1816] rounded-full" />
-                                                    )}
-                                                    <span className="text-xs text-gray-400">{formatTime(msg.created_at)}</span>
+                                                    <span className="text-xs text-gray-400">{formatTime(latestTime)}</span>
                                                 </div>
                                             </div>
                                             <p className="text-xs text-[#1A1816] mt-0.5 truncate">
@@ -245,7 +252,8 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                         </div>
                                     </div>
                                 </button>
-                            ))
+                                );
+                            })
                         )}
                     </div>
 
