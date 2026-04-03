@@ -38,17 +38,31 @@ class HandleInertiaRequests extends Middleware
                 'unreadMessages' => fn () => $request->user()
                     ? (function() use ($request) {
                         $user = $request->user();
-                        $sellerUnread = Inquiry::whereIn('property_id', $user->properties()->pluck('id'))
-                            ->where('status', 'new')->count();
-                        $buyerUnread = Inquiry::where(function($q) use ($user) {
-                                $q->where('user_id', $user->id)->orWhere('email', $user->email);
-                            })
-                            ->whereHas('replies', function($q) use ($user) {
-                                $q->where('user_id', '!=', $user->id);
-                            })
-                            ->where('status', 'responded')
-                            ->count();
-                        return $sellerUnread + $buyerUnread;
+                        $userId = $user->id;
+                        $propertyIds = $user->properties()->pluck('id');
+                        $hasProperties = $propertyIds->isNotEmpty();
+
+                        return Inquiry::where(function($q) use ($propertyIds, $hasProperties, $user) {
+                            if ($hasProperties) $q->whereIn('property_id', $propertyIds);
+                            $q->orWhere(function($q2) use ($user) {
+                                $q2->where(function($q3) use ($user) {
+                                    $q3->where('user_id', $user->id)->orWhere('email', $user->email);
+                                })->whereNotNull('seller_reply');
+                            });
+                        })->where(function($q) use ($userId) {
+                            $q->whereNotExists(function($sub) use ($userId) {
+                                $sub->select(\DB::raw(1))
+                                    ->from('inquiry_views')
+                                    ->whereColumn('inquiry_views.inquiry_id', 'inquiries.id')
+                                    ->where('inquiry_views.user_id', $userId);
+                            })->orWhereExists(function($sub) use ($userId) {
+                                $sub->select(\DB::raw(1))
+                                    ->from('message_replies')
+                                    ->whereColumn('message_replies.inquiry_id', 'inquiries.id')
+                                    ->where('message_replies.user_id', '!=', $userId)
+                                    ->whereRaw('message_replies.created_at > (SELECT last_seen_at FROM inquiry_views WHERE inquiry_views.inquiry_id = inquiries.id AND inquiry_views.user_id = ? LIMIT 1)', [$userId]);
+                            });
+                        })->count();
                     })()
                     : 0,
             ],

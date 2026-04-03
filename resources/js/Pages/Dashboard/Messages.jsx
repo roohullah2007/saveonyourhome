@@ -210,8 +210,11 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                             messagesData.map((msg) => {
                                 const replies = msg.replies || [];
                                 const latestReply = replies.length > 0 ? replies[replies.length - 1] : null;
-                                const hasUnreadReply = latestReply && latestReply.user_id !== currentUser?.id;
-                                const isNew = msg.status === 'new' || hasUnreadReply;
+                                const lastSeen = msg.last_seen_at ? new Date(msg.last_seen_at) : null;
+                                const latestReplyTime = latestReply ? new Date(latestReply.created_at) : null;
+                                const hasNewReply = latestReply && latestReply.user_id !== currentUser?.id && (!lastSeen || latestReplyTime > lastSeen);
+                                const neverSeen = !lastSeen && (msg.status === 'new' || replies.length > 0);
+                                const isNew = neverSeen || hasNewReply;
                                 const latestTime = latestReply ? latestReply.created_at : msg.created_at;
 
                                 return (
@@ -219,9 +222,8 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                     key={msg.id}
                                     onClick={() => {
                                         setSelectedMessage(msg);
-                                        if (msg.status === 'new') {
-                                            handleMarkRead(msg);
-                                        }
+                                        // Mark as seen
+                                        router.post(route('dashboard.messages.seen', msg.id), {}, { preserveState: true, preserveScroll: true });
                                     }}
                                     className={`w-full p-4 text-left border-b border-gray-100 hover:bg-gray-50 transition-colors ${
                                         selectedMessage?.id === msg.id ? 'bg-[#1A1816]/5 border-l-2 border-l-[#1A1816]' : ''
