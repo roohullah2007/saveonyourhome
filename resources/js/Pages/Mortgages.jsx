@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Mortgages() {
@@ -38,7 +39,11 @@ function Mortgages() {
 
   return (
     <>
-      <Head title="Mortgages - SaveOnYourHome" />
+      <SEOHead
+        title="Mortgages"
+        description="Compare mortgage rates from top lenders. Find the best home loan rates, calculate monthly payments, and get pre-approved. SaveOnYourHome mortgage center."
+        keywords="mortgage rates, home loan, compare mortgages, mortgage calculator, home financing, best mortgage rates"
+      />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden h-[420px] md:h-[500px] lg:h-[600px]">

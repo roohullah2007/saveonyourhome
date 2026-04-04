@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function About() {
@@ -25,7 +26,20 @@ function About() {
 
   return (
     <>
-      <Head title="About - SaveOnYourHome" />
+      <SEOHead
+        title="About Us"
+        description="Learn about SaveOnYourHome's mission to empower FSBO sellers. We provide free tools, guidance, and support to help you sell your home without agent commissions."
+        keywords="about SaveOnYourHome, FSBO platform, sell home without agent, free real estate listing, for sale by owner"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'SaveOnYourHome',
+          url: typeof window !== 'undefined' ? window.location.origin : '',
+          logo: (typeof window !== 'undefined' ? window.location.origin : '') + '/images/saveonyourhome-logo.png',
+          description: 'SaveOnYourHome empowers FSBO sellers with free tools and comprehensive services to sell homes without commissions.',
+          sameAs: [],
+        }}
+      />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">

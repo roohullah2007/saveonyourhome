@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Sellers() {
@@ -82,7 +83,11 @@ function Sellers() {
 
   return (
     <>
-      <Head title="Sellers Guide - SaveOnYourHome" />
+      <SEOHead
+        title="Sellers Guide"
+        description="Everything you need to sell your home by owner. Free FSBO listing, pricing tools, marketing tips, and step-by-step guidance to sell without paying commission."
+        keywords="sell home by owner, FSBO guide, how to sell home without realtor, FSBO tips, sell house no commission"
+      />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">

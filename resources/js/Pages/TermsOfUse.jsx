@@ -1,11 +1,15 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function TermsOfUse() {
   return (
     <>
-      <Head title="Terms of Use - SAVEONYOURHOME" />
+      <SEOHead
+        title="Terms of Use"
+        description="Review the terms of use for SaveOnYourHome. Understand the rules and guidelines for using our FSBO real estate platform."
+        noindex={true}
+      />
 
       {/* Hero Section */}
       <div className="relative pt-0 md:pt-[77px]">

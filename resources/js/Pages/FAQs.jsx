@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function FAQs() {
@@ -52,7 +53,16 @@ function FAQs() {
 
   return (
     <>
-      <Head title="FAQs - SaveOnYourHome" />
+      <SEOHead
+        title="Frequently Asked Questions"
+        description="Find answers to common questions about selling your home on SaveOnYourHome. Learn about FSBO listings, pricing, MLS, photography services, and more."
+        keywords="FSBO FAQ, for sale by owner questions, home selling FAQ, SaveOnYourHome help, real estate FAQ"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [],
+        }}
+      />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">

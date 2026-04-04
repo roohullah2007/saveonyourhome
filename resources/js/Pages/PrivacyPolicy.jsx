@@ -1,11 +1,15 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function PrivacyPolicy() {
   return (
     <>
-      <Head title="Privacy Policy - SAVEONYOURHOME" />
+      <SEOHead
+        title="Privacy Policy"
+        description="Read SaveOnYourHome's privacy policy. Learn how we collect, use, and protect your personal information when using our FSBO real estate platform."
+        noindex={true}
+      />
 
       {/* Hero Section */}
       <div className="relative pt-0 md:pt-[77px]">

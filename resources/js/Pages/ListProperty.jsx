@@ -1,5 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Head, useForm, router, usePage } from '@inertiajs/react';
+import { useForm, router, usePage } from '@inertiajs/react';
+import SEOHead from '@/Components/SEOHead';
 import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, X, AlertCircle, Loader2, Star } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
@@ -79,11 +80,9 @@ function ListProperty() {
         longitude: lng,
       };
 
-      // If address data is provided from reverse geocoding, populate the form fields
+      // If address data is provided from geocoding/reverse geocoding, update form fields
       if (addressData) {
-        if (addressData.address) {
-          updates.address = addressData.address;
-        }
+        // Always update city, state, zip from geocode results to fix wrong defaults
         if (addressData.city) {
           updates.city = addressData.city;
         }
@@ -92,6 +91,10 @@ function ListProperty() {
         }
         if (addressData.zip_code) {
           updates.zipCode = addressData.zip_code;
+        }
+        // Only update address if the user hasn't typed one yet
+        if (addressData.address && !data.address) {
+          updates.address = addressData.address;
         }
       }
 
@@ -412,7 +415,12 @@ function ListProperty() {
 
   return (
     <>
-      <Head title="List Your Property - SAVEONYOURHOME" />
+      <SEOHead
+        title="List Your Property For Free"
+        description="List your home for sale by owner on SaveOnYourHome. Free FSBO listing with photos, descriptions, and direct buyer connections. No commissions or hidden fees."
+        keywords="list home for sale, FSBO listing, sell home by owner, free property listing, list property online"
+        noindex={true}
+      />
 
       {/* Hero Section */}
       <div className="relative pt-0 md:pt-[77px]">

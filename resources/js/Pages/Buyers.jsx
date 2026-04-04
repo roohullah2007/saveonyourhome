@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Buyers() {
@@ -89,7 +90,11 @@ function Buyers() {
 
   return (
     <>
-      <Head title="Buyers Guide - SaveOnYourHome" />
+      <SEOHead
+        title="Buyers Guide"
+        description="Find your dream home on SaveOnYourHome. Browse FSBO listings, connect directly with sellers, and save on real estate fees. Complete buyer's guide and resources."
+        keywords="buy home FSBO, for sale by owner homes, home buyer guide, find homes for sale, no agent home buying"
+      />
 
       {/* Hero Section */}
       <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">

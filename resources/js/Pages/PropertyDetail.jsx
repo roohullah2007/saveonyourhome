@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { MapPin, BedDouble, Bath, Maximize2, Calendar, Home, Heart, Share2, ArrowLeft, Phone, Mail, CheckCircle2, ChevronLeft, ChevronRight, Copy, Check, BadgeCheck, Calculator, DollarSign, Printer, Video, ExternalLink, X, Images } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import SinglePropertyMap from '@/Components/Properties/SinglePropertyMap';
 
@@ -286,7 +287,35 @@ function PropertyDetail({ property, openHouses = [] }) {
 
   return (
     <>
-      <Head title={`${property.property_title} - SAVEONYOURHOME`} />
+      <SEOHead
+        title={property.property_title}
+        description={`${property.property_title} - ${property.bedrooms || 0} bed, ${property.bathrooms || 0} bath${property.square_feet ? `, ${Number(property.square_feet).toLocaleString()} sqft` : ''} home for sale by owner in ${property.city}, ${property.state}. Listed at $${Number(property.price).toLocaleString()}. No agent commission fees.`}
+        image={property.photos?.[0] ? `/storage/${property.photos[0]}` : undefined}
+        keywords={`${property.city} homes for sale, FSBO ${property.city}, ${property.state} real estate, for sale by owner ${property.city}, ${property.property_type || 'home'} for sale`}
+        type="article"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateListing',
+          name: property.property_title,
+          description: property.description,
+          url: typeof window !== 'undefined' ? window.location.href : '',
+          image: property.photos?.map(p => (typeof window !== 'undefined' ? window.location.origin : '') + `/storage/${p}`) || [],
+          offers: {
+            '@type': 'Offer',
+            price: property.price,
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+          },
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: property.address,
+            addressLocality: property.city,
+            addressRegion: property.state,
+            postalCode: property.zip_code,
+            addressCountry: 'US',
+          },
+        }}
+      />
 
       {/* Back Button */}
       <div className="bg-[#EEEDEA] pt-[77px]">

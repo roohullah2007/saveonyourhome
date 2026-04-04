@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
 import AuthModal from '@/Components/AuthModal';
@@ -192,7 +193,11 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
 
   return (
     <>
-      <Head title="Properties - SaveOnYourHome" />
+      <SEOHead
+        title="Browse Properties For Sale"
+        description="Browse FSBO homes for sale on SaveOnYourHome. Find properties listed by owner with no commission fees. Search by location, price, bedrooms, and more."
+        keywords="homes for sale, FSBO listings, for sale by owner properties, houses for sale, real estate listings, buy home no commission"
+      />
 
       <div className="flex flex-col h-screen overflow-hidden">
         {/* Header spacer for fixed header */}

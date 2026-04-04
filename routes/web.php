@@ -20,9 +20,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\MediaOrderController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+// Sitemap
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // QR Code Short URL Redirect (public, no auth required)
 Route::get('/p/{code}', [QrCodeController::class, 'handleScan'])->name('qr.scan');

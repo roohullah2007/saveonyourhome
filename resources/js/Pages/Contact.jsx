@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Contact() {
@@ -43,7 +44,11 @@ function Contact() {
 
   return (
     <>
-      <Head title="Contact Us - SaveOnYourHome" />
+      <SEOHead
+        title="Contact Us"
+        description="Get in touch with SaveOnYourHome. We're here to help with your FSBO listing, answer questions, and provide support for buying or selling your home."
+        keywords="contact SaveOnYourHome, FSBO support, real estate help, home selling questions"
+      />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
+import SEOHead from '@/Components/SEOHead';
 import {
   Camera, Video, Box, Sun, Plane, FileText, Globe, Users,
   ChevronRight, ChevronDown, CheckCircle, MapPin, Clock,
@@ -2621,7 +2622,11 @@ function Packages({ userListings = [] }) {
 
   return (
     <>
-      <Head title="Packages & Pricing - SAVEONYOURHOME" />
+      <SEOHead
+        title="Packages & Pricing"
+        description="Professional real estate photography, virtual tours, drone photography, MLS listing, and more. Affordable packages to help sell your FSBO home faster."
+        keywords="real estate photography, virtual tour, drone photography, MLS listing, home selling packages, FSBO services, professional home photos"
+      />
 
       {/* Service Area Modal */}
       {showServiceAreaModal && <ServiceAreaModal />}
