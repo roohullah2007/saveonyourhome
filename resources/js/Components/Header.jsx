@@ -13,8 +13,11 @@ const Header = ({ maxWidth, noPadding }) => {
   const [buyDropdownOpen, setBuyDropdownOpen] = useState(false);
   const [mobileSellOpen, setMobileSellOpen] = useState(false);
   const [mobileBuyOpen, setMobileBuyOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const sellDropdownRef = useRef(null);
   const buyDropdownRef = useRef(null);
+  const resourcesDropdownRef = useRef(null);
 
   const handleListProperty = (e) => {
     e.preventDefault();
@@ -35,6 +38,9 @@ const Header = ({ maxWidth, noPadding }) => {
       if (buyDropdownRef.current && !buyDropdownRef.current.contains(e.target)) {
         setBuyDropdownOpen(false);
       }
+      if (resourcesDropdownRef.current && !resourcesDropdownRef.current.contains(e.target)) {
+        setResourcesDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -45,6 +51,14 @@ const Header = ({ maxWidth, noPadding }) => {
     { label: 'Buyer FAQs', href: '/buyer-faqs' },
     { label: 'Get Pre-Approved', href: '/get-pre-approved' },
     { label: 'Buyers Guide', href: '/buyers-guide' },
+  ];
+
+  const resourcesDropdownItems = [
+    { label: 'Seller Resources', href: '/seller-resources' },
+    { label: 'Buyer Resources', href: '/buyer-resources' },
+    { label: 'Advertiser & Sponsor Honor Pledge', href: '/honor-pledge' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'E-Book', href: '/ebook' },
   ];
 
   const sellDropdownItems = [
@@ -160,6 +174,33 @@ const Header = ({ maxWidth, noPadding }) => {
                   Contact
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
                 </Link>
+
+                {/* Resources Dropdown */}
+                <div className="relative" ref={resourcesDropdownRef}>
+                  <button
+                    onClick={() => setResourcesDropdownOpen(!resourcesDropdownOpen)}
+                    className="flex items-center gap-1 text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group"
+                  >
+                    Resources
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${resourcesDropdownOpen ? 'rotate-180' : ''}`} />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
+                  </button>
+
+                  {resourcesDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-3 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-20 py-2">
+                      {resourcesDropdownItems.map((item, i) => (
+                        <Link
+                          key={i}
+                          href={item.href}
+                          className="block px-5 py-3 text-[15px] text-gray-800 hover:bg-gray-50 transition-colors"
+                          onClick={() => setResourcesDropdownOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </nav>
 
               {/* Right Actions */}
@@ -398,6 +439,31 @@ const Header = ({ maxWidth, noPadding }) => {
               >
                 Contact
               </Link>
+
+              {/* Mobile Resources Dropdown */}
+              <div>
+                <button
+                  onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                  className="flex items-center justify-between w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
+                >
+                  Resources
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {mobileResourcesOpen && (
+                  <div className="pl-4 space-y-1 mt-1">
+                    {resourcesDropdownItems.map((item, i) => (
+                      <Link
+                        key={i}
+                        href={item.href}
+                        className="block text-[15px] text-gray-600 hover:text-[#111] transition-colors py-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="pt-4 border-t border-gray-200">
                 {user ? (

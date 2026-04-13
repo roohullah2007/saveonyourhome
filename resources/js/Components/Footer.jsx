@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 const Footer = () => {
 
   return (
-    <footer className="w-full bg-[#1a1a1a]">
+    <footer className="w-full bg-[#1a1a1a] dark-selection">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
@@ -21,7 +21,7 @@ const Footer = () => {
              
               className="text-[#DCD8D5] text-base hover:text-white transition-colors block mb-2"
             >
-              888-441-OKBO (6526)
+              888-441-6526
             </a>
             <p
              
@@ -126,7 +126,7 @@ const Footer = () => {
             >
               Questions?{' '}
               <a href="tel:888-441-6526" className="text-white underline hover:text-[#DCD8D5] transition-colors">
-                Call 888-441-OKBO
+                Call 888-441-6526
               </a>{' '}
               or{' '}
               <Link href="/contact" className="text-white underline hover:text-[#DCD8D5] transition-colors">

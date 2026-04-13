@@ -83,22 +83,25 @@ function BuyerFAQs() {
       </section>
 
       {/* Contact CTA */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>NEED MORE HELP?</span></div>
-            <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
+          <div
+            className="rounded-3xl text-center py-14 sm:py-20 px-8"
+            style={{ backgroundColor: 'rgb(240,240,240)' }}
+          >
+            <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[38px] lg:leading-[48px] mb-5 mx-auto" style={{ fontWeight: 700, color: 'rgb(26,24,22)', maxWidth: '700px' }}>
               Our award winning customer service team is always ready to assist you.
             </h2>
-            <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+            <p className="mx-auto mb-8" style={{ fontSize: '16px', lineHeight: '26px', color: 'rgb(100,100,100)', maxWidth: '600px' }}>
               Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with certainty.
             </p>
-            <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-                Contact Us <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>

@@ -44,7 +44,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
   };
 
   return (
-    <section className="hero-selection relative w-full overflow-hidden h-[520px] md:h-[600px] lg:h-[700px]" style={{ marginTop: '-101px', paddingTop: '101px' }}>
+    <section className="dark-selection relative w-full overflow-hidden h-[520px] md:h-[600px] lg:h-[700px]" style={{ marginTop: '-101px', paddingTop: '101px' }}>
       {/* Single Background Image */}
       <img
         src="/images/home-img.webp"
@@ -156,8 +156,8 @@ const HeroSection = ({ featuredProperties = [] }) => {
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={handleListHome}
-                  className="flex items-center justify-center gap-2 rounded-full bg-white text-[#1A1816] transition-all duration-300 hover:bg-gray-100"
-                  style={{ height: '52px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                  className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  style={{ height: '52px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600, backgroundColor: '#1A1816' }}
                 >
                   List Your Home
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -166,15 +166,14 @@ const HeroSection = ({ featuredProperties = [] }) => {
                 </button>
                 <Link
                   href="/properties"
-                  className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:bg-white/15"
+                  className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
                   style={{
                     height: '52px',
                     paddingLeft: '32px',
                     paddingRight: '32px',
                     fontSize: '15px',
                     fontWeight: 600,
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    background: 'rgba(255, 255, 255, 0.08)',
+                    backgroundColor: '#3355FF',
                   }}
                 >
                   Search Properties

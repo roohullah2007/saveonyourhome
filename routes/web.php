@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminSettingsController;
 use App\Http\Controllers\Admin\AdminActivityController;
 use App\Http\Controllers\Admin\AdminMediaOrderController;
 use App\Http\Controllers\Admin\AdminCompanyLogoController;
+use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminImportController;
 use App\Http\Controllers\Admin\AdminServiceRequestController;
 use App\Http\Controllers\ClaimController;
@@ -117,6 +118,34 @@ Route::get('/seller-faqs', function () {
 Route::get('/virtual-tours', function () {
     return Inertia::render('VirtualTours');
 })->name('virtual-tours');
+
+Route::get('/seller-resources', function () {
+    $resources = \App\Models\Resource::published()->category('seller')->latest('published_at')->get();
+    return Inertia::render('SellerResources', ['resources' => $resources]);
+})->name('seller-resources');
+
+Route::get('/buyer-resources', function () {
+    $resources = \App\Models\Resource::published()->category('buyer')->latest('published_at')->get();
+    return Inertia::render('BuyerResources', ['resources' => $resources]);
+})->name('buyer-resources');
+
+Route::get('/honor-pledge', function () {
+    return Inertia::render('HonorPledge');
+})->name('honor-pledge');
+
+Route::get('/blog', function () {
+    $resources = \App\Models\Resource::published()->latest('published_at')->get();
+    return Inertia::render('Blog', ['resources' => $resources]);
+})->name('blog');
+
+Route::get('/ebook', function () {
+    return Inertia::render('EBook');
+})->name('ebook');
+
+Route::get('/resources/{slug}', function ($slug) {
+    $resource = \App\Models\Resource::where('slug', $slug)->published()->firstOrFail();
+    return Inertia::render('ResourceDetail', ['resource' => $resource]);
+})->name('resource.show');
 
 Route::get('/about', function () {
     return Inertia::render('About');
@@ -323,6 +352,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/company-logos/{companyLogo}', [AdminCompanyLogoController::class, 'update'])->name('company-logos.update');
     Route::delete('/company-logos/{companyLogo}', [AdminCompanyLogoController::class, 'destroy'])->name('company-logos.destroy');
     Route::post('/company-logos/reorder', [AdminCompanyLogoController::class, 'reorder'])->name('company-logos.reorder');
+
+    // Resources Management
+    Route::get('/resources', [AdminResourceController::class, 'index'])->name('resources.index');
+    Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
+    Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
+    Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');
 
     // Imports Management
     Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');

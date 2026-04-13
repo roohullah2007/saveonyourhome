@@ -272,8 +272,8 @@
     color: #111;
   }
 
-  /* Hero section selection - light highlight on dark background */
-  .hero-selection ::selection {
+  /* Light selection for dark backgrounds (hero, footer, dark sections) */
+  .dark-selection ::selection {
     background-color: rgba(255, 255, 255, 0.3);
     color: #fff;
     -webkit-text-fill-color: #fff;
