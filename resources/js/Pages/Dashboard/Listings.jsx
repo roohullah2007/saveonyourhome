@@ -264,9 +264,6 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                     {(listing.video_tour_url || listing.has_video) && (
                                                         <Video className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" title="Has video tour" />
                                                     )}
-                                                    {listing.listing_tier === 'mls' && (
-                                                        <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-700 flex-shrink-0">MLS</span>
-                                                    )}
                                                 </div>
                                                 <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5 truncate">
                                                     <MapPin className="w-3 h-3 flex-shrink-0" />

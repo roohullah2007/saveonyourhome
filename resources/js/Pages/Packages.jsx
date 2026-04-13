@@ -75,8 +75,6 @@ const PRICING = {
   ],
   floorPlan: 40, // Flat rate
   virtualTwilight: 15, // Per photo
-  mlsBasic: 250,
-  mlsDeluxe: 350,
 };
 
 // Square footage options for dropdown
@@ -211,7 +209,7 @@ function Packages({ userListings = [] }) {
       icon: Camera,
       title: 'Professional Photos + Drone',
       shortDesc: '30-40 HDR photos including aerial drone shots. Next day delivery. Full use rights for all listing sites.',
-      description: 'Professional real estate photography is the ideal starting point if you want your listing to stand out and reach its full potential. This is full-coverage photography with full use rights for your real estate listings. Your photos are sized to work great on SaveOnYourHome and other listing sites, like the MLS, Zillow, and Trulia.',
+      description: 'Professional real estate photography is the ideal starting point if you want your listing to stand out and reach its full potential. This is full-coverage photography with full use rights for your real estate listings. Your photos are sized to work great on SaveOnYourHome and other listing sites, like Zillow and Trulia.',
       features: [
         '30-40 professional HDR photos',
         'Aerial drone photography included at no extra charge',
@@ -369,10 +367,8 @@ function Packages({ userListings = [] }) {
       virtualTwilightCount: 1,
     },
 
-    // Step 4: MLS & Broker Assistance
-    mlsPackage: '', // '', 'basic', 'deluxe'
+    // Step 4: Scheduling
     brokerAssisted: false,
-    mlsSigners: [{ name: '', email: '' }],
 
     // Scheduling
     preferredDate: '',
@@ -424,13 +420,6 @@ function Packages({ userListings = [] }) {
       total += PRICING.virtualTwilight * formData.additionalMedia.virtualTwilightCount;
     }
 
-    // MLS
-    if (formData.mlsPackage === 'basic') {
-      total += PRICING.mlsBasic;
-    } else if (formData.mlsPackage === 'deluxe') {
-      total += PRICING.mlsDeluxe;
-    }
-
     return total;
   };
 
@@ -459,29 +448,6 @@ function Packages({ userListings = [] }) {
     }
   };
 
-  const handleMLSSignerChange = (index, field, value) => {
-    setFormData(prev => {
-      const newSigners = [...prev.mlsSigners];
-      newSigners[index] = { ...newSigners[index], [field]: value };
-      return { ...prev, mlsSigners: newSigners };
-    });
-  };
-
-  const addMLSSigner = () => {
-    setFormData(prev => ({
-      ...prev,
-      mlsSigners: [...prev.mlsSigners, { name: '', email: '' }]
-    }));
-  };
-
-  const removeMLSSigner = (index) => {
-    if (formData.mlsSigners.length > 1) {
-      setFormData(prev => ({
-        ...prev,
-        mlsSigners: prev.mlsSigners.filter((_, i) => i !== index)
-      }));
-    }
-  };
 
   const validateStep = (step) => {
     const newErrors = {};
@@ -506,13 +472,6 @@ function Packages({ userListings = [] }) {
 
     if (step === 4) {
       if (!formData.preferredTime) newErrors.preferredTime = 'Please select a preferred time';
-
-      if (formData.mlsPackage) {
-        formData.mlsSigners.forEach((signer, index) => {
-          if (!signer.name) newErrors[`signer_${index}_name`] = 'Name is required';
-          if (!signer.email) newErrors[`signer_${index}_email`] = 'Email is required';
-        });
-      }
 
       if (!auth?.user) {
         if (!formData.firstName) newErrors.firstName = 'First name is required';
@@ -557,7 +516,6 @@ function Packages({ userListings = [] }) {
       ...formData,
       totalPrice: calculateTotal(),
       additionalMedia: JSON.stringify(formData.additionalMedia),
-      mlsSigners: JSON.stringify(formData.mlsSigners),
     };
 
     router.post('/media-order', submitData, {
@@ -961,7 +919,7 @@ function Packages({ userListings = [] }) {
               <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">1</div>
               <div>
                 <h4 className="text-lg font-medium text-[#111] mb-1">Select Your Services</h4>
-                <p className="text-[#666]">Choose photos, drone, 3D tours, video, and more. Add MLS listing if desired.</p>
+                <p className="text-[#666]">Choose photos, drone, 3D tours, video, and more.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -1368,7 +1326,7 @@ function Packages({ userListings = [] }) {
         </div>
 
         <p className="text-sm text-[#666] mb-6">
-          This is full-coverage photography with full use rights for your real estate listings. Your photos are sized to work great on SaveOnYourHome and other listing sites, like the MLS, Zillow, and Trulia. We include interiors, exteriors, and details with every appointment, as well as neighborhood amenities at your request.
+          This is full-coverage photography with full use rights for your real estate listings. Your photos are sized to work great on SaveOnYourHome and other listing sites, like Zillow and Trulia. We include interiors, exteriors, and details with every appointment, as well as neighborhood amenities at your request.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -1688,189 +1646,9 @@ function Packages({ userListings = [] }) {
     );
   };
 
-  // Step 4: MLS, Scheduling & Contact
+  // Step 4: Scheduling & Contact
   const Step4MLSAndScheduling = () => (
     <div className="space-y-8">
-      {/* MLS Packages Section */}
-      <div>
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-medium text-[#111] mb-2">
-            MLS Listing Options
-          </h3>
-          <p className="text-[#666]">
-            Get your property on the Multiple Listing Service for maximum exposure. Optional but highly recommended.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
-          {/* Basic MLS */}
-          <div
-            onClick={() => setFormData(prev => ({
-              ...prev,
-              mlsPackage: prev.mlsPackage === 'basic' ? '' : 'basic'
-            }))}
-            className={`cursor-pointer border-2 rounded-2xl p-6 transition-all ${
-              formData.mlsPackage === 'basic'
-                ? 'border-[#1A1816] bg-[#1A1816]/5'
-                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
-            }`}
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-xl">
-                <Globe className="w-6 h-6 text-[#3D3D3D]" />
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                formData.mlsPackage === 'basic'
-                  ? 'border-[#1A1816] bg-[#1A1816]'
-                  : 'border-[#D0CCC7]'
-              }`}>
-                {formData.mlsPackage === 'basic' && (
-                  <CheckCircle className="w-4 h-4 text-white" />
-                )}
-              </div>
-            </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2">
-              Basic MLS
-            </h4>
-            <p className="text-sm text-[#666] mb-4">
-              6-month MLS listing
-            </p>
-            <ul className="space-y-2 mb-4">
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>Listed on local MLS</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>Syndicated to Zillow, Realtor.com, etc.</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>6-month listing period</span>
-              </li>
-            </ul>
-            <div className="text-2xl font-bold text-[#1A1816]">
-              $250
-            </div>
-          </div>
-
-          {/* Deluxe MLS */}
-          <div
-            onClick={() => setFormData(prev => ({
-              ...prev,
-              mlsPackage: prev.mlsPackage === 'deluxe' ? '' : 'deluxe'
-            }))}
-            className={`cursor-pointer border-2 rounded-2xl p-6 transition-all relative ${
-              formData.mlsPackage === 'deluxe'
-                ? 'border-[#1A1816] bg-[#1A1816]/5'
-                : 'border-[#D0CCC7] hover:border-[#1A1816]/50'
-            }`}
-          >
-            <div className="absolute -top-3 right-4 bg-[#1A1816] text-white text-xs font-medium px-3 py-1 rounded-full">
-              BEST VALUE
-            </div>
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-[#E5E1DC] p-3 rounded-xl">
-                <Star className="w-6 h-6 text-[#3D3D3D]" />
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                formData.mlsPackage === 'deluxe'
-                  ? 'border-[#1A1816] bg-[#1A1816]'
-                  : 'border-[#D0CCC7]'
-              }`}>
-                {formData.mlsPackage === 'deluxe' && (
-                  <CheckCircle className="w-4 h-4 text-white" />
-                )}
-              </div>
-            </div>
-            <h4 className="text-xl font-medium text-[#111] mb-2">
-              MLS Deluxe
-            </h4>
-            <p className="text-sm text-[#666] mb-4">
-              Everything in Basic plus premium features
-            </p>
-            <ul className="space-y-2 mb-4">
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>All Basic MLS features</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>ShowingTime scheduling</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>SentriLock access</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-[#666]">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>M&T Realty Yard Sign</span>
-              </li>
-            </ul>
-            <div className="text-2xl font-bold text-[#1A1816]">
-              $350
-            </div>
-          </div>
-        </div>
-
-        {/* MLS Signers - Only show if MLS selected */}
-        {formData.mlsPackage && (
-          <div className="bg-[#EEEDEA] rounded-xl p-6">
-            <h4 className="text-lg font-medium text-[#111] mb-4">
-              MLS Form Signers
-            </h4>
-            <p className="text-sm text-[#666] mb-4">
-              Please provide the names and email addresses of everyone who needs to sign the MLS forms.
-            </p>
-            {formData.mlsSigners.map((signer, index) => (
-              <div key={index} className="flex gap-4 mb-4">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={signer.name}
-                    onChange={(e) => handleMLSSignerChange(index, 'name', e.target.value)}
-                    placeholder="Full Name"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
-                      errors[`signer_${index}_name`] ? 'border-red-500' : 'border-[#D0CCC7]'
-                    }`}
-                   
-                  />
-                </div>
-                <div className="flex-1">
-                  <input
-                    type="email"
-                    value={signer.email}
-                    onChange={(e) => handleMLSSignerChange(index, 'email', e.target.value)}
-                    placeholder="Email Address"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] transition-all ${
-                      errors[`signer_${index}_email`] ? 'border-red-500' : 'border-[#D0CCC7]'
-                    }`}
-                   
-                  />
-                </div>
-                {formData.mlsSigners.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeMLSSigner(index)}
-                    className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                )}
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addMLSSigner}
-              className="text-[#1A1816] text-sm font-medium hover:underline"
-             
-            >
-              + Add Another Signer
-            </button>
-          </div>
-        )}
-      </div>
-
       {/* Broker Assisted Section */}
       <div className="bg-gradient-to-r from-[#413936] to-[#5a4f4c] rounded-2xl p-6 text-white">
         <div className="flex items-start gap-4">
@@ -2155,20 +1933,6 @@ function Packages({ userListings = [] }) {
             </div>
           )}
 
-          {formData.mlsPackage === 'basic' && (
-            <div className="flex justify-between text-sm">
-              <span className="text-[#666]">Basic MLS</span>
-              <span className="font-medium">${PRICING.mlsBasic}</span>
-            </div>
-          )}
-
-          {formData.mlsPackage === 'deluxe' && (
-            <div className="flex justify-between text-sm">
-              <span className="text-[#666]">MLS Deluxe</span>
-              <span className="font-medium">${PRICING.mlsDeluxe}</span>
-            </div>
-          )}
-
           {formData.brokerAssisted && (
             <div className="flex justify-between text-sm">
               <span className="text-[#666]">Broker Assisted</span>
@@ -2195,7 +1959,7 @@ function Packages({ userListings = [] }) {
 
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
           <p className="text-xs text-blue-800">
-            <strong>No payment required today.</strong> We accept Venmo, CashApp, PayPal, Cash, or Check once photos are taken or MLS is listed.
+            <strong>No payment required today.</strong> We accept Venmo, CashApp, PayPal, Cash, or Check once photos are taken.
           </p>
         </div>
       </div>
@@ -2221,7 +1985,7 @@ function Packages({ userListings = [] }) {
                 Professional <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Multimedia</span> Marketing
               </h1>
               <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
-                Photos, drones, floor plans, 3D tours, and MLS flat-fee listings. Everything you need to market your property like a pro.
+                Photos, drones, floor plans, 3D tours, and more. Everything you need to market your property like a pro.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
                 <button onClick={goToOrderForm} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
@@ -2443,110 +2207,6 @@ function Packages({ userListings = [] }) {
         </div>
       </section>
 
-      {/* MLS Section */}
-      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="mb-4">
-                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MLS LISTING</span>
-              </div>
-              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
-                Get on the MLS for Maximum Exposure
-              </h2>
-              <p className="text-[16px] text-[#666] mb-8">
-                The MLS is where real estate agents find properties for their buyers. Your listing will appear on Zillow, Realtor.com, Redfin, and hundreds of other sites.
-              </p>
-
-              <div className="space-y-6">
-                <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-[#E5E1DC] p-2 rounded-lg group-hover:bg-[#1A1816] transition-colors">
-                      <Globe className="w-5 h-5 text-[#3D3D3D] group-hover:text-white transition-colors" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-lg font-medium text-[#111]">Basic MLS</h4>
-                        <span className="text-xl font-bold text-[#1A1816]">$250</span>
-                      </div>
-                      <p className="text-sm text-[#666] mb-3">
-                        6-month MLS listing with syndication to all major real estate websites.
-                      </p>
-                      <Link
-                        href="/list-property"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-[#1A1816] hover:underline"
-                       
-                      >
-                        Create Your Listing
-                        <ChevronRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-xl p-6 border-2 border-[#1A1816] hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-[#1A1816] p-2 rounded-lg">
-                      <Star className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <h4 className="text-lg font-medium text-[#111]">MLS Deluxe</h4>
-                          <span className="text-xs bg-[#1A1816] text-white px-2 py-0.5 rounded-full">BEST VALUE</span>
-                        </div>
-                        <span className="text-xl font-bold text-[#1A1816]">$350</span>
-                      </div>
-                      <p className="text-sm text-[#666] mb-3">
-                        Everything in Basic plus ShowingTime, SentriLock, and M&T Realty Yard Sign.
-                      </p>
-                      <Link
-                        href="/list-property"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-[#1A1816] hover:underline"
-                       
-                      >
-                        Create Your Listing
-                        <ChevronRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* MLS Syndication Visual */}
-            <div className="relative bg-white rounded-2xl p-8 shadow-lg">
-              {/* Center - SaveOnYourHome Logo */}
-              <div className="text-center mb-6">
-                <div className="bg-[#F5F3F0] rounded-2xl p-4 mb-4 inline-block">
-                  <img
-                    src="/images/saveonyourhome-logo.png"
-                    alt="SaveOnYourHome"
-                    className="h-12 w-auto"
-                  />
-                </div>
-                <h4 className="text-lg font-semibold text-[#111]">
-                  Your MLS Listing
-                </h4>
-                <p className="text-sm text-[#666]">
-                  Syndicates to 100+ sites automatically
-                </p>
-              </div>
-
-              {/* Syndication Sites Grid - From Database */}
-              <CompanyLogosGrid variant="cards" />
-
-              {/* Bottom text */}
-              <div className="mt-6 pt-6 border-t border-[#E5E1DC] text-center">
-                <p className="text-sm text-[#666]">
-                  <span className="font-semibold text-[#1A1816]">+100 more</span> real estate websites
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Broker Assisted Section */}
       <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
@@ -2624,8 +2284,8 @@ function Packages({ userListings = [] }) {
     <>
       <SEOHead
         title="Packages & Pricing"
-        description="Professional real estate photography, virtual tours, drone photography, MLS listing, and more. Affordable packages to help sell your FSBO home faster."
-        keywords="real estate photography, virtual tour, drone photography, MLS listing, home selling packages, FSBO services, professional home photos"
+        description="Professional real estate photography, virtual tours, drone photography, and more. Affordable packages to help sell your FSBO home faster."
+        keywords="real estate photography, virtual tour, drone photography, home selling packages, FSBO services, professional home photos"
       />
 
       {/* Service Area Modal */}
@@ -2695,7 +2355,7 @@ function Packages({ userListings = [] }) {
                             className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
                            
                           >
-                            {currentStep === 3 ? 'Continue to MLS & Scheduling' : 'Continue'}
+                            {currentStep === 3 ? 'Continue to Scheduling' : 'Continue'}
                             <ChevronRight className="w-5 h-5" />
                           </button>
                         )

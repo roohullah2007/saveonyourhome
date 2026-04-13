@@ -4,7 +4,7 @@ import HeroSection from '@/Components/Sections/Homepage/HeroSection';
 import ShowcaseSection from '@/Components/Sections/Homepage/ShowcaseSection';
 import SellingSection from '@/Components/Sections/Homepage/SellingSection';
 import PropertiesSection from '@/Components/Sections/Homepage/PropertiesSection';
-import MLSSection from '@/Components/Sections/Homepage/MLSSection';
+import CTACardsSection from '@/Components/Sections/Homepage/MLSSection';
 import FAQSection from '@/Components/Sections/Homepage/FAQSection';
 
 export default function Home({ featuredProperties = [] }) {
@@ -44,7 +44,7 @@ export default function Home({ featuredProperties = [] }) {
       <PropertiesSection properties={featuredProperties} />
 
       {/* Guides & CTA Cards */}
-      <MLSSection />
+      <CTACardsSection />
 
       {/* FAQ Section */}
       <FAQSection />

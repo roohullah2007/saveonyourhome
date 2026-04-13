@@ -453,7 +453,7 @@ function ListProperty() {
                 Congratulations on taking the first step to selling your home! Fill out the form below to create your free listing.
               </p>
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 drop-shadow-lg">
-                Once your listing is live, you can order professional photos, multimedia packages, or request to be listed on your local MLS.
+                Once your listing is live, you can order professional photos and multimedia packages to maximize your exposure.
               </p>
             </div>
           </div>

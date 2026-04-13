@@ -130,7 +130,6 @@ function Contact() {
                       <option value="listing">Listing a Property</option>
                       <option value="buying">Buying a Property</option>
                       <option value="packages">Media Packages</option>
-                      <option value="mls">MLS Listing</option>
                       <option value="support">Technical Support</option>
                       <option value="other">Other</option>
                     </select>

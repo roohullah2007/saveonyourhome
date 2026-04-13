@@ -210,7 +210,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
               </div>
               <div style="margin-top:3px;font-size:11px;color:#6b7280;display:flex;align-items:center;gap:4px;flex-wrap:wrap;">${propType}</div>
               <div style="margin-top:8px;font-size:12px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${fullAddress}</div>
-              ${property.mls_number ? `<div style="margin-top:8px;font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.3px;">MLS ID #${property.mls_number}${property.city ? ' · ' + property.city : ''}</div>` : ''}
+              ${property.city ? `<div style="margin-top:8px;font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.3px;">${property.city}${property.state ? ', ' + property.state : ''}</div>` : ''}
             </div>
           </a>
         </div>

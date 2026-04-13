@@ -143,7 +143,7 @@ const PropertiesSection = ({ properties = [] }) => {
             <h3 style={{ fontSize: '22px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '8px' }}>
               No Properties Listed Yet
             </h3>
-            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)', marginBottom: '28px', maxWidth: '380px', margin: '0 auto 28px' }}>
+            <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', marginBottom: '28px', maxWidth: '380px', margin: '0 auto 28px' }}>
               Be the first to list your property for sale by owner. It's free and takes less than 5 minutes to get started!
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">

@@ -268,7 +268,14 @@
 
   /* Selection color */
   ::selection {
-    background-color: rgba(26, 24, 22, 0.12);
+    background-color: rgba(26, 24, 22, 0.15);
     color: #111;
+  }
+
+  /* Hero section selection - light highlight on dark background */
+  .hero-selection ::selection {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    -webkit-text-fill-color: #fff;
   }
 }

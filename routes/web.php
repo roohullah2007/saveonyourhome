@@ -86,9 +86,37 @@ Route::get('/buyers', function () {
     return Inertia::render('Buyers');
 })->name('buyers');
 
-Route::get('/sellers', function () {
+Route::get('/buyer-faqs', function () {
+    return Inertia::render('BuyerFAQs');
+})->name('buyer-faqs');
+
+Route::get('/get-pre-approved', function () {
+    return Inertia::render('GetPreApproved');
+})->name('get-pre-approved');
+
+Route::get('/buyers-guide', function () {
+    return Inertia::render('BuyersGuide');
+})->name('buyers-guide');
+
+Route::get('/sell-your-home', function () {
     return Inertia::render('Sellers');
 })->name('sellers');
+
+Route::get('/fsbo-guide', function () {
+    return Inertia::render('FSBOGuide');
+})->name('fsbo-guide');
+
+Route::get('/home-worth', function () {
+    return Inertia::render('HomeWorth');
+})->name('home-worth');
+
+Route::get('/seller-faqs', function () {
+    return Inertia::render('SellerFAQs');
+})->name('seller-faqs');
+
+Route::get('/virtual-tours', function () {
+    return Inertia::render('VirtualTours');
+})->name('virtual-tours');
 
 Route::get('/about', function () {
     return Inertia::render('About');

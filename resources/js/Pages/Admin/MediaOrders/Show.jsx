@@ -298,27 +298,6 @@ function Show({ order }) {
                   </div>
                 )}
 
-                {/* MLS Package */}
-                {order.mls_package && (
-                  <div className="flex items-center justify-between py-3 border-b border-gray-100">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <Globe className="w-5 h-5 text-green-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {order.mls_package === 'deluxe' ? 'MLS Deluxe' : 'Basic MLS'}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {order.mls_package === 'deluxe'
-                            ? 'MLS + ShowingTime + SentriLock + Yard Sign'
-                            : '6-month MLS listing'}
-                        </p>
-                      </div>
-                    </div>
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                  </div>
-                )}
 
                 {/* Broker Assisted */}
                 {order.broker_assisted && (
@@ -338,25 +317,6 @@ function Show({ order }) {
               </div>
             </div>
 
-            {/* MLS Signers */}
-            {mlsSigners.length > 0 && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">MLS Form Signers</h2>
-                <div className="space-y-3">
-                  {mlsSigners.map((signer, index) => (
-                    <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                        <User className="w-5 h-5 text-gray-400" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{signer.name}</p>
-                        <p className="text-sm text-gray-500">{signer.email}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Admin Notes */}
             {order.admin_notes && (

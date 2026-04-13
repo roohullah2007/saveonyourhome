@@ -81,7 +81,7 @@ function Index({ orders, counts, filters }) {
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Media Orders</h1>
             <p className="mt-2 text-sm text-gray-700">
-              Manage photo, video, and MLS order requests from sellers.
+              Manage photo and video order requests from sellers.
             </p>
           </div>
         </div>
@@ -253,12 +253,6 @@ function Index({ orders, counts, filters }) {
                           <Camera className="w-3 h-3 mr-1" />
                           {order.photo_package === 'photosDrone' ? 'Photos + Drone' : 'Photos'}
                         </span>
-                        {order.mls_package && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
-                            <Globe className="w-3 h-3 mr-1" />
-                            MLS {order.mls_package === 'deluxe' ? 'Deluxe' : 'Basic'}
-                          </span>
-                        )}
                         {order.broker_assisted && (
                           <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                             <Shield className="w-3 h-3 mr-1" />

@@ -176,7 +176,6 @@ function PrivacyPolicy() {
                 We may share your information in the following situations:
               </p>
               <ul className="list-disc list-inside text-[15px] text-[#666] leading-relaxed space-y-2 ml-4">
-                <li><strong>With MLS Services:</strong> If you opt for an MLS listing, your property information will be shared with the Multiple Listing Service and syndicated to partner websites like Zillow, Realtor.com, and Redfin.</li>
                 <li><strong>With Service Providers:</strong> We may share information with third-party vendors who provide services such as photography, payment processing, and data analytics.</li>
                 <li><strong>With Potential Buyers:</strong> Your contact information may be shared with interested buyers who inquire about your listed property.</li>
                 <li><strong>For Legal Purposes:</strong> We may disclose information when required by law or to protect our rights and safety.</li>

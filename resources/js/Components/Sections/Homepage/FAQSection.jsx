@@ -26,7 +26,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
 
       <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="px-6 pb-6 pt-0">
-          <p className="text-[14px] text-gray-500 leading-[1.75]">
+          <p className="text-[15px] text-gray-500 leading-[1.75]">
             {answer}
           </p>
         </div>
@@ -41,39 +41,16 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      category: "Free Listing",
       question: "Is SaveOnYourHome.com free?",
-      answer: "Yes! Unlike other platforms, we don't charge commissions or fees. Listing your property is completely free — no hidden charges, no strings attached. We're committed to providing free and comprehensive services to FSBO homeowners. Optional premium upgrades like MLS listing and professional photography are available."
+      answer: "Yes! Unlike other platforms, we don't charge commissions or fees. Listing your property is completely free — no hidden charges, no strings attached. We're committed to providing free and comprehensive services to FSBO homeowners."
     },
     {
-      category: "Free Listing",
       question: "How long does the sales process take?",
-      answer: "The timeline varies depending on your local market, pricing, and property condition. However, sellers who use our MLS listing service and professional media packages typically sell faster. Many of our sellers receive offers within weeks of listing."
+      answer: "The timeline varies depending on your local market, pricing, and property condition. Many of our sellers receive offers within weeks of listing. Our platform gives you maximum exposure to help sell your home faster."
     },
     {
-      category: "Free Listing",
       question: "Is listing on your platform free?",
-      answer: "Absolutely! Creating a listing on SaveOnYourHome.com is 100% free. You can upload photos, add property details, post open houses, and receive buyer inquiries at no cost. Optional paid upgrades like MLS listing and professional photography are available if you want even more exposure."
-    },
-    {
-      category: "Selling",
-      question: "How much can I save by selling without an agent?",
-      answer: "Eliminating commission is the easiest way to maximize sales proceeds for sellers without increasing cost for buyers. A typical seller saves $27,000 based on a $450,000 sales price. Owners increase their profits while buyers can simultaneously reduce their costs and afford more property."
-    },
-    {
-      category: "Selling",
-      question: "Do I need a real estate agent to sell my home?",
-      answer: "No! SaveOnYourHome.com provides the most comprehensive suite of FREE services to FSBO sellers — from listing creation and buyer communication to yard signs and professional photography. We empower you to handle the entire process on your own terms while buyers enjoy a seamless, transparent experience."
-    },
-    {
-      category: "MLS",
-      question: "Why should I list on the MLS?",
-      answer: "Listing on the MLS dramatically increases your chances of getting your house sold faster. Your property gets syndicated to Zillow, Realtor.com, Redfin, Trulia, and hundreds of other sites, reaching thousands of potential buyers and their agents."
-    },
-    {
-      category: "MLS",
-      question: "Can I cancel my MLS listing at any time?",
-      answer: "Yes. You can cancel your listing at any time if you are not under contract with an agent representing a buyer."
+      answer: "Absolutely! Creating a listing on SaveOnYourHome.com is 100% free. You can upload photos, add property details, post open houses, and receive buyer inquiries at no cost. There are no hidden fees or commissions."
     }
   ];
 
@@ -106,7 +83,7 @@ const FAQSection = () => {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] text-gray-500 mb-10 leading-[1.75]">
-              Can't find an answer to your question? Contact us, we'll be happy to help. We've provided answers to the most common questions about buying and selling homes, our free listing platform, and how SaveOnYourHome.com is revolutionizing real estate.
+              Can't find an answer to your question? Contact us, we will be happy to answer your questions.
             </p>
             <Link
               href="/contact"

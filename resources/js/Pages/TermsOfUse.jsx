@@ -89,7 +89,6 @@ function TermsOfUse() {
               </p>
               <ul className="list-disc list-inside text-[15px] text-[#666] leading-relaxed space-y-2 ml-4">
                 <li>List properties for sale by owner (FSBO)</li>
-                <li>Access MLS listing services for an additional fee</li>
                 <li>Order professional multimedia services including photography, drone footage, 3D tours, and video walkthroughs</li>
                 <li>Connect with potential buyers</li>
                 <li>Access resources and tools for selling real estate</li>
@@ -160,28 +159,6 @@ function TermsOfUse() {
               </p>
             </section>
 
-            {/* MLS Services */}
-            <section className="mb-12">
-              <h2
-                className="text-[24px] md:text-[28px] font-medium text-[#111] mb-4"
-               
-              >
-                MLS Listing Services
-              </h2>
-              <p
-                className="text-[15px] text-[#666] leading-relaxed mb-4"
-               
-              >
-                Our MLS listing service is subject to additional terms and fees. By opting for MLS listing:
-              </p>
-              <ul className="list-disc list-inside text-[15px] text-[#666] leading-relaxed space-y-2 ml-4">
-                <li>Your listing will be submitted to the Multiple Listing Service</li>
-                <li>Your property may be syndicated to third-party websites (Zillow, Realtor.com, Redfin, etc.)</li>
-                <li>You agree to comply with MLS rules and regulations</li>
-                <li>Changes to your listing may take 24-48 hours to process</li>
-                <li>MLS fees are non-refundable once the listing is submitted</li>
-              </ul>
-            </section>
 
             {/* Multimedia Services */}
             <section className="mb-12">

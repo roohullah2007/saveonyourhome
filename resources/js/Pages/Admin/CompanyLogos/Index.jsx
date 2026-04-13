@@ -162,7 +162,7 @@ export default function CompanyLogosIndex({ logos = [] }) {
                     <h1 className="text-2xl font-bold text-gray-900">
                         Company Logos
                     </h1>
-                    <p className="text-gray-500">Manage company logos displayed across the website (MLS syndication partners)</p>
+                    <p className="text-gray-500">Manage company logos displayed across the website</p>
                 </div>
                 <button
                     onClick={openAddModal}

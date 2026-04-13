@@ -94,7 +94,6 @@ function Index({ serviceRequests, counts, filters }) {
             photos: 'bg-blue-100 text-blue-800',
             virtual_tour: 'bg-purple-100 text-purple-800',
             video: 'bg-pink-100 text-pink-800',
-            mls: 'bg-gray-100 text-gray-800',
         };
         const labels = {
             qr_stickers: 'QR Stickers',
@@ -102,7 +101,6 @@ function Index({ serviceRequests, counts, filters }) {
             photos: 'Photos',
             virtual_tour: 'Virtual Tour',
             video: 'Video',
-            mls: 'MLS',
         };
         return (
             <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${styles[type] || 'bg-gray-100 text-gray-800'}`}>
@@ -174,7 +172,6 @@ function Index({ serviceRequests, counts, filters }) {
         { value: 'photos', label: 'Photos' },
         { value: 'virtual_tour', label: 'Virtual Tour' },
         { value: 'video', label: 'Video' },
-        { value: 'mls', label: 'MLS' },
     ];
 
     return (

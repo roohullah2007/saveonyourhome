@@ -16,7 +16,7 @@ function About() {
   ];
 
   const faqs = [
-    { q: 'Is SaveOnYourHome.com free?', a: 'Yes! Listing your home on SaveOnYourHome.com is completely free. No commissions, no hidden fees. We offer optional premium services like MLS listing and professional photography.' },
+    { q: 'Is SaveOnYourHome.com free?', a: 'Yes! Listing your home on SaveOnYourHome.com is completely free. No commissions, no hidden fees. We offer optional premium services like professional photography.' },
     { q: 'How long does the sales process take?', a: 'The timeline varies based on your market, pricing, and property condition. On average, FSBO homes sell within 2-4 months. Our tools and guidance help you sell faster.' },
     { q: 'What is the best pricing strategy for my property?', a: 'Use our AI pricing tool, consult with a local appraiser, and research comparable sales in your area. Setting the right price from the start attracts more serious buyers.' },
     { q: 'How can I create a compelling property listing?', a: 'Include high-quality photos, detailed descriptions, highlight unique features, and add virtual tours. Our platform guides you through creating a listing in under 5 minutes.' },

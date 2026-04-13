@@ -72,7 +72,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2">
               {[
-                { label: 'For Sellers', href: '/sellers' },
+                { label: 'For Sellers', href: '/sell-your-home' },
                 { label: 'For Buyers', href: '/buyers' },
                 { label: 'Mortgage Info', href: '/mortgages' },
                 { label: 'About Us', href: '/about' },

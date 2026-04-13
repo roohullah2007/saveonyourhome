@@ -30,11 +30,10 @@ function FAQs() {
     {
       label: 'Listings & Marketing',
       faqs: [
-        { q: 'What is an MLS flat-fee listing?', a: 'An MLS flat-fee listing allows you to list your property on the Multiple Listing Service for a one-time flat fee instead of paying a percentage-based commission. This gives you access to thousands of potential buyers.' },
-        { q: 'Will my listing appear on Zillow, Trulia, and Realtor.com?', a: 'Yes! With our MLS integration package, your listing automatically syndicates to major real estate websites including Zillow, Trulia, Realtor.com, and many others.' },
-        { q: 'How long does my listing stay active?', a: 'Your listing stays active until you sell your property or choose to remove it. No time limits on free listings. Premium MLS listings typically run for 6 months and can be renewed.' },
+        { q: 'How long does my listing stay active?', a: 'Your listing stays active until you sell your property or choose to remove it. No time limits on free listings.' },
         { q: 'Can I edit my listing after it\'s published?', a: 'Yes! You have complete control and can update details, change photos, adjust pricing, or modify any information at any time through your dashboard.' },
         { q: 'What photos should I include?', a: 'Include at least 10-15 high-quality photos showing exterior views, all main rooms, kitchen, bathrooms, special features, and outdoor spaces. We also offer professional photography services.' },
+        { q: 'Will my listing get exposure to buyers?', a: 'Yes! Your listing on SaveOnYourHome.com receives maximum exposure to potential buyers. Share your listing on social media, order a professional yard sign, and connect directly with interested buyers.' },
       ],
     },
     {
@@ -43,7 +42,7 @@ function FAQs() {
         { q: 'How do buyers contact me?', a: "Buyers can contact you directly through the contact form on your listing. You'll receive inquiries via email or through our messaging system. No agents will intercept your communication." },
         { q: 'Can I schedule and conduct showings myself?', a: "Yes! You have complete control over showings. Schedule them at times that work for you. Many sellers find this gives them the opportunity to highlight their home's best features directly." },
         { q: 'What happens when I receive an offer?', a: 'You can review it and choose to accept, reject, or counter. We recommend consulting a real estate attorney to review offers and assist with negotiations.' },
-        { q: 'How long does it take to sell a FSBO property?', a: 'Properties listed on the MLS and priced competitively typically sell within 30-90 days. Proper pricing, good photos, and being responsive to inquiries are key.' },
+        { q: 'How long does it take to sell a FSBO property?', a: 'Properties priced competitively typically sell within 30-90 days. Proper pricing, good photos, and being responsive to inquiries are key to a faster sale.' },
         { q: 'What paperwork do I need?', a: "You'll need a purchase agreement, seller's disclosure form, title documents, and closing documents. We recommend consulting a real estate attorney for your state requirements." },
       ],
     },
@@ -55,7 +54,7 @@ function FAQs() {
     <>
       <SEOHead
         title="Frequently Asked Questions"
-        description="Find answers to common questions about selling your home on SaveOnYourHome. Learn about FSBO listings, pricing, MLS, photography services, and more."
+        description="Find answers to common questions about selling your home on SaveOnYourHome. Learn about FSBO listings, pricing, photography services, and more."
         keywords="FSBO FAQ, for sale by owner questions, home selling FAQ, SaveOnYourHome help, real estate FAQ"
         jsonLd={{
           '@context': 'https://schema.org',

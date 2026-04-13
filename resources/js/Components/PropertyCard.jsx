@@ -106,12 +106,6 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 
           {/* Left Badges */}
           <div className="absolute top-4 left-4 flex gap-1.5">
-            {/* MLS Badge */}
-            {property.is_mls_listed && (
-              <div className="bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-full">
-                MLS
-              </div>
-            )}
             {/* Video Reel Icon */}
             {hasVideo && (
               <div className="bg-black/70 text-white p-1.5 rounded-full" title="Video Tour Available">

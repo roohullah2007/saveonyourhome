@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from '@inertiajs/react';
-import { Search } from 'lucide-react';
+import { Link, usePage, router } from '@inertiajs/react';
+import AuthModal from '@/Components/AuthModal';
 
 const HeroSection = ({ featuredProperties = [] }) => {
+  const { auth } = usePage().props;
   const [cardIndex, setCardIndex] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Property cards for the right carousel
   const propertyCards = featuredProperties.length > 0
@@ -34,13 +35,16 @@ const HeroSection = ({ featuredProperties = [] }) => {
     }).format(price);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    window.location.href = `/properties${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ''}`;
+  const handleListHome = () => {
+    if (auth?.user) {
+      router.visit('/list-property');
+    } else {
+      setShowAuthModal(true);
+    }
   };
 
   return (
-    <section className="relative w-full overflow-hidden h-[580px] md:h-[700px] lg:h-[860px]">
+    <section className="hero-selection relative w-full overflow-hidden h-[520px] md:h-[600px] lg:h-[700px]" style={{ marginTop: '-101px', paddingTop: '101px' }}>
       {/* Single Background Image */}
       <img
         src="/images/home-img.webp"
@@ -148,76 +152,36 @@ const HeroSection = ({ featuredProperties = [] }) => {
                 SaveOnYourHome.com does not charge sellers <strong style={{ color: 'rgba(255, 255, 255, 0.95)' }}>ANY commissions or fees</strong>. Owners increase their profits while buyers reduce their costs and afford more property.
               </p>
 
-              {/* Search Box - Glass Card */}
-              <div
-                className="rounded-2xl mt-8"
-                style={{
-                  border: '1px solid rgba(156, 163, 175, 0.25)',
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  backdropFilter: 'blur(20px)',
-                  boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px',
-                  padding: '6px',
-                }}
-              >
-                {/* Tabs */}
-                <div className="flex items-center gap-1 px-2 pb-2 pt-1">
-                  <Link
-                    href="/properties"
-                    className="relative rounded-lg px-4 py-1.5 text-sm font-medium transition-all"
-                    style={{ color: 'rgb(255, 255, 255)', backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-                  >
-                    Buy
-                  </Link>
-                  <Link
-                    href="/list-property"
-                    className="relative rounded-lg px-4 py-1.5 text-sm font-medium transition-all"
-                    style={{ color: 'rgba(255, 255, 255, 0.6)', backgroundColor: 'transparent' }}
-                  >
-                    Sell
-                  </Link>
-                  <Link
-                    href="/our-packages"
-                    className="relative rounded-lg px-4 py-1.5 text-sm font-medium transition-all"
-                    style={{ color: 'rgba(255, 255, 255, 0.6)', backgroundColor: 'transparent' }}
-                  >
-                    MLS
-                  </Link>
-                  <Link
-                    href="/sellers"
-                    className="relative rounded-lg px-4 py-1.5 text-sm font-medium transition-all"
-                    style={{ color: 'rgba(255, 255, 255, 0.6)', backgroundColor: 'transparent' }}
-                  >
-                    FSBO
-                  </Link>
-                </div>
-
-                {/* Search Input */}
-                <div className="relative">
-                  <form
-                    className="flex items-center rounded-xl bg-white shadow-lg"
-                    style={{ height: '52px' }}
-                    onSubmit={handleSearch}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Address, City or Neighborhood..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="h-full flex-1 rounded-l-xl border-0 bg-transparent pl-5 pr-2 focus:ring-0"
-                      style={{ fontSize: '15px', fontWeight: 400, color: 'rgb(26, 24, 22)' }}
-                    />
-                    <button
-                      type="submit"
-                      className="flex w-[100px] sm:w-[130px] shrink-0 items-center justify-center gap-2 rounded-r-xl bg-[#1A1816] text-white transition-colors hover:bg-[#2a2826]"
-                      style={{ height: '52px', fontSize: '14px', fontWeight: 600 }}
-                    >
-                      Search
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
+              {/* CTA Buttons */}
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={handleListHome}
+                  className="flex items-center justify-center gap-2 rounded-full bg-white text-[#1A1816] transition-all duration-300 hover:bg-gray-100"
+                  style={{ height: '52px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                >
+                  List Your Home
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </button>
+                <Link
+                  href="/properties"
+                  className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:bg-white/15"
+                  style={{
+                    height: '52px',
+                    paddingLeft: '32px',
+                    paddingRight: '32px',
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                  }}
+                >
+                  Search Properties
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </Link>
               </div>
 
               {/* Stats */}
@@ -398,6 +362,9 @@ const HeroSection = ({ featuredProperties = [] }) => {
           </div>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </section>
   );
 };

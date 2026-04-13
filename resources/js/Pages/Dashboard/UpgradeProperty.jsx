@@ -69,20 +69,6 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
             ],
             price: 'Contact for pricing',
         },
-        {
-            id: 'mls',
-            title: 'MLS Listing',
-            description: 'List your property on the MLS for maximum exposure to real estate agents and buyers',
-            icon: Home,
-            features: [
-                'Listed on Oklahoma MLS',
-                'Syndicated to Zillow, Realtor.com, etc.',
-                '96.5% of MLS sellers referred by buyer\'s agent',
-                'Listing until sold',
-                'Cancel anytime',
-            ],
-            price: 'Contact for pricing',
-        },
     ];
 
     // Check if service has pending request
@@ -177,10 +163,8 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                 <div className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
-                        <p className="font-medium text-green-800">Current Tier: {property.listing_tier === 'photos' ? 'Photos & Multimedia' : 'MLS Listed'}</p>
-                        <p className="text-sm text-green-700 mt-1">
-                            {property.listing_tier === 'mls' && property.mls_number && `MLS #${property.mls_number}`}
-                        </p>
+                        <p className="font-medium text-green-800">Current Tier: Photos & Multimedia</p>
+                        <p className="text-sm text-green-700 mt-1"></p>
                     </div>
                 </div>
             )}

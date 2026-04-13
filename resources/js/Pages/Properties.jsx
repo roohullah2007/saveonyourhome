@@ -202,10 +202,9 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
       <div className="flex flex-col h-screen overflow-hidden">
         {/* Header spacer for fixed header */}
         <Header maxWidth={1400} />
-        <div className="shrink-0" style={{ height: 65 }} />
 
         {/* Filter Bar - Single Row */}
-        <div className="relative z-[2000] shrink-0 border-b border-gray-200 bg-white py-2.5">
+        <div className="relative z-30 shrink-0 border-b border-gray-200 bg-white py-2.5">
           <div className="mx-auto flex items-center gap-2 px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1400 }} ref={filterBarRef}>
             {/* Search Input */}
             <div className="relative flex-1" style={{ maxWidth: 800 }}>
@@ -484,7 +483,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
 
         {/* Mobile Filters Panel */}
         {openDropdown === 'mobile' && (
-          <div className="lg:hidden border-b border-gray-200 bg-white px-4 py-4 z-[1999]">
+          <div className="lg:hidden border-b border-gray-200 bg-white px-4 py-4 z-20">
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1">Min Price</label>
@@ -546,7 +545,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                   {searchParams.status === 'all' ? 'All Listings' : searchParams.status === 'sold' ? 'Sold' : searchParams.status === 'pending' ? 'Pending' : 'All Listings'}
                 </h2>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5">
+                  <div className="relative flex items-center gap-1.5">
                     <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500 }}>Sort:</span>
                     <button
                       className="flex items-center gap-1 text-sm"
@@ -557,7 +556,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                       <ChevronDown className="w-2.5 h-2.5" />
                     </button>
                     {openDropdown === 'sort' && (
-                      <div className="absolute right-4 top-10 w-44 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
+                      <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
                         {[
                           { value: 'newest', label: 'Recommended' },
                           { value: 'price_low', label: 'Price: Low → High' },
@@ -687,9 +686,6 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                             </div>
                             {/* Left Badges */}
                             <div className="absolute top-4 left-4 flex gap-1.5">
-                              {property.is_mls_listed && (
-                                <div className="bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-full">MLS</div>
-                              )}
                               {(property.virtual_tour_url || property.matterport_url || property.has_virtual_tour) && (
                                 <div className="bg-purple-600/90 text-white p-1.5 rounded-full" title="Virtual Tour">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg>

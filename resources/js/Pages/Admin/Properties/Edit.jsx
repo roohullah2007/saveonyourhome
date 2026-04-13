@@ -850,17 +850,6 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">MLS Virtual Tour URL</label>
-                            <input
-                                type="url"
-                                value={data.mls_virtual_tour_url}
-                                onChange={e => setData('mls_virtual_tour_url', e.target.value)}
-                                placeholder="https://... (MLS-compliant, no branding)"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                            />
-                            <p className="text-xs text-gray-400 mt-1">Clean URL only. No branding or YouTube links for MLS export.</p>
-                        </div>
                     </div>
                 </div>
 
