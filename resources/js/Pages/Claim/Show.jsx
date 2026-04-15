@@ -81,7 +81,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
             {/* Header */}
             <header className="bg-white border-b fixed top-0 left-0 right-0 z-30">
-                <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] py-4 flex items-center justify-between">
                     <Link href="/" className="text-2xl font-bold text-[#1A1816]">
                         SaveOnYourHome
                     </Link>
@@ -97,7 +97,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
             {/* Claim Banner */}
             <div className="bg-green-600 text-white pt-[73px]">
-                <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-center gap-2 text-sm font-medium">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] py-3 flex items-center justify-center gap-2 text-sm font-medium">
                     <BadgeCheck className="w-5 h-5" />
                     We saw your listing on Zillow &mdash; claim your FREE SaveOnYourHome listing for more exposure!
                 </div>
@@ -105,7 +105,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
             {/* Property Header */}
             <section className="bg-[#EEEDEA] pb-6 pt-6">
-                <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                         <div>
                             <h1
@@ -133,7 +133,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
             {/* Image Gallery */}
             <section className="bg-white py-6">
-                <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
                     {/* Desktop Grid */}
                     {photos.length === 1 ? (
                         <div className="hidden md:block rounded-2xl overflow-hidden cursor-pointer" style={{ height: '550px' }} onClick={() => openGallery(0)}>
@@ -251,7 +251,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
 
             {/* Property Details + Claim Sidebar */}
             <section className="bg-[#EEEDEA] py-10 pb-32 lg:pb-10">
-                <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Main Content */}
                         <div className="lg:col-span-2">

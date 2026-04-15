@@ -4,6 +4,7 @@ import { MapPin, BedDouble, Bath, Maximize2, Calendar, Home, Heart, Share2, Arro
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import SinglePropertyMap from '@/Components/Properties/SinglePropertyMap';
+import { AMENITY_GROUPS } from '@/constants/amenities';
 
 function PropertyDetail({ property, openHouses = [] }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
@@ -319,7 +320,7 @@ function PropertyDetail({ property, openHouses = [] }) {
 
       {/* Back Button */}
       <div className="bg-[#EEEDEA] pt-[77px]">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] py-4">
           <Link
             href="/properties"
             className="inline-flex items-center gap-2 text-[#666] hover:text-[#111] transition-colors"
@@ -333,24 +334,51 @@ function PropertyDetail({ property, openHouses = [] }) {
 
       {/* Property Header */}
       <section className="bg-[#EEEDEA] pb-8">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-            <div>
+            <div className="order-2 lg:order-1">
+              {(() => {
+                const ls = property.listing_status || property.status;
+                const pillClass =
+                  ls === 'sold'
+                    ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-200'
+                    : ls === 'pending'
+                    ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-200'
+                    : 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200';
+                const pillText =
+                  ls === 'sold'
+                    ? 'SOLD'
+                    : ls === 'pending'
+                    ? 'PENDING'
+                    : ls === 'inactive'
+                    ? 'INACTIVE'
+                    : 'FOR SALE';
+                return (
+                  <span
+                    className={`inline-flex items-center text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full mb-3 ${pillClass}`}
+                  >
+                    {pillText}
+                  </span>
+                );
+              })()}
               <h1
-                className="text-[32px] md:text-[40px] font-medium text-[#111] mb-2"
-               
+                className="text-[32px] md:text-[40px] font-semibold text-[#111] mb-2 tracking-tight"
+
               >
                 {property.property_title}
               </h1>
-              <p className="text-lg text-[#666] flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
+              <p className="text-base text-[#555] flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#888]" />
                 {property.address}, {property.city}, {property.state} {property.zip_code}
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="order-1 lg:order-2 flex flex-col lg:items-end lg:text-right">
+              <span className="text-[11px] uppercase tracking-wider text-[#888] mb-1">
+                Listed price
+              </span>
               <span
-                className="text-[32px] md:text-[40px] font-bold text-[#1A1816]"
-               
+                className="text-[32px] md:text-[40px] font-bold text-[#1A1816] leading-none tracking-tight"
+
               >
                 {formatPrice(property.price)}
               </span>
@@ -361,7 +389,7 @@ function PropertyDetail({ property, openHouses = [] }) {
 
       {/* Image Gallery */}
       <section className="bg-white py-8">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
 
           {/* Desktop 3-Image Grid (hidden on mobile) */}
           <div className="hidden md:block relative">
@@ -754,7 +782,7 @@ function PropertyDetail({ property, openHouses = [] }) {
       )}
 
       {/* Mobile Sticky CTA Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg safe-bottom">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg p-4 z-50 safe-bottom">
         <div className="flex gap-3">
           <a
             href={`tel:${property.contact_phone}`}
@@ -777,55 +805,58 @@ function PropertyDetail({ property, openHouses = [] }) {
 
       {/* Property Details */}
       <section className="bg-[#EEEDEA] py-12 pb-32 lg:pb-12">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2">
               {/* Quick Stats */}
-              <div className="bg-white rounded-2xl p-6 mb-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4">
+              <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-200/80 shadow-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                  Overview
+                </p>
+                <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">
                   {property.property_type === 'land' ? 'Lot Details' : 'Property Details'}
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {/* Show bedrooms/bathrooms/sqft/year built only for non-land properties */}
                   {property.property_type !== 'land' && (
                     <>
-                      <div className="flex items-center gap-3">
-                        <div className="bg-[#EEEDEA] p-3 rounded-lg">
+                      <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                        <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
                           <BedDouble className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[#666]">Bedrooms</p>
-                          <p className="font-semibold text-[#111]">{property.bedrooms}</p>
+                          <p className="text-xl font-bold text-[#111] leading-tight">{property.bedrooms}</p>
+                          <p className="text-xs text-[#888] mt-0.5">Bedrooms</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="bg-[#EEEDEA] p-3 rounded-lg">
+                      <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                        <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
                           <Bath className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[#666]">Bathrooms</p>
-                          <p className="font-semibold text-[#111]">
+                          <p className="text-xl font-bold text-[#111] leading-tight">
                             {property.full_bathrooms || 0} Full{property.half_bathrooms > 0 ? `, ${property.half_bathrooms} Half` : ''}
                           </p>
+                          <p className="text-xs text-[#888] mt-0.5">Bathrooms</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="bg-[#EEEDEA] p-3 rounded-lg">
+                      <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                        <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
                           <Maximize2 className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[#666]">Square Feet</p>
-                          <p className="font-semibold text-[#111]">{property.sqft ? property.sqft.toLocaleString() : 'N/A'}</p>
+                          <p className="text-xl font-bold text-[#111] leading-tight">{property.sqft ? property.sqft.toLocaleString() : 'N/A'}</p>
+                          <p className="text-xs text-[#888] mt-0.5">Square Feet</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="bg-[#EEEDEA] p-3 rounded-lg">
+                      <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                        <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
                           <Calendar className="w-5 h-5 text-[#1A1816]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[#666]">Year Built</p>
-                          <p className="font-semibold text-[#111]">{property.year_built || 'N/A'}</p>
+                          <p className="text-xl font-bold text-[#111] leading-tight">{property.year_built || 'N/A'}</p>
+                          <p className="text-xs text-[#888] mt-0.5">Year Built</p>
                         </div>
                       </div>
                     </>
@@ -834,24 +865,24 @@ function PropertyDetail({ property, openHouses = [] }) {
                   {property.property_type === 'land' && (property.lot_size || property.acres) && (
                     <>
                       {property.acres && (
-                        <div className="flex items-center gap-3">
-                          <div className="bg-[#EEEDEA] p-3 rounded-lg">
+                        <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                          <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
                             <Maximize2 className="w-5 h-5 text-[#1A1816]" />
                           </div>
                           <div>
-                            <p className="text-sm text-[#666]">Acres</p>
-                            <p className="font-semibold text-[#111]">{Number(property.acres).toLocaleString()}</p>
+                            <p className="text-xl font-bold text-[#111] leading-tight">{Number(property.acres).toLocaleString()}</p>
+                            <p className="text-xs text-[#888] mt-0.5">Acres</p>
                           </div>
                         </div>
                       )}
                       {property.lot_size && (
-                        <div className="flex items-center gap-3">
-                          <div className="bg-[#EEEDEA] p-3 rounded-lg">
-                            <Maximize2 className="w-5 h-5 text-[#1A1816]" />
+                        <div className="flex flex-col items-start gap-2 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                          <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
+                            <Home className="w-5 h-5 text-[#1A1816]" />
                           </div>
                           <div>
-                            <p className="text-sm text-[#666]">Lot Size</p>
-                            <p className="font-semibold text-[#111]">{Number(property.lot_size).toLocaleString()} sq ft</p>
+                            <p className="text-xl font-bold text-[#111] leading-tight">{Number(property.lot_size).toLocaleString()}</p>
+                            <p className="text-xs text-[#888] mt-0.5">Lot Size (sq ft)</p>
                           </div>
                         </div>
                       )}
@@ -888,19 +919,19 @@ function PropertyDetail({ property, openHouses = [] }) {
               </div>
 
               {/* Description */}
-              <div className="bg-white rounded-2xl p-6 mb-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4">
+              <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-200/80 shadow-sm">
+                <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">
                   Description
                 </h2>
-                <p className="text-[#666] leading-relaxed whitespace-pre-line">
+                <p className="text-[#555] leading-relaxed whitespace-pre-line">
                   {property.description}
                 </p>
               </div>
 
               {/* Upcoming Open Houses */}
               {openHouses.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 mb-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-200/80 shadow-sm">
+                  <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-[#1A1816]" />
                     Upcoming Open Houses
                   </h2>
@@ -937,8 +968,8 @@ function PropertyDetail({ property, openHouses = [] }) {
 
               {/* School Information */}
               {property.school_district && (
-                <div className="bg-white rounded-2xl p-6 mb-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-200/80 shadow-sm">
+                  <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight flex items-center gap-2">
                     <svg className="w-5 h-5 text-[#1A1816]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -972,27 +1003,56 @@ function PropertyDetail({ property, openHouses = [] }) {
                 </div>
               )}
 
-              {/* Features */}
-              {property.features && property.features.length > 0 && (
-                <div className="bg-white rounded-2xl p-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4">
-                    Features & Amenities
-                  </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {property.features.map((feature, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-green-500" />
-                        <span className="text-[#666]">{feature}</span>
-                      </div>
-                    ))}
+              {/* Features & Amenities (grouped) */}
+              {property.features && property.features.length > 0 && (() => {
+                const selected = new Set(property.features);
+                const groups = AMENITY_GROUPS
+                  .map((g) => ({ category: g.category, items: g.items.filter((i) => selected.has(i)) }))
+                  .filter((g) => g.items.length > 0);
+                const categorized = new Set(groups.flatMap((g) => g.items));
+                const uncategorized = property.features.filter((f) => !categorized.has(f));
+
+                return (
+                  <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-sm">
+                    <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">Features & Amenities</h2>
+                    <div className="space-y-5">
+                      {groups.map((g) => (
+                        <div key={g.category}>
+                          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-3">
+                            {g.category}
+                          </h3>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            {g.items.map((item, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <span className="text-sm text-[#555]">{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                      {uncategorized.length > 0 && (
+                        <div>
+                          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-3">Other</h3>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            {uncategorized.map((item, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <span className="text-sm text-[#555]">{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Multimedia Links */}
               {(property.video_tour_url || property.virtual_tour_url || property.matterport_url || property.floor_plan_url) && (
-                <div className="bg-white rounded-2xl p-6 mt-6">
-                  <h2 className="text-xl font-semibold text-[#111] mb-4">
+                <div className="bg-white rounded-2xl p-6 mt-6 border border-gray-200/80 shadow-sm">
+                  <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">
                     Virtual Tours & Media
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1080,8 +1140,8 @@ function PropertyDetail({ property, openHouses = [] }) {
               )}
 
               {/* Map - Google Maps */}
-              <div className="bg-white rounded-2xl p-6 mt-6">
-                <h2 className="text-xl font-semibold text-[#111] mb-4">
+              <div className="bg-white rounded-2xl p-6 mt-6 border border-gray-200/80 shadow-sm">
+                <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">
                   Location
                 </h2>
                 <div className="rounded-xl overflow-hidden h-[300px]">
@@ -1106,35 +1166,40 @@ function PropertyDetail({ property, openHouses = [] }) {
 
             {/* Sidebar - Contact */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl p-6 sticky top-24">
-                <h2 className="text-xl font-semibold text-[#111] mb-4">
+              <div className="bg-white rounded-2xl p-6 sticky top-24 border border-gray-200/80 shadow-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                  Get in touch
+                </p>
+                <h2 className="text-lg font-semibold text-[#111] mb-4 tracking-tight">
                   Contact Seller
                 </h2>
 
-                <div className="space-y-4 mb-6">
+                <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="bg-[#EEEDEA] p-3 rounded-full">
-                      <Home className="w-5 h-5 text-[#1A1816]" />
+                    <div className="bg-gray-100 p-2.5 rounded-full border border-gray-200/70">
+                      <Home className="w-4 h-4 text-gray-700" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111]">{property.contact_name}</p>
-                      <p className="text-sm text-[#666]">Property Owner</p>
+                      <p className="font-semibold text-gray-900 text-sm">{property.contact_name}</p>
+                      <p className="text-xs text-gray-500">Property Owner</p>
                     </div>
                   </div>
 
                   <a
                     href={`tel:${property.contact_phone}`}
-                    className="flex items-center gap-3 p-3 bg-[#EEEDEA] rounded-xl hover:bg-[#E5E1DC] transition-colors"
+                    className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 border border-gray-200/70 transition-colors"
                   >
-                    <Phone className="w-5 h-5 text-[#1A1816]" />
-                    <span className="text-[#111]">{property.contact_phone}</span>
+                    <div className="bg-white p-2 rounded-lg border border-gray-200/70 shadow-sm">
+                      <Phone className="w-4 h-4 text-gray-700" />
+                    </div>
+                    <span className="text-sm text-gray-900 font-medium">{property.contact_phone}</span>
                   </a>
                 </div>
 
                 <button
                   onClick={() => setShowContactForm(!showContactForm)}
-                  className="w-full bg-[#1A1816] text-white py-3 rounded-xl font-medium hover:bg-[#111111] transition-colors"
-                 
+                  className="w-full bg-[#1A1816] text-white h-11 text-sm font-semibold rounded-xl hover:bg-[#111111] transition-colors"
+
                 >
                   {showContactForm ? 'Hide Form' : 'Send Message'}
                 </button>
@@ -1153,7 +1218,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Name"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] text-sm"
                         required
                       />
                     </div>
@@ -1163,7 +1228,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] text-sm"
                         required
                       />
                     </div>
@@ -1173,7 +1238,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Phone"
                         value={data.phone}
                         onChange={(e) => setData('phone', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] text-sm"
                       />
                     </div>
                     <div>
@@ -1182,7 +1247,7 @@ function PropertyDetail({ property, openHouses = [] }) {
                         placeholder="Your Question (e.g., Is the price negotiable?)"
                         value={data.question}
                         onChange={(e) => setData('question', e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816]"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] text-sm"
                       />
                     </div>
                     <div>
@@ -1191,14 +1256,14 @@ function PropertyDetail({ property, openHouses = [] }) {
                         value={data.message}
                         onChange={(e) => setData('message', e.target.value)}
                         rows={4}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] resize-none"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1A1816] resize-none text-sm"
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={processing}
-                      className="w-full bg-[#111] text-white py-3 rounded-xl font-medium hover:bg-[#333] transition-colors disabled:opacity-50"
-                     
+                      className="w-full bg-[#111] text-white h-11 text-sm font-semibold rounded-xl hover:bg-[#333] transition-colors disabled:opacity-50"
+
                     >
                       {processing ? 'Sending...' : 'Send Message'}
                     </button>
@@ -1245,12 +1310,12 @@ function PropertyDetail({ property, openHouses = [] }) {
               </div>
 
               {/* Monthly Payment Estimate */}
-              <div className="bg-white rounded-2xl p-6 mt-6 border border-gray-100">
+              <div className="bg-white rounded-2xl p-6 mt-6 border border-gray-200/80 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-[#EEEDEA] p-2 rounded-lg">
                     <Calculator className="w-5 h-5 text-[#1A1816]" />
                   </div>
-                  <h3 className="text-lg font-semibold text-[#111]">
+                  <h3 className="text-lg font-semibold text-[#111] tracking-tight">
                     Est. Monthly Payment
                   </h3>
                 </div>

@@ -44,11 +44,11 @@ const HeroSection = ({ featuredProperties = [] }) => {
   };
 
   return (
-    <section className="dark-selection relative w-full overflow-hidden h-[520px] md:h-[600px] lg:h-[700px]" style={{ marginTop: '-101px', paddingTop: '101px' }}>
+    <section className="dark-selection relative w-full overflow-hidden" style={{ marginTop: '-101px', paddingTop: '181px', paddingBottom: '80px', minHeight: '600px' }}>
       {/* Single Background Image */}
       <img
-        src="/images/home-img.webp"
-        alt="SaveOnYourHome real estate"
+        src="https://images.pexels.com/photos/2287310/pexels-photo-2287310.jpeg?auto=compress&cs=tinysrgb&w=1920"
+        alt="Modern home exterior"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
@@ -98,23 +98,24 @@ const HeroSection = ({ featuredProperties = [] }) => {
 
               {/* Glass badge */}
               <div
-                className="rounded-2xl mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5"
+                className="rounded-2xl mb-6 inline-flex items-center gap-2 rounded-full"
                 style={{
                   border: '1px solid rgba(156, 163, 175, 0.25)',
                   background: 'rgba(255, 255, 255, 0.06)',
                   backdropFilter: 'blur(20px)',
                   boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px',
                   borderRadius: '9999px',
+                  padding: '7px 16px',
                 }}
               >
                 <div
-                  className="h-2 w-2 rounded-full bg-emerald-400"
-                  style={{ boxShadow: 'rgba(52, 211, 153, 0.6) 0px 0px 8px' }}
+                  className="rounded-full bg-emerald-400"
+                  style={{ height: '7px', width: '7px', boxShadow: 'rgba(52, 211, 153, 0.6) 0px 0px 7px' }}
                 />
                 <span style={{
-                  fontSize: '13px',
+                  fontSize: '11px',
                   fontWeight: 600,
-                  letterSpacing: '1.5px',
+                  letterSpacing: '1.2px',
                   color: 'rgba(255, 255, 255, 0.9)',
                 }}>
                   NO COMMISSIONS. NO FEES.
@@ -123,7 +124,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
 
               {/* Heading */}
               <h1
-                className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white"
+                className="text-[29px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[51px] lg:leading-[62px] font-extrabold text-white"
                 style={{ letterSpacing: '-0.5px' }}
               >
                 Save Thousands
@@ -142,11 +143,11 @@ const HeroSection = ({ featuredProperties = [] }) => {
               <p
                 className="mt-6"
                 style={{
-                  fontSize: '17px',
-                  lineHeight: '28px',
+                  fontSize: '19px',
+                  lineHeight: '31px',
                   fontWeight: 400,
                   color: 'rgba(255, 255, 255, 0.75)',
-                  maxWidth: '480px',
+                  maxWidth: '530px',
                 }}
               >
                 SaveOnYourHome.com does not charge sellers <strong style={{ color: 'rgba(255, 255, 255, 0.95)' }}>ANY commissions or fees</strong>. Owners increase their profits while buyers reduce their costs and afford more property.
@@ -157,27 +158,28 @@ const HeroSection = ({ featuredProperties = [] }) => {
                 <button
                   onClick={handleListHome}
                   className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
-                  style={{ height: '52px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600, backgroundColor: '#1A1816' }}
+                  style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#3355FF' }}
                 >
                   List Your Home
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <svg style={{ width: '16px', height: '16px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </button>
                 <Link
                   href="/properties"
-                  className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  className="flex items-center justify-center gap-2 rounded-full transition-all duration-300 hover:opacity-90"
                   style={{
-                    height: '52px',
-                    paddingLeft: '32px',
-                    paddingRight: '32px',
-                    fontSize: '15px',
+                    height: '46px',
+                    paddingLeft: '26px',
+                    paddingRight: '26px',
+                    fontSize: '14px',
                     fontWeight: 600,
-                    backgroundColor: '#3355FF',
+                    backgroundColor: '#FFFFFF',
+                    color: '#1A1816',
                   }}
                 >
                   Search Properties
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <svg style={{ width: '16px', height: '16px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </Link>
@@ -186,16 +188,16 @@ const HeroSection = ({ featuredProperties = [] }) => {
               {/* Stats */}
               <div className="mt-6 sm:mt-8 flex gap-5 sm:gap-8">
                 <div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>$27K+</div>
-                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Avg. Savings</div>
+                  <div style={{ fontSize: '27px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>$27K+</div>
+                  <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Avg. Savings</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>0%</div>
-                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Commission</div>
+                  <div style={{ fontSize: '27px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>0%</div>
+                  <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Commission</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>FREE</div>
-                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Listing</div>
+                  <div style={{ fontSize: '27px', fontWeight: 800, color: 'rgb(255, 255, 255)' }}>FREE</div>
+                  <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.5px' }}>Listing</div>
                 </div>
               </div>
             </div>

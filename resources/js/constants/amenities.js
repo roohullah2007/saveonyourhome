@@ -1,0 +1,208 @@
+// Canonical amenities catalog used by ListProperty, PropertyDetail, and the
+// Properties listing filter modal. Groups are rendered in this order.
+
+export const AMENITY_GROUPS = [
+    {
+        category: 'Interior Features',
+        items: [
+            'Spacious Bedrooms',
+            'Bedroom on Main Floor',
+            'Modern Bathrooms',
+            'Whirlpool Bath',
+            'Steam Shower',
+            'Ensuite Bathroom(s)',
+            'Walk-in Closets',
+            'Custom Built In Closets',
+            'Built-in Bookshelves or Cabinets',
+            'High Ceilings',
+            'Crown Molding',
+            'Wainscoting',
+            'Recessed Lighting',
+            'Central Heating',
+            'Central Air Conditioning',
+            'Radiant Heated Floors',
+            'Fireplace',
+            'Skylights',
+            'Ceiling Fans',
+            'Hardwood Floors',
+            'Carpeted Floors',
+            'Tile Floors',
+        ],
+    },
+    {
+        category: 'Kitchen — Appliances',
+        items: [
+            'Stainless Steel Refrigerator',
+            'Gas or Electric Range/Oven',
+            'Microwave with Convection',
+            'Dishwasher',
+            'Wine Cooler / Refrigerator',
+            'Built-in Coffee Machine',
+            'Double Ovens',
+            'Double Dishwashers',
+        ],
+    },
+    {
+        category: 'Kitchen — Cabinetry',
+        items: [
+            'Custom-built Cabinetry',
+            'Soft-close Drawers and Cabinets',
+            'Under-cabinet Lighting',
+        ],
+    },
+    {
+        category: 'Kitchen — Countertops',
+        items: [
+            'Granite Countertops',
+            'Quartz Countertops',
+            'Marble Countertops',
+            'Butcher Block Island Countertop',
+            'Stainless Steel Countertops',
+            'Concrete Countertops',
+            'Solid Surface Countertops',
+        ],
+    },
+    {
+        category: 'Kitchen — Islands',
+        items: [
+            'Large Center Island with Seating',
+            'Multi-level Island with Breakfast Bar',
+            'Prep Sink in the Island',
+        ],
+    },
+    {
+        category: 'Kitchen — Appliance Upgrades',
+        items: [
+            'Commercial-grade Range/Oven',
+            'Sub-Zero or High-end Refrigerator',
+            'Stainless Steel Appliances',
+            'Warming Drawer for Food Storage',
+        ],
+    },
+    {
+        category: 'Kitchen — Sinks & Faucets',
+        items: [
+            'Apron-front Farmhouse Sink',
+            'Undermount Sink',
+            'Pot-filler Faucet Above the Stove',
+        ],
+    },
+    {
+        category: 'Kitchen — Entertainment & Seating',
+        items: [
+            'Open Concept Kitchen with Bar Seating',
+            'Breakfast Nook with Built-in Bench Seating',
+        ],
+    },
+    {
+        category: 'Outdoor Features',
+        items: [
+            'Low-Maintenance Landscaping',
+            'Brick Construction',
+            'Fenced Yard',
+            'Outdoor Lighting',
+            'Fruit Trees or Vegetable Garden',
+            'Patio or Deck',
+            'Garden Area',
+            'Pet-friendly Features',
+            'Hot Tub or Jacuzzi',
+            'Public Sewer',
+            'Septic Tank',
+            'Inground Sprinklers',
+            'BBQ Area',
+            'Landscaped Yard',
+            'Swimming Pool',
+            'Swingset or Tree House',
+            'Tennis Court or Sports Court',
+        ],
+    },
+    {
+        category: 'Additional Rooms',
+        items: [
+            'Additional Storage Space (Basement, Attic, etc.)',
+            'Attic or Loft',
+            'Balcony / Terrace',
+            'Finished Basement',
+            'Formal Dining Room',
+            'Guest House or Mother-in-Law Suite',
+            'Gym or Fitness Room',
+            'Home Office or Study',
+            'Laundry Room',
+            'Media Room or Home Theater',
+            'Mudroom or Entryway Bench',
+            'Nursery',
+            'Playroom or Recreation Room',
+            'Unfinished Basement',
+            'Wine Cellar',
+            'Workshop or Hobby Room',
+        ],
+    },
+    {
+        category: 'Safety & Security',
+        items: [
+            'Carbon Monoxide Detectors',
+            'Gated Community',
+            'Security Doors',
+            'Security System',
+            'Smoke Detectors',
+            'Surveillance Cameras',
+        ],
+    },
+    {
+        category: 'Energy & Technology',
+        items: [
+            'Energy Star Appliances',
+            'Energy-Efficient Windows',
+            'Programmable Thermostat',
+            'Smart Home Technology',
+            'Solar Panels',
+        ],
+    },
+    {
+        category: 'Garage & Parking',
+        items: [
+            'Attached Garage',
+            'Carport',
+            'Detached Garage',
+            'Driveway Parking',
+            'RV or Boat Parking',
+        ],
+    },
+    {
+        category: 'Accessibility',
+        items: [
+            'Elevator',
+            'Handicap Accessible Bathroom',
+            'Single-Level Living',
+            'Wheelchair Ramp',
+        ],
+    },
+    {
+        category: 'Location & Surroundings',
+        items: [
+            'Close to Parks or Recreational Facilities',
+            'Nearby Schools',
+            'Nearby Shopping or Restaurants',
+            'Private Driveway or Cul-de-sac Location',
+            'Walking Distance to Houses of Worship',
+            'Public Transportation Access',
+            'Scenic Views',
+            'Shopping and Dining Options',
+            'Waterfront Property',
+        ],
+    },
+    {
+        category: 'Community Amenities',
+        items: [
+            'Clubhouse',
+            'Playground',
+            'Community Pool',
+            'Sports Courts',
+            'Community Tennis Courts',
+            'Walking Trails',
+        ],
+    },
+];
+
+// Flat list of all amenities (for validation / "all" checks).
+export const AMENITY_FLAT = AMENITY_GROUPS.flatMap((g) => g.items);

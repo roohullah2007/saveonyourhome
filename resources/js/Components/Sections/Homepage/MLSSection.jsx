@@ -14,31 +14,31 @@ const CTACardsSection = () => {
       linkText: 'View the Guide',
       href: '/sell-your-home',
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
         </svg>
       ),
     },
     {
       label: 'LIST YOUR HOME',
-      title: 'How to Sell Your Home By Owner',
-      description: 'Expose your property to buyers. Get offers to your inbox and start saving the commissions with SaveOnYourHome.',
+      title: 'Sell By Owner',
+      description: 'Reach buyers directly and keep the commission.',
       linkText: 'List Your Home',
       href: '/list-property',
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
         </svg>
       ),
     },
     {
       label: 'SEARCH',
-      title: 'Search For Your Dream Home',
-      description: 'Browse through SaveOnYourHome to find your dream home!',
+      title: 'Find Your Home',
+      description: 'Browse listings and find your dream home.',
       linkText: 'Search Now',
       href: '/properties',
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       ),
@@ -50,7 +50,7 @@ const CTACardsSection = () => {
       linkText: 'Learn More',
       href: '/about',
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
         </svg>
       ),
@@ -85,26 +85,26 @@ const CTACardsSection = () => {
               />
               <div
                 className="mb-5 flex items-center justify-center rounded-2xl"
-                style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245, 245, 244)' }}
+                style={{ width: '62px', height: '62px', backgroundColor: 'rgb(245, 245, 244)' }}
               >
                 {card.icon}
               </div>
-              <span style={{ fontWeight: 600, fontSize: '11px', letterSpacing: '2px', color: 'rgb(100, 100, 100)', marginBottom: '8px', display: 'block' }}>
+              <span style={{ fontWeight: 600, fontSize: '12px', letterSpacing: '2px', color: 'rgb(100, 100, 100)', marginBottom: '8px', display: 'block' }}>
                 {card.label}
               </span>
-              <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '18px', color: 'rgb(26, 24, 22)', lineHeight: '26px' }}>
+              <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '20px', color: 'rgb(26, 24, 22)', lineHeight: '29px' }}>
                 {card.title}
               </h3>
-              <p className="flex-1" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>
+              <p className="flex-1" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100, 100, 100)' }}>
                 {card.description}
               </p>
               <Link
                 href={card.href}
                 className="mt-5 inline-flex items-center gap-1.5 transition-all duration-300 hover:gap-2.5"
-                style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}
+                style={{ fontSize: '14px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}
               >
                 {card.linkText}
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           ))}

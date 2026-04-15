@@ -12,10 +12,10 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
         onClick={onClick}
         className="w-full flex items-center justify-between p-6 text-left transition-colors group"
       >
-        <span className="text-[16px] font-semibold text-[#111] pr-4 transition-colors tracking-[-0.01em]">
+        <span className="text-[18px] font-semibold text-[#111] pr-4 transition-colors tracking-[-0.01em]">
           {question}
         </span>
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+        <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
           isOpen ? 'bg-[#1A1816] rotate-180' : 'bg-[#F5F4F1] group-hover:bg-[#EEEDEA]'
         }`}>
           <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${
@@ -26,7 +26,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
 
       <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="px-6 pb-6 pt-0">
-          <p className="text-[15px] text-gray-500 leading-[1.75]">
+          <p className="text-[17px] text-gray-500 leading-[1.75]">
             {answer}
           </p>
         </div>
@@ -42,15 +42,23 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "Is SaveOnYourHome.com free?",
-      answer: "Yes! Unlike other platforms, we don't charge commissions or fees. Listing your property is completely free — no hidden charges, no strings attached. We're committed to providing free and comprehensive services to FSBO homeowners."
+      answer: "Yes. Listing your property is completely free — no commissions, no hidden fees. We're committed to providing free and comprehensive services to FSBO homeowners."
     },
     {
-      question: "How long does the sales process take?",
-      answer: "The timeline varies depending on your local market, pricing, and property condition. Many of our sellers receive offers within weeks of listing. Our platform gives you maximum exposure to help sell your home faster."
+      question: "How do I list my home?",
+      answer: "Click 'List Your Home', create a free account, and fill out the guided form. You can upload photos, write a description, and publish your listing in under 10 minutes."
     },
     {
-      question: "Is listing on your platform free?",
-      answer: "Absolutely! Creating a listing on SaveOnYourHome.com is 100% free. You can upload photos, add property details, post open houses, and receive buyer inquiries at no cost. There are no hidden fees or commissions."
+      question: "How do buyers contact me?",
+      answer: "Buyers reach you directly through the inquiry form on your listing. You get notified by email and in your seller dashboard, so you can reply on your own schedule."
+    },
+    {
+      question: "Do I need a real estate agent to sell?",
+      answer: "No. FSBO means you handle the sale yourself and keep the commission. We provide the tools, exposure, and guides to help you through every step."
+    },
+    {
+      question: "Can I get help if I have questions?",
+      answer: "Yes. You can reach us at info@saveonyourhome.com or 201.696.0291, or join our free FSBO weekly call. We're here to support you through the whole sale."
     }
   ];
 
@@ -68,7 +76,7 @@ const FAQSection = () => {
         style={{ maxWidth: '1400px' }}
       >
         <div className="mb-4">
-          <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+          <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
             FREQUENTLY ASKED QUESTIONS
           </span>
         </div>
@@ -77,18 +85,18 @@ const FAQSection = () => {
           {/* Left Side - Title and CTA */}
           <div>
             <h2
-              className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6"
+              className="text-[29px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-6"
               style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
             >
               Frequently Asked Questions
             </h2>
-            <p className="text-[15px] text-gray-500 mb-10 leading-[1.75]">
+            <p className="text-[17px] text-gray-500 mb-10 leading-[1.75]">
               Can't find an answer to your question? Contact us, we will be happy to answer your questions.
             </p>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
-              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}
+              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '51px', paddingLeft: '31px', paddingRight: '31px', fontSize: '16px', fontWeight: 600 }}
             >
               Ask Questions
               <ArrowRight className="w-4 h-4" />

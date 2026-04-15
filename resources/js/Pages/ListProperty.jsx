@@ -1,10 +1,11 @@
 import React, { useRef, useState, useCallback } from 'react';
 import { useForm, router, usePage } from '@inertiajs/react';
 import SEOHead from '@/Components/SEOHead';
-import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, X, AlertCircle, Loader2, Star } from 'lucide-react';
+import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, ChevronDown, X, AlertCircle, Loader2, Star } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
+import { AMENITY_GROUPS } from '@/constants/amenities';
 
 function ListProperty() {
   const { auth } = usePage().props;
@@ -19,6 +20,11 @@ function ListProperty() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isUploading, setIsUploading] = useState(false); // Track if any upload is in progress
   const [isDragActive, setIsDragActive] = useState(false); // Track drag state for visual feedback
+  const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
+  const toggleAmenityGroup = (cat) =>
+    setOpenAmenityGroups((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
   const maxPhotos = 50;
 
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -436,7 +442,7 @@ function ListProperty() {
           </div>
 
           {/* Content */}
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] relative z-10 w-full">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2 mb-6">
                 <Home className="w-5 h-5 text-white" />
@@ -462,7 +468,7 @@ function ListProperty() {
 
       {/* Form Section */}
       <div className="bg-[#EEEDEA] py-16 md:py-20">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
           {/* Success Message */}
           {showSuccess && (
             <div className="mb-8 bg-green-50 border border-green-200 rounded-2xl p-6 md:p-8">
@@ -955,32 +961,78 @@ function ListProperty() {
               </div>
             </div>
 
-            {/* Features */}
+            {/* Features / Amenities */}
             <div className="bg-white rounded-xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                  <CheckCircle className="w-6 h-6 text-[#3D3D3D]" />
+              <div className="flex items-center justify-between gap-3 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#E5E1DC] p-3 rounded-lg">
+                    <CheckCircle className="w-6 h-6 text-[#3D3D3D]" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                    {data.propertyType === 'land' ? 'Land Features' : 'Amenities & Features'}
+                  </h2>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
-                  {data.propertyType === 'land' ? 'Land Features' : 'Property Features'}
-                </h2>
+                {data.propertyType !== 'land' && data.features.length > 0 && (
+                  <span className="text-sm text-gray-500">{data.features.length} selected</span>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {(data.propertyType === 'land' ? landFeatures : features).map(feature => (
-                  <label key={feature} className="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-[#EEEDEA] transition-colors">
-                    <input
-                      type="checkbox"
-                      checked={data.features.includes(feature)}
-                      onChange={() => handleFeatureToggle(feature)}
-                      className="w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
-                    />
-                    <span className="text-sm text-[#111]">
-                      {feature}
-                    </span>
-                  </label>
-                ))}
-              </div>
+              {data.propertyType === 'land' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {landFeatures.map(feature => (
+                    <label key={feature} className="flex items-center gap-2 cursor-pointer p-3 rounded-lg hover:bg-[#EEEDEA] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={data.features.includes(feature)}
+                        onChange={() => handleFeatureToggle(feature)}
+                        className="w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                      />
+                      <span className="text-sm text-[#111]">{feature}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {AMENITY_GROUPS.map((group) => {
+                    const selectedInGroup = group.items.filter(i => data.features.includes(i)).length;
+                    const isOpen = openAmenityGroups.includes(group.category);
+                    return (
+                      <div key={group.category} className="border border-gray-200 rounded-xl overflow-hidden">
+                        <button
+                          type="button"
+                          onClick={() => toggleAmenityGroup(group.category)}
+                          className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="font-semibold text-[#111] text-sm">{group.category}</span>
+                            {selectedInGroup > 0 && (
+                              <span className="bg-[#1A1816] text-white text-[11px] font-semibold rounded-full px-2 py-0.5">
+                                {selectedInGroup}
+                              </span>
+                            )}
+                          </div>
+                          <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {isOpen && (
+                          <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            {group.items.map(item => (
+                              <label key={item} className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-[#F4F3F0] transition-colors">
+                                <input
+                                  type="checkbox"
+                                  checked={data.features.includes(item)}
+                                  onChange={() => handleFeatureToggle(item)}
+                                  className="w-4 h-4 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                                />
+                                <span className="text-sm text-[#111]">{item}</span>
+                              </label>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Photos */}

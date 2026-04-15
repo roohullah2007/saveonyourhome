@@ -34,17 +34,17 @@ const SellingSection = () => {
         style={{ maxWidth: '1400px' }}
       >
         {/* Section Header */}
-        <div className="text-center mb-10 mx-auto" style={{ maxWidth: '700px' }}>
+        <div className="text-left mb-10" style={{ maxWidth: '720px' }}>
           <div className="mb-4">
-            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
+            <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>
               WHY SAVEONYOURHOME
             </span>
           </div>
           <h2
-            className="mb-4 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+            className="mb-4 text-[29px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]"
             style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
           >
-            Sell Your Property for the Highest Possible Price and Avoid Paying Any Commissions
+            Sell for Top Price. Pay Zero Commission.
           </h2>
         </div>
 
@@ -108,19 +108,19 @@ const SellingSection = () => {
                     style={{ height: '2px', background: 'rgb(26, 24, 22)' }}
                   />
                   <div
-                    className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                    className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
                     style={{ backgroundColor: 'rgb(245, 245, 244)' }}
                   >
-                    <IconComponent className="w-5 h-5 text-[#1A1816]" />
+                    <IconComponent className="w-6 h-6 text-[#1A1816]" />
                   </div>
                   <div>
                     <h3
-                      className="mb-1.5 text-[16px] sm:text-[17px]"
-                      style={{ fontWeight: 700, color: 'rgb(26, 24, 22)', lineHeight: '24px' }}
+                      className="mb-1.5 text-[18px] sm:text-[19px]"
+                      style={{ fontWeight: 700, color: 'rgb(26, 24, 22)', lineHeight: '26px' }}
                     >
                       {feature.title}
                     </h3>
-                    <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
+                    <p style={{ fontSize: '16px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>
                       {feature.description}
                     </p>
                   </div>
@@ -133,7 +133,7 @@ const SellingSection = () => {
               <Link
                 href="/list-property"
                 className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: 'rgb(26, 24, 22)', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                style={{ backgroundColor: 'rgb(26, 24, 22)', height: '53px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
               >
                 List My Home
                 <ArrowRight className="w-4 h-4" />

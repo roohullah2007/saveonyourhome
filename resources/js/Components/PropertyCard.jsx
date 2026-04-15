@@ -89,8 +89,8 @@ const PropertyCard = ({ property, onAuthRequired }) => {
   };
 
   return (
-    <Link href={`/properties/${property.slug || property.id}`} className="block">
-      <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group w-[300px] flex flex-col">
+    <Link href={`/properties/${property.slug || property.id}`} className="block h-full">
+      <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-xl hover:border-gray-300 transition-all duration-300 group w-[300px] h-full flex flex-col">
         {/* Property Image */}
         <div className="relative h-[180px] overflow-hidden flex-shrink-0">
           <img
@@ -155,7 +155,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
         </div>
 
         {/* Property Details */}
-        <div className="px-3 pt-2.5 pb-3 flex flex-col">
+        <div className="px-3 pt-2.5 pb-3 flex flex-col flex-1">
           {/* Price */}
           <div className="pb-2 mb-2 border-b border-gray-200">
             <span className="font-bold text-base text-[#293056]">

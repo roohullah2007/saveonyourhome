@@ -73,12 +73,12 @@ function FAQs() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>HELP CENTER</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>HELP CENTER</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Frequently Asked <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Questions</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
                 Find answers to common questions about listing, buying, pricing, and more. Can't find what you need? Contact us anytime.
               </p>
             </div>
@@ -113,12 +113,12 @@ function FAQs() {
             {currentFaqs.map((faq, i) => (
               <div key={`${activeCategory}-${i}`} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <button onClick={() => setOpenIndex(openIndex === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
+                  <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === i ? 'rotate-180' : ''}`} />
                 </button>
                 {openIndex === i && (
                   <div className="px-5 pb-5">
-                    <p style={{ fontSize: '14px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>{faq.a}</p>
+                    <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -132,18 +132,18 @@ function FAQs() {
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
-            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>STILL HAVE QUESTIONS?</span></div>
-            <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
+            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>STILL HAVE QUESTIONS?</span></div>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
               We're Here to Help
             </h2>
-            <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
               Can't find the answer you're looking for? Our team is always ready to assist you.
             </p>
             <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-                Contact Us <ArrowRight className="w-4 h-4" />
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+                Contact Us <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+              <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
                 List Your Home
               </Link>
             </div>

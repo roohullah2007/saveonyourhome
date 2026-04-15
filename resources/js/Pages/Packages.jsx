@@ -2305,7 +2305,7 @@ function Packages({ userListings = [] }) {
       ) : (
         /* Multi-Step Form */
         <div className="pt-[77px] min-h-screen bg-[#F8F7F5]">
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px] py-8">
             {/* Back Button */}
             <button
               onClick={() => currentStep === 1 ? goToOverview() : prevStep()}

@@ -21,8 +21,8 @@ function JoinWeeklyCall() {
   };
 
   const inputClass = "w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500";
-  const inputStyle = { height: '52px', fontSize: '15px', color: 'rgb(26,24,22)' };
-  const labelStyle = { display: 'block', fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)', marginBottom: '8px' };
+  const inputStyle = { height: '57px', fontSize: '17px', color: 'rgb(26,24,22)' };
+  const labelStyle = { display: 'block', fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)', marginBottom: '8px' };
   const selectClass = "w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500 appearance-none";
   const selectStyle = { ...inputStyle, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center' };
 
@@ -38,10 +38,10 @@ function JoinWeeklyCall() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>WEEKLY CALL</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>WEEKLY CALL</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white">Join the FSBO Weekly Call</h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>Connect with other homeowners, ask questions, and get real-time advice on selling your home by owner.</p>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white">Join the FSBO Weekly Call</h1>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>Connect with other homeowners, ask questions, and get real-time advice on selling your home by owner.</p>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@ function JoinWeeklyCall() {
               {(submitted || flash?.success) && (
                 <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'rgb(22,101,52)' }}>You're signed up! We'll send you the details shortly.</p>
+                  <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>You're signed up! We'll send you the details shortly.</p>
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -68,12 +68,12 @@ function JoinWeeklyCall() {
                   <label style={labelStyle}>Guest speakers</label>
                   <div className="flex gap-3">
                     {['Yes', 'No'].map((opt) => (
-                      <button key={opt} type="button" onClick={() => setData('guest_speakers', opt)} className="flex-1 rounded-xl border transition-all duration-200" style={{ height: '48px', fontSize: '15px', fontWeight: 600, backgroundColor: data.guest_speakers === opt ? '#3355FF' : 'white', color: data.guest_speakers === opt ? 'white' : 'rgb(26,24,22)', borderColor: data.guest_speakers === opt ? '#3355FF' : 'rgb(209,213,219)' }}>{opt}</button>
+                      <button key={opt} type="button" onClick={() => setData('guest_speakers', opt)} className="flex-1 rounded-xl border transition-all duration-200" style={{ height: '52px', fontSize: '17px', fontWeight: 600, backgroundColor: data.guest_speakers === opt ? '#3355FF' : 'white', color: data.guest_speakers === opt ? 'white' : 'rgb(26,24,22)', borderColor: data.guest_speakers === opt ? '#3355FF' : 'rgb(209,213,219)' }}>{opt}</button>
                     ))}
                   </div>
                 </div>
-                <div><label style={labelStyle}>What would make this group most valuable?</label><textarea value={data.valuable} onChange={(e) => setData('valuable', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '15px', color: 'rgb(26,24,22)' }} /></div>
-                <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Sign Me Up!'}</button>
+                <div><label style={labelStyle}>What would make this group most valuable?</label><textarea value={data.valuable} onChange={(e) => setData('valuable', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} /></div>
+                <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Sign Me Up!'}</button>
               </form>
             </div>
           </div>

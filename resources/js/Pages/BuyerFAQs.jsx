@@ -48,12 +48,12 @@ function BuyerFAQs() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>BUYER SUPPORT</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>BUYER SUPPORT</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Buyer <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>FAQs</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
                 Find instant answers at SaveOnYourHome. From buying steps to negotiation, our FAQs have you covered. Questions? Ask anytime. Happy hunting!
               </p>
             </div>
@@ -68,12 +68,12 @@ function BuyerFAQs() {
             {faqs.map((faq, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <button onClick={() => setOpenIndex(openIndex === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
+                  <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === i ? 'rotate-180' : ''}`} />
                 </button>
                 {openIndex === i && (
                   <div className="px-5 pb-5">
-                    <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>{faq.a}</p>
+                    <p style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -89,16 +89,16 @@ function BuyerFAQs() {
             className="rounded-3xl text-center py-14 sm:py-20 px-8"
             style={{ backgroundColor: 'rgb(240,240,240)' }}
           >
-            <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[38px] lg:leading-[48px] mb-5 mx-auto" style={{ fontWeight: 700, color: 'rgb(26,24,22)', maxWidth: '700px' }}>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[42px] lg:leading-[52px] mb-5 mx-auto" style={{ fontWeight: 700, color: 'rgb(26,24,22)', maxWidth: '700px' }}>
               Our award winning customer service team is always ready to assist you.
             </h2>
-            <p className="mx-auto mb-8" style={{ fontSize: '16px', lineHeight: '26px', color: 'rgb(100,100,100)', maxWidth: '600px' }}>
+            <p className="mx-auto mb-8" style={{ fontSize: '18px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '600px' }}>
               Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with certainty.
             </p>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+              style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
             >
               Contact Us
             </Link>
@@ -111,32 +111,32 @@ function BuyerFAQs() {
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-              <h3 className="mb-3" style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)' }}>Sell Your Home FSBO</h3>
-              <p className="mb-6" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>
+              <h3 className="mb-3" style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(26,24,22)' }}>Sell Your Home FSBO</h3>
+              <p className="mb-6" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>
                 Expose your property to buyers. Get offers to your inbox and start saving the commissions with SaveOnYourHome.
               </p>
               <Link href="/list-property" className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgb(26,24,22)' }}>
-                List Your Home <ArrowRight className="w-4 h-4" />
+                List Your Home <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
 
             <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-              <h3 className="mb-3" style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)' }}>Search For Your Dream Home</h3>
-              <p className="mb-6" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>
+              <h3 className="mb-3" style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(26,24,22)' }}>Search For Your Dream Home</h3>
+              <p className="mb-6" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>
                 Browse through SaveOnYourHome to find your dream home!
               </p>
               <Link href="/properties" className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgb(26,24,22)' }}>
-                Search Now <ArrowRight className="w-4 h-4" />
+                Search Now <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
 
             <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-              <h3 className="mb-3" style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)' }}>About SaveOnYourHome.com</h3>
-              <p className="mb-6" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>
+              <h3 className="mb-3" style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(26,24,22)' }}>About SaveOnYourHome.com</h3>
+              <p className="mb-6" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>
                 We are Empowering Sellers and Connecting Buyers, and transforming the home buying process. See what we are all about!
               </p>
               <Link href="/about" className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgb(26,24,22)' }}>
-                Learn More <ArrowRight className="w-4 h-4" />
+                Learn More <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>

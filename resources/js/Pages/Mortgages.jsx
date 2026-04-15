@@ -55,17 +55,17 @@ function Mortgages() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MORTGAGE & FINANCING</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MORTGAGE & FINANCING</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Find the Best <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Mortgage Rate</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
                 Compare rates from over 25 lenders, get pre-approved fast, and close with confidence. Your home financing journey starts here.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>Get Pre-Approved <ArrowRight className="w-4 h-4" /></Link>
-                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>Browse Properties</Link>
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>Get Pre-Approved <ArrowRight className="w-5 h-5" /></Link>
+                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>Browse Properties</Link>
               </div>
             </div>
           </div>
@@ -75,17 +75,17 @@ function Mortgages() {
       {/* How It Works */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>HOW IT WORKS</span></div>
-          <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Simple Steps to Your Mortgage</h2>
+          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>HOW IT WORKS</span></div>
+          <h2 className="mb-14 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Simple Steps to Your Mortgage</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {howItWorks.map((s, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-8 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26,24,22)' }}>
-                  <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{s.num}</span>
+                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{s.num}</span>
                 </div>
-                <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' }}>{s.title}</h3>
-                <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)' }}>{s.desc}</p>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' }}>{s.title}</h3>
+                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -95,9 +95,9 @@ function Mortgages() {
       {/* Mortgage Types */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>LOAN OPTIONS</span></div>
-          <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Find the Right Loan for You</h2>
-          <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100,100,100)', maxWidth: '560px', margin: '0 auto 56px' }}>
+          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>LOAN OPTIONS</span></div>
+          <h2 className="mb-5 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Find the Right Loan for You</h2>
+          <p className="text-center mb-14" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)', maxWidth: '560px', margin: '0 auto 56px' }}>
             Different loans for different needs. Compare your options and find the best fit for your situation.
           </p>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -105,13 +105,13 @@ function Mortgages() {
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-6 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
                 <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245,245,244)' }}>{m.icon}</div>
-                <h3 className="mb-2" style={{ fontWeight: 700, fontSize: '13px', color: 'rgb(26,24,22)', letterSpacing: '0.5px' }}>{m.title}</h3>
-                <p style={{ fontSize: '13px', lineHeight: '20px', color: 'rgb(100,100,100)', marginBottom: '16px' }}>{m.desc}</p>
+                <h3 className="mb-2" style={{ fontWeight: 700, fontSize: '14px', color: 'rgb(26,24,22)', letterSpacing: '0.5px' }}>{m.title}</h3>
+                <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)', marginBottom: '16px' }}>{m.desc}</p>
                 <div className="space-y-2">
                   {m.features.map((f, fi) => (
                     <div key={fi} className="flex items-center gap-2">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgb(26,24,22)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span style={{ fontSize: '12px', color: 'rgb(75,75,75)' }}>{f}</span>
+                      <span style={{ fontSize: '13px', color: 'rgb(75,75,75)' }}>{f}</span>
                     </div>
                   ))}
                 </div>
@@ -124,17 +124,17 @@ function Mortgages() {
       {/* Tips */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE TIPS</span></div>
-          <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Prepare for Your Mortgage</h2>
+          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE TIPS</span></div>
+          <h2 className="mb-14 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Prepare for Your Mortgage</h2>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {tips.map((t, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6 flex items-start gap-4" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26,24,22)' }}>
-                  <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{String(i + 1).padStart(2, '0')}</span>
+                <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'rgb(26,24,22)', letterSpacing: '0.3px', marginBottom: '6px' }}>{t.title}</h3>
-                  <p style={{ fontSize: '13px', lineHeight: '20px', color: 'rgb(100,100,100)' }}>{t.desc}</p>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'rgb(26,24,22)', letterSpacing: '0.3px', marginBottom: '6px' }}>{t.title}</h3>
+                  <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)' }}>{t.desc}</p>
                 </div>
               </div>
             ))}
@@ -147,18 +147,18 @@ function Mortgages() {
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
-            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>GET STARTED TODAY</span></div>
-            <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
+            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>GET STARTED TODAY</span></div>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
               Ready to Get Pre-Approved?
             </h2>
-            <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
               Strengthen your offer with a pre-approval letter. We'll connect you with a trusted lender who provides priority service and free pre-approval.
             </p>
             <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-                Request Pre-Approval <ArrowRight className="w-4 h-4" />
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+                Request Pre-Approval <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
                 Buyers Guide
               </Link>
             </div>
@@ -169,16 +169,16 @@ function Mortgages() {
       {/* FAQs */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE FAQS</span></div>
-          <h2 className="mb-14 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
+          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>MORTGAGE FAQS</span></div>
+          <h2 className="mb-14 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-3">
             {faqs.map((faq, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
+                  <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180' : ''}`} />
                 </button>
-                {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '14px', lineHeight: '24px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
+                {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
               </div>
             ))}
           </div>

@@ -107,19 +107,19 @@ function Buyers() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156, 163, 175, 0.25)', background: 'rgba(255, 255, 255, 0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52, 211, 153, 0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255, 255, 255, 0.9)' }}>BUYERS GUIDE</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255, 255, 255, 0.9)' }}>BUYERS GUIDE</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[60px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Find Your <span style={{ background: 'linear-gradient(135deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Dream Home</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', fontWeight: 400, color: 'rgba(255, 255, 255, 0.75)', maxWidth: '480px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', fontWeight: 400, color: 'rgba(255, 255, 255, 0.75)', maxWidth: '480px' }}>
                 Whether you're searching for your first home or investment properties, SaveOnYourHome.com guides you through the entire process.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-                  Search Properties <ArrowRight className="w-4 h-4" />
+                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+                  Search Properties <ArrowRight className="w-5 h-5" />
                 </Link>
-                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
                   List Your Home
                 </Link>
               </div>
@@ -132,12 +132,12 @@ function Buyers() {
       <section style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4 text-center">
-            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYER FAQS</span>
+            <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYER FAQS</span>
           </div>
-          <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+          <h2 className="mb-5 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
             Find Instant Answers
           </h2>
-          <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', maxWidth: '560px', margin: '0 auto 56px' }}>
+          <p className="text-center mb-14" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100, 100, 100)', maxWidth: '560px', margin: '0 auto 56px' }}>
             From buying steps to negotiation, our FAQs have you covered. Questions? Ask anytime. Happy hunting!
           </p>
 
@@ -145,12 +145,12 @@ function Buyers() {
             {faqs.map((faq, index) => (
               <div key={index} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
                 <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full flex items-center justify-between p-5 text-left">
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>{faq.question}</span>
+                  <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>{faq.question}</span>
                   <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === index ? 'rotate-180' : ''}`} />
                 </button>
                 {openFaq === index && (
                   <div className="px-5 pb-5">
-                    <p style={{ fontSize: '14px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>{faq.answer}</p>
+                    <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100, 100, 100)' }}>{faq.answer}</p>
                   </div>
                 )}
               </div>
@@ -164,13 +164,13 @@ function Buyers() {
               { title: 'SEARCH FOR YOUR DREAM HOME', desc: 'Browse through SaveOnYourHome to find your dream home!', link: '/properties', linkText: 'Search Now', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>) },
               { title: 'ABOUT SAVEONYOURHOME.COM', desc: 'We are Empowering Sellers and Connecting Buyers, and transforming the home buying process. See what we are all about!', link: '/about', linkText: 'Learn More', icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>) },
             ].map((card, i) => (
-              <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-8 text-center group" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+              <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-9 text-center group" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26, 24, 22)' }} />
                 <div className="mb-5 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245, 245, 244)' }}>{card.icon}</div>
-                <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '14px', color: 'rgb(26, 24, 22)', letterSpacing: '0.5px' }}>{card.title}</h3>
-                <p className="flex-1" style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>{card.desc}</p>
-                <Link href={card.link} className="mt-5 inline-flex items-center gap-1.5 transition-all duration-300 hover:gap-2.5" style={{ fontSize: '13px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>
-                  {card.linkText} <ArrowRight className="w-3.5 h-3.5" />
+                <h3 className="mb-3" style={{ fontWeight: 700, fontSize: '15px', color: 'rgb(26, 24, 22)', letterSpacing: '0.5px' }}>{card.title}</h3>
+                <p className="flex-1" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>{card.desc}</p>
+                <Link href={card.link} className="mt-5 inline-flex items-center gap-1.5 transition-all duration-300 hover:gap-2.5" style={{ fontSize: '14px', fontWeight: 600, color: 'rgb(26, 24, 22)' }}>
+                  {card.linkText} <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             ))}
@@ -189,32 +189,32 @@ function Buyers() {
                 <div className="absolute bottom-6 left-6 right-6 flex gap-3">
                   {[{ value: 'Fast', label: 'Pre-Approval' }, { value: 'Free', label: 'No Cost' }, { value: '24hr', label: 'Response' }].map((item, i) => (
                     <div key={i} className="flex-1 rounded-xl px-3 py-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
-                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{item.value}</div>
-                      <div style={{ fontSize: '11px', fontWeight: 500, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.5px' }}>{item.label}</div>
+                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{item.value}</div>
+                      <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.5px' }}>{item.label}</div>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="p-8 sm:p-10 md:p-14 flex flex-col justify-center">
                 <div className="mb-4">
-                  <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>PRE-APPROVAL</span>
+                  <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>PRE-APPROVAL</span>
                 </div>
-                <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-4" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+                <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-4" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
                   Get Pre-Approved For Your Loan!
                 </h2>
-                <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100, 100, 100)', marginBottom: '16px' }}>
+                <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100, 100, 100)', marginBottom: '16px' }}>
                   The team at SaveOnYourHome.com recommends that you strengthen your offer by obtaining a pre-approval letter from a licensed mortgage banker. We are happy to connect you with a lender who will provide you with <strong style={{ color: 'rgb(55, 55, 55)' }}>priority service and a free pre-approval</strong>.
                 </p>
                 <div className="space-y-2.5 mb-8">
                   {['Wide range of mortgage products for every need', 'Get pre-approved for your next mortgage quickly', 'Whether first home or investment — we have you covered'].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span style={{ fontSize: '14px', color: 'rgb(75, 75, 75)' }}>{item}</span>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span style={{ fontSize: '15px', color: 'rgb(75, 75, 75)' }}>{item}</span>
                     </div>
                   ))}
                 </div>
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 w-fit" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-                  Request Pre-Approval <ArrowRight className="w-4 h-4" />
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 w-fit" style={{ backgroundColor: 'rgb(26, 24, 22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+                  Request Pre-Approval <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </div>
@@ -227,12 +227,12 @@ function Buyers() {
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] pt-20 pb-10" style={{ maxWidth: '1400px' }}>
           {/* Section Header */}
           <div className="mb-4 text-center">
-            <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYERS GUIDE</span>
+            <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100, 100, 100)' }}>BUYERS GUIDE</span>
           </div>
-          <h2 className="mb-5 text-center text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
+          <h2 className="mb-5 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}>
             Steps to Buy A Home
           </h2>
-          <p className="text-center mb-14" style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)', maxWidth: '640px', margin: '0 auto 56px' }}>
+          <p className="text-center mb-14" style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100, 100, 100)', maxWidth: '640px', margin: '0 auto 56px' }}>
             Are you planning to buy a home? SaveOnYourHome.com is here to guide you through the entire home-buying process, providing step-by-step instructions and connecting you with trusted service providers.
           </p>
 
@@ -275,13 +275,13 @@ function Buyers() {
                 {/* Badge */}
                 <div className="absolute top-5 left-5 rounded-full px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.2)' }}>
                   <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 6px rgba(52,211,153,0.6)' }} />
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', letterSpacing: '1px' }}>{row.badge}</span>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', letterSpacing: '1px' }}>{row.badge}</span>
                 </div>
                 {/* Step indicators */}
                 <div className="absolute bottom-5 left-5 flex gap-2">
                   {row.stepNums.map(n => (
-                    <div key={n} className="flex items-center justify-center rounded-lg" style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.25)' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{n}</span>
+                    <div key={n} className="flex items-center justify-center rounded-lg" style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.25)' }}>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{n}</span>
                     </div>
                   ))}
                 </div>
@@ -290,17 +290,17 @@ function Buyers() {
               {/* Steps Side */}
               <div className={`space-y-4 flex flex-col justify-center ${row.imageLeft ? 'order-2' : 'order-2 lg:order-1'}`}>
                 {steps.filter(s => row.stepNums.includes(s.number)).map((step) => (
-                  <div key={step.number} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6 group relative" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+                  <div key={step.number} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-7 group relative" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
                     <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26, 24, 22)' }} />
                     <div className="flex items-start gap-4">
-                      <div className="flex items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ width: '44px', height: '44px', backgroundColor: 'rgb(26, 24, 22)' }}>
-                        <span style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>{step.number}</span>
+                      <div className="flex items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ width: '48px', height: '48px', backgroundColor: 'rgb(26, 24, 22)' }}>
+                        <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{step.number}</span>
                       </div>
                       <div className="flex-1">
-                        <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '12px' }}>Step {step.number}: {step.title}</h3>
+                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26, 24, 22)', marginBottom: '12px' }}>Step {step.number}: {step.title}</h3>
                         <div className="space-y-3">
                           {step.content.map((item, i) => (
-                            <p key={i} style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(75, 75, 75)' }}>
+                            <p key={i} style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(75, 75, 75)' }}>
                               <strong style={{ color: 'rgb(26, 24, 22)' }}>{item.subtitle}:</strong> {item.text}
                             </p>
                           ))}
@@ -314,10 +314,10 @@ function Buyers() {
           ))}
 
           {/* Honor Pledge */}
-          <div className="mt-10 rounded-2xl border border-gray-200/60 p-6" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
+          <div className="mt-10 rounded-2xl border border-gray-200/60 p-7" style={{ background: 'rgba(255, 255, 255, 0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 4px 24px, rgba(255, 255, 255, 0.8) 0px 1px 0px inset' }}>
             <div className="flex items-center gap-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100, 100, 100)' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgb(26, 24, 22)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgb(100, 100, 100)' }}>
                 As part of our dedication to transparency, all service providers must adhere to our <strong style={{ color: 'rgb(55, 55, 55)' }}>Advertiser & Sponsor Honor Pledge</strong>.
               </p>
             </div>

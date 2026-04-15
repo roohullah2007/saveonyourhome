@@ -5,6 +5,7 @@ import SEOHead from '@/Components/SEOHead';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
 import AuthModal from '@/Components/AuthModal';
+import { AMENITY_GROUPS } from '@/constants/amenities';
 
 // Beds & Baths dropdown with own local state so Apply always works
 function BedsDropdown({ searchParams, onApply }) {
@@ -52,7 +53,13 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     hasVirtualTour: String(filters.hasVirtualTour || ''),
     schoolDistrict: String(filters.schoolDistrict || ''),
     lotSizeMin: String(filters.lotSizeMin || ''),
+    amenities: typeof filters.amenities === 'string'
+      ? filters.amenities.split(',').filter(Boolean)
+      : (Array.isArray(filters.amenities) ? filters.amenities : []),
   });
+  const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+  const locationInputRef = useRef(null);
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [saveSearchStatus, setSaveSearchStatus] = useState(null); // null | 'saving' | 'saved' | 'error'
@@ -65,10 +72,33 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
       if (filterBarRef.current && !filterBarRef.current.contains(e.target)) {
         setOpenDropdown(null);
       }
+      if (locationInputRef.current && !locationInputRef.current.contains(e.target)) {
+        setShowLocationSuggestions(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Build unique city/state suggestions from the map-wide property set
+  const locationSuggestions = React.useMemo(() => {
+    const query = (searchParams.location || '').trim().toLowerCase();
+    const counts = new Map();
+    (allPropertiesForMap || []).forEach((p) => {
+      if (!p.city) return;
+      const label = p.state ? `${p.city}, ${p.state}` : p.city;
+      counts.set(label, {
+        label,
+        value: p.city,
+        count: (counts.get(label)?.count || 0) + 1,
+      });
+    });
+    let list = Array.from(counts.values());
+    if (query) {
+      list = list.filter((s) => s.label.toLowerCase().includes(query));
+    }
+    return list.sort((a, b) => b.count - a.count).slice(0, 8);
+  }, [allPropertiesForMap, searchParams.location]);
 
   const propertyList = properties.data || properties || [];
   const pagination = properties.data ? properties : null;
@@ -78,23 +108,47 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     setSearchParams(prev => ({ ...prev, [field]: value }));
   };
 
+  // Serialize params for URL — amenities array → comma-separated string.
+  const serializeParams = (p) => ({
+    ...p,
+    amenities: Array.isArray(p.amenities) ? p.amenities.join(',') : (p.amenities || ''),
+  });
+
   const handleSearch = (e, overrideParams) => {
     e?.preventDefault();
     setOpenDropdown(null);
     const params = overrideParams || searchParams;
-    router.get('/properties', params, { preserveState: true });
+    router.get('/properties', serializeParams(params), { preserveState: true });
   };
 
   const handleSortChange = (value) => {
     const newParams = { ...searchParams, sort: value };
     setSearchParams(newParams);
-    router.get('/properties', newParams, { preserveState: true });
+    router.get('/properties', serializeParams(newParams), { preserveState: true });
   };
 
   const handleStatusTab = (status) => {
     const newParams = { ...searchParams, status };
     setSearchParams(newParams);
-    router.get('/properties', newParams, { preserveState: true });
+    router.get('/properties', serializeParams(newParams), { preserveState: true });
+  };
+
+  const toggleAmenity = (item) => {
+    setSearchParams(prev => ({
+      ...prev,
+      amenities: prev.amenities.includes(item)
+        ? prev.amenities.filter(a => a !== item)
+        : [...prev.amenities, item],
+    }));
+  };
+
+  const applyAmenities = () => {
+    setShowAmenitiesModal(false);
+    router.get('/properties', serializeParams(searchParamsRef.current), { preserveState: true });
+  };
+
+  const clearAmenities = () => {
+    setSearchParams(prev => ({ ...prev, amenities: [] }));
   };
 
   const handleSaveSearch = async () => {
@@ -209,7 +263,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
             {/* Search Input */}
             <div className="relative flex-1" style={{ maxWidth: 800 }}>
               <form className="relative flex" onSubmit={handleSearch}>
-                <div className="relative flex-1">
+                <div className="relative flex-1" ref={locationInputRef}>
                   <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
                   </div>
@@ -220,9 +274,44 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     autoComplete="off"
                     style={{ height: 40, fontSize: 14 }}
                     value={searchParams.location}
-                    onChange={(e) => handleSearchChange('location', e.target.value)}
-                    onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
+                    onChange={(e) => { handleSearchChange('location', e.target.value); setShowLocationSuggestions(true); }}
+                    onFocus={() => setShowLocationSuggestions(true)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { setShowLocationSuggestions(false); handleSearch(e); } }}
                   />
+                  {searchParams.location && (
+                    <button
+                      type="button"
+                      onClick={() => { handleSearchChange('location', ''); setShowLocationSuggestions(false); }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-100 text-gray-400"
+                      aria-label="Clear"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+
+                  {showLocationSuggestions && locationSuggestions.length > 0 && (
+                    <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl border border-gray-200 shadow-lg z-50 max-h-64 overflow-y-auto">
+                      {locationSuggestions.map((s) => (
+                        <button
+                          key={s.label}
+                          type="button"
+                          onClick={() => {
+                            const np = { ...searchParams, location: s.value };
+                            setSearchParams(np);
+                            setShowLocationSuggestions(false);
+                            router.get('/properties', serializeParams(np), { preserveState: true });
+                          }}
+                          className="w-full text-left px-4 py-2.5 hover:bg-gray-50 flex items-center gap-2.5"
+                        >
+                          <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm text-gray-900 truncate">{s.label}</div>
+                            <div className="text-[11px] text-gray-500">{s.count} {s.count === 1 ? 'property' : 'properties'}</div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
@@ -287,22 +376,36 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                       <div className="absolute left-0 top-full z-50 mt-2 rounded-xl border border-gray-200 bg-white p-4 shadow-xl" style={{ minWidth: 280 }}>
                         <div className="space-y-3">
                           <label className="block text-xs font-medium text-gray-600">Price Range</label>
-                          {/* Select dropdowns */}
+                          {/* Formatted price inputs (sync with slider) */}
                           <div className="flex gap-2">
-                            <select
-                              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              value={searchParams.priceMin}
-                              onChange={(e) => handleSearchChange('priceMin', e.target.value)}
-                            >
-                              {priceOpts.map(o => <option key={`min-${o.value}`} value={o.value}>{o.label}</option>)}
-                            </select>
-                            <select
-                              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              value={searchParams.priceMax}
-                              onChange={(e) => handleSearchChange('priceMax', e.target.value)}
-                            >
-                              {maxOpts.map(o => <option key={`max-${o.value}`} value={o.value}>{o.label}</option>)}
-                            </select>
+                            <div className="relative w-full">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">$</span>
+                              <input
+                                type="text"
+                                inputMode="numeric"
+                                placeholder="Min"
+                                className="w-full rounded-lg border border-gray-300 bg-white pl-6 pr-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                value={searchParams.priceMin ? Number(searchParams.priceMin).toLocaleString() : ''}
+                                onChange={(e) => {
+                                  const raw = e.target.value.replace(/[^0-9]/g, '');
+                                  handleSearchChange('priceMin', raw);
+                                }}
+                              />
+                            </div>
+                            <div className="relative w-full">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">$</span>
+                              <input
+                                type="text"
+                                inputMode="numeric"
+                                placeholder="Max"
+                                className="w-full rounded-lg border border-gray-300 bg-white pl-6 pr-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                value={searchParams.priceMax ? Number(searchParams.priceMax).toLocaleString() : ''}
+                                onChange={(e) => {
+                                  const raw = e.target.value.replace(/[^0-9]/g, '');
+                                  handleSearchChange('priceMax', raw);
+                                }}
+                              />
+                            </div>
                           </div>
                           {/* Dual range slider */}
                           <div className="pt-1 pb-2">
@@ -336,7 +439,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                           {/* Clear / Apply */}
                           <div className="flex justify-end gap-2 pt-1">
                             <button className="text-xs text-gray-500 hover:text-gray-700" onClick={() => { handleSearchChange('priceMin', ''); handleSearchChange('priceMax', ''); }}>Clear</button>
-                            <button className="rounded-lg bg-gray-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-gray-800" onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }}>Apply</button>
+                            <button className="rounded-lg bg-gray-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-gray-800" onClick={() => { setOpenDropdown(null); router.get('/properties', serializeParams(searchParamsRef.current), { preserveState: true }); }}>Apply</button>
                           </div>
                         </div>
                       </div>
@@ -363,7 +466,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                           const np = { ...searchParams, bedrooms: beds, bathrooms: baths };
                           setSearchParams(np);
                           setOpenDropdown(null);
-                          router.get('/properties', np, { preserveState: true });
+                          router.get('/properties', serializeParams(np), { preserveState: true });
                         }}
                       />
                     )}
@@ -383,7 +486,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     {openDropdown === 'type' && (
                       <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
                         {[{ value: '', label: 'All Types' }, { value: 'single-family-home', label: 'Single Family' }, { value: 'condos-townhomes-co-ops', label: 'Condo / Townhome' }, { value: 'multi-family', label: 'Multi-Family' }, { value: 'land', label: 'Land' }, { value: 'farms-ranches', label: 'Farm / Ranch' }, { value: 'mfd-mobile-homes', label: 'Mobile / Manufactured' }].map((opt) => (
-                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.propertyType === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, propertyType: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', np, { preserveState: true }); }}>{opt.label}</button>
+                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.propertyType === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, propertyType: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', serializeParams(np), { preserveState: true }); }}>{opt.label}</button>
                         ))}
                       </div>
                     )}
@@ -403,7 +506,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     {openDropdown === 'land' && (
                       <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
                         {[{ value: '', label: 'Any Size' }, { value: '2000', label: '2,000+ sqft' }, { value: '5000', label: '5,000+ sqft' }, { value: '10000', label: '¼ acre+' }, { value: '21780', label: '½ acre+' }, { value: '43560', label: '1 acre+' }, { value: '217800', label: '5 acres+' }].map((opt) => (
-                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.lotSizeMin === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, lotSizeMin: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', np, { preserveState: true }); }}>{opt.label}</button>
+                          <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.lotSizeMin === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, lotSizeMin: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', serializeParams(np), { preserveState: true }); }}>{opt.label}</button>
                         ))}
                       </div>
                     )}
@@ -411,42 +514,22 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                 );
               })()}
 
-              {/* Filters (more) */}
-              <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, color: '#1a1816', whiteSpace: 'nowrap' }} onClick={() => setOpenDropdown(openDropdown === 'more' ? null : 'more')}>
+              {/* Amenities & Features */}
+              <button
+                className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50"
+                style={{ height: 40, fontSize: 13, fontWeight: 500, color: '#1a1816', whiteSpace: 'nowrap' }}
+                onClick={() => setShowAmenitiesModal(true)}
+              >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
-                  <circle cx="8" cy="6" r="1.5" fill="currentColor" /><circle cx="16" cy="12" r="1.5" fill="currentColor" /><circle cx="10" cy="18" r="1.5" fill="currentColor" />
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
-                Filters
+                Amenities &amp; Features
+                {searchParams.amenities.length > 0 && (
+                  <span className="ml-1 rounded-full bg-[#1a1816] text-white text-[10px] font-bold px-1.5 py-0.5">
+                    {searchParams.amenities.length}
+                  </span>
+                )}
               </button>
-              {openDropdown === 'more' && (
-                <div className="absolute top-full mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-xl z-50 p-4" style={{ right: 220 }}>
-                  <div className="mb-3">
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">School District</label>
-                    <input type="text" placeholder="Search school district" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400" value={searchParams.schoolDistrict} onChange={(e) => handleSearchChange('schoolDistrict', e.target.value)} />
-                  </div>
-                  <div className="mb-3">
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Open Houses</label>
-                    <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400 appearance-none bg-white" value={searchParams.hasOpenHouse} onChange={(e) => handleSearchChange('hasOpenHouse', e.target.value)}>
-                      <option value="">Any</option><option value="yes">Has Open House</option><option value="this_weekend">This Weekend</option>
-                    </select>
-                  </div>
-                  <div className="mb-3">
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Status</label>
-                    <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-400 appearance-none bg-white" value={searchParams.status} onChange={(e) => handleSearchChange('status', e.target.value)}>
-                      <option value="all">All Listings</option><option value="for-sale">For Sale</option><option value="pending">Pending</option><option value="sold">Sold</option>{isAdmin && <option value="inactive">Inactive</option>}
-                    </select>
-                  </div>
-                  <label className="flex cursor-pointer items-center gap-2 mb-3">
-                    <input type="checkbox" className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500" checked={searchParams.hasVirtualTour === 'yes'} onChange={(e) => handleSearchChange('hasVirtualTour', e.target.checked ? 'yes' : '')} />
-                    <span className="text-sm text-gray-700">Virtual Tour</span>
-                  </label>
-                  <div className="flex gap-2">
-                    <button onClick={() => { const cleared = { keyword: '', location: '', status: 'for-sale', propertyType: '', priceMin: '', priceMax: '', bedrooms: '', bathrooms: '', sort: 'newest', hasOpenHouse: '', hasVirtualTour: '', schoolDistrict: '', lotSizeMin: '' }; setSearchParams(cleared); setOpenDropdown(null); router.get('/properties'); }} className="flex-1 rounded-lg border border-gray-300 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Clear All</button>
-                    <button onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }} className="flex-1 rounded-lg bg-[#1a1816] text-white py-2 text-sm font-semibold hover:opacity-90 transition-opacity">Apply Filters</button>
-                  </div>
-                </div>
-              )}
 
               {/* Spacer */}
               <div className="flex-1" />
@@ -519,7 +602,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
               </div>
             </div>
             <div className="flex gap-2 mt-3">
-              <button onClick={() => { setOpenDropdown(null); router.get('/properties', searchParamsRef.current, { preserveState: true }); }} className="flex-1 rounded-lg bg-[#1a1816] text-white py-2.5 text-sm font-semibold">Apply Filters</button>
+              <button onClick={() => { setOpenDropdown(null); router.get('/properties', serializeParams(searchParamsRef.current), { preserveState: true }); }} className="flex-1 rounded-lg bg-[#1a1816] text-white py-2.5 text-sm font-semibold">Apply Filters</button>
               <button onClick={() => setOpenDropdown(null)} className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-600">Cancel</button>
             </div>
           </div>
@@ -629,7 +712,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     onChange={(e) => {
                       const newParams = { ...searchParams, hasVirtualTour: e.target.checked ? 'yes' : '' };
                       setSearchParams(newParams);
-                      router.get('/properties', newParams, { preserveState: true });
+                      router.get('/properties', serializeParams(newParams), { preserveState: true });
                     }}
                   />
                   <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 500 }}>Virtual Tour</span>
@@ -642,7 +725,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     onChange={(e) => {
                       const newParams = { ...searchParams, hasOpenHouse: e.target.checked ? 'yes' : '' };
                       setSearchParams(newParams);
-                      router.get('/properties', newParams, { preserveState: true });
+                      router.get('/properties', serializeParams(newParams), { preserveState: true });
                     }}
                   />
                   <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 500 }}>Open House</span>
@@ -822,6 +905,82 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
 
       {/* Auth Modal */}
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+
+      {/* Amenities & Features Modal */}
+      {showAmenitiesModal && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowAmenitiesModal(false)}
+          />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div>
+                <h2 className="text-lg font-semibold text-[#111]">Amenities &amp; Features</h2>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {searchParams.amenities.length} selected
+                </p>
+              </div>
+              <button
+                onClick={() => setShowAmenitiesModal(false)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
+              {AMENITY_GROUPS.map((group) => (
+                <div key={group.category}>
+                  <h3 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                    {group.category}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1.5">
+                    {group.items.map((item) => (
+                      <label
+                        key={item}
+                        className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={searchParams.amenities.includes(item)}
+                          onChange={() => toggleAmenity(item)}
+                          className="w-4 h-4 text-[#1a1816] rounded border-gray-300 focus:ring-[#1a1816]"
+                        />
+                        <span className="text-sm text-gray-700">{item}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+              <button
+                onClick={clearAmenities}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              >
+                Clear all
+              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowAmenitiesModal(false)}
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={applyAmenities}
+                  className="rounded-lg bg-[#1a1816] px-5 py-2 text-sm font-semibold text-white hover:opacity-90"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -31,25 +31,12 @@ export default function Home({ featuredProperties = [] }) {
         }}
       />
 
-      <div style={{ zoom: 1.1 }}>
-        {/* Hero Section */}
-        <HeroSection featuredProperties={featuredProperties} />
-
-        {/* FSBO Resources & Support Section */}
-        <ShowcaseSection />
-
-        {/* How It Works / Supercharge Your Sale */}
-        <SellingSection />
-
-        {/* Properties Section */}
-        <PropertiesSection properties={featuredProperties} />
-
-        {/* Guides & CTA Cards */}
-        <CTACardsSection />
-
-        {/* FAQ Section */}
-        <FAQSection />
-      </div>
+      <HeroSection featuredProperties={featuredProperties} />
+      <ShowcaseSection />
+      <SellingSection />
+      <PropertiesSection properties={featuredProperties} />
+      <CTACardsSection />
+      <FAQSection />
     </>
   );
 }

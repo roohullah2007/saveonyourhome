@@ -84,7 +84,7 @@ function BuyerResources({ resources }) {
                 />
                 <span
                   style={{
-                    fontSize: '13px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     letterSpacing: '1.5px',
                     color: 'rgba(255,255,255,0.9)',
@@ -94,7 +94,7 @@ function BuyerResources({ resources }) {
                 </span>
               </div>
               <h1
-                className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white"
+                className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white"
                 style={{ letterSpacing: '-0.5px' }}
               >
                 Your Home Buying{' '}
@@ -112,8 +112,8 @@ function BuyerResources({ resources }) {
               <p
                 className="mt-5"
                 style={{
-                  fontSize: '17px',
-                  lineHeight: '28px',
+                  fontSize: '19px',
+                  lineHeight: '30px',
                   color: 'rgba(255,255,255,0.75)',
                   maxWidth: '480px',
                 }}
@@ -148,7 +148,7 @@ function BuyerResources({ resources }) {
                 <h3
                   className="mb-3"
                   style={{
-                    fontSize: '18px',
+                    fontSize: '20px',
                     fontWeight: 700,
                     color: 'rgb(26,24,22)',
                   }}
@@ -158,8 +158,8 @@ function BuyerResources({ resources }) {
                 <p
                   className="mb-6"
                   style={{
-                    fontSize: '15px',
-                    lineHeight: '24px',
+                    fontSize: '17px',
+                    lineHeight: '26px',
                     color: 'rgb(100,100,100)',
                   }}
                 >
@@ -171,7 +171,7 @@ function BuyerResources({ resources }) {
                     className="inline-flex items-center gap-2 text-sm font-semibold"
                     style={{ color: 'rgb(26,24,22)' }}
                   >
-                    Read More <ArrowRight className="w-4 h-4" />
+                    Read More <ArrowRight className="w-5 h-5" />
                   </Link>
                 )}
               </div>
@@ -182,8 +182,8 @@ function BuyerResources({ resources }) {
           <div className="mt-12 text-center">
             <p
               style={{
-                fontSize: '17px',
-                lineHeight: '28px',
+                fontSize: '19px',
+                lineHeight: '30px',
                 color: 'rgb(100,100,100)',
                 marginBottom: '16px',
               }}
@@ -196,14 +196,14 @@ function BuyerResources({ resources }) {
               style={{
                 backgroundColor: 'rgb(26,24,22)',
                 color: 'white',
-                height: '46px',
-                paddingLeft: '28px',
-                paddingRight: '28px',
-                fontSize: '14px',
+                height: '50px',
+                paddingLeft: '31px',
+                paddingRight: '31px',
+                fontSize: '15px',
                 fontWeight: 600,
               }}
             >
-              Buyers Guide <ArrowRight className="w-4 h-4" />
+              Buyers Guide <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
@@ -228,7 +228,7 @@ function BuyerResources({ resources }) {
               <h3
                 className="mb-3"
                 style={{
-                  fontSize: '18px',
+                  fontSize: '20px',
                   fontWeight: 700,
                   color: 'rgb(26,24,22)',
                 }}
@@ -238,8 +238,8 @@ function BuyerResources({ resources }) {
               <p
                 className="mb-6"
                 style={{
-                  fontSize: '15px',
-                  lineHeight: '24px',
+                  fontSize: '17px',
+                  lineHeight: '26px',
                   color: 'rgb(100,100,100)',
                 }}
               >
@@ -250,7 +250,7 @@ function BuyerResources({ resources }) {
                 className="inline-flex items-center gap-2 text-sm font-semibold"
                 style={{ color: 'rgb(26,24,22)' }}
               >
-                Search Now <ArrowRight className="w-4 h-4" />
+                Search Now <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
 
@@ -266,7 +266,7 @@ function BuyerResources({ resources }) {
               <h3
                 className="mb-3"
                 style={{
-                  fontSize: '18px',
+                  fontSize: '20px',
                   fontWeight: 700,
                   color: 'rgb(26,24,22)',
                 }}
@@ -276,8 +276,8 @@ function BuyerResources({ resources }) {
               <p
                 className="mb-6"
                 style={{
-                  fontSize: '15px',
-                  lineHeight: '24px',
+                  fontSize: '17px',
+                  lineHeight: '26px',
                   color: 'rgb(100,100,100)',
                 }}
               >
@@ -289,7 +289,7 @@ function BuyerResources({ resources }) {
                 className="inline-flex items-center gap-2 text-sm font-semibold"
                 style={{ color: 'rgb(26,24,22)' }}
               >
-                List Your Home <ArrowRight className="w-4 h-4" />
+                List Your Home <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
 
@@ -305,7 +305,7 @@ function BuyerResources({ resources }) {
               <h3
                 className="mb-3"
                 style={{
-                  fontSize: '18px',
+                  fontSize: '20px',
                   fontWeight: 700,
                   color: 'rgb(26,24,22)',
                 }}
@@ -315,8 +315,8 @@ function BuyerResources({ resources }) {
               <p
                 className="mb-6"
                 style={{
-                  fontSize: '15px',
-                  lineHeight: '24px',
+                  fontSize: '17px',
+                  lineHeight: '26px',
                   color: 'rgb(100,100,100)',
                 }}
               >
@@ -328,7 +328,7 @@ function BuyerResources({ resources }) {
                 className="inline-flex items-center gap-2 text-sm font-semibold"
                 style={{ color: 'rgb(26,24,22)' }}
               >
-                Learn More <ArrowRight className="w-4 h-4" />
+                Learn More <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>

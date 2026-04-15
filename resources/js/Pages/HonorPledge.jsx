@@ -100,7 +100,7 @@ function HonorPledge() {
                 />
                 <span
                   style={{
-                    fontSize: '13px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     letterSpacing: '1.5px',
                     color: 'rgba(255,255,255,0.9)',
@@ -110,7 +110,7 @@ function HonorPledge() {
                 </span>
               </div>
               <h1
-                className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white"
+                className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white"
                 style={{ letterSpacing: '-0.5px' }}
               >
                 Advertiser & Sponsor{' '}
@@ -128,8 +128,8 @@ function HonorPledge() {
               <p
                 className="mt-5"
                 style={{
-                  fontSize: '17px',
-                  lineHeight: '28px',
+                  fontSize: '19px',
+                  lineHeight: '30px',
                   color: 'rgba(255,255,255,0.75)',
                   maxWidth: '560px',
                 }}
@@ -150,7 +150,7 @@ function HonorPledge() {
         >
           {/* Intro */}
           <div className="max-w-4xl mb-12">
-            <p className="text-[15px] text-[#666] leading-relaxed">
+            <p className="text-[17px] text-[#666] leading-relaxed">
               As an advertiser or sponsor on SaveOnYourHome.com, we understand
               the importance of maintaining a trustworthy and beneficial
               environment for all users. We hereby pledge to uphold the
@@ -181,13 +181,13 @@ function HonorPledge() {
                   >
                     <span
                       className="text-white font-bold"
-                      style={{ fontSize: '15px' }}
+                      style={{ fontSize: '17px' }}
                     >
                       {index + 1}
                     </span>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-[20px] md:text-[22px] font-medium text-[#111] mb-4">
+                    <h3 className="text-[22px] md:text-[24px] font-medium text-[#111] mb-4">
                       {section.title}
                     </h3>
                     <ul className="space-y-3">
@@ -196,7 +196,7 @@ function HonorPledge() {
                           <div
                             className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2"
                           />
-                          <span className="text-[15px] text-[#666] leading-relaxed">
+                          <span className="text-[17px] text-[#666] leading-relaxed">
                             {bullet}
                           </span>
                         </li>
@@ -219,7 +219,7 @@ function HonorPledge() {
                   'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset',
               }}
             >
-              <p className="text-[15px] text-[#111] leading-relaxed font-medium">
+              <p className="text-[17px] text-[#111] leading-relaxed font-medium">
                 By signing this Honor Pledge, we affirm our commitment to
                 uphold these principles and work collaboratively with
                 SaveOnYourHome.com to transform the FSBO real estate market.

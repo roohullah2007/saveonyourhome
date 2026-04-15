@@ -45,8 +45,8 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
   };
 
   const inputClass = "w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500";
-  const inputStyle = { height: '52px', fontSize: '15px', color: 'rgb(26,24,22)' };
-  const labelStyle = { display: 'block', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)', marginBottom: '8px' };
+  const inputStyle = { height: '57px', fontSize: '17px', color: 'rgb(26,24,22)' };
+  const labelStyle = { display: 'block', fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)', marginBottom: '8px' };
 
   return (
     <>
@@ -70,12 +70,12 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
             <div className="w-full max-w-[640px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>PARTNERS</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>PARTNERS</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white">
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white">
                 Trusted Vendor <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Partners</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '560px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '560px' }}>
                 Your trusted resource for For Sale By Owner real estate solutions. We work with vendors who have pledged to uphold our Honor Pledge.
               </p>
             </div>
@@ -87,7 +87,7 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-10 md:py-12" style={{ maxWidth: '1400px' }}>
           <div className="rounded-2xl border border-gray-200/60 p-6 sm:p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px' }}>
-            <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(75,75,75)', textAlign: 'center' }}>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(75,75,75)', textAlign: 'center' }}>
               Please note that as we are just getting started, we don't have vendors for every category yet. If you have a suggestion or would like to recommend a vendor,{' '}
               <Link href="/contact" className="underline font-semibold" style={{ color: '#3355FF' }}>please click here</Link>.
             </p>
@@ -109,38 +109,38 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
                 >
                   <h3
                     className="mb-4 pb-3 border-b border-gray-200"
-                    style={{ fontSize: '16px', fontWeight: 700, color: 'rgb(26,24,22)' }}
+                    style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)' }}
                   >
                     {category}
                   </h3>
                   {partners.length === 0 ? (
-                    <p style={{ fontSize: '13px', color: 'rgb(156,163,175)', fontStyle: 'italic' }}>Coming soon</p>
+                    <p style={{ fontSize: '14px', color: 'rgb(156,163,175)', fontStyle: 'italic' }}>Coming soon</p>
                   ) : (
                     <div className="space-y-4">
                       {partners.map((p) => (
                         <div key={p.id} className="space-y-1.5">
-                          <div style={{ fontSize: '15px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{p.name}</div>
+                          <div style={{ fontSize: '17px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{p.name}</div>
                           {p.description && (
-                            <p style={{ fontSize: '13px', lineHeight: '20px', color: 'rgb(100,100,100)' }}>{p.description}</p>
+                            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)' }}>{p.description}</p>
                           )}
                           {p.phone && (
-                            <a href={`tel:${p.phone}`} className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '13px', color: 'rgb(75,75,75)' }}>
-                              <Phone className="w-3.5 h-3.5" /> {p.phone}
+                            <a href={`tel:${p.phone}`} className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '14px', color: 'rgb(75,75,75)' }}>
+                              <Phone className="w-4 h-4" /> {p.phone}
                             </a>
                           )}
                           {p.email && (
-                            <a href={`mailto:${p.email}`} className="flex items-center gap-2 hover:opacity-80 break-all" style={{ fontSize: '13px', color: 'rgb(75,75,75)' }}>
-                              <Mail className="w-3.5 h-3.5 flex-shrink-0" /> {p.email}
+                            <a href={`mailto:${p.email}`} className="flex items-center gap-2 hover:opacity-80 break-all" style={{ fontSize: '14px', color: 'rgb(75,75,75)' }}>
+                              <Mail className="w-4 h-4 flex-shrink-0" /> {p.email}
                             </a>
                           )}
                           {p.website && (
-                            <a href={formatWebsite(p.website)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '13px', color: '#3355FF' }}>
-                              <Globe className="w-3.5 h-3.5" /> {displayWebsite(p.website)}
+                            <a href={formatWebsite(p.website)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '14px', color: '#3355FF' }}>
+                              <Globe className="w-4 h-4" /> {displayWebsite(p.website)}
                             </a>
                           )}
                           {p.address && (
-                            <div className="flex items-start gap-2" style={{ fontSize: '13px', color: 'rgb(100,100,100)' }}>
-                              <MapPin className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" /> {p.address}
+                            <div className="flex items-start gap-2" style={{ fontSize: '14px', color: 'rgb(100,100,100)' }}>
+                              <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" /> {p.address}
                             </div>
                           )}
                         </div>
@@ -159,18 +159,18 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="text-center mb-10 mx-auto" style={{ maxWidth: '720px' }}>
             <div className="mb-4">
-              <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>BECOME A PARTNER</span>
+              <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>BECOME A PARTNER</span>
             </div>
             <h2
-              className="mb-5 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+              className="mb-5 text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]"
               style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}
             >
               Partner With SaveOnYourHome.com!
             </h2>
-            <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)' }}>
               Submit your details, and our dedicated team will promptly connect with you to explore tailored advertising opportunities that resonate with your business aspirations.
             </p>
-            <p className="mt-4" style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>
+            <p className="mt-4" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)' }}>
               Join us now and start turning our visitors into your clients — your next successful campaign begins here!
             </p>
           </div>
@@ -180,7 +180,7 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
               {(submitted || flash?.success) && (
                 <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Thank you! We'll be in touch about partnership opportunities.</p>
+                  <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Thank you! We'll be in touch about partnership opportunities.</p>
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -224,17 +224,17 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
                     value={data.message}
                     onChange={(e) => setData('message', e.target.value)}
                     className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical"
-                    style={{ fontSize: '15px', color: 'rgb(26,24,22)' }}
+                    style={{ fontSize: '17px', color: 'rgb(26,24,22)' }}
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={processing}
                   className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                  style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                  style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
                 >
                   {processing ? 'Submitting...' : 'Submit'}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </button>
               </form>
             </div>

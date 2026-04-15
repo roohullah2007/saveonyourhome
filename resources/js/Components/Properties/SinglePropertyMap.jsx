@@ -6,6 +6,7 @@ const SinglePropertyMap = ({ property }) => {
   const { googleMapsApiKey } = usePage().props;
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
+  const [loadError, setLoadError] = useState(false);
   const mapInstanceRef = useRef(null);
   const markerRef = useRef(null);
   const infoWindowRef = useRef(null);
@@ -23,7 +24,7 @@ const SinglePropertyMap = ({ property }) => {
 
   useEffect(() => {
     if (!googleMapsApiKey) {
-      console.error('Google Maps API key is not configured');
+      setLoadError(true);
       return;
     }
 
@@ -58,11 +59,11 @@ const SinglePropertyMap = ({ property }) => {
     }
 
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&loading=async`;
     script.async = true;
     script.defer = true;
     script.onload = () => initializeMap();
-    script.onerror = () => console.error('Failed to load Google Maps');
+    script.onerror = () => setLoadError(true);
     document.head.appendChild(script);
   };
 
@@ -156,6 +157,27 @@ const SinglePropertyMap = ({ property }) => {
       mapInstance.setMapTypeId(newType);
     }
   };
+
+  // Fallback iframe embed when dynamic JS map fails (API key / network issues)
+  if (loadError) {
+    const q = encodeURIComponent(
+      hasCoordinates
+        ? `${lat},${lng}`
+        : `${property.address || ''}, ${property.city || ''}, ${property.state || 'OK'} ${property.zip_code || ''}`
+    );
+    return (
+      <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-100">
+        <iframe
+          title="Property location"
+          src={`https://www.google.com/maps?q=${q}&z=${zoom}&output=embed`}
+          className="w-full h-full border-0"
+          style={{ minHeight: '300px' }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full rounded-xl overflow-hidden">

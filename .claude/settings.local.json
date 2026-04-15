@@ -90,7 +90,22 @@
       "Bash(composer install:*)",
       "Bash(pkill -f \"php artisan serve\")",
       "Bash(pkill -f \"php -S\")",
-      "Bash(perl:*)"
+      "Bash(perl:*)",
+      "Bash(mysql --version)",
+      "Bash(mysql -u root -e \"SELECT VERSION\\(\\);\")",
+      "Bash(mysql *)",
+      "Bash(sqlite3 *)",
+      "Bash(mysqldump -u root --single-transaction --default-character-set=utf8mb4 --set-gtid-purged=OFF --no-tablespaces --column-statistics=0 saveonyourhome)",
+      "Bash(node *)",
+      "Bash(python3 /tmp/bump_typography.py FAQs.jsx Partners.jsx FSBOGuide.jsx BuyersGuide.jsx Mortgages.jsx HomeWorth.jsx HonorPledge.jsx SellerResources.jsx BuyerResources.jsx Blog.jsx EBook.jsx ClaimFreeSign.jsx RequestFSBOGuide.jsx JoinWeeklyCall.jsx GetPreApproved.jsx VirtualTours.jsx BuyerFAQs.jsx SellerFAQs.jsx TermsOfUse.jsx PrivacyPolicy.jsx)",
+      "Bash(python3 /tmp/bump_buttons.py FAQs.jsx Partners.jsx FSBOGuide.jsx BuyersGuide.jsx Mortgages.jsx HomeWorth.jsx HonorPledge.jsx SellerResources.jsx BuyerResources.jsx Blog.jsx EBook.jsx ClaimFreeSign.jsx RequestFSBOGuide.jsx JoinWeeklyCall.jsx GetPreApproved.jsx VirtualTours.jsx BuyerFAQs.jsx SellerFAQs.jsx TermsOfUse.jsx PrivacyPolicy.jsx)",
+      "Bash(./node_modules/.bin/esbuild --loader=jsx --bundle=false resources/js/Pages/FAQs.jsx)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(./node_modules/.bin/esbuild --log-level=error resources/js/Pages/FAQs.jsx)",
+      "Bash(/usr/bin/sed -i '' \"s|router\\\\.get\\('/properties', searchParamsRef\\\\.current, { preserveState: true }\\)|router.get\\('/properties', serializeParams\\(searchParamsRef.current\\), { preserveState: true }\\)|g; s|router\\\\.get\\('/properties', np, { preserveState: true }\\)|router.get\\('/properties', serializeParams\\(np\\), { preserveState: true }\\)|g; s|router\\\\.get\\('/properties', newParams, { preserveState: true }\\)|router.get\\('/properties', serializeParams\\(newParams\\), { preserveState: true }\\)|g\" resources/js/Pages/Properties.jsx)",
+      "Bash(npx --no-install esbuild resources/js/Pages/PropertyDetail.jsx --loader=jsx --bundle=false --log-level=warning)",
+      "Bash(npx --no-install esbuild resources/js/Pages/PropertyDetail.jsx --loader=jsx)",
+      "Bash(npx esbuild *)"
     ],
     "deny": [],
     "ask": []

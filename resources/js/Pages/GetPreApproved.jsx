@@ -59,16 +59,16 @@ function GetPreApproved() {
 
   const selectClass = "w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500 appearance-none";
   const selectStyle = {
-    height: '52px',
-    fontSize: '15px',
+    height: '57px',
+    fontSize: '17px',
     color: 'rgb(26,24,22)',
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 14px center',
   };
   const inputClass = "w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500";
-  const inputStyle = { height: '52px', fontSize: '15px', color: 'rgb(26,24,22)' };
-  const labelStyle = { display: 'block', fontSize: '15px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' };
+  const inputStyle = { height: '57px', fontSize: '17px', color: 'rgb(26,24,22)' };
+  const labelStyle = { display: 'block', fontSize: '17px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' };
 
   return (
     <>
@@ -88,12 +88,12 @@ function GetPreApproved() {
             <div className="w-full max-w-[600px]">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
                 <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MORTGAGE</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MORTGAGE</span>
               </div>
-              <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
+              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Get Pre-Approved For <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Your Loan!</span>
               </h1>
-              <p className="mt-5" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
+              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
                 Strengthen your offer by obtaining a pre-approval letter from a licensed mortgage banker.
               </p>
             </div>
@@ -104,11 +104,11 @@ function GetPreApproved() {
       {/* Intro */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-16 text-center" style={{ maxWidth: '1400px' }}>
-          <p className="mx-auto mb-4" style={{ fontSize: '16px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '700px' }}>
+          <p className="mx-auto mb-4" style={{ fontSize: '18px', lineHeight: '30px', color: 'rgb(100,100,100)', maxWidth: '700px' }}>
             Whether you're searching for your first home or investment properties, our lenders offer a wide range of products designed to meet your needs.
           </p>
           <h2
-            className="mt-6 text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px]"
+            className="mt-6 text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]"
             style={{ fontWeight: 700, color: 'rgb(26, 24, 22)' }}
           >
             Get pre-approved for your next mortgage.
@@ -125,7 +125,7 @@ function GetPreApproved() {
               {(submitted || flash?.success) && (
                 <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Request sent successfully! We'll connect you with a lender soon.</p>
+                  <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Request sent successfully! We'll connect you with a lender soon.</p>
                 </div>
               )}
 
@@ -138,18 +138,18 @@ function GetPreApproved() {
                         className="flex items-center justify-center rounded-full transition-all duration-300"
                         style={{
                           width: '40px',
-                          height: '40px',
+                          height: '44px',
                           backgroundColor: currentStep >= step ? '#3355FF' : 'transparent',
                           border: currentStep >= step ? '2px solid #3355FF' : '2px solid rgb(200,200,200)',
                           color: currentStep >= step ? 'white' : 'rgb(180,180,180)',
-                          fontSize: '15px',
+                          fontSize: '17px',
                           fontWeight: 700,
                         }}
                       >
                         {step}
                       </div>
                       {step > 1 && (
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: currentStep >= step ? '#3355FF' : 'rgb(180,180,180)', marginTop: '4px' }}>Step</span>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: currentStep >= step ? '#3355FF' : 'rgb(180,180,180)', marginTop: '4px' }}>Step</span>
                       )}
                     </div>
                     {i < 2 && (
@@ -243,7 +243,7 @@ function GetPreApproved() {
                     <div>
                       <label style={labelStyle}>Email</label>
                       <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} required className={inputClass} style={{ ...inputStyle, maxWidth: '50%' }} />
-                      {errors.email && <p style={{ fontSize: '12px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
+                      {errors.email && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
                     </div>
                     <div>
                       <label style={labelStyle}>Phone Number</label>
@@ -251,7 +251,7 @@ function GetPreApproved() {
                     </div>
                     <div>
                       <label style={labelStyle}>Your Message</label>
-                      <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '15px', color: 'rgb(26,24,22)' }} />
+                      <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} />
                     </div>
                   </div>
                 )}
@@ -263,7 +263,7 @@ function GetPreApproved() {
                       type="button"
                       onClick={() => setCurrentStep(currentStep - 1)}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: 'rgb(120,120,130)', height: '48px', paddingLeft: '28px', paddingRight: '28px', fontSize: '15px', fontWeight: 600 }}
+                      style={{ backgroundColor: 'rgb(120,120,130)', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
                     >
                       Previous
                     </button>
@@ -274,7 +274,7 @@ function GetPreApproved() {
                       type="button"
                       onClick={() => setCurrentStep(currentStep + 1)}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '28px', paddingRight: '28px', fontSize: '15px', fontWeight: 600 }}
+                      style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
                     >
                       Next
                     </button>
@@ -283,7 +283,7 @@ function GetPreApproved() {
                       type="submit"
                       disabled={processing}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                      style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '28px', paddingRight: '28px', fontSize: '15px', fontWeight: 600 }}
+                      style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
                     >
                       {processing ? 'Submitting...' : 'Submit'}
                     </button>
@@ -298,14 +298,14 @@ function GetPreApproved() {
       {/* CTA */}
       <section className="dark-selection" style={{ backgroundColor: 'rgb(26,24,22)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24 text-center" style={{ maxWidth: '1400px' }}>
-          <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] text-white mb-5" style={{ fontWeight: 700 }}>
+          <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white mb-5" style={{ fontWeight: 700 }}>
             Ready to get started?
           </h2>
-          <p className="mx-auto mb-8" style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
+          <p className="mx-auto mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
             Take the first step toward homeownership. Our lenders are ready to help you get pre-approved.
           </p>
-          <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
-            Contact Us <ArrowRight className="w-4 h-4" />
+          <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+            Contact Us <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>

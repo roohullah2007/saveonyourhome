@@ -424,6 +424,17 @@ class PropertyController extends Controller
             $query->where('lot_size', '>=', (int) $request->lotSizeMin);
         }
 
+        // Filter by amenities — property must include EVERY selected amenity
+        $amenities = $request->input('amenities');
+        if (is_string($amenities) && $amenities !== '') {
+            $amenities = array_filter(array_map('trim', explode(',', $amenities)));
+        }
+        if (is_array($amenities) && count($amenities) > 0) {
+            foreach ($amenities as $amenity) {
+                $query->whereJsonContains('features', $amenity);
+            }
+        }
+
         // When filtering by beds/baths, prioritize exact matches first
         if ($request->bedrooms) {
             $beds = (int) $request->bedrooms;
@@ -478,7 +489,7 @@ class PropertyController extends Controller
 
         return Inertia::render('Properties', [
             'properties' => $properties,
-            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'hasVirtualTour', 'lotSizeMin', 'sort']),
+            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'hasVirtualTour', 'lotSizeMin', 'sort', 'amenities']),
             'isAdmin' => $isAdmin,
             'allPropertiesForMap' => $allPropertiesForMap,
         ]);
