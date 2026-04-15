@@ -45,7 +45,6 @@ const Footer = () => {
               {[
                 { label: 'List Your Property', href: '/list-property' },
                 { label: 'Properties', href: '/properties' },
-                { label: 'Our Packages', href: '/our-packages' },
                 { label: 'FAQs', href: '/faqs' },
                 { label: 'Contact', href: '/contact' }
               ].map((item) => (
@@ -74,7 +73,6 @@ const Footer = () => {
               {[
                 { label: 'For Sellers', href: '/sell-your-home' },
                 { label: 'For Buyers', href: '/buyers' },
-                { label: 'Mortgage Info', href: '/mortgages' },
                 { label: 'About Us', href: '/about' },
                 { label: 'Privacy Policy', href: '/privacy-policy' },
                 { label: 'Terms of Use', href: '/terms-of-use' }
@@ -112,13 +110,6 @@ const Footer = () => {
               className="block w-full bg-[#1A1816] text-white rounded-lg px-4 py-2.5 text-sm font-medium text-center transition-all duration-300 hover:bg-[#111111] mb-3"
             >
               List Your Property Free
-            </Link>
-            <Link
-              href="/our-packages"
-             
-              className="block w-full bg-white/10 border border-white/20 text-white rounded-lg px-4 py-2.5 text-sm font-medium text-center transition-all duration-300 hover:bg-white/20 mb-4"
-            >
-              View Our Packages
             </Link>
             <p
              

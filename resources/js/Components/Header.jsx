@@ -14,10 +14,13 @@ const Header = ({ maxWidth, noPadding }) => {
   const [mobileSellOpen, setMobileSellOpen] = useState(false);
   const [mobileBuyOpen, setMobileBuyOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
+  const [fsboToolsDropdownOpen, setFsboToolsDropdownOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+  const [mobileFsboToolsOpen, setMobileFsboToolsOpen] = useState(false);
   const sellDropdownRef = useRef(null);
   const buyDropdownRef = useRef(null);
   const resourcesDropdownRef = useRef(null);
+  const fsboToolsDropdownRef = useRef(null);
 
   const handleListProperty = (e) => {
     e.preventDefault();
@@ -41,6 +44,9 @@ const Header = ({ maxWidth, noPadding }) => {
       if (resourcesDropdownRef.current && !resourcesDropdownRef.current.contains(e.target)) {
         setResourcesDropdownOpen(false);
       }
+      if (fsboToolsDropdownRef.current && !fsboToolsDropdownRef.current.contains(e.target)) {
+        setFsboToolsDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -51,6 +57,12 @@ const Header = ({ maxWidth, noPadding }) => {
     { label: 'Buyer FAQs', href: '/buyer-faqs' },
     { label: 'Get Pre-Approved', href: '/get-pre-approved' },
     { label: 'Buyers Guide', href: '/buyers-guide' },
+  ];
+
+  const fsboToolsDropdownItems = [
+    { label: 'Claim Your Free FSBO Sign!', href: '/claim-your-free-fsbo-sign' },
+    { label: 'Request Free FSBO Guide', href: '/request-free-fsbo-guide' },
+    { label: 'Join the FSBO Weekly Call', href: '/join-the-fsbo-weekly-call' },
   ];
 
   const resourcesDropdownItems = [
@@ -90,7 +102,7 @@ const Header = ({ maxWidth, noPadding }) => {
                 <img
                   src="/images/saveonyourhome-logo.png"
                   alt="SaveOnYourHome"
-                  className="h-[40px] sm:h-[48px] lg:h-[52px] w-auto"
+                  className="h-[46px] sm:h-[54px] lg:h-[60px] w-auto"
                 />
               </Link>
 
@@ -158,22 +170,31 @@ const Header = ({ maxWidth, noPadding }) => {
                   )}
                 </div>
 
-                <Link href="/our-packages" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
-                  Packages
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
-                </Link>
-                <Link href="/mortgages" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
-                  Mortgage
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
-                </Link>
-                <Link href="/about" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
-                  About
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
-                </Link>
-                <Link href="/contact" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
-                  Contact
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
-                </Link>
+                {/* Free FSBO Tools Dropdown */}
+                <div className="relative" ref={fsboToolsDropdownRef}>
+                  <button
+                    onClick={() => setFsboToolsDropdownOpen(!fsboToolsDropdownOpen)}
+                    className="flex items-center gap-1 text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group"
+                  >
+                    Free FSBO Tools
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${fsboToolsDropdownOpen ? 'rotate-180' : ''}`} />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
+                  </button>
+                  {fsboToolsDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-3 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-20 py-2">
+                      {fsboToolsDropdownItems.map((item, i) => (
+                        <Link
+                          key={i}
+                          href={item.href}
+                          className="block px-5 py-3 text-[15px] text-gray-800 hover:bg-gray-50 transition-colors"
+                          onClick={() => setFsboToolsDropdownOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {/* Resources Dropdown */}
                 <div className="relative" ref={resourcesDropdownRef}>
@@ -187,7 +208,7 @@ const Header = ({ maxWidth, noPadding }) => {
                   </button>
 
                   {resourcesDropdownOpen && (
-                    <div className="absolute top-full right-0 mt-3 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-20 py-2">
+                    <div className="absolute top-full left-0 mt-3 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-20 py-2">
                       {resourcesDropdownItems.map((item, i) => (
                         <Link
                           key={i}
@@ -201,6 +222,15 @@ const Header = ({ maxWidth, noPadding }) => {
                     </div>
                   )}
                 </div>
+
+                <Link href="/partners" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
+                  Partners
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
+                </Link>
+                <Link href="/about" className="text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors relative group">
+                  About
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A1816] group-hover:w-full transition-all duration-300"></span>
+                </Link>
               </nav>
 
               {/* Right Actions */}
@@ -411,34 +441,30 @@ const Header = ({ maxWidth, noPadding }) => {
                 )}
               </div>
 
-              <Link
-                href="/our-packages"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Packages
-              </Link>
-              <Link
-                href="/mortgages"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Mortgage
-              </Link>
-              <Link
-                href="/about"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
+              {/* Mobile Free FSBO Tools Dropdown */}
+              <div>
+                <button
+                  onClick={() => setMobileFsboToolsOpen(!mobileFsboToolsOpen)}
+                  className="flex items-center justify-between w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
+                >
+                  Free FSBO Tools
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileFsboToolsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {mobileFsboToolsOpen && (
+                  <div className="pl-4 space-y-1 mt-1">
+                    {fsboToolsDropdownItems.map((item, i) => (
+                      <Link
+                        key={i}
+                        href={item.href}
+                        className="block text-[15px] text-gray-600 hover:text-[#111] transition-colors py-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {/* Mobile Resources Dropdown */}
               <div>
@@ -464,6 +490,21 @@ const Header = ({ maxWidth, noPadding }) => {
                   </div>
                 )}
               </div>
+
+              <Link
+                href="/partners"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Partners
+              </Link>
+              <Link
+                href="/about"
+                className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
 
               <div className="pt-4 border-t border-gray-200">
                 {user ? (

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminActivityController;
 use App\Http\Controllers\Admin\AdminMediaOrderController;
 use App\Http\Controllers\Admin\AdminCompanyLogoController;
 use App\Http\Controllers\Admin\AdminResourceController;
+use App\Http\Controllers\Admin\AdminPartnerController;
 use App\Http\Controllers\Admin\AdminImportController;
 use App\Http\Controllers\Admin\AdminServiceRequestController;
 use App\Http\Controllers\ClaimController;
@@ -119,6 +120,27 @@ Route::get('/virtual-tours', function () {
     return Inertia::render('VirtualTours');
 })->name('virtual-tours');
 
+Route::get('/claim-your-free-fsbo-sign', function () {
+    return Inertia::render('ClaimFreeSign');
+})->name('claim-free-sign');
+
+Route::get('/request-free-fsbo-guide', function () {
+    return Inertia::render('RequestFSBOGuide');
+})->name('request-fsbo-guide');
+
+Route::get('/join-the-fsbo-weekly-call', function () {
+    return Inertia::render('JoinWeeklyCall');
+})->name('join-weekly-call');
+
+Route::get('/partners', function () {
+    $partners = \App\Models\Partner::active()->orderBy('category')->orderBy('sort_order')->orderBy('name')->get();
+    $partnersByCategory = $partners->groupBy('category')->toArray();
+    return Inertia::render('Partners', [
+        'partnersByCategory' => $partnersByCategory,
+        'categories' => \App\Models\Partner::categories(),
+    ]);
+})->name('partners');
+
 Route::get('/seller-resources', function () {
     $resources = \App\Models\Resource::published()->category('seller')->latest('published_at')->get();
     return Inertia::render('SellerResources', ['resources' => $resources]);
@@ -158,10 +180,6 @@ Route::get('/contact', function () {
 Route::get('/faqs', function () {
     return Inertia::render('FAQs');
 })->name('faqs');
-
-Route::get('/mortgages', function () {
-    return Inertia::render('Mortgages');
-})->name('mortgages');
 
 Route::get('/privacy-policy', function () {
     return Inertia::render('PrivacyPolicy');
@@ -358,6 +376,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
     Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');
+
+    // Partners Management
+    Route::get('/partners', [AdminPartnerController::class, 'index'])->name('partners.index');
+    Route::post('/partners', [AdminPartnerController::class, 'store'])->name('partners.store');
+    Route::put('/partners/{partner}', [AdminPartnerController::class, 'update'])->name('partners.update');
+    Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
 
     // Imports Management
     Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');

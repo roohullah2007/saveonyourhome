@@ -86,7 +86,11 @@
       "Bash(find:*)",
       "WebFetch(domain:okbyowner.com)",
       "Bash(cd:*)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(composer install:*)",
+      "Bash(pkill -f \"php artisan serve\")",
+      "Bash(pkill -f \"php -S\")",
+      "Bash(perl:*)"
     ],
     "deny": [],
     "ask": []
