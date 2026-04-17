@@ -2208,70 +2208,68 @@ function Packages({ userListings = [] }) {
       </section>
 
       {/* Broker Assisted Section */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.1), transparent)', filter: 'blur(40px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
+      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="mb-4">
-                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>BROKER ASSISTANCE</span>
+                <span style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>BROKER ASSISTANCE</span>
               </div>
-              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6" style={{ fontWeight: 700, color: 'white' }}>
+              <h2 className="text-[26px] leading-[34px] sm:text-[32px] sm:leading-[40px] lg:text-[36px] lg:leading-[44px] mb-6" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
                 Need Help?<br />Get Broker Assistance
               </h2>
-              <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+              <p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)', marginBottom: '32px' }}>
                 Should you prefer to have Broker-Assistance available throughout the entire process to closing, upgrade to Broker-Assistance. Save thousands compared to traditional real estate commissions.
               </p>
 
               <div className="space-y-4 mb-8">
                 {[
-                  { text: <><strong style={{ color: 'white' }}>1.5% of the final sales price</strong> or a minimum of $2,500 (paid at closing)</> },
-                  { text: <>If the seller finds an unrepresented buyer: <strong style={{ color: 'white' }}>3% or $5,000 minimum</strong> fee to handle both sides</> },
+                  { text: <><strong style={{ color: 'rgb(26,24,22)' }}>1.5% of the final sales price</strong> or a minimum of $2,500 (paid at closing)</> },
+                  { text: <>If the seller finds an unrepresented buyer: <strong style={{ color: 'rgb(26,24,22)' }}>3% or $5,000 minimum</strong> fee to handle both sides</> },
                   { text: <>Only collected if your property successfully closes</> },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(52,211,153)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgba(255,255,255,0.75)' }}>{item.text}</p>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(16,185,129)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(75,85,99)' }}>{item.text}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="rounded-xl p-4 mb-8" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>All real estate services to be performed by M&T Realty Group, License #180717.</p>
+              <div className="rounded-xl p-4 mb-8" style={{ background: 'rgb(249,250,251)', border: '1px solid rgb(229,231,235)' }}>
+                <p style={{ fontSize: '12px', color: 'rgb(107,114,128)' }}>All real estate services to be performed by M&T Realty Group, License #180717.</p>
               </div>
 
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                 Learn More <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Savings Comparison Card */}
-            <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(16px)' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'white', marginBottom: '24px' }}>Compare Savings</h3>
+            <div className="rounded-2xl p-8" style={{ background: 'rgb(249,250,251)', border: '1px solid rgb(229,231,235)' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '24px' }}>Compare Savings</h3>
               <div className="overflow-hidden rounded-xl">
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   <div />
-                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.5px' }}>WITH AGENT</div>
-                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.5px' }}>NO AGENT</div>
+                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgb(107,114,128)', letterSpacing: '0.5px' }}>WITH AGENT</div>
+                  <div className="text-center py-2" style={{ fontSize: '12px', fontWeight: 600, color: 'rgb(107,114,128)', letterSpacing: '0.5px' }}>NO AGENT</div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>Traditional Agent (6%)</div>
-                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'white' }}>$18,000</div>
-                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'white' }}>$18,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgb(229,231,235)' }}>
+                  <div style={{ fontSize: '13px', color: 'rgb(100,100,100)' }}>Traditional Agent (6%)</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>$18,000</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)' }}>$18,000</div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>M&T Broker Assisted</div>
-                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(52,211,153)' }}>$13,500</div>
-                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(52,211,153)' }}>$9,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4" style={{ borderBottom: '1px solid rgb(229,231,235)' }}>
+                  <div style={{ fontSize: '13px', color: 'rgb(100,100,100)' }}>M&T Broker Assisted</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(16,185,129)' }}>$13,500</div>
+                  <div className="text-center" style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(16,185,129)' }}>$9,000</div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 py-4 mt-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                  <div style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>Your Savings</div>
-                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(52,211,153)' }}>$4,500</div>
-                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(52,211,153)' }}>$9,000</div>
+                <div className="grid grid-cols-3 gap-2 py-4 mt-3 rounded-xl" style={{ background: 'white', border: '1px solid rgb(229,231,235)' }}>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: 'rgb(26,24,22)' }}>Your Savings</div>
+                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(16,185,129)' }}>$4,500</div>
+                  <div className="text-center" style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(16,185,129)' }}>$9,000</div>
                 </div>
               </div>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', marginTop: '16px' }}>*Based on a $300,000 home sale price, and 3% going to the buyer's agent.</p>
+              <p style={{ fontSize: '12px', color: 'rgb(156,163,175)', marginTop: '16px' }}>*Based on a $300,000 home sale price, and 3% going to the buyer's agent.</p>
             </div>
           </div>
         </div>

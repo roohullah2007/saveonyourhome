@@ -131,48 +131,6 @@ function Sellers() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section style={{ backgroundColor: '#3355FF' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24 text-center" style={{ maxWidth: '1400px' }}>
-          <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white mb-5" style={{ fontWeight: 700 }}>
-            Ready to list your property?
-          </h2>
-          <p className="mx-auto mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
-            Start now, craft a captivating listing, and attract buyers effortlessly on our platform. With user-friendly tools and expert guidance, your selling journey is bound to be seamless and successful!
-          </p>
-          <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>List My Property <ArrowRight className="w-5 h-5" /></Link>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left side */}
-            <div>
-              <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>FAQS</span></div>
-              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
-              <p className="mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '480px' }}>
-                Can't find an answer to your question? Contact us, we will be happy to answer your questions.
-              </p>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
-            </div>
-            {/* Right side - accordion */}
-            <div className="space-y-3">
-              {faqs.map((faq, i) => (
-                <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                  <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                    <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180' : ''}`} />
-                  </button>
-                  {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
@@ -248,6 +206,35 @@ function Sellers() {
                   {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left side */}
+            <div>
+              <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>FAQS</span></div>
+              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
+              <p className="mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '480px' }}>
+                Can't find an answer to your question? Contact us, we will be happy to answer your questions.
+              </p>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
+            </div>
+            {/* Right side - accordion */}
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+                  <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
+                    <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
+                    <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180' : ''}`} />
+                  </button>
+                  {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
+                </div>
+              ))}
             </div>
           </div>
         </div>

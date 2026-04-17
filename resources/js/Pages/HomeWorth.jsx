@@ -133,8 +133,120 @@ function HomeWorth() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* Agent Contact Section (light surface) */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              Request a Personalized Home Valuation from a Local Realtor for No Cost or Obligation.
+            </h2>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)' }}>
+              An experienced local realtor will provide you with a free and personalized estimate of your home's value.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto rounded-2xl border border-gray-200 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+            {(submitted || flash?.success) && (
+              <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Message sent successfully! We'll get back to you soon.</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>First Name *</label>
+                  <input
+                    type="text"
+                    value={data.first_name}
+                    onChange={e => setData('first_name', e.target.value)}
+                    placeholder="First name"
+                    required
+                    className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500"
+                    style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
+                  />
+                  {errors.first_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.first_name}</p>}
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Last Name *</label>
+                  <input
+                    type="text"
+                    value={data.last_name}
+                    onChange={e => setData('last_name', e.target.value)}
+                    placeholder="Last name"
+                    required
+                    className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500"
+                    style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
+                  />
+                  {errors.last_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.last_name}</p>}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Email Address *</label>
+                  <input
+                    type="email"
+                    value={data.email}
+                    onChange={e => setData('email', e.target.value)}
+                    placeholder="your@email.com"
+                    required
+                    className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500"
+                    style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
+                  />
+                  {errors.email && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Phone Number</label>
+                  <input
+                    type="tel"
+                    value={data.phone}
+                    onChange={e => setData('phone', e.target.value)}
+                    placeholder="(555) 123-4567"
+                    className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500"
+                    style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Property Address *</label>
+                <input
+                  type="text"
+                  value={data.property_address}
+                  onChange={e => setData('property_address', e.target.value)}
+                  placeholder="Enter your property address"
+                  required
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none transition-colors focus:border-gray-500"
+                  style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
+                />
+                {errors.property_address && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.property_address}</p>}
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>More Details</label>
+                <textarea
+                  value={data.message}
+                  onChange={e => setData('message', e.target.value)}
+                  placeholder="Tell us more about your property..."
+                  rows={5}
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none"
+                  style={{ fontSize: '17px', color: 'rgb(26,24,22)' }}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={processing}
+                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
+                style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
+              >
+                {processing ? 'Sending...' : 'Contact Agent'} <ArrowRight className="w-5 h-5" />
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="mb-4">
             <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>FREQUENTLY ASKED QUESTIONS</span>
@@ -193,118 +305,6 @@ function HomeWorth() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Agent Contact Section */}
-      <section style={{ backgroundColor: '#3355FF' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(255,255,255)' }}>
-              Request a Personalized Home Valuation from a Local Realtor for No Cost or Obligation.
-            </h2>
-            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.6)' }}>
-              An experienced local realtor will provide you with a free and personalized estimate of your home's value.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto rounded-2xl border border-white/10 p-8" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(16px)' }}>
-            {(submitted || flash?.success) && (
-              <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgba(240,253,244,0.1)', border: '1px solid rgba(187,247,208,0.3)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(74,222,128)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(74,222,128)' }}>Message sent successfully! We'll get back to you soon.</p>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>First Name *</label>
-                  <input
-                    type="text"
-                    value={data.first_name}
-                    onChange={e => setData('first_name', e.target.value)}
-                    placeholder="First name"
-                    required
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 outline-none transition-colors focus:border-white/30 placeholder-white/25"
-                    style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)' }}
-                  />
-                  {errors.first_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.first_name}</p>}
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Last Name *</label>
-                  <input
-                    type="text"
-                    value={data.last_name}
-                    onChange={e => setData('last_name', e.target.value)}
-                    placeholder="Last name"
-                    required
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 outline-none transition-colors focus:border-white/30 placeholder-white/25"
-                    style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)' }}
-                  />
-                  {errors.last_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.last_name}</p>}
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Email Address *</label>
-                  <input
-                    type="email"
-                    value={data.email}
-                    onChange={e => setData('email', e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 outline-none transition-colors focus:border-white/30 placeholder-white/25"
-                    style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)' }}
-                  />
-                  {errors.email && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Phone Number</label>
-                  <input
-                    type="tel"
-                    value={data.phone}
-                    onChange={e => setData('phone', e.target.value)}
-                    placeholder="(555) 123-4567"
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 outline-none transition-colors focus:border-white/30 placeholder-white/25"
-                    style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)' }}
-                  />
-                </div>
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Property Address *</label>
-                <input
-                  type="text"
-                  value={data.property_address}
-                  onChange={e => setData('property_address', e.target.value)}
-                  placeholder="Enter your property address"
-                  required
-                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 outline-none transition-colors focus:border-white/30 placeholder-white/25"
-                  style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)' }}
-                />
-                {errors.property_address && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.property_address}</p>}
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>More Details</label>
-                <textarea
-                  value={data.message}
-                  onChange={e => setData('message', e.target.value)}
-                  placeholder="Tell us more about your property..."
-                  rows={5}
-                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 outline-none transition-colors focus:border-white/30 resize-none placeholder-white/25"
-                  style={{ fontSize: '17px', color: 'rgb(255,255,255)' }}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={processing}
-                className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
-                style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
-              >
-                {processing ? 'Sending...' : 'Contact Agent'} <ArrowRight className="w-5 h-5" />
-              </button>
-            </form>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Phone, Mail, Calendar, CheckCircle2, Headphones } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
@@ -122,22 +122,120 @@ function SellerFAQs() {
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>NEED MORE HELP?</span></div>
-            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
-              Our customer service team is always ready to assist you.
-            </h2>
-            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
-              Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with confidence.
-            </p>
-            <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
-                Contact Us <ArrowRight className="w-5 h-5" />
-              </Link>
+      {/* Talk to a Seller Specialist */}
+      <section className="relative overflow-hidden bg-white">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+            {/* Left — pitch */}
+            <div className="lg:col-span-3">
+              <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+                Personal Support
+              </span>
+              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+                Talk to a seller specialist — free
+              </h2>
+              <p className="mb-8 text-[#4B5563]" style={{ fontSize: '17px', lineHeight: '28px', maxWidth: '560px' }}>
+                Selling by owner doesn't mean selling alone. Our specialists walk you through pricing,
+                paperwork, and negotiations so you can list with confidence and keep more of your money.
+              </p>
+
+              <ul className="space-y-3 mb-9">
+                {[
+                  'No commissions, no commitment, no hidden fees',
+                  'Local pricing strategy and comparable-sales review',
+                  'Help with offers, contracts, and closing paperwork',
+                  'Same-day response, 7 days a week',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center mt-0.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    </span>
+                    <span className="text-[15.5px] text-[#0F172A]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
+                >
+                  Message a Specialist <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/list-property"
+                  className="inline-flex items-center justify-center gap-2 rounded-full transition-all duration-300 hover:bg-gray-50"
+                  style={{ backgroundColor: 'white', color: '#0F172A', border: '1px solid #E5E7EB', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
+                >
+                  Start My Listing
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — support card */}
+            <div className="lg:col-span-2">
+              <div className="relative rounded-3xl bg-white border border-gray-200 p-8 shadow-[0_4px_24px_rgba(15,23,42,0.06),0_1px_0px_rgba(255,255,255,0.8)_inset] overflow-hidden">
+                <div className="relative">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center">
+                      <Headphones className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[1.5px] text-[#6B7280] font-semibold">Seller Support</p>
+                      <p className="text-[16px] font-semibold text-[#0F172A]">We're here to help</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <a
+                      href="tel:2016960291"
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFAF8] hover:bg-[#F4F3F0] transition-colors border border-gray-200"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold">Call</p>
+                        <p className="text-[15px] font-semibold truncate text-[#0F172A]">201.696.0291</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-[#9CA3AF] flex-shrink-0" />
+                    </a>
+
+                    <a
+                      href="mailto:info@saveonyourhome.com"
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFAF8] hover:bg-[#F4F3F0] transition-colors border border-gray-200"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold">Email</p>
+                        <p className="text-[15px] font-semibold truncate text-[#0F172A]">info@saveonyourhome.com</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-[#9CA3AF] flex-shrink-0" />
+                    </a>
+
+                    <Link
+                      href="/join-weekly-call"
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFAF8] hover:bg-[#F4F3F0] transition-colors border border-gray-200"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                        <Calendar className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold">Schedule</p>
+                        <p className="text-[15px] font-semibold truncate text-[#0F172A]">Join our weekly seller call</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-[#9CA3AF] flex-shrink-0" />
+                    </Link>
+                  </div>
+
+                  <p className="mt-5 text-[13px] text-[#6B7280] text-center">
+                    Average response time under 2 hours
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

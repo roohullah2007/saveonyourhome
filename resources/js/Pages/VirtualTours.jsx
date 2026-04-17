@@ -155,8 +155,8 @@ function VirtualTours() {
                 style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}
               >
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="flex-shrink-0 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: '#3355FF' }}>
-                  <span style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(255,255,255)' }}>{step.number}</span>
+                <div className="flex-shrink-0 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(255,255,255)' }}>
+                  <span style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{step.number}</span>
                 </div>
                 <div>
                   <h3 className="mb-2" style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{step.title}</h3>
@@ -169,19 +169,19 @@ function VirtualTours() {
       </section>
 
       {/* Contact Section */}
-      <section style={{ backgroundColor: '#3355FF' }}>
+      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="text-center mb-12">
-            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(255,255,255)' }}>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
               Would you like to know more about 360 Virtual Tours?
             </h2>
-            <p style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.6)', maxWidth: '600px', margin: '0 auto' }}>
+            <p style={{ fontSize: '19px', lineHeight: '30px', color: 'rgb(100,100,100)', maxWidth: '600px', margin: '0 auto' }}>
               We're committed to making your home-selling journey seamless, transparent, and enjoyable. Embrace the future of real estate with 360 Virtual Tours.
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="rounded-2xl border p-8" style={{ borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.2) 0px 4px 24px' }}>
+            <div className="rounded-2xl border border-gray-200 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
               {(submitted || flash?.success) && (
                 <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -192,7 +192,7 @@ function VirtualTours() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>First Name *</label>
+                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>First Name *</label>
                     <input
                       type="text"
                       value={data.first_name}
@@ -200,12 +200,12 @@ function VirtualTours() {
                       placeholder="First name"
                       required
                       className="w-full rounded-xl border px-4 outline-none transition-colors focus:border-gray-400"
-                      style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)', backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                      style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)', backgroundColor: 'rgb(255,255,255)', borderColor: 'rgb(209,213,219)' }}
                     />
                     {errors.first_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.first_name}</p>}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Last Name *</label>
+                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Last Name *</label>
                     <input
                       type="text"
                       value={data.last_name}
@@ -213,14 +213,14 @@ function VirtualTours() {
                       placeholder="Last name"
                       required
                       className="w-full rounded-xl border px-4 outline-none transition-colors focus:border-gray-400"
-                      style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)', backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                      style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)', backgroundColor: 'rgb(255,255,255)', borderColor: 'rgb(209,213,219)' }}
                     />
                     {errors.last_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.last_name}</p>}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Email Address *</label>
+                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Email Address *</label>
                     <input
                       type="email"
                       value={data.email}
@@ -228,24 +228,24 @@ function VirtualTours() {
                       placeholder="your@email.com"
                       required
                       className="w-full rounded-xl border px-4 outline-none transition-colors focus:border-gray-400"
-                      style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)', backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                      style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)', backgroundColor: 'rgb(255,255,255)', borderColor: 'rgb(209,213,219)' }}
                     />
                     {errors.email && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Phone Number</label>
+                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Phone Number</label>
                     <input
                       type="tel"
                       value={data.phone}
                       onChange={e => setData('phone', e.target.value)}
                       placeholder="(555) 123-4567"
                       className="w-full rounded-xl border px-4 outline-none transition-colors focus:border-gray-400"
-                      style={{ height: '52px', fontSize: '17px', color: 'rgb(255,255,255)', backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                      style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)', backgroundColor: 'rgb(255,255,255)', borderColor: 'rgb(209,213,219)' }}
                     />
                   </div>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '6px' }}>Message *</label>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Message *</label>
                   <textarea
                     value={data.message}
                     onChange={e => setData('message', e.target.value)}
@@ -253,15 +253,15 @@ function VirtualTours() {
                     required
                     rows={5}
                     className="w-full rounded-xl border px-4 py-3 outline-none transition-colors focus:border-gray-400 resize-none"
-                    style={{ fontSize: '17px', color: 'rgb(255,255,255)', backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                    style={{ fontSize: '17px', color: 'rgb(26,24,22)', backgroundColor: 'rgb(255,255,255)', borderColor: 'rgb(209,213,219)' }}
                   />
                   {errors.message && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.message}</p>}
                 </div>
                 <button
                   type="submit"
                   disabled={processing}
-                  className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
-                  style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
+                  style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                 >
                   {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
                 </button>

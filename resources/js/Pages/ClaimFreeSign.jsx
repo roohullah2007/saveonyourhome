@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
+import {
+  Package, MapPin, CloudRain, Sparkles, Truck, Home,
+  ClipboardCheck, Mailbox, Megaphone,
+} from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
@@ -69,6 +73,118 @@ function ClaimFreeSign() {
                 <div><label style={labelStyle}>Message</label><textarea value={data.message} onChange={(e) => setData('message', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} /></div>
                 <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Request My Free Sign!'}</button>
               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included */}
+      <section className="bg-white">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-12">
+            <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+              What's Included
+            </span>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              Everything you need to stand out on the street
+            </h2>
+            <p className="mx-auto mt-4 text-[#6B7280]" style={{ fontSize: '17px', lineHeight: '28px', maxWidth: '640px' }}>
+              Our FSBO sign kit is built to be installed in minutes, look professional from the sidewalk, and last through every season.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                icon: Sparkles,
+                title: 'Professional Design',
+                desc: 'Large, bold "For Sale By Owner" branding that buyers can read from the curb — not a generic hardware-store look.',
+              },
+              {
+                icon: CloudRain,
+                title: 'Weather-Resistant',
+                desc: 'Printed on heavy-duty UV- and water-resistant corrugated plastic that holds up to sun, rain, and wind.',
+              },
+              {
+                icon: MapPin,
+                title: 'Custom Rider',
+                desc: 'Optional detachable rider slot with your phone number or QR code so interested buyers can reach you instantly.',
+              },
+              {
+                icon: Megaphone,
+                title: 'QR Code Ready',
+                desc: 'Pair your sign with a free QR code from your listing page — drivers-by scan it and see your photos, price, and contact info on the spot.',
+              },
+            ].map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div key={i} className="rounded-2xl border border-gray-100 bg-white p-7 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
+                  <div className="w-12 h-12 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center mb-5">
+                    <Icon className="w-6 h-6" strokeWidth={2} />
+                  </div>
+                  <h3 className="text-[18px] font-bold text-[#0F172A] mb-2 tracking-tight">{f.title}</h3>
+                  <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{f.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-12">
+            <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+              How It Works
+            </span>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              Your sign, from request to front yard
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: ClipboardCheck,
+                title: 'Fill Out the Form',
+                desc: 'Tell us where to ship and whether you already have a listing with us — it takes under a minute.',
+              },
+              {
+                icon: Mailbox,
+                title: 'We Ship It Free',
+                desc: 'Your sign is printed, packaged, and shipped at no cost. Most orders arrive in 5–7 business days.',
+              },
+              {
+                icon: Home,
+                title: 'Plant & Start Selling',
+                desc: 'Pop the sign in your yard, share your listing link, and start fielding calls from serious buyers.',
+              },
+            ].map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={i} className="relative rounded-2xl bg-white border border-gray-100 p-7 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
+                  <div className="absolute -top-4 left-7 w-9 h-9 rounded-full bg-[#3355FF] text-white text-[14px] font-bold flex items-center justify-center shadow-md">
+                    {i + 1}
+                  </div>
+                  <div className="mt-3 mb-5 w-12 h-12 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center">
+                    <Icon className="w-6 h-6" strokeWidth={2} />
+                  </div>
+                  <h3 className="text-[18px] font-bold text-[#0F172A] mb-2 tracking-tight">{s.title}</h3>
+                  <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{s.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white border border-gray-200 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+                <Truck className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="text-[14px] text-[#0F172A] font-medium">
+                Free shipping, no promo code required — one sign per seller
+              </span>
             </div>
           </div>
         </div>

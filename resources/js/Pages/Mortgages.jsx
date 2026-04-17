@@ -143,22 +143,21 @@ function Mortgages() {
       </section>
 
       {/* Pre-Approval CTA */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
+      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
-            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgba(255,255,255,0.5)' }}>GET STARTED TODAY</span></div>
-            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'white' }}>
+            <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>GET STARTED TODAY</span></div>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
               Ready to Get Pre-Approved?
             </h2>
-            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', marginBottom: '32px' }}>
               Strengthen your offer with a pre-approval letter. We'll connect you with a trusted lender who provides priority service and free pre-approval.
             </p>
-            <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                 Request Pre-Approval <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-all duration-300 hover:bg-gray-50" style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, border: '1px solid rgb(229,231,235)', color: 'rgb(26,24,22)', backgroundColor: 'white' }}>
                 Buyers Guide
               </Link>
             </div>

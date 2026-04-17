@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
+import {
+  Video, MessageCircleQuestion, Users, DollarSign,
+  FileSignature, Clock, Calendar, ShieldCheck,
+} from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
@@ -75,6 +79,114 @@ function JoinWeeklyCall() {
                 <div><label style={labelStyle}>What would make this group most valuable?</label><textarea value={data.valuable} onChange={(e) => setData('valuable', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} /></div>
                 <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Sign Me Up!'}</button>
               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Cover */}
+      <section className="bg-white">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
+            {/* Left — pitch */}
+            <div className="lg:col-span-2">
+              <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+                What We Cover
+              </span>
+              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+                30 minutes a week. One big selling edge.
+              </h2>
+              <p className="mb-8 text-[#6B7280]" style={{ fontSize: '17px', lineHeight: '28px' }}>
+                Every Thursday our FSBO specialists host a live Zoom session for sellers — walk in with your questions,
+                walk out with a clear plan for your listing.
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[13px] uppercase tracking-wider text-[#6B7280] font-semibold">When</p>
+                    <p className="text-[15.5px] font-semibold text-[#0F172A]">Every Thursday · 7:00 PM CT</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[13px] uppercase tracking-wider text-[#6B7280] font-semibold">Duration</p>
+                    <p className="text-[15.5px] font-semibold text-[#0F172A]">~30 minutes + Q&amp;A</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                    <Video className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[13px] uppercase tracking-wider text-[#6B7280] font-semibold">Where</p>
+                    <p className="text-[15.5px] font-semibold text-[#0F172A]">Live on Zoom — link emailed after signup</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[13px] uppercase tracking-wider text-[#6B7280] font-semibold">Cost</p>
+                    <p className="text-[15.5px] font-semibold text-[#0F172A]">Free — no strings attached</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right — topic cards */}
+            <div className="lg:col-span-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {[
+                  {
+                    icon: DollarSign,
+                    title: 'Pricing & Market Trends',
+                    desc: 'Weekly comps review and what local demand looks like right now in your zip code.',
+                  },
+                  {
+                    icon: MessageCircleQuestion,
+                    title: 'Live Q&A',
+                    desc: 'Bring any question — offers, inspections, appraisal surprises, financing — and get a straight answer on the call.',
+                  },
+                  {
+                    icon: FileSignature,
+                    title: 'Contracts & Paperwork',
+                    desc: 'Walk through purchase agreements, contingencies, disclosures, and how to stay legally safe.',
+                  },
+                  {
+                    icon: Users,
+                    title: 'Seller Stories',
+                    desc: 'Hear from sellers who just closed — what worked, what they\'d do differently, and the numbers they saved.',
+                  },
+                ].map((t, i) => {
+                  const Icon = t.icon;
+                  return (
+                    <div key={i} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
+                      <div className="w-11 h-11 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center mb-4">
+                        <Icon className="w-5 h-5" strokeWidth={2} />
+                      </div>
+                      <h3 className="text-[17px] font-bold text-[#0F172A] mb-2 tracking-tight">{t.title}</h3>
+                      <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{t.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 flex items-center gap-3 p-4 rounded-xl bg-[#FAFAF8] border border-gray-100">
+                <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                </div>
+                <span className="text-[14px] text-[#0F172A]">
+                  Can't make it live? Everyone who registers gets the session recording by email.
+                </span>
+              </div>
             </div>
           </div>
         </div>

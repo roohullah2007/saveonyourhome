@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight, ShieldCheck, Zap, BadgeCheck, TrendingUp,
+  ClipboardList, Search, FileSignature, KeyRound,
+  FileText, Briefcase, Landmark, CreditCard, IdCard,
+  ChevronDown,
+} from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 
@@ -8,6 +13,89 @@ function GetPreApproved() {
   const { flash } = usePage().props;
   const [currentStep, setCurrentStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [openFaq, setOpenFaq] = useState(0);
+
+  const benefits = [
+    {
+      icon: TrendingUp,
+      title: 'Stronger Offers',
+      desc: 'Sellers take pre-approved buyers more seriously. Many FSBO sellers will not schedule a tour without a letter in hand.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Know Your Budget',
+      desc: 'Find out exactly how much home you can afford before you start touring — no surprises at the closing table.',
+    },
+    {
+      icon: Zap,
+      title: '15-Minute Process',
+      desc: 'Our trusted lender partners review your basics in under 15 minutes and follow up the same day, with no credit-score impact.',
+    },
+    {
+      icon: BadgeCheck,
+      title: 'Lock in a Rate',
+      desc: 'Optionally lock today\'s interest rate for up to 90 days while you shop, protecting your budget against market swings.',
+    },
+  ];
+
+  const steps = [
+    {
+      icon: ClipboardList,
+      title: 'Tell Us About You',
+      desc: 'Share basic details about the property, your credit, and your timeline using the secure form above.',
+    },
+    {
+      icon: Search,
+      title: 'Lender Review',
+      desc: 'A licensed mortgage banker reviews your information, runs a soft credit check, and recommends loan options.',
+    },
+    {
+      icon: FileSignature,
+      title: 'Receive Your Letter',
+      desc: 'Get your pre-approval letter — usually within 24 hours — to use when making offers on any home.',
+    },
+    {
+      icon: KeyRound,
+      title: 'Shop & Close',
+      desc: 'Browse confidently, make offers, and move forward to closing knowing your financing is lined up.',
+    },
+  ];
+
+  const documents = [
+    { icon: IdCard, label: 'Government-issued photo ID', desc: 'Driver\'s license or passport' },
+    { icon: FileText, label: 'Last 2 years of tax returns', desc: 'Federal returns + W-2s' },
+    { icon: Briefcase, label: 'Recent pay stubs', desc: 'Last 30 days of income' },
+    { icon: Landmark, label: 'Bank statements', desc: 'Last 60 days, all accounts' },
+    { icon: CreditCard, label: 'Credit authorization', desc: 'Soft pull only — no FICO impact' },
+    { icon: FileText, label: 'Asset documentation', desc: 'Investments, retirement, gift letters' },
+  ];
+
+  const faqs = [
+    {
+      q: 'Does getting pre-approved hurt my credit score?',
+      a: 'Our partner lenders use a soft credit pull during pre-approval, which does not affect your credit score. A hard inquiry only happens later, once you select a lender and formally apply for the loan.',
+    },
+    {
+      q: 'How long is a pre-approval letter valid?',
+      a: 'Most pre-approval letters are valid for 60–90 days. After that, your lender simply re-verifies your income, employment, and credit to extend it — usually a quick process.',
+    },
+    {
+      q: 'Is pre-qualification the same as pre-approval?',
+      a: 'No. Pre-qualification is a quick estimate based on self-reported information; pre-approval is a documented commitment after the lender verifies your financials and credit. Sellers strongly prefer pre-approval letters.',
+    },
+    {
+      q: 'How much does pre-approval cost?',
+      a: 'Pre-approval through our partner lenders is free. You only pay loan-related costs (appraisal, origination, closing) once you choose a lender and proceed with a specific loan.',
+    },
+    {
+      q: 'Can I shop with multiple lenders?',
+      a: 'Yes. Multiple pre-approvals within a 14–45 day window typically count as a single inquiry on your credit report, so you can compare rates and terms without additional credit impact.',
+    },
+    {
+      q: 'What if I have less-than-perfect credit?',
+      a: 'Many lenders offer FHA, VA, and other programs designed for buyers with lower credit scores or limited down payments. Submit the form and a banker will explain the options that fit your situation.',
+    },
+  ];
 
   const { data, setData, post, processing, errors, reset, transform } = useForm({
     // Step 1
@@ -295,20 +383,165 @@ function GetPreApproved() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="dark-selection" style={{ backgroundColor: '#3355FF' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24 text-center" style={{ maxWidth: '1400px' }}>
-          <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white mb-5" style={{ fontWeight: 700 }}>
-            Ready to get started?
-          </h2>
-          <p className="mx-auto mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
-            Take the first step toward homeownership. Our lenders are ready to help you get pre-approved.
-          </p>
-          <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
-            Contact Us <ArrowRight className="w-5 h-5" />
-          </Link>
+      {/* Why Get Pre-Approved */}
+      <section className="bg-white">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-12">
+            <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+              Why Pre-Approval Matters
+            </span>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              The smart first step to buying
+            </h2>
+            <p className="mx-auto mt-4 text-[#6B7280]" style={{ fontSize: '17px', lineHeight: '28px', maxWidth: '640px' }}>
+              A pre-approval letter shows you mean business — and turns "just looking" into a real path to homeownership.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {benefits.map((b, i) => {
+              const Icon = b.icon;
+              return (
+                <div key={i} className="rounded-2xl border border-gray-100 bg-white p-7 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] hover:shadow-[0_2px_6px_rgba(15,23,42,0.06),0_16px_40px_rgba(15,23,42,0.08)] transition-shadow duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center mb-5">
+                    <Icon className="w-6 h-6" strokeWidth={2} />
+                  </div>
+                  <h3 className="text-[18px] font-bold text-[#0F172A] mb-2 tracking-tight">{b.title}</h3>
+                  <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{b.desc}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
+
+      {/* How It Works */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-12">
+            <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+              How It Works
+            </span>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              From form to keys in 4 simple steps
+            </h2>
+          </div>
+
+          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={i} className="relative rounded-2xl bg-white border border-gray-100 p-7 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
+                  <div className="absolute -top-4 left-7 w-9 h-9 rounded-full bg-[#3355FF] text-white text-[14px] font-bold flex items-center justify-center shadow-md">
+                    {i + 1}
+                  </div>
+                  <div className="mt-3 mb-5 w-12 h-12 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center">
+                    <Icon className="w-6 h-6" strokeWidth={2} />
+                  </div>
+                  <h3 className="text-[18px] font-bold text-[#0F172A] mb-2 tracking-tight">{s.title}</h3>
+                  <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{s.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* What You'll Need */}
+      <section className="bg-white">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+                Documents Checklist
+              </span>
+              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+                What you'll need to apply
+              </h2>
+              <p className="text-[#6B7280] mb-8" style={{ fontSize: '17px', lineHeight: '28px' }}>
+                Have these handy when you submit the form. Don't worry if you're missing something — your lender will guide you through it.
+              </p>
+              <ul className="space-y-4">
+                {documents.map((d, i) => {
+                  const Icon = d.icon;
+                  return (
+                    <li key={i} className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="text-[15.5px] font-semibold text-[#0F172A]">{d.label}</p>
+                        <p className="text-[14px] text-[#6B7280] mt-0.5">{d.desc}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div className="relative rounded-3xl overflow-hidden shadow-xl">
+              <img
+                src="https://images.pexels.com/photos/8292886/pexels-photo-8292886.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Mortgage documents"
+                className="w-full h-[480px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/70 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur rounded-2xl p-5 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-[15px] font-semibold text-[#0F172A]">Bank-level security</p>
+                    <p className="text-[13px] text-[#6B7280]">Your documents are encrypted in transit and at rest.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24" style={{ maxWidth: '1400px' }}>
+          <div className="text-center mb-12">
+            <span className="inline-block text-[12px] font-bold uppercase tracking-[2px] text-[#3355FF] mb-3">
+              Pre-Approval FAQ
+            </span>
+            <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] tracking-tight" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
+              Common questions, answered
+            </h2>
+          </div>
+
+          <div className="mx-auto space-y-3" style={{ maxWidth: '780px' }}>
+            {faqs.map((f, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div
+                  key={i}
+                  className="rounded-2xl border border-gray-200/60 overflow-hidden bg-white/80 backdrop-blur-sm shadow-[0_1px_3px_rgba(15,23,42,0.04),0_4px_16px_rgba(15,23,42,0.04)]"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? -1 : i)}
+                    className="w-full flex items-center justify-between p-5 text-left"
+                  >
+                    <span style={{ fontSize: '16px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{f.q}</span>
+                    <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-5 -mt-1">
+                      <p className="text-[14.5px] text-[#4B5563] leading-relaxed">{f.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
     </>
   );
 }
