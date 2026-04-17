@@ -89,7 +89,7 @@ function FSBOGuide() {
                 SaveOnYourHome.com is here to guide you through the entire process, providing step-by-step instructions and connecting you with trusted service providers.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>List My Home <ArrowRight className="w-5 h-5" /></Link>
+                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>List My Home <ArrowRight className="w-5 h-5" /></Link>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@ function FSBOGuide() {
               return (
                 <div key={step.number} className={`relative grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 ${i > 0 ? 'mt-8 md:mt-10' : ''}`}>
                   {/* Center dot on timeline */}
-                  <div className="hidden md:flex absolute left-1/2 top-6 -translate-x-1/2 z-10 items-center justify-center rounded-full" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)', boxShadow: 'rgba(26,24,22,0.2) 0px 4px 12px' }}>
+                  <div className="hidden md:flex absolute left-1/2 top-6 -translate-x-1/2 z-10 items-center justify-center rounded-full" style={{ width: '44px', height: '48px', backgroundColor: '#3355FF', boxShadow: 'rgba(26,24,22,0.2) 0px 4px 12px' }}>
                     <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{step.number}</span>
                   </div>
 
@@ -124,7 +124,7 @@ function FSBOGuide() {
                     <div className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-6 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                       <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
                       <div className="flex items-start gap-4">
-                        <div className="md:hidden flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                        <div className="md:hidden flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '48px', backgroundColor: '#3355FF' }}>
                           <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{step.number}</span>
                         </div>
                         <div className="flex-1">
@@ -178,7 +178,7 @@ function FSBOGuide() {
               <p style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)', marginBottom: '24px' }}>
                 Have more questions about selling your home by owner? We are here to help.
               </p>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
             </div>
 
             {/* Right side — accordion */}
@@ -208,7 +208,7 @@ function FSBOGuide() {
               With SaveOnYourHome.com by your side, you are well-equipped to sell your home successfully by owner. Best of luck with your home sale journey!
             </p>
             <div className="mt-8">
-              <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>Get Started <ArrowRight className="w-5 h-5" /></Link>
+              <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Get Started <ArrowRight className="w-5 h-5" /></Link>
             </div>
           </div>
         </div>

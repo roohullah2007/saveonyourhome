@@ -96,7 +96,7 @@ const FAQSection = () => {
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
-              style={{ backgroundColor: 'rgb(26, 24, 22)', height: '51px', paddingLeft: '31px', paddingRight: '31px', fontSize: '16px', fontWeight: 600 }}
+              style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
             >
               Ask Questions
               <ArrowRight className="w-4 h-4" />

@@ -242,7 +242,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                         <p className="text-xs text-gray-500">Claim your listing</p>
                         <p className="font-bold text-[#1A1816]">{formatPrice(property.price)}</p>
                     </div>
-                    <a href="#claim-form" className="flex items-center justify-center gap-2 bg-[#1A1816] text-white py-3 px-6 rounded-xl font-semibold hover:bg-[#111111] transition-colors">
+                    <a href="#claim-form" className="flex items-center justify-center gap-2 bg-[#3355FF] text-white py-3 px-6 rounded-xl font-semibold hover:bg-[#1D4ED8] transition-colors">
                         <BadgeCheck className="w-5 h-5" />
                         Claim Now
                     </a>
@@ -445,7 +445,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                                 <button
                                                     type="submit"
                                                     disabled={claimForm.processing}
-                                                    className="w-full py-3.5 bg-[#1A1816] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
+                                                    className="w-full py-3.5 bg-[#3355FF] text-white rounded-xl font-semibold hover:bg-[#1D4ED8] disabled:opacity-50 transition-colors text-lg"
                                                    
                                                 >
                                                     {claimForm.processing ? 'Claiming...' : 'Claim My Listing'}
@@ -496,7 +496,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                                 <button
                                                     type="submit"
                                                     disabled={registerForm.processing}
-                                                    className="w-full py-3.5 bg-[#1A1816] text-white rounded-xl font-semibold hover:bg-[#8a1a2c] disabled:opacity-50 transition-colors text-lg"
+                                                    className="w-full py-3.5 bg-[#3355FF] text-white rounded-xl font-semibold hover:bg-[#1D4ED8] disabled:opacity-50 transition-colors text-lg"
                                                    
                                                 >
                                                     {registerForm.processing ? 'Creating Account...' : 'Create Account & Claim'}

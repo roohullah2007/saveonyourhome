@@ -155,7 +155,7 @@ function VirtualTours() {
                 style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}
               >
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="flex-shrink-0 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(26,24,22)' }}>
+                <div className="flex-shrink-0 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: '#3355FF' }}>
                   <span style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(255,255,255)' }}>{step.number}</span>
                 </div>
                 <div>
@@ -169,7 +169,7 @@ function VirtualTours() {
       </section>
 
       {/* Contact Section */}
-      <section style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section style={{ backgroundColor: '#3355FF' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="text-center mb-12">
             <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(255,255,255)' }}>
@@ -261,7 +261,7 @@ function VirtualTours() {
                   type="submit"
                   disabled={processing}
                   className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
-                  style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
+                  style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                 >
                   {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
                 </button>

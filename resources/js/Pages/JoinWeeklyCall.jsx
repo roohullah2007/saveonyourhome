@@ -73,7 +73,7 @@ function JoinWeeklyCall() {
                   </div>
                 </div>
                 <div><label style={labelStyle}>What would make this group most valuable?</label><textarea value={data.valuable} onChange={(e) => setData('valuable', e.target.value)} rows={4} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} /></div>
-                <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Sign Me Up!'}</button>
+                <button type="submit" disabled={processing} className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>{processing ? 'Submitting...' : 'Sign Me Up!'}</button>
               </form>
             </div>
           </div>

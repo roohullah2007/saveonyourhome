@@ -112,7 +112,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                     <button
                         type="button"
                         onClick={() => { setShowForm(true); setEditingId(null); setForm(emptyForm); }}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#3355FF] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                         Add Open House
@@ -236,7 +236,7 @@ export default function OpenHouseManager({ property, openHouses = [], routePrefi
                             type="button"
                             onClick={handleSubmit}
                             disabled={saving}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#3355FF] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                         >
                             <Check className="w-4 h-4" />
                             {saving ? 'Saving...' : editingId ? 'Update' : 'Add'}

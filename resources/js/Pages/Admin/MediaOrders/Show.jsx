@@ -449,7 +449,7 @@ function Show({ order }) {
               <div className="space-y-3">
                 <button
                   onClick={() => setShowStatusModal(true)}
-                  className="w-full px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors text-sm flex items-center justify-center gap-2"
+                  className="w-full px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] transition-colors text-sm flex items-center justify-center gap-2"
                 >
                   <Edit className="w-4 h-4" />
                   Update Status
@@ -508,7 +508,7 @@ function Show({ order }) {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111]"
+                  className="flex-1 px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8]"
                 >
                   Update
                 </button>

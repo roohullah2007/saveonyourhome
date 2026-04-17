@@ -115,7 +115,7 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
                     </div>
                     <button
                         onClick={openAddModal}
-                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Plus className="w-4 h-4" /> Add Partner
                     </button>
@@ -261,7 +261,7 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
                             </div>
                             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Cancel</button>
-                                <button type="submit" disabled={submitting} className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50">{submitting ? 'Saving...' : (editingPartner ? 'Update' : 'Create')}</button>
+                                <button type="submit" disabled={submitting} className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50">{submitting ? 'Saving...' : (editingPartner ? 'Update' : 'Create')}</button>
                             </div>
                         </form>
                     </div>

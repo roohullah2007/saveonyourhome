@@ -141,7 +141,7 @@ function EBook() {
                   <textarea value={data.message} onChange={e => setData('message', e.target.value)} placeholder="Any additional information or questions?" rows={5} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} />
                   {errors.message && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.message}</p>}
                 </div>
-                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: 'rgb(26,24,22)', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}>
+                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                   {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
                 </button>
               </form>

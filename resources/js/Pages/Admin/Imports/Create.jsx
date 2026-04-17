@@ -28,7 +28,7 @@ export default function ImportsCreate({ hasZillowApi }) {
                         onClick={() => setActiveTab('api')}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                             activeTab === 'api'
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50 border'
                         }`}
                     >
@@ -39,7 +39,7 @@ export default function ImportsCreate({ hasZillowApi }) {
                     onClick={() => setActiveTab('csv')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         activeTab === 'csv'
-                            ? 'bg-[#1A1816] text-white'
+                            ? 'bg-[#3355FF] text-white'
                             : 'bg-white text-gray-600 hover:bg-gray-50 border'
                     }`}
                 >
@@ -167,7 +167,7 @@ function ZillowApiTab() {
                     <button
                         onClick={() => handleSearch(1)}
                         disabled={searching || !location.trim()}
-                        className="flex items-center gap-2 px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 text-sm font-medium"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 text-sm font-medium"
                     >
                         {searching ? (
                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -434,7 +434,7 @@ function ZillowApiTab() {
                                 <button
                                     onClick={handleImport}
                                     disabled={importing}
-                                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 font-medium text-sm"
+                                    className="flex items-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 font-medium text-sm"
                                 >
                                     {importing ? (
                                         <>
@@ -624,7 +624,7 @@ function CsvUploadTab() {
                     <button
                         type="submit"
                         disabled={processing || !data.csv_file}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
                     >
                         {processing ? (
                             <>

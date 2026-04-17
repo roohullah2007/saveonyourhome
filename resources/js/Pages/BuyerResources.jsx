@@ -194,7 +194,7 @@ function BuyerResources({ resources }) {
               href="/buyers-guide"
               className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90"
               style={{
-                backgroundColor: 'rgb(26,24,22)',
+                backgroundColor: '#3355FF',
                 color: 'white',
                 height: '50px',
                 paddingLeft: '31px',

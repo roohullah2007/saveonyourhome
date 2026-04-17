@@ -131,7 +131,7 @@ function Contact() {
                   type="submit"
                   disabled={processing}
                   className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                  style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                  style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                 >
                   {processing ? 'Sending...' : 'Send'}
                   <ArrowRight className="w-4 h-4" />

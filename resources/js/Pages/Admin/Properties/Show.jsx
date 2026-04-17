@@ -278,7 +278,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                 <div className="flex flex-wrap gap-3">
                     <Link
                         href={route('admin.properties.edit', property.id)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#1A1816] text-white rounded-lg font-medium hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#3355FF] text-white rounded-lg font-medium hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Pencil className="w-4 h-4" />
                         Edit Property
@@ -803,7 +803,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                             <button
                                 onClick={handleSaveDetails}
                                 disabled={savingDetails}
-                                className="w-full px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
+                                className="w-full px-4 py-2 bg-[#3355FF] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                             >
                                 {savingDetails ? 'Saving...' : 'Save Status & Tours'}
                             </button>

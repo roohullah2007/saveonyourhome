@@ -297,7 +297,7 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
         </div>
 
         {/* Search Button */}
-        <button className="w-full bg-[#1A1816] hover:bg-[#111111] text-white py-3 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2">
+        <button className="w-full bg-[#1A1816] hover:bg-[#1D4ED8] text-white py-3 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2">
           <Search className="w-4 h-4" />
           Search Properties
         </button>

@@ -143,7 +143,7 @@ function About() {
             ))}
           </div>
           <div className="text-center">
-            <Link href="/faqs" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+            <Link href="/faqs" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
               Read All FAQs <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

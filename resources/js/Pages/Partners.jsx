@@ -231,7 +231,7 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
                   type="submit"
                   disabled={processing}
                   className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                  style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
+                  style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                 >
                   {processing ? 'Submitting...' : 'Submit'}
                   <ArrowRight className="w-5 h-5" />

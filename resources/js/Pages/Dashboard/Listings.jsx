@@ -148,7 +148,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                 </div>
                 <Link
                     href="/list-property"
-                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Add New Listing
@@ -168,7 +168,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                         onClick={() => handleFilter(tab.key)}
                         className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || 'all') === tab.key
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -211,7 +211,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                     </p>
                     <Link
                         href="/list-property"
-                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Plus className="w-5 h-5" />
                         Add Your First Listing
@@ -323,7 +323,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                     setQrListing(listing);
                                                     setShowQrModal(true);
                                                 }}
-                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-white bg-[#1A1816] hover:bg-[#111111] rounded-lg transition-colors"
+                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-white bg-[#3355FF] hover:bg-[#1D4ED8] rounded-lg transition-colors"
                                             >
                                                 <QrCode className="w-3.5 h-3.5" />
                                                 QR Code
@@ -487,7 +487,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                             <a
                                 href={route('dashboard.listings.qrcode', qrListing.id)}
                                 download={`qr-sticker-${qrListing.id}.png`}
-                                className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                                className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                             >
                                 <Download className="w-5 h-5" />
                                 Download Sticker (PNG)
@@ -528,7 +528,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                     </p>
                                     <button
                                         onClick={closeOrderModal}
-                                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                                     >
                                         Done
                                     </button>
@@ -669,7 +669,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                             <button
                                                 type="submit"
                                                 disabled={orderForm.processing}
-                                                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-4 py-3 rounded-xl font-semibold hover:bg-[#111111] transition-colors disabled:opacity-50"
+                                                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#3355FF] text-white px-4 py-3 rounded-xl font-semibold hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                                             >
                                                 {orderForm.processing ? (
                                                     <>

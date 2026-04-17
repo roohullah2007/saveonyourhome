@@ -104,7 +104,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                 </div>
                 <Link
                     href={route('admin.properties.create')}
-                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:bg-[#1D4ED8] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Add Property
@@ -119,7 +119,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                         onClick={() => handleFilter('approval', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.approval || '') === tab.key
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >

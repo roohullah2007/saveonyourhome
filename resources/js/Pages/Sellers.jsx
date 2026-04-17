@@ -84,7 +84,7 @@ function Sellers() {
                 Take control of your home sale with SaveOnYourHome.com. Benefit from commission-free savings and embark on your path to a successful sale right here.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>List My Home <ArrowRight className="w-5 h-5" /></Link>
+                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>List My Home <ArrowRight className="w-5 h-5" /></Link>
               </div>
             </div>
           </div>
@@ -120,7 +120,7 @@ function Sellers() {
             {howItWorks.map((s, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-9 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '48px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '48px', height: '48px', backgroundColor: '#3355FF' }}>
                   <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{s.num}</span>
                 </div>
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' }}>{s.title}</h3>
@@ -132,7 +132,7 @@ function Sellers() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section style={{ backgroundColor: '#3355FF' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24 text-center" style={{ maxWidth: '1400px' }}>
           <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white mb-5" style={{ fontWeight: 700 }}>
             Ready to list your property?
@@ -140,7 +140,7 @@ function Sellers() {
           <p className="mx-auto mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
             Start now, craft a captivating listing, and attract buyers effortlessly on our platform. With user-friendly tools and expert guidance, your selling journey is bound to be seamless and successful!
           </p>
-          <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>List My Property <ArrowRight className="w-5 h-5" /></Link>
+          <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>List My Property <ArrowRight className="w-5 h-5" /></Link>
         </div>
       </section>
 
@@ -155,7 +155,7 @@ function Sellers() {
               <p className="mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '480px' }}>
                 Can't find an answer to your question? Contact us, we will be happy to answer your questions.
               </p>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
             </div>
             {/* Right side - accordion */}
             <div className="space-y-3">
@@ -244,7 +244,7 @@ function Sellers() {
                   <textarea value={data.message} onChange={e => setData('message', e.target.value)} placeholder="How can we help you?" required rows={5} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} />
                   {errors.message && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.message}</p>}
                 </div>
-                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: 'rgb(26,24,22)', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}>
+                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                   {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
                 </button>
               </form>

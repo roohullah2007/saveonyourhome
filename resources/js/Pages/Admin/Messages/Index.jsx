@@ -141,7 +141,7 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                         onClick={() => handleFilter('status', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || '') === tab.key
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -441,7 +441,7 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                                         e.stopPropagation();
                                         window.location.href = `mailto:${viewMessage.email}?subject=Re: ${encodeURIComponent(viewMessage.subject || 'Your Message')}`;
                                     }}
-                                    className="px-4 py-2 text-sm bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] inline-flex items-center gap-2"
+                                    className="px-4 py-2 text-sm bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] inline-flex items-center gap-2"
                                 >
                                     <Send className="w-4 h-4" />
                                     Reply via Email

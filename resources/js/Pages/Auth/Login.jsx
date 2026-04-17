@@ -166,7 +166,7 @@ function Login({ status, canResetPassword }) {
                                 type="submit"
                                 disabled={processing}
                                 className="w-full rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                                style={{ backgroundColor: 'rgb(26,24,22)', height: '48px', fontSize: '15px', fontWeight: 600 }}
+                                style={{ backgroundColor: '#3355FF', height: '48px', fontSize: '15px', fontWeight: 600 }}
                             >
                                 {processing ? 'Signing in...' : 'Sign In'}
                             </button>

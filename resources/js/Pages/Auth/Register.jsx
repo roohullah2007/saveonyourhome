@@ -107,7 +107,7 @@ function Register() {
                                     >
                                         <div className={`p-2 rounded-full ${
                                             data.user_type === 'buyer'
-                                                ? 'bg-[#1A1816] text-white'
+                                                ? 'bg-[#3355FF] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Search className="w-4 h-4" />
@@ -131,7 +131,7 @@ function Register() {
                                     >
                                         <div className={`p-2 rounded-full ${
                                             data.user_type === 'seller'
-                                                ? 'bg-[#1A1816] text-white'
+                                                ? 'bg-[#3355FF] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Home className="w-4 h-4" />
@@ -329,7 +329,7 @@ function Register() {
                                 type="submit"
                                 disabled={processing}
                                 className="w-full rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-                                style={{ backgroundColor: 'rgb(26,24,22)', height: '48px', fontSize: '15px', fontWeight: 600 }}
+                                style={{ backgroundColor: '#3355FF', height: '48px', fontSize: '15px', fontWeight: 600 }}
                             >
                                 {processing ? 'Creating Account...' : 'Create Account'}
                             </button>

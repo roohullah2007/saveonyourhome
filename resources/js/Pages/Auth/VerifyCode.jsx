@@ -155,7 +155,7 @@ function VerifyCode({ email }) {
                             <button
                                 type="submit"
                                 disabled={processing || data.code.replace(/\s/g, '').length !== 6}
-                                className="w-full py-3 px-4 bg-[#1A1816] text-white rounded-full text-sm font-semibold hover:bg-[#111111] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full py-3 px-4 bg-[#3355FF] text-white rounded-full text-sm font-semibold hover:bg-[#1D4ED8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'Verifying...' : 'Verify Email'}
                             </button>

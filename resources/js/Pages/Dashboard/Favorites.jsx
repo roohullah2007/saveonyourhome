@@ -72,7 +72,7 @@ export default function Favorites({ favorites, filters = {} }) {
                 </div>
                 <Link
                     href="/properties"
-                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                 >
                     <Home className="w-5 h-5" />
                     Browse Properties
@@ -97,7 +97,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             onClick={() => setViewMode('grid')}
                             className={`p-2.5 rounded-lg transition-colors ${
                                 viewMode === 'grid'
-                                    ? 'bg-[#1A1816] text-white'
+                                    ? 'bg-[#3355FF] text-white'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                         >
@@ -107,7 +107,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             onClick={() => setViewMode('list')}
                             className={`p-2.5 rounded-lg transition-colors ${
                                 viewMode === 'list'
-                                    ? 'bg-[#1A1816] text-white'
+                                    ? 'bg-[#3355FF] text-white'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                         >
@@ -127,7 +127,7 @@ export default function Favorites({ favorites, filters = {} }) {
                     </p>
                     <Link
                         href="/properties"
-                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Home className="w-5 h-5" />
                         Browse Properties
@@ -282,7 +282,7 @@ export default function Favorites({ favorites, filters = {} }) {
                                             )}
                                             <Link
                                                 href={`/properties/${property.slug || property.id}`}
-                                                className="inline-flex items-center gap-1 px-4 py-2 bg-[#1A1816] text-white rounded-lg text-sm font-medium hover:bg-[#111111] transition-colors"
+                                                className="inline-flex items-center gap-1 px-4 py-2 bg-[#3355FF] text-white rounded-lg text-sm font-medium hover:bg-[#1D4ED8] transition-colors"
                                             >
                                                 View Property
                                                 <ExternalLink className="w-4 h-4" />

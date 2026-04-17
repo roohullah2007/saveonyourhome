@@ -16,6 +16,46 @@ function BuyerFAQs() {
       q: 'How can I receive alerts for properties that match my criteria as a buyer?',
       a: 'Create a free account on SaveOnYourHome.com and set up your search preferences including location, price range, property type, and desired features. Once your criteria are saved, you will receive email notifications whenever new listings that match your preferences are posted. This ensures you never miss out on a property that fits your needs and gives you a head start on contacting sellers before other buyers.',
     },
+    {
+      q: 'Do I need a real estate agent to buy a home through SaveOnYourHome.com?',
+      a: 'No. You can purchase any home listed on SaveOnYourHome.com directly from the seller without involving a buyer\'s agent — that is one of the main ways buyers save money. That said, if you prefer professional representation, you are welcome to bring your own agent or attorney; many sellers on the platform indicate whether they are open to working with realtors right on the listing.',
+    },
+    {
+      q: 'How do I schedule a tour of a property?',
+      a: 'Open the property detail page and use the Request Info form (or call the seller directly with the phone number shown on the listing) to ask about a showing. Sellers typically respond within a day. Some sellers require a mortgage pre-approval letter before a tour — that requirement is clearly displayed on the listing.',
+    },
+    {
+      q: 'How do I make an offer on a FSBO property?',
+      a: 'Reach out to the seller through the listing\'s contact form or phone number to express interest, then send a written offer. You can use a standard purchase agreement (your attorney, title company, or local real estate forms service can provide one). Once both parties sign, the offer is binding and you move forward to inspections, financing, and closing.',
+    },
+    {
+      q: 'Should I get pre-approved for a mortgage before I start looking?',
+      a: 'Yes — a pre-approval letter shows sellers you are a serious buyer and tells you exactly what price range you can afford. Many FSBO sellers will not schedule a showing without one. SaveOnYourHome.com partners with trusted lenders who can pre-approve you in about 15 minutes; visit our Mortgages page to get started at no cost and with no credit-score impact.',
+    },
+    {
+      q: 'Are the listings on SaveOnYourHome.com verified?',
+      a: 'Every listing is reviewed for completeness and accuracy before it goes live. Sellers must provide their contact information, a valid address, and accurate property details. While we cannot guarantee the condition of every property sight-unseen, we do remove listings that violate our terms or are reported as misleading. We always recommend an independent home inspection before closing.',
+    },
+    {
+      q: 'How is the price set on a FSBO listing?',
+      a: 'The seller sets the price based on their research — typically using comparable sales in the area, recent appraisals, or online valuation tools. Because there is no listing-agent commission baked in, FSBO prices are often more competitive than traditional listings. You are free to negotiate; making a reasonable offer with comps to support it is the best approach.',
+    },
+    {
+      q: 'What costs should I expect when buying a home?',
+      a: 'In addition to the purchase price, plan for a down payment (commonly 3%–20%), closing costs (roughly 2%–5% of the purchase price covering title, escrow, lender fees, and prepaid taxes/insurance), a home inspection (~$300–$600), and an appraisal if your lender requires one. Use the Mortgage Calculator on each listing to estimate your monthly payment including taxes, insurance, and HOA fees.',
+    },
+    {
+      q: 'What if I find an issue during the home inspection?',
+      a: 'Most purchase agreements include an inspection contingency that lets you renegotiate the price, request repairs, or walk away from the deal within a set window. Use the inspection report to ask the seller for credits or repairs. If you cannot reach an agreement, your earnest money deposit is typically refunded as long as you cancel within the contingency period.',
+    },
+    {
+      q: 'Can I save my favorite listings to revisit later?',
+      a: 'Yes. Click the heart icon on any listing card or detail page to save it to your favorites. Sign in (or create a free account) to sync your favorites across devices and to receive notifications if a saved listing has a price change, opens for an open house, or goes under contract.',
+    },
+    {
+      q: 'How long does the home-buying process usually take?',
+      a: 'From offer-accepted to closing, expect 30–45 days for a financed purchase and 7–14 days for an all-cash deal. Timelines depend on lender turnaround, inspections, appraisal, and title work. Working with a responsive lender and title company — and submitting documents promptly — keeps things on schedule.',
+    },
   ];
 
   return (
@@ -98,7 +138,7 @@ function BuyerFAQs() {
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
+              style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
             >
               Contact Us
             </Link>

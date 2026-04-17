@@ -57,6 +57,18 @@ function ListProperty() {
     acres: '',
     zoning: '',
     yearBuilt: '',
+    garage: '',
+
+    // County & financial disclosures
+    county: '',
+    annualPropertyTax: '',
+    hasHoa: false,
+    hoaFee: '',
+
+    // Seller preferences
+    isMotivatedSeller: false,
+    openToRealtors: true,
+    requiresPreApproval: false,
 
     // Description
     description: '',
@@ -391,6 +403,14 @@ function ListProperty() {
       acres: data.acres ? parseFloat(data.acres) : null,
       zoning: data.zoning || '',
       yearBuilt: data.yearBuilt ? parseInt(data.yearBuilt, 10) : null,
+      garage: data.garage !== '' ? parseInt(data.garage, 10) : null,
+      county: data.county || '',
+      annualPropertyTax: data.annualPropertyTax !== '' ? parseFloat(data.annualPropertyTax) : null,
+      hasHoa: !!data.hasHoa,
+      hoaFee: data.hoaFee !== '' ? parseFloat(data.hoaFee) : null,
+      isMotivatedSeller: !!data.isMotivatedSeller,
+      openToRealtors: !!data.openToRealtors,
+      requiresPreApproval: !!data.requiresPreApproval,
       description: data.description,
       contactName: data.contactName,
       contactEmail: data.contactEmail,
@@ -489,16 +509,16 @@ function ListProperty() {
                   <div className="flex flex-wrap gap-3">
                     <a
                       href="/properties"
-                      className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full font-medium hover:bg-green-700 transition-colors"
-                     
+                      className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                      style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#16A34A' }}
                     >
                       Browse Properties
                     </a>
                     <button
                       type="button"
                       onClick={() => setShowSuccess(false)}
-                      className="inline-flex items-center gap-2 bg-white text-green-700 border border-green-300 px-6 py-3 rounded-full font-medium hover:bg-green-50 transition-colors"
-                     
+                      className="inline-flex items-center justify-center gap-2 rounded-full transition-all duration-300 hover:opacity-90"
+                      style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#FFFFFF', color: '#15803D', border: '1px solid #86EFAC' }}
                     >
                       List Another Property
                     </button>
@@ -686,13 +706,26 @@ function ListProperty() {
 
                 <div>
                   <label className="block text-sm font-semibold text-[#111] mb-2">
+                    County
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Tulsa"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.county}
+                    onChange={(e) => handleInputChange('county', e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
                     Subdivision
                   </label>
                   <input
                     type="text"
                     placeholder="Optional"
                     className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                   
+
                     value={data.subdivision}
                     onChange={(e) => handleInputChange('subdivision', e.target.value)}
                   />
@@ -925,12 +958,119 @@ function ListProperty() {
                       type="number"
                       placeholder="2010"
                       className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                     
+
                       value={data.yearBuilt}
                       onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
                     />
                   </div>
                 )}
+
+                {data.propertyType !== 'land' && (
+                  <div>
+                    <label className="block text-sm font-semibold text-[#111] mb-2">
+                      Garage (# of cars)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="5"
+                      placeholder="e.g., 2"
+                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      value={data.garage}
+                      onChange={(e) => handleInputChange('garage', e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Financials & Seller Preferences */}
+            <div className="bg-white rounded-xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-[#E5E1DC] p-3 rounded-lg">
+                  <DollarSign className="w-6 h-6 text-[#3D3D3D]" />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                  Financials & Seller Preferences
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
+                    Annual Property Tax ($)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="e.g., 4080"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.annualPropertyTax}
+                    onChange={(e) => handleInputChange('annualPropertyTax', e.target.value)}
+                  />
+                  <p className="text-xs text-[#888] mt-1">Used in the mortgage calculator for buyers.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
+                    HOA Fee ($ / month)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="e.g., 170"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.hoaFee}
+                    onChange={(e) => {
+                      handleInputChange('hoaFee', e.target.value);
+                      handleInputChange('hasHoa', e.target.value !== '' && parseFloat(e.target.value) > 0);
+                    }}
+                  />
+                  <p className="text-xs text-[#888] mt-1">Leave blank if no HOA.</p>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-4">
+                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={data.isMotivatedSeller}
+                    onChange={(e) => handleInputChange('isMotivatedSeller', e.target.checked)}
+                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-[#111]">Motivated Seller</p>
+                    <p className="text-xs text-[#666] mt-1">Show a "Motivated Seller" badge on your listing to attract buyers.</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={data.openToRealtors}
+                    onChange={(e) => handleInputChange('openToRealtors', e.target.checked)}
+                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-[#111]">Open to contact from Realtors</p>
+                    <p className="text-xs text-[#666] mt-1">Allow licensed Realtors representing buyers to contact you.</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={data.requiresPreApproval}
+                    onChange={(e) => handleInputChange('requiresPreApproval', e.target.checked)}
+                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-[#111]">Require Pre-Approval before viewings</p>
+                    <p className="text-xs text-[#666] mt-1">Buyer must show a Pre-Approval from a licensed mortgage company before touring the home.</p>
+                  </div>
+                </label>
               </div>
             </div>
 
@@ -1006,7 +1146,7 @@ function ListProperty() {
                           <div className="flex items-center gap-3">
                             <span className="font-semibold text-[#111] text-sm">{group.category}</span>
                             {selectedInGroup > 0 && (
-                              <span className="bg-[#1A1816] text-white text-[11px] font-semibold rounded-full px-2 py-0.5">
+                              <span className="bg-[#3355FF] text-white text-[11px] font-semibold rounded-full px-2 py-0.5">
                                 {selectedInGroup}
                               </span>
                             )}
@@ -1172,7 +1312,7 @@ function ListProperty() {
 
                         {/* Main Photo Badge */}
                         {index === mainPhotoIndex && !preview.uploading && !preview.error && (
-                          <span className="absolute top-2 left-2 bg-[#1A1816] text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                          <span className="absolute top-2 left-2 bg-[#3355FF] text-white text-[10px] px-2 py-1 rounded-full font-medium">
                             Main Photo
                           </span>
                         )}
@@ -1355,23 +1495,23 @@ function ListProperty() {
               <button
                 type="submit"
                 disabled={processing || isUploading || photoPreviews.some(p => p.uploading)}
-                className="inline-flex items-center gap-3 bg-[#1A1816] hover:bg-[#8B1829] text-white px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-               
+                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#3355FF' }}
               >
                 {processing ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
                     <span>Submitting...</span>
                   </>
                 ) : isUploading || photoPreviews.some(p => p.uploading) ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
                     <span>Uploading Photos...</span>
                   </>
                 ) : (
                   <>
                     <span>Submit Property Listing</span>
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight style={{ width: '16px', height: '16px' }} />
                   </>
                 )}
               </button>

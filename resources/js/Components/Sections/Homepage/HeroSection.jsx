@@ -336,16 +336,21 @@ const HeroSection = ({ featuredProperties = [] }) => {
                     <div className="mt-5 flex flex-col gap-2.5">
                       <Link
                         href="/list-property"
-                        className="flex items-center justify-center gap-2 rounded-xl bg-[#1A1816] text-white transition-all duration-300 hover:bg-[#2a2826]"
-                        style={{ height: '46px', fontSize: '14px', fontWeight: 600 }}
+                        className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                        style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#3355FF' }}
                       >
                         List My Home Free
+                        <svg style={{ width: '16px', height: '16px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
                       </Link>
                       <Link
                         href="/properties"
-                        className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:bg-white/10"
+                        className="flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
                         style={{
                           height: '46px',
+                          paddingLeft: '26px',
+                          paddingRight: '26px',
                           fontSize: '14px',
                           fontWeight: 600,
                           border: '1px solid rgba(255, 255, 255, 0.2)',

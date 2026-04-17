@@ -161,7 +161,7 @@ export default function ImportsPreview({ validRows, errors, filename, tempPath, 
                 <button
                     onClick={handleImport}
                     disabled={importing || validRows.length === 0}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
                 >
                     {importing ? (
                         <>

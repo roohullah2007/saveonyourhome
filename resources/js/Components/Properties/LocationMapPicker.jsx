@@ -562,7 +562,7 @@ const LocationMapPicker = ({
                     </button>
                     <button
                         type="button"
-                        className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#1A1816] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+                        className={`p-2 rounded-lg shadow-lg transition-colors ${mapType === 'satellite' ? 'bg-[#3355FF] text-white' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
                         title={mapType === 'satellite' ? 'Switch to Road Map' : 'Switch to Satellite View'}
                         onClick={() => {
                             const newType = mapType === 'roadmap' ? 'satellite' : 'roadmap';

@@ -123,7 +123,7 @@ function SellerFAQs() {
       </section>
 
       {/* Contact CTA */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
@@ -135,7 +135,7 @@ function SellerFAQs() {
               Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with confidence.
             </p>
             <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                 Contact Us <ArrowRight className="w-5 h-5" />
               </Link>
             </div>

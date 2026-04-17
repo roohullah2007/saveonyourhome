@@ -53,7 +53,7 @@ const AuthModal = ({ isOpen, onClose }) => {
           <div className="space-y-3">
             <Link
               href="/login"
-              className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#111111]"
+              className="w-full flex items-center justify-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-3.5 font-medium transition-all duration-300 hover:bg-[#1D4ED8]"
              
             >
               <User className="w-5 h-5" />

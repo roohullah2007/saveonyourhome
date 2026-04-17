@@ -300,7 +300,7 @@ export default function UpgradeProperty({ property, existingRequests = [] }) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-xl font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-xl font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                         >
                             <Send className="w-5 h-5" />
                             {processing ? 'Submitting...' : 'Submit Request'}

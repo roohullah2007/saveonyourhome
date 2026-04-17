@@ -217,7 +217,7 @@ export default function CreateUser() {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="px-6 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors disabled:opacity-50"
+                            className="px-6 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                         >
                             {processing ? 'Creating...' : 'Create User'}
                         </button>

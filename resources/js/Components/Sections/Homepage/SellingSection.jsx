@@ -132,8 +132,8 @@ const SellingSection = () => {
             <div className="pt-2">
               <Link
                 href="/list-property"
-                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: 'rgb(26, 24, 22)', height: '53px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
+                className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
               >
                 List My Home
                 <ArrowRight className="w-4 h-4" />

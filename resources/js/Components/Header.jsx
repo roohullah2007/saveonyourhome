@@ -83,7 +83,7 @@ const Header = ({ maxWidth, noPadding }) => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50">
+      <header className="relative z-50">
         {/* Blue Top Bar (fixed) */}
         <div className="w-full bg-[#3355FF]" style={{ height: '36px' }}>
           <div className={`mx-auto h-full flex items-center justify-center px-4`} style={{ maxWidth: maxWidth || 1400 }}>
@@ -334,11 +334,12 @@ const Header = ({ maxWidth, noPadding }) => {
 
                 <button
                   onClick={handleListProperty}
-                  className="hidden sm:flex items-center justify-start gap-1.5 bg-[#000000] text-gray-100 rounded-full py-2.5 px-6 lg:px-8 font-medium text-sm leading-[120%] transition-[background-color] duration-[400ms] ease-[cubic-bezier(0.645,0.045,0.355,1)] hover:bg-[#111111]"
+                  className="hidden sm:flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#1A1816' }}
                 >
                   <span className="hidden md:inline">List Your Property</span>
                   <span className="md:hidden">List</span>
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_56_2205" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                       <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
                     </mask>
@@ -362,9 +363,6 @@ const Header = ({ maxWidth, noPadding }) => {
         </div>
       </header>
 
-      {/* Spacer to account for fixed header height (blue bar + header) */}
-      <div style={{ height: '101px' }} />
-
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -375,7 +373,7 @@ const Header = ({ maxWidth, noPadding }) => {
           ></div>
 
           {/* Menu Panel */}
-          <div className="fixed top-[101px] left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-[calc(100vh-101px)] overflow-y-auto">
+          <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-screen overflow-y-auto">
             <nav className="max-w-[1400px] mx-auto px-4 py-6 space-y-4">
               <Link
                 href="/"
@@ -576,7 +574,8 @@ const Header = ({ maxWidth, noPadding }) => {
                 )}
                 <button
                   onClick={handleListProperty}
-                  className="block sm:hidden mt-2 w-full text-center bg-[#1A1816] text-white rounded-full py-3 px-6 font-medium transition-all duration-300 hover:bg-[#111111]"
+                  className="block sm:hidden mt-2 w-full text-center rounded-full text-white transition-all duration-300 hover:opacity-90"
+                  style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, backgroundColor: '#1A1816' }}
                 >
                   List Your Property
                 </button>

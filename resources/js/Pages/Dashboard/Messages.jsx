@@ -185,7 +185,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                     onClick={() => handleFilter(f.key)}
                                     className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                                         (filters.status || 'all') === f.key
-                                            ? 'bg-[#1A1816] text-white'
+                                            ? 'bg-[#3355FF] text-white'
                                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                     }`}
                                 >
@@ -480,7 +480,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                                 }}
                                                 disabled={replySending || !replyText.trim()}
                                                 className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                                                style={{ backgroundColor: 'rgb(26,24,22)', height: '42px', paddingLeft: '20px', paddingRight: '20px', fontSize: '13px', fontWeight: 600 }}
+                                                style={{ backgroundColor: '#3355FF', height: '42px', paddingLeft: '20px', paddingRight: '20px', fontSize: '13px', fontWeight: 600 }}
                                             >
                                                 <Send className="w-4 h-4" />
                                                 {replySending ? 'Sending...' : 'Send Reply'}
@@ -502,7 +502,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                         <button
                                             onClick={() => setShowReplyForm(true)}
                                             className="flex-1 inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90"
-                                            style={{ backgroundColor: 'rgb(26,24,22)', height: '44px', fontSize: '14px', fontWeight: 600 }}
+                                            style={{ backgroundColor: '#3355FF', height: '44px', fontSize: '14px', fontWeight: 600 }}
                                         >
                                             <Reply className="w-4 h-4" />
                                             {selectedMessage.seller_reply ? 'Reply Again' : 'Reply in Platform'}

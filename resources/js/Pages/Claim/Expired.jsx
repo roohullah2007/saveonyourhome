@@ -32,7 +32,7 @@ export default function ClaimExpired({ property }) {
                             <div className="space-y-3">
                                 <Link
                                     href={route('register')}
-                                    className="block w-full py-3 bg-[#1A1816] text-white rounded-lg font-semibold hover:bg-[#8a1a2c] transition-colors"
+                                    className="block w-full py-3 bg-[#3355FF] text-white rounded-lg font-semibold hover:bg-[#1D4ED8] transition-colors"
                                 >
                                     List My Property Free
                                 </Link>

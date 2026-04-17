@@ -613,7 +613,7 @@ function Packages({ userListings = [] }) {
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setShowServiceAreaModal(false)}
-              className="bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+              className="bg-[#3355FF] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#1D4ED8]"
              
             >
               Got it, Continue
@@ -655,7 +655,7 @@ function Packages({ userListings = [] }) {
           <div className="space-y-4">
             <Link
               href="/contact"
-              className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+              className="w-full flex items-center justify-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#1D4ED8]"
              
             >
               <Mail className="w-5 h-5" />
@@ -827,7 +827,7 @@ function Packages({ userListings = [] }) {
               <div className="space-y-4">
                 {howItWorksSteps.map((step, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-7 h-7 bg-[#1A1816] text-white rounded-full flex items-center justify-center text-sm font-bold">
+                    <div className="flex-shrink-0 w-7 h-7 bg-[#3355FF] text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {step.number}
                     </div>
                     <div>
@@ -860,7 +860,7 @@ function Packages({ userListings = [] }) {
               {auth?.user ? (
                 <Link
                   href="/dashboard/listings"
-                  className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111]"
+                  className="w-full flex items-center justify-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1D4ED8]"
                  
                 >
                   <Home className="w-5 h-5" />
@@ -870,7 +870,7 @@ function Packages({ userListings = [] }) {
               ) : (
                 <Link
                   href="/list-property"
-                  className="w-full flex items-center justify-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111]"
+                  className="w-full flex items-center justify-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1D4ED8]"
                  
                 >
                   <Home className="w-5 h-5" />
@@ -916,28 +916,28 @@ function Packages({ userListings = [] }) {
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">1</div>
+              <div className="w-10 h-10 rounded-full bg-[#3355FF] text-white flex items-center justify-center font-medium flex-shrink-0">1</div>
               <div>
                 <h4 className="text-lg font-medium text-[#111] mb-1">Select Your Services</h4>
                 <p className="text-[#666]">Choose photos, drone, 3D tours, video, and more.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">2</div>
+              <div className="w-10 h-10 rounded-full bg-[#3355FF] text-white flex items-center justify-center font-medium flex-shrink-0">2</div>
               <div>
                 <h4 className="text-lg font-medium text-[#111] mb-1">Schedule Your Appointment</h4>
                 <p className="text-[#666]">Tell us your preferred date and time. We'll confirm within 24 hours.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">3</div>
+              <div className="w-10 h-10 rounded-full bg-[#3355FF] text-white flex items-center justify-center font-medium flex-shrink-0">3</div>
               <div>
                 <h4 className="text-lg font-medium text-[#111] mb-1">Prepare Your Property</h4>
                 <p className="text-[#666]">Receive instructions on preparing your home for the best photos.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#1A1816] text-white flex items-center justify-center font-medium flex-shrink-0">4</div>
+              <div className="w-10 h-10 rounded-full bg-[#3355FF] text-white flex items-center justify-center font-medium flex-shrink-0">4</div>
               <div>
                 <h4 className="text-lg font-medium text-[#111] mb-1">Receive Your Photos</h4>
                 <p className="text-[#666]">Get your professionally edited photos via email the next day. Pay after delivery.</p>
@@ -951,7 +951,7 @@ function Packages({ userListings = [] }) {
                 setShowHowItWorksModal(false);
                 goToOrderForm();
               }}
-              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#111111]"
+              className="inline-flex items-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-4 font-medium transition-all duration-300 hover:bg-[#1D4ED8]"
              
             >
               <Camera className="w-5 h-5" />
@@ -972,7 +972,7 @@ function Packages({ userListings = [] }) {
           <div
             className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-all ${
               currentStep >= step
-                ? 'bg-[#1A1816] text-white'
+                ? 'bg-[#3355FF] text-white'
                 : 'bg-[#E5E1DC] text-[#666]'
             }`}
            
@@ -1023,7 +1023,7 @@ function Packages({ userListings = [] }) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/list-property"
-                className="inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-medium hover:bg-[#1D4ED8] transition-colors"
                
               >
                 <Home className="w-5 h-5" />
@@ -1067,7 +1067,7 @@ function Packages({ userListings = [] }) {
             </p>
             <Link
               href="/list-property"
-              className="inline-flex items-center justify-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-full font-medium hover:bg-[#8a1a2c] transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-medium hover:bg-[#1D4ED8] transition-colors"
              
             >
               <Home className="w-5 h-5" />
@@ -1988,7 +1988,7 @@ function Packages({ userListings = [] }) {
                 Photos, drones, floor plans, 3D tours, and more. Everything you need to market your property like a pro.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <button onClick={goToOrderForm} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
+                <button onClick={goToOrderForm} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600 }}>
                   Order Photos & Media <ArrowRight className="w-4 h-4" />
                 </button>
                 <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '28px', paddingRight: '28px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
@@ -2188,7 +2188,7 @@ function Packages({ userListings = [] }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <button
               onClick={goToOrderForm}
-              className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#111111] hover:shadow-lg"
+              className="inline-flex items-center gap-2 bg-[#3355FF] text-white rounded-full px-8 py-4 font-medium text-lg transition-all duration-300 hover:bg-[#1D4ED8] hover:shadow-lg"
              
             >
               <Camera className="w-5 h-5" />
@@ -2208,7 +2208,7 @@ function Packages({ userListings = [] }) {
       </section>
 
       {/* Broker Assisted Section */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
         <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.1), transparent)', filter: 'blur(40px)' }} />
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
@@ -2352,7 +2352,7 @@ function Packages({ userListings = [] }) {
                           <button
                             type="button"
                             onClick={nextStep}
-                            className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#111111]"
+                            className="inline-flex items-center gap-2 bg-[#3355FF] text-white rounded-full px-6 py-3 font-medium transition-all duration-300 hover:bg-[#1D4ED8]"
                            
                           >
                             {currentStep === 3 ? 'Continue to Scheduling' : 'Continue'}
@@ -2363,7 +2363,7 @@ function Packages({ userListings = [] }) {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="inline-flex items-center gap-2 bg-[#1A1816] text-white rounded-full px-8 py-3 font-medium transition-all duration-300 hover:bg-[#111111] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-2 bg-[#3355FF] text-white rounded-full px-8 py-3 font-medium transition-all duration-300 hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed"
                          
                         >
                           {isSubmitting ? 'Submitting...' : 'Submit Order Request'}

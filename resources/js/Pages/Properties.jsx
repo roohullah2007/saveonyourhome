@@ -35,7 +35,7 @@ function BedsDropdown({ searchParams, onApply }) {
   );
 }
 
-function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [] }) {
+function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [], sellerInfo = null }) {
   const { auth } = usePage().props;
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'map' or 'list'
@@ -256,6 +256,34 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
       <div className="flex flex-col h-screen overflow-hidden">
         {/* Header spacer for fixed header */}
         <Header maxWidth={1400} />
+
+        {/* Seller Filter Banner */}
+        {sellerInfo && (
+          <div className="shrink-0 bg-[#EEF4FF] border-b border-[#DBE5F8]">
+            <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-3 flex items-center justify-between gap-4 flex-wrap" style={{ maxWidth: 1400 }}>
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-full bg-white border border-[#DBE5F8] flex items-center justify-center flex-shrink-0">
+                  <svg className="w-4 h-4 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-[#6B7280]">Showing listings by</p>
+                  <p className="text-sm font-semibold text-[#0F172A] truncate">{sellerInfo.name}</p>
+                </div>
+              </div>
+              <Link
+                href="/properties"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#2563EB] hover:underline"
+              >
+                Clear filter
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Filter Bar - Single Row */}
         <div className="relative z-30 shrink-0 border-b border-gray-200 bg-white py-2.5">

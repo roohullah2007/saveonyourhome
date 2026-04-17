@@ -205,7 +205,7 @@ export default function SettingsIndex({ settings = {} }) {
                     </button>
                     <button
                         onClick={() => setShowAddModal(true)}
-                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:bg-[#1D4ED8] transition-colors"
                     >
                         <Plus className="w-5 h-5" />
                         Add Setting
@@ -229,7 +229,7 @@ export default function SettingsIndex({ settings = {} }) {
                     <p className="text-gray-500 mb-6">Get started by initializing default settings or adding custom ones.</p>
                     <button
                         onClick={initializeDefaults}
-                        className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-6 py-3 rounded-lg hover:bg-[#111111] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-lg hover:bg-[#1D4ED8] transition-colors"
                     >
                         <RefreshCw className="w-5 h-5" />
                         Initialize Default Settings
@@ -248,7 +248,7 @@ export default function SettingsIndex({ settings = {} }) {
                                     onClick={() => setActiveTab(tab.key)}
                                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                                         activeTab === tab.key
-                                            ? 'bg-[#1A1816] text-white'
+                                            ? 'bg-[#3355FF] text-white'
                                             : 'bg-white text-gray-600 hover:bg-gray-50'
                                     }`}
                                 >
@@ -326,7 +326,7 @@ export default function SettingsIndex({ settings = {} }) {
                                     disabled={!hasChanges || saving}
                                     className={`inline-flex items-center gap-2 px-6 py-2 rounded-lg transition-colors ${
                                         hasChanges
-                                            ? 'bg-[#1A1816] text-white hover:bg-[#111111]'
+                                            ? 'bg-[#3355FF] text-white hover:bg-[#1D4ED8]'
                                             : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                                     }`}
                                 >
@@ -440,7 +440,7 @@ export default function SettingsIndex({ settings = {} }) {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50"
+                                    className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50"
                                 >
                                     {processing ? 'Creating...' : 'Create Setting'}
                                 </button>

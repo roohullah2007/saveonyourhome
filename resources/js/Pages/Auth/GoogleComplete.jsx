@@ -72,7 +72,7 @@ function GoogleComplete({ googleUser }) {
                                     >
                                         <div className={`p-3 rounded-full ${
                                             data.user_type === 'buyer'
-                                                ? 'bg-[#1A1816] text-white'
+                                                ? 'bg-[#3355FF] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Search className="w-5 h-5" />
@@ -99,7 +99,7 @@ function GoogleComplete({ googleUser }) {
                                     >
                                         <div className={`p-3 rounded-full ${
                                             data.user_type === 'seller'
-                                                ? 'bg-[#1A1816] text-white'
+                                                ? 'bg-[#3355FF] text-white'
                                                 : 'bg-gray-100 text-gray-500'
                                         }`}>
                                             <Home className="w-5 h-5" />
@@ -125,7 +125,7 @@ function GoogleComplete({ googleUser }) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full py-3 px-4 bg-[#111111] text-white rounded-full text-sm font-semibold hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full py-3 px-4 bg-[#111111] text-white rounded-full text-sm font-semibold hover:bg-[#1D4ED8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'Creating Account...' : 'Complete Sign Up'}
                             </button>

@@ -131,7 +131,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                         onClick={() => handleFilter('status', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || '') === tab.key
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >

@@ -1142,7 +1142,7 @@ export default function EditListing({ property }) {
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
                             disabled={isUploading || totalPhotos >= maxPhotos}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#1A1816] text-white rounded-xl text-sm font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#3355FF] text-white rounded-xl text-sm font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                         >
                             {isUploading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -1317,7 +1317,7 @@ export default function EditListing({ property }) {
                                         />
                                         {/* Main Photo Badge */}
                                         {index === 0 && (
-                                            <span className="absolute top-2 left-2 bg-[#1A1816] text-white text-xs px-2 py-1 rounded-full font-medium">
+                                            <span className="absolute top-2 left-2 bg-[#3355FF] text-white text-xs px-2 py-1 rounded-full font-medium">
                                                 Main Photo
                                             </span>
                                         )}
@@ -1392,7 +1392,7 @@ export default function EditListing({ property }) {
                     <button
                         type="submit"
                         disabled={processing || savingPhotos || isUploading}
-                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1A1816] text-white rounded-xl font-medium hover:bg-[#111111] transition-colors disabled:opacity-50"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-xl font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                     >
                         {(processing || savingPhotos) ? (
                             <Loader2 className="w-5 h-5 animate-spin" />

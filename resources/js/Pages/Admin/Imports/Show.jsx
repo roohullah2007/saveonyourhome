@@ -359,7 +359,7 @@ export default function ImportsShow({ batch, properties, viewedCount }) {
                                     href={link.url || '#'}
                                     className={`px-3 py-1 text-sm rounded ${
                                         link.active
-                                            ? 'bg-[#1A1816] text-white'
+                                            ? 'bg-[#3355FF] text-white'
                                             : link.url
                                             ? 'text-gray-600 hover:bg-gray-100'
                                             : 'text-gray-300 cursor-not-allowed'
@@ -414,7 +414,7 @@ export default function ImportsShow({ batch, properties, viewedCount }) {
                                         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                                             copied
                                                 ? 'bg-green-100 text-green-700'
-                                                : 'bg-[#1A1816] text-white hover:bg-[#111111]'
+                                                : 'bg-[#3355FF] text-white hover:bg-[#1D4ED8]'
                                         }`}
                                     >
                                         {copied ? (

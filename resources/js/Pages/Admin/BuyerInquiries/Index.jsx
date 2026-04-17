@@ -146,7 +146,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                         onClick={() => handleFilter('status', tab.key)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                             (filters.status || 'all') === tab.key
-                                ? 'bg-[#1A1816] text-white'
+                                ? 'bg-[#3355FF] text-white'
                                 : 'bg-white text-gray-600 hover:bg-gray-50'
                         }`}
                     >
@@ -458,7 +458,7 @@ export default function BuyerInquiriesIndex({ inquiries, filters = {}, counts = 
                             </button>
                             <button
                                 onClick={updateNotes}
-                                className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111]"
+                                className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8]"
                             >
                                 Save Notes
                             </button>

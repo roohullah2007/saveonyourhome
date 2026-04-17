@@ -287,7 +287,7 @@ function Index({ serviceRequests, counts, filters }) {
                         </select>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors"
+                            className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] transition-colors"
                         >
                             Search
                         </button>
@@ -456,7 +456,7 @@ function Index({ serviceRequests, counts, filters }) {
                                     href={link.url || '#'}
                                     className={`px-3 py-2 text-sm rounded-lg ${
                                         link.active
-                                            ? 'bg-[#1A1816] text-white'
+                                            ? 'bg-[#3355FF] text-white'
                                             : link.url
                                             ? 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
                                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -494,7 +494,7 @@ function Index({ serviceRequests, counts, filters }) {
                                 </button>
                                 <button
                                     onClick={saveNote}
-                                    className="px-4 py-2 text-sm bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] transition-colors"
+                                    className="px-4 py-2 text-sm bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] transition-colors"
                                 >
                                     Save Note
                                 </button>

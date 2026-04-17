@@ -188,7 +188,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                 href={item.href}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
                                     item.current
-                                        ? 'bg-[#1A1816] text-white'
+                                        ? 'bg-[#3355FF] text-white'
                                         : 'text-gray-600 hover:bg-gray-100'
                                 }`}
                                
@@ -282,7 +282,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             onClick={() => setActiveTab(tab.key)}
                                             className={`w-full flex items-center gap-3 px-4 py-3.5 text-left text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0 ${
                                                 isActive && !isDelete
-                                                    ? 'bg-[#1A1816] text-white'
+                                                    ? 'bg-[#3355FF] text-white'
                                                     : isActive && isDelete
                                                     ? 'bg-red-600 text-white'
                                                     : isDelete
@@ -413,7 +413,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <button
                                                 type="submit"
                                                 disabled={profileProcessing}
-                                                className="px-8 py-3 bg-[#1A1816] text-white rounded-xl hover:bg-[#111111] transition-colors disabled:opacity-50 font-medium"
+                                                className="px-8 py-3 bg-[#3355FF] text-white rounded-xl hover:bg-[#1D4ED8] transition-colors disabled:opacity-50 font-medium"
                                                
                                             >
                                                 {profileProcessing ? 'Saving...' : 'Save Changes'}
@@ -532,7 +532,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <button
                                                 type="submit"
                                                 disabled={passwordProcessing}
-                                                className="px-8 py-3 bg-[#1A1816] text-white rounded-xl hover:bg-[#111111] transition-colors disabled:opacity-50 font-medium"
+                                                className="px-8 py-3 bg-[#3355FF] text-white rounded-xl hover:bg-[#1D4ED8] transition-colors disabled:opacity-50 font-medium"
                                                
                                             >
                                                 {passwordProcessing ? 'Updating...' : 'Update Password'}

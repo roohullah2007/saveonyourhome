@@ -166,7 +166,7 @@ export default function CompanyLogosIndex({ logos = [] }) {
                 </div>
                 <button
                     onClick={openAddModal}
-                    className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-4 py-2 rounded-lg hover:bg-[#111111] transition-colors"
+                    className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:bg-[#1D4ED8] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Add Logo
@@ -412,7 +412,7 @@ export default function CompanyLogosIndex({ logos = [] }) {
                                 <button
                                     type="submit"
                                     disabled={submitting}
-                                    className="px-4 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 flex items-center gap-2"
+                                    className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 flex items-center gap-2"
                                 >
                                     <Save className="w-4 h-4" />
                                     {submitting ? 'Saving...' : (editingLogo ? 'Update' : 'Create')}

@@ -121,8 +121,8 @@ function HomeWorth() {
                     style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
                   />
                 </div>
-                <button className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 w-full" style={{ backgroundColor: 'rgb(26,24,22)', height: '52px', fontSize: '17px', fontWeight: 600 }}>
-                  Check <ArrowRight className="w-5 h-5" />
+                <button className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90 w-full" style={{ backgroundColor: '#3355FF', height: '46px', fontSize: '14px', fontWeight: 600 }}>
+                  Check <ArrowRight style={{ width: '16px', height: '16px' }} />
                 </button>
               </div>
               <p className="mt-4 text-center" style={{ fontSize: '14px', color: 'rgb(156,163,175)' }}>
@@ -152,7 +152,7 @@ function HomeWorth() {
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
-                style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}
+                style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
               >
                 Ask Questions
                 <ArrowRight className="w-5 h-5" />
@@ -198,7 +198,7 @@ function HomeWorth() {
       </section>
 
       {/* Agent Contact Section */}
-      <section style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section style={{ backgroundColor: '#3355FF' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
           <div className="max-w-2xl mx-auto text-center mb-12">
             <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(255,255,255)' }}>
@@ -300,7 +300,7 @@ function HomeWorth() {
                 type="submit"
                 disabled={processing}
                 className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto"
-                style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '52px', paddingLeft: '35px', paddingRight: '35px', fontSize: '17px', fontWeight: 600 }}
+                style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
               >
                 {processing ? 'Sending...' : 'Contact Agent'} <ArrowRight className="w-5 h-5" />
               </button>

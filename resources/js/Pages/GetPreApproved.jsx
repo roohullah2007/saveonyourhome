@@ -263,7 +263,7 @@ function GetPreApproved() {
                       type="button"
                       onClick={() => setCurrentStep(currentStep - 1)}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: 'rgb(120,120,130)', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
+                      style={{ backgroundColor: 'rgb(120,120,130)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                     >
                       Previous
                     </button>
@@ -274,7 +274,7 @@ function GetPreApproved() {
                       type="button"
                       onClick={() => setCurrentStep(currentStep + 1)}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
+                      style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                     >
                       Next
                     </button>
@@ -283,7 +283,7 @@ function GetPreApproved() {
                       type="submit"
                       disabled={processing}
                       className="inline-flex items-center justify-center rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                      style={{ backgroundColor: '#3355FF', height: '52px', paddingLeft: '31px', paddingRight: '31px', fontSize: '17px', fontWeight: 600 }}
+                      style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
                     >
                       {processing ? 'Submitting...' : 'Submit'}
                     </button>
@@ -296,7 +296,7 @@ function GetPreApproved() {
       </section>
 
       {/* CTA */}
-      <section className="dark-selection" style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section className="dark-selection" style={{ backgroundColor: '#3355FF' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-16 md:py-24 text-center" style={{ maxWidth: '1400px' }}>
           <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white mb-5" style={{ fontWeight: 700 }}>
             Ready to get started?
@@ -304,7 +304,7 @@ function GetPreApproved() {
           <p className="mx-auto mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.65)', maxWidth: '600px' }}>
             Take the first step toward homeownership. Our lenders are ready to help you get pre-approved.
           </p>
-          <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+          <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
             Contact Us <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

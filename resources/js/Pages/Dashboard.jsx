@@ -119,7 +119,7 @@ function Dashboard({ properties = [], stats = {}, recentInquiries = [] }) {
                             <p className="text-sm text-gray-500 mb-5">Start by adding your first property listing</p>
                             <Link
                                 href="/list-property"
-                                className="inline-flex items-center gap-2 bg-[#1A1816] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-black transition-colors"
+                                className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#1D4ED8] transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 Add Your First Listing

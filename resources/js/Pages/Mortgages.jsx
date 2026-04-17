@@ -64,8 +64,8 @@ function Mortgages() {
                 Compare rates from over 25 lenders, get pre-approved fast, and close with confidence. Your home financing journey starts here.
               </p>
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>Get Pre-Approved <ArrowRight className="w-5 h-5" /></Link>
-                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>Browse Properties</Link>
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Get Pre-Approved <ArrowRight className="w-5 h-5" /></Link>
+                <Link href="/properties" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>Browse Properties</Link>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ function Mortgages() {
             {howItWorks.map((s, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-8 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
                 <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '44px', height: '48px', backgroundColor: '#3355FF' }}>
                   <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{s.num}</span>
                 </div>
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' }}>{s.title}</h3>
@@ -129,7 +129,7 @@ function Mortgages() {
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {tips.map((t, i) => (
               <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-lg p-6 flex items-start gap-4" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '48px', backgroundColor: 'rgb(26,24,22)' }}>
+                <div className="flex items-center justify-center rounded-xl flex-shrink-0" style={{ width: '44px', height: '48px', backgroundColor: '#3355FF' }}>
                   <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <div>
@@ -143,7 +143,7 @@ function Mortgages() {
       </section>
 
       {/* Pre-Approval CTA */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: 'rgb(26,24,22)' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#3355FF' }}>
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15), transparent)', filter: 'blur(60px)' }} />
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20 relative z-10" style={{ maxWidth: '1400px' }}>
           <div className="text-center max-w-2xl mx-auto">
@@ -155,10 +155,10 @@ function Mortgages() {
               Strengthen your offer with a pre-approval letter. We'll connect you with a trusted lender who provides priority service and free pre-approval.
             </p>
             <div className="flex gap-3 justify-center">
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600 }}>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full transition-opacity hover:opacity-90" style={{ backgroundColor: 'white', color: 'rgb(26,24,22)', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
                 Request Pre-Approval <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '50px', paddingLeft: '31px', paddingRight: '31px', fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
+              <Link href="/buyers" className="inline-flex items-center justify-center gap-2 rounded-full transition-colors" style={{ height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.25)', color: 'white', background: 'rgba(255,255,255,0.08)' }}>
                 Buyers Guide
               </Link>
             </div>

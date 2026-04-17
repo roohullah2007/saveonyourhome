@@ -125,7 +125,7 @@ export default function MessagePreferences({ preferences }) {
                         type="submit"
                         disabled={processing}
                         className="inline-flex items-center justify-center rounded-xl text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                        style={{ backgroundColor: 'rgb(26, 24, 22)', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
+                        style={{ backgroundColor: '#3355FF', height: '48px', paddingLeft: '32px', paddingRight: '32px', fontSize: '15px', fontWeight: 600 }}
                     >
                         {processing ? 'Saving...' : 'Save Preferences'}
                     </button>

@@ -81,6 +81,11 @@ class PropertyController extends Controller
             'stories' => 'nullable|integer|min:1|max:5',
             'hasHoa' => 'nullable|boolean',
             'hoaFee' => 'nullable|numeric|min:0',
+            'annualPropertyTax' => 'nullable|numeric|min:0',
+            'county' => 'nullable|string|max:120',
+            'isMotivatedSeller' => 'nullable|boolean',
+            'openToRealtors' => 'nullable|boolean',
+            'requiresPreApproval' => 'nullable|boolean',
             'description' => 'required|string',
             'features' => 'nullable', // JSON string or array from frontend
             'contactName' => 'required|string',
@@ -139,6 +144,7 @@ class PropertyController extends Controller
             'city' => $validated['city'],
             'state' => 'Oklahoma',
             'zip_code' => $validated['zipCode'],
+            'county' => $validated['county'] ?? null,
             'subdivision' => $validated['subdivision'] ?? null,
             // School Information
             'school_district' => $validated['schoolDistrict'],
@@ -159,6 +165,10 @@ class PropertyController extends Controller
             'stories' => $validated['stories'] ?? null,
             'has_hoa' => $validated['hasHoa'] ?? false,
             'hoa_fee' => $validated['hoaFee'] ?? null,
+            'annual_property_tax' => $validated['annualPropertyTax'] ?? null,
+            'is_motivated_seller' => $validated['isMotivatedSeller'] ?? false,
+            'open_to_realtors' => $validated['openToRealtors'] ?? true,
+            'requires_pre_approval' => $validated['requiresPreApproval'] ?? false,
             'description' => $validated['description'],
             'features' => $features,
             'photos' => $photoPaths,
@@ -223,9 +233,20 @@ class PropertyController extends Controller
         // Increment view count
         $property->incrementViews();
 
+        // Fetch similar listings: same property type, nearby price, different property
+        $similarListings = Property::where('id', '!=', $property->id)
+            ->where('is_active', true)
+            ->where('approval_status', 'approved')
+            ->where('property_type', $property->property_type)
+            ->orderByDesc('is_featured')
+            ->latest()
+            ->take(3)
+            ->get();
+
         return Inertia::render('PropertyDetail', [
             'property' => $property,
             'openHouses' => $property->upcomingOpenHouses()->get(),
+            'similarListings' => $similarListings,
         ]);
     }
 
@@ -310,6 +331,22 @@ class PropertyController extends Controller
     {
         $query = Property::where('approval_status', 'approved');
 
+        // Filter by seller (user) — only show that seller's listings
+        $sellerInfo = null;
+        if ($request->filled('user')) {
+            $userId = (int) $request->input('user');
+            $query->where('user_id', $userId);
+            $seller = User::find($userId);
+            if ($seller) {
+                $sellerInfo = [
+                    'id'    => $seller->id,
+                    'name'  => $seller->name,
+                    'email' => $seller->email,
+                    'phone' => $seller->phone ?? null,
+                ];
+            }
+        }
+
         // Map frontend status values to listing_status
         $statusMap = [
             'for-sale' => 'for_sale',
@@ -318,7 +355,10 @@ class PropertyController extends Controller
             'inactive' => 'inactive',
         ];
 
-        $status = $request->status ?? 'for-sale';
+        // When viewing a seller's listings, default to "all" so we don't hide
+        // their pending/sold listings unless the visitor explicitly filters.
+        $defaultStatus = $sellerInfo ? 'all' : 'for-sale';
+        $status = $request->status ?? $defaultStatus;
 
         // Handle "all" status - show for_sale, pending, and sold
         if ($status === 'all') {
@@ -489,9 +529,10 @@ class PropertyController extends Controller
 
         return Inertia::render('Properties', [
             'properties' => $properties,
-            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'hasVirtualTour', 'lotSizeMin', 'sort', 'amenities']),
+            'filters' => $request->only(['keyword', 'location', 'status', 'propertyType', 'priceMin', 'priceMax', 'bedrooms', 'bathrooms', 'schoolDistrict', 'hasOpenHouse', 'hasVirtualTour', 'lotSizeMin', 'sort', 'amenities', 'user']),
             'isAdmin' => $isAdmin,
             'allPropertiesForMap' => $allPropertiesForMap,
+            'sellerInfo' => $sellerInfo,
         ]);
     }
 

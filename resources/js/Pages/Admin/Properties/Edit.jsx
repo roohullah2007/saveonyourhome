@@ -972,7 +972,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     <Trash2 className="w-3 h-3" />
                                 </button>
                                 {isMain && (
-                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#1A1816] text-white text-xs rounded flex items-center gap-1">
+                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#3355FF] text-white text-xs rounded flex items-center gap-1">
                                         <Star className="w-3 h-3 fill-current" />Main
                                     </span>
                                 )}
@@ -1016,7 +1016,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                                     </div>
                                 )}
                                 {isMain && preview.serverPath && (
-                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#1A1816] text-white text-xs rounded flex items-center gap-1">
+                                    <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#3355FF] text-white text-xs rounded flex items-center gap-1">
                                         <Star className="w-3 h-3 fill-current" />Main
                                     </span>
                                 )}
@@ -1072,7 +1072,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                     <button
                         type="submit"
                         disabled={saving || isUploading}
-                        className="px-6 py-2 bg-[#1A1816] text-white rounded-lg hover:bg-[#111111] disabled:opacity-50 flex items-center gap-2"
+                        className="px-6 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 flex items-center gap-2"
                     >
                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                         {saving ? 'Saving...' : 'Save Changes'}
