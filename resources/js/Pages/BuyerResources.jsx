@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
 const defaultResources = [
@@ -69,30 +70,7 @@ function BuyerResources({ resources }) {
             style={{ maxWidth: '1400px', width: '100%' }}
           >
             <div className="w-full max-w-[600px]">
-              <div
-                className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5"
-                style={{
-                  border: '1px solid rgba(156,163,175,0.25)',
-                  background: 'rgba(255,255,255,0.06)',
-                  backdropFilter: 'blur(20px)',
-                  boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px',
-                }}
-              >
-                <div
-                  className="h-2 w-2 rounded-full bg-emerald-400"
-                  style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }}
-                />
-                <span
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    letterSpacing: '1.5px',
-                    color: 'rgba(255,255,255,0.9)',
-                  }}
-                >
-                  BUYER RESOURCES
-                </span>
-              </div>
+              <HeroBadge>BUYER RESOURCES</HeroBadge>
               <h1
                 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white"
                 style={{ letterSpacing: '-0.5px' }}

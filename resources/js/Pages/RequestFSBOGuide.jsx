@@ -5,6 +5,7 @@ import {
   ShieldCheck, Handshake, Key, Download,
 } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
 function RequestFSBOGuide() {
@@ -40,10 +41,7 @@ function RequestFSBOGuide() {
         <div className="relative flex flex-col h-full">
           <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
             <div className="w-full max-w-[600px]">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)' }}>
-                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>FREE GUIDE</span>
-              </div>
+              <HeroBadge>FREE GUIDE</HeroBadge>
               <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white">Request Free FSBO Guide</h1>
               <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>Get our step-by-step guide packed with expert tips to help you sell your home confidently without a realtor.</p>
             </div>

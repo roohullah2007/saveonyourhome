@@ -1,241 +1,294 @@
 import React, { useState } from 'react';
-import { Link, useForm, usePage } from '@inertiajs/react';
-import { ArrowRight, ChevronDown, Phone, Mail } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import {
+  ArrowRight, ChevronDown, CheckCircle2, Shield, DollarSign, Camera,
+  QrCode, MessageSquare, Smartphone, Users, Star, TrendingUp, Sparkles,
+} from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Sellers() {
-  const { flash } = usePage().props;
-  const [openFaq, setOpenFaq] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
+  const { auth } = usePage().props;
+  const user = auth?.user;
+  const [openFaq, setOpenFaq] = useState(0);
 
-  const { data, setData, post, processing, errors, reset, transform } = useForm({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
+  const primaryCta = user ? { href: '/list-property', label: 'List my home now' } : { href: '/register', label: 'Create free account & list' };
 
-  transform((data) => ({
-    name: `${data.first_name} ${data.last_name}`.trim(),
-    email: data.email,
-    phone: data.phone,
-    subject: 'Sell Your Home Inquiry',
-    message: data.message,
-  }));
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    post(route('contact.store'), {
-      onSuccess: () => {
-        reset();
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 5000);
-      },
-    });
-  };
-
-  const whyFsbo = [
-    { title: 'Sell Your Way, Your Terms', desc: 'Take full control of your home sale. Show your property when it suits you, set your own price, and connect directly with buyers on your schedule.' },
-    { title: 'Maximize Your Savings', desc: 'Traditional real estate agents charge hefty commissions. By selling through FSBO, you keep more of your money. Invest in what matters most \u2014 your next home.' },
-    { title: 'Direct Buyer Interaction', desc: 'Connect directly with potential buyers. Answer their questions, showcase your property, and negotiate offers without any barriers. Your home, your conversations.' },
-    { title: 'Transparency and Trust', desc: 'Our platform is built on transparency. No hidden fees, no surprises. We believe in trust and honesty, ensuring a straightforward selling experience you can rely on.' },
-    { title: 'Empower Your Journey', desc: 'Selling your home is a significant milestone. Empower your journey by choosing SaveOnYourHome. Experience the freedom of selling on your terms and the satisfaction of a successful, commission-free sale.' },
+  const valueProps = [
+    { icon: DollarSign, title: 'Keep the commission', text: 'Skip the 5–6% agent fee. On a $400K sale, that\'s $20,000+ back in your pocket.' },
+    { icon: Shield, title: 'Full transparency', text: 'No hidden fees, no upsell gimmicks. You own the sale and all the decisions.' },
+    { icon: Smartphone, title: 'Modern tools included', text: 'AI valuation, QR yard signs, private messaging, virtual tours — all built in.' },
+    { icon: Users, title: 'Buyers come to you', text: 'Serious FSBO-friendly buyers browse our platform daily.' },
   ];
 
-  const howItWorks = [
-    { num: '01', title: 'List Your Property', desc: 'Capture attention with photos, videos, and virtual tours. Utilize intuitive pricing tools and expert guidance to attract ideal buyers efficiently and effectively.' },
-    { num: '02', title: 'Connect with Buyers', desc: 'Engage directly, answer questions, schedule viewings. Coordinate showings, highlight unique features, and negotiate offers for the best deal.' },
-    { num: '03', title: 'Close the Deal', desc: 'Our team ensures accurate, efficient paperwork. Close smoothly, transfer ownership hassle-free. Congratulate yourself on a successful sale, enjoying savings from avoiding hefty agent commissions.' },
+  const steps = [
+    { n: '01', title: 'Create your free account', text: 'Sign up in under a minute. No credit card. No obligations.', cta: user ? null : { href: '/register', label: 'Sign up free' } },
+    { n: '02', title: 'List your home in 5 minutes', text: 'Add photos, details, and price. Our smart wizard walks you through every field.', cta: { href: '/list-property', label: 'Start a listing' } },
+    { n: '03', title: 'Market and manage offers', text: 'Use your free yard sign with QR code, invite buyers, host open houses, and handle messages from a single dashboard.', cta: null },
+    { n: '04', title: 'Close and save thousands', text: 'Accept the best offer, work with your attorney or title company, and pocket the commission you would have paid an agent.', cta: null },
+  ];
+
+  const features = [
+    { icon: TrendingUp, title: 'AI valuation tool', text: 'Price confidently with our instant valuation based on recent local sales.' },
+    { icon: Camera, title: 'Photo & video galleries', text: 'Upload unlimited photos, add virtual tours or video walkthroughs — all included.' },
+    { icon: QrCode, title: 'Free QR yard sign', text: 'Order a free yard sign with a custom QR code that drives traffic to your listing.' },
+    { icon: MessageSquare, title: 'Private buyer messaging', text: 'Communicate safely with buyers. Your phone and email stay private until you share them.' },
+    { icon: Sparkles, title: 'Premium add-ons', text: 'Optional pro photography, MLS syndication, and 3D tours if you want the extras.' },
+    { icon: Star, title: 'Trusted partners', text: 'Attorneys, inspectors, mortgage bankers — vetted by us, available when you need them.' },
+  ];
+
+  const compareRows = [
+    { feature: 'Listing cost', agent: '$0 upfront (3% commission at close)', fsbo: 'Free, forever' },
+    { feature: 'Typical commission paid', agent: '5%–6% of sale price', fsbo: '0%–2.5% (your choice)' },
+    { feature: 'Control over showings', agent: 'Agent schedules', fsbo: 'You schedule' },
+    { feature: 'Photos & marketing', agent: 'Agent package', fsbo: 'Included + optional premium' },
+    { feature: 'Who negotiates', agent: 'Your agent', fsbo: 'You, with optional attorney support' },
+    { feature: 'Net proceeds on $400K', agent: '≈ $376,000', fsbo: '≈ $396,000+' },
+  ];
+
+  const testimonials = [
+    { name: 'Jessica & Mark', city: 'Tulsa, OK', text: 'We listed on SaveOnYourHome on a Monday and accepted an offer the following Sunday. We saved $18,400 in commissions.', savings: '$18,400 saved' },
+    { name: 'David L.', city: 'Raleigh, NC', text: 'The process was shockingly easy. The QR yard sign alone drove 40+ scans in the first weekend.', savings: '$22,750 saved' },
+    { name: 'Priya & Sanjay', city: 'Brandon, FL', text: 'We handled showings on our terms. Our attorney reviewed the contract for $500 — that\'s it.', savings: '$14,900 saved' },
   ];
 
   const faqs = [
-    { q: 'How long does the sales process take?', a: 'The timeline varies depending on market conditions, pricing, and property location. On average, FSBO homes sell within 30 to 90 days. Pricing your home competitively and presenting it well can help speed up the process significantly.' },
-    { q: 'How do you rate my property?', a: 'We use a combination of market data, comparable sales in your area, and our AI-powered valuation tools to help you determine a competitive and fair price for your property. You can also consult with a professional appraiser for an in-depth assessment.' },
-    { q: 'Is listing on your platform free?', a: 'Yes! Listing your home on SaveOnYourHome.com is completely free. There are no commissions or hidden fees. We offer optional premium services for additional exposure, but the basic listing is free forever.' },
-    { q: 'What does \'find your own buyer\' mean exactly?', a: 'Finding your own buyer means you take control of the selling process. You market your property, connect directly with interested buyers, negotiate offers, and close the deal without paying a traditional real estate agent commission. Our platform provides the tools and support to make this process straightforward.' },
+    { q: 'Is listing on SaveOnYourHome really free?', a: 'Yes — 100% free. You can list your home, upload photos, and manage inquiries without paying anything. We offer optional paid upgrades like professional photography and MLS syndication, but you choose what to add.' },
+    { q: 'What does "sell by owner" actually mean?', a: 'You control every step: pricing, marketing, negotiating, and closing — without a listing agent taking a commission. We provide the tools, partners, and platform to make it straightforward.' },
+    { q: 'Do I still need an attorney or title company?', a: 'Yes — for the legal and closing work. A flat-fee real estate attorney typically runs $400–$800 and is a fraction of an agent\'s commission. We can connect you with vetted local pros.' },
+    { q: 'How long does a FSBO sale take?', a: 'Well-priced, well-photographed FSBO homes typically sell in 30–90 days. Our platform gives you every tool to compete with agent-listed homes.' },
+    { q: 'Will my listing show up on Zillow/Realtor.com?', a: 'The basic listing is featured on SaveOnYourHome. If you want syndication to Zillow, Realtor.com and the MLS, we offer an affordable paid add-on.' },
+    { q: 'Can I work with buyer\'s agents who bring offers?', a: 'Absolutely. You can negotiate a buyer\'s agent commission (commonly 2–2.5%) or decline. You stay in full control.' },
   ];
 
   return (
     <>
       <SEOHead
-        title="Sellers"
-        description="Sell your home with confidence and ease on SaveOnYourHome.com. Commission-free FSBO listing, direct buyer connections, and expert guidance for a successful sale."
-        keywords="sell home by owner, FSBO, sell house no commission, list property for sale, FSBO tips"
+        title="Sell Your Home — Free FSBO Listing"
+        description="Sell your home by owner and keep the commission. Free listings, pro tools, private messaging, QR yard sign, and vetted local partners. List in 5 minutes on SaveOnYourHome."
+        keywords="sell my home, FSBO, for sale by owner, sell home without agent, no commission real estate, list home free"
       />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden h-[400px] md:h-[450px] lg:h-[500px]">
-        <img src="https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Sell your home" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,15,30,0.75) 0%, rgba(10,15,30,0.45) 50%, rgba(10,15,30,0.65) 100%)' }} />
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: '200px', background: 'linear-gradient(transparent 0%, rgba(249,250,251,0.4) 50%, rgb(249,250,251) 100%)' }} />
-        <div className="relative flex flex-col h-full">
-          <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
-            <div className="w-full max-w-[600px]">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
-                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>FOR SELLERS</span>
-              </div>
-              <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[60px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
-                Sell Your Home with <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Confidence and Ease!</span>
-              </h1>
-              <p className="mt-5" style={{ fontSize: '19px', lineHeight: '30px', color: 'rgba(255,255,255,0.75)', maxWidth: '480px' }}>
-                Take control of your home sale with SaveOnYourHome.com. Benefit from commission-free savings and embark on your path to a successful sale right here.
-              </p>
-              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>List My Home <ArrowRight className="w-5 h-5" /></Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose FSBO */}
-      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>WHY CHOOSE FSBO?</span></div>
-          <h2 className="mb-14 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Sell on Your Terms</h2>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
-            {whyFsbo.map((item, i) => (
-              <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col items-center p-7 text-center group" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="mb-4 flex items-center justify-center rounded-2xl" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245,245,244)' }}>
-                  <span style={{ fontSize: '22px', fontWeight: 800, color: 'rgb(26,24,22)' }}>{String(i + 1).padStart(2, '0')}</span>
-                </div>
-                <h3 className="mb-2" style={{ fontWeight: 700, fontSize: '15px', color: 'rgb(26,24,22)', letterSpacing: '0.3px' }}>{item.title}</h3>
-                <p style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>HOW IT WORKS</span></div>
-          <h2 className="mb-14 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Your Step-by-Step Guide to Success</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {howItWorks.map((s, i) => (
-              <div key={i} className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 p-9 group relative" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="absolute top-0 left-0 right-0 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ height: '2px', background: 'rgb(26,24,22)' }} />
-                <div className="mb-4 flex items-center justify-center rounded-xl" style={{ width: '48px', height: '48px', backgroundColor: '#3355FF' }}>
-                  <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{s.num}</span>
-                </div>
-                <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)', marginBottom: '8px' }}>{s.title}</h3>
-                <p style={{ fontSize: '17px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="mb-4 text-center"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>CONTACT US</span></div>
-          <h2 className="mb-5 text-center text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Do you have questions or need support?</h2>
-          <p className="text-center mb-14" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '600px', margin: '0 auto 56px' }}>
-            Contact us now, we will be happy to answer your questions.
-          </p>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Contact Info */}
-            <div className="space-y-6">
-              <div className="rounded-2xl border border-gray-200/60 p-7 flex items-center gap-4" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="flex items-center justify-center rounded-2xl flex-shrink-0" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245,245,244)' }}>
-                  <Phone className="w-5 h-5" style={{ color: 'rgb(26,24,22)' }} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'rgb(26,24,22)', letterSpacing: '0.5px', marginBottom: '4px' }}>PHONE</h3>
-                  <a href="tel:2016960291" style={{ fontSize: '15px', color: 'rgb(100,100,100)' }}>201.696.0291</a>
-                </div>
-              </div>
-              <div className="rounded-2xl border border-gray-200/60 p-7 flex items-center gap-4" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                <div className="flex items-center justify-center rounded-2xl flex-shrink-0" style={{ width: '56px', height: '56px', backgroundColor: 'rgb(245,245,244)' }}>
-                  <Mail className="w-5 h-5" style={{ color: 'rgb(26,24,22)' }} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'rgb(26,24,22)', letterSpacing: '0.5px', marginBottom: '4px' }}>EMAIL</h3>
-                  <a href="mailto:info@saveonyourhome.com" style={{ fontSize: '15px', color: 'rgb(100,100,100)' }}>info@saveonyourhome.com</a>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-              {(submitted || flash?.success) && (
-                <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Message sent successfully! We'll get back to you soon.</p>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>First Name *</label>
-                    <input type="text" value={data.first_name} onChange={e => setData('first_name', e.target.value)} placeholder="First name" required className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }} />
-                    {errors.first_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.first_name}</p>}
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Last Name *</label>
-                    <input type="text" value={data.last_name} onChange={e => setData('last_name', e.target.value)} placeholder="Last name" required className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }} />
-                    {errors.last_name && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.last_name}</p>}
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Email Address *</label>
-                    <input type="email" value={data.email} onChange={e => setData('email', e.target.value)} placeholder="your@email.com" required className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }} />
-                    {errors.email && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.email}</p>}
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Phone Number</label>
-                    <input type="tel" value={data.phone} onChange={e => setData('phone', e.target.value)} placeholder="(555) 123-4567" className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500" style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }} />
-                    {errors.phone && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.phone}</p>}
-                  </div>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Message *</label>
-                  <textarea value={data.message} onChange={e => setData('message', e.target.value)} placeholder="How can we help you?" required rows={5} className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-none" style={{ fontSize: '17px', color: 'rgb(26,24,22)' }} />
-                  {errors.message && <p style={{ fontSize: '13px', color: 'rgb(239,68,68)', marginTop: '4px' }}>{errors.message}</p>}
-                </div>
-                <button type="submit" disabled={processing} className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50 w-full sm:w-auto" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>
-                  {processing ? 'Sending...' : 'Send'} <ArrowRight className="w-5 h-5" />
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
-        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left side */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1816] to-[#2d2a26]">
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 75% 10%, rgba(51,85,255,0.4) 0%, transparent 55%)' }} />
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-14 md:py-24 relative" style={{ maxWidth: 1400 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="mb-4"><span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>FAQS</span></div>
-              <h2 className="text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] mb-5" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>Frequently Asked Questions</h2>
-              <p className="mb-8" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)', maxWidth: '480px' }}>
-                Can't find an answer to your question? Contact us, we will be happy to answer your questions.
+              <HeroBadge className="mb-5">Sell Your Home</HeroBadge>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05]">
+                Keep your <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">equity.</span><br />
+                Skip the <span className="line-through decoration-[#3355FF] decoration-4">agent</span>.
+              </h1>
+              <p className="mt-5 text-lg text-white/80 max-w-xl leading-relaxed">
+                List your home free on SaveOnYourHome, market it like a pro, and pocket the commission a traditional agent would have taken. The average seller keeps $18,000+ at closing.
               </p>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90" style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}>Ask Questions <ArrowRight className="w-5 h-5" /></Link>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <Link href={primaryCta.href} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#3355FF] px-6 py-3.5 text-sm font-bold text-white hover:opacity-90">
+                  {primaryCta.label} <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="#how-it-works" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10">
+                  See how it works
+                </Link>
+              </div>
+              <div className="mt-8 flex items-center gap-6 text-white/70">
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
+                </div>
+                <div className="text-sm">Trusted by thousands of FSBO sellers</div>
+              </div>
             </div>
-            {/* Right side - accordion */}
-            <div className="space-y-3">
+            <div className="hidden lg:block">
+              <div className="relative">
+                <div className="absolute -top-6 -right-6 rounded-2xl bg-[#3355FF] text-white px-5 py-3 shadow-xl z-10">
+                  <div className="text-xs uppercase tracking-wider opacity-80">Commission saved</div>
+                  <div className="text-2xl font-extrabold">$18,400</div>
+                </div>
+                <img
+                  src="https://images.pexels.com/photos/7641893/pexels-photo-7641893.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                  alt="For sale by owner"
+                  className="rounded-2xl w-full h-[440px] object-cover"
+                />
+                <div className="absolute -bottom-4 -left-4 rounded-2xl bg-white text-[#1a1816] px-5 py-3 shadow-xl">
+                  <div className="text-xs uppercase tracking-wider text-gray-500">Listing fee</div>
+                  <div className="text-2xl font-extrabold">$0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Value props strip */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-10" style={{ maxWidth: 1400 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {valueProps.map((v) => (
+              <div key={v.title} className="flex items-start gap-3">
+                <div className="shrink-0 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
+                  <v.icon className="w-5 h-5" style={{ color: '#3355FF' }} />
+                </div>
+                <div>
+                  <div className="font-bold text-[#1a1816] mb-1">{v.title}</div>
+                  <div className="text-sm text-gray-600 leading-6">{v.text}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how-it-works" className="bg-gray-50 py-14 md:py-20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1180 }}>
+          <div className="text-center mb-12">
+            <span className="text-xs font-semibold uppercase tracking-[2px] text-gray-500">How it works</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#1a1816]">From listing to closing — you're in control</h2>
+            <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+              Four clear steps, every tool included, and vetted partners ready when you need help.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {steps.map((s) => (
+              <div key={s.n} className="rounded-2xl bg-white border border-gray-200 p-7">
+                <div className="text-[#3355FF] text-3xl font-extrabold mb-3">{s.n}</div>
+                <h3 className="text-xl font-bold text-[#1a1816] mb-2">{s.title}</h3>
+                <p className="text-gray-600 text-[15px] leading-7 mb-4">{s.text}</p>
+                {s.cta && (
+                  <Link href={s.cta.href} className="inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: '#3355FF' }}>
+                    {s.cta.label} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="bg-white py-14 md:py-20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1180 }}>
+          <div className="text-center mb-12">
+            <span className="text-xs font-semibold uppercase tracking-[2px] text-gray-500">Everything you need</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#1a1816]">Built for FSBO sellers, top to bottom</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {features.map((f) => (
+              <div key={f.title} className="rounded-2xl border border-gray-200 p-7 hover:border-gray-300 hover:shadow-md transition-all">
+                <f.icon className="w-7 h-7 mb-4" style={{ color: '#3355FF' }} />
+                <h3 className="text-lg font-bold text-[#1a1816] mb-2">{f.title}</h3>
+                <p className="text-gray-600 text-sm leading-6">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison table */}
+      <section className="bg-gray-50 py-14 md:py-20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1180 }}>
+          <div className="text-center mb-10">
+            <span className="text-xs font-semibold uppercase tracking-[2px] text-gray-500">Traditional agent vs. FSBO</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#1a1816]">See exactly where the money goes</h2>
+          </div>
+          <div className="rounded-2xl bg-white border border-gray-200 overflow-hidden">
+            <div className="grid grid-cols-3 bg-[#1a1816] text-white text-sm font-bold">
+              <div className="p-4">Feature</div>
+              <div className="p-4 text-center">Traditional agent</div>
+              <div className="p-4 text-center bg-[#3355FF]">SaveOnYourHome (FSBO)</div>
+            </div>
+            {compareRows.map((row, i) => (
+              <div key={row.feature} className={`grid grid-cols-3 text-sm ${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+                <div className="p-4 font-semibold text-[#1a1816]">{row.feature}</div>
+                <div className="p-4 text-center text-gray-700">{row.agent}</div>
+                <div className="p-4 text-center font-semibold" style={{ color: '#3355FF' }}>{row.fsbo}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href={primaryCta.href} className="inline-flex items-center gap-2 rounded-full bg-[#3355FF] px-6 py-3.5 text-sm font-bold text-white hover:opacity-90">
+              {primaryCta.label} <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-white py-14 md:py-20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1180 }}>
+          <div className="text-center mb-12">
+            <span className="text-xs font-semibold uppercase tracking-[2px] text-gray-500">Real sellers, real savings</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#1a1816]">Thousands saved. Zero regrets.</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {testimonials.map((t) => (
+              <div key={t.name} className="rounded-2xl border border-gray-200 p-7 hover:shadow-md transition-all">
+                <div className="flex items-center gap-1 mb-3">
+                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
+                </div>
+                <p className="text-gray-700 text-[15px] leading-7 mb-5">"{t.text}"</p>
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div>
+                    <div className="font-bold text-[#1a1816] text-sm">{t.name}</div>
+                    <div className="text-xs text-gray-500">{t.city}</div>
+                  </div>
+                  <div className="rounded-full bg-green-50 text-green-700 px-3 py-1 text-xs font-bold">{t.savings}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-gray-50 py-14 md:py-20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: 1180 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+            <div className="lg:col-span-2">
+              <span className="text-xs font-semibold uppercase tracking-[2px] text-gray-500">Seller FAQs</span>
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#1a1816] mb-4">Common questions</h2>
+              <p className="text-gray-600 mb-6">
+                Need something specific? Check out our full FAQ or contact us directly.
+              </p>
+              <Link href="/seller-faqs" className="inline-flex items-center gap-2 rounded-full bg-[#3355FF] text-white px-5 py-2.5 text-sm font-semibold hover:opacity-90">
+                View all seller FAQs <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="lg:col-span-3 space-y-3">
               {faqs.map((faq, i) => (
-                <div key={i} className="rounded-2xl border border-gray-200/60 overflow-hidden" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-                  <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                    <span style={{ fontSize: '17px', fontWeight: 600, color: 'rgb(26,24,22)' }}>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${openFaq === i ? 'rotate-180' : ''}`} />
+                <div key={i} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+                  <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors">
+                    <span className="text-[16px] font-semibold text-[#1a1816] pr-4">{faq.q}</span>
+                    <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`} />
                   </button>
-                  {openFaq === i && <div className="px-5 pb-5"><p style={{ fontSize: '15px', lineHeight: '26px', color: 'rgb(100,100,100)' }}>{faq.a}</p></div>}
+                  {openFaq === i && <div className="px-5 pb-5 text-[15px] leading-7 text-gray-700">{faq.a}</div>}
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="bg-[#1a1816]">
+        <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-14 md:py-20 text-center" style={{ maxWidth: 1180 }}>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Ready to sell and save?</h2>
+          <p className="text-white/75 text-lg mb-8 max-w-xl mx-auto">
+            {user
+              ? 'List your home in minutes and start receiving offers directly from buyers.'
+              : 'Create your free account, list your home in under five minutes, and start receiving offers.'}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link href={primaryCta.href} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#3355FF] px-8 py-4 text-sm font-bold text-white hover:opacity-90">
+              {primaryCta.label} <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/fsbo-guide" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-4 text-sm font-semibold text-white hover:bg-white/10">
+              Read the FSBO guide
+            </Link>
+          </div>
+          <div className="mt-8 inline-flex items-center gap-2 text-white/60 text-sm">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" /> No credit card • No hidden fees • No commissions
           </div>
         </div>
       </section>
@@ -244,5 +297,4 @@ function Sellers() {
 }
 
 Sellers.layout = (page) => <MainLayout>{page}</MainLayout>;
-
 export default Sellers;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
 function ResourceDetail({ resource }) {
@@ -31,11 +32,48 @@ function ResourceDetail({ resource }) {
     ? new Date(resource.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : null;
 
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const articleUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}${window.location.pathname}`
+    : undefined;
+  const articleImage = heroImage?.startsWith('http') ? heroImage : `${origin}${heroImage}`;
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: resource.title,
+        description: resource.excerpt || '',
+        image: articleImage ? [articleImage] : undefined,
+        datePublished: resource.published_at || undefined,
+        dateModified: resource.updated_at || resource.published_at || undefined,
+        mainEntityOfPage: articleUrl,
+        author: { '@type': 'Organization', name: 'SaveOnYourHome' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'SaveOnYourHome',
+          logo: { '@type': 'ImageObject', url: `${origin}/images/saveonyourhome-logo.png` },
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+          { '@type': 'ListItem', position: 2, name: categoryLabel(), item: `${origin}${backLink()}` },
+          { '@type': 'ListItem', position: 3, name: resource.title, item: articleUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <SEOHead
         title={resource.title}
         description={resource.excerpt || ''}
+        image={heroImage}
+        type="article"
+        jsonLd={articleJsonLd}
       />
 
       {/* Hero */}
@@ -46,10 +84,7 @@ function ResourceDetail({ resource }) {
         <div className="relative flex flex-col h-full">
           <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
             <div className="w-full max-w-[600px]">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
-                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>{categoryLabel()}</span>
-              </div>
+              <HeroBadge>{categoryLabel()}</HeroBadge>
               <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 {resource.title}
               </h1>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import {
   Camera, Video, Box, Sun, Plane, FileText, Globe, Users,
   ChevronRight, ChevronDown, CheckCircle, MapPin, Clock,
@@ -1977,10 +1978,7 @@ function Packages({ userListings = [] }) {
         <div className="relative flex flex-col h-full">
           <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
             <div className="w-full max-w-[600px]">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', boxShadow: 'rgba(0,0,0,0.12) 0px 8px 32px' }}>
-                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>MEDIA PACKAGES</span>
-              </div>
+              <HeroBadge>MEDIA PACKAGES</HeroBadge>
               <h1 className="text-[26px] leading-[34px] sm:text-[36px] sm:leading-[44px] lg:text-[46px] lg:leading-[56px] font-extrabold text-white" style={{ letterSpacing: '-0.5px' }}>
                 Professional <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Multimedia</span> Marketing
               </h1>

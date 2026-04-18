@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 import AuthModal from '@/Components/AuthModal';
+import HeroBadge from '@/Components/HeroBadge';
 
 const HeroSection = ({ featuredProperties = [] }) => {
   const { auth } = usePage().props;
@@ -97,30 +98,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
             <div className="w-full lg:max-w-[580px]">
 
               {/* Glass badge */}
-              <div
-                className="rounded-2xl mb-6 inline-flex items-center gap-2 rounded-full"
-                style={{
-                  border: '1px solid rgba(156, 163, 175, 0.25)',
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  backdropFilter: 'blur(20px)',
-                  boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px',
-                  borderRadius: '9999px',
-                  padding: '7px 16px',
-                }}
-              >
-                <div
-                  className="rounded-full bg-emerald-400"
-                  style={{ height: '7px', width: '7px', boxShadow: 'rgba(52, 211, 153, 0.6) 0px 0px 7px' }}
-                />
-                <span style={{
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '1.2px',
-                  color: 'rgba(255, 255, 255, 0.9)',
-                }}>
-                  NO COMMISSIONS. NO FEES.
-                </span>
-              </div>
+              <HeroBadge>NO COMMISSIONS. NO FEES.</HeroBadge>
 
               {/* Heading */}
               <h1

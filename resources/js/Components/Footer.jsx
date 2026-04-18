@@ -99,6 +99,11 @@ const Footer = () => {
             <h4 className="text-white text-base font-semibold mb-4">Contact us</h4>
             <ul className="space-y-2.5">
               <li>
+                <Link href="/contact" className="text-[#DCD8D5] text-sm hover:text-white transition-colors">
+                  Send us a message →
+                </Link>
+              </li>
+              <li>
                 <a href="mailto:info@saveonyourhome.com" className="text-[#DCD8D5] text-sm hover:text-white transition-colors break-all">
                   info@saveonyourhome.com
                 </a>

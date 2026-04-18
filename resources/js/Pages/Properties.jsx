@@ -253,8 +253,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
         keywords="homes for sale, FSBO listings, for sale by owner properties, houses for sale, real estate listings, buy home no commission"
       />
 
-      <div className="flex flex-col h-screen overflow-hidden">
-        {/* Header spacer for fixed header */}
+      <div className="flex flex-col min-h-screen">
         <Header maxWidth={1400} />
 
         {/* Seller Filter Banner */}
@@ -570,7 +569,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                 </button>
                 <button className="flex items-center gap-1.5 border-l border-gray-300 px-3 transition-colors" style={{ height: '100%', fontSize: 12, fontWeight: 600, backgroundColor: viewMode === 'list' ? '#1a1816' : 'white', color: viewMode === 'list' ? 'white' : '#6b7280', whiteSpace: 'nowrap' }} onClick={() => setViewMode('list')}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>
-                  List
+                  Grid
                 </button>
               </div>
 
@@ -637,7 +636,10 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
         )}
 
         {/* Main Content: Map + Listings */}
-        <div className="flex min-h-0 flex-1">
+        <div
+          className={`flex ${viewMode === 'map' ? 'min-h-0' : ''}`}
+          style={viewMode === 'map' ? { height: 'calc(100vh - 60px)' } : undefined}
+        >
           {/* Map - Desktop */}
           {viewMode === 'map' && (
             <div className="hidden lg:block" style={{ width: '57%' }}>
@@ -648,7 +650,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
           )}
 
           {/* Listings Panel */}
-          <div className={`flex min-h-0 flex-1 flex-col bg-white ${viewMode === 'map' ? 'border-l border-gray-200 lg:max-w-[43%]' : ''}`}>
+          <div className={`flex flex-col bg-white ${viewMode === 'map' ? 'min-h-0 flex-1 border-l border-gray-200 lg:max-w-[43%]' : 'flex-1'}`}>
             {/* Listings Header */}
             <div className={`shrink-0 border-b border-gray-100 ${viewMode === 'list' ? 'mx-auto w-full px-4 sm:px-6 lg:px-[40px]' : 'px-5'} pt-4 pb-3`} style={viewMode === 'list' ? { maxWidth: 1400 } : {}}>
               <div className="flex items-center justify-between">
@@ -761,8 +763,8 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
               </div>
             </div>
 
-            {/* Property Cards - Scrollable */}
-            <div className={`flex-1 overflow-y-auto py-4 ${viewMode === 'list' ? 'mx-auto w-full px-4 sm:px-6 lg:px-[40px]' : 'px-5'}`} style={viewMode === 'list' ? { maxWidth: 1400 } : {}}>
+            {/* Property Cards */}
+            <div className={`py-4 ${viewMode === 'map' ? 'flex-1 overflow-y-auto px-5' : 'mx-auto w-full px-4 sm:px-6 lg:px-[40px]'}`} style={viewMode === 'list' ? { maxWidth: 1400 } : {}}>
               {propertyList.length > 0 ? (
                 <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2'}`}>
                   {propertyList.map((property) => {
@@ -782,7 +784,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                         href={`/properties/${property.slug || property.id}`}
                         className="block"
                       >
-                        <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                        <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-300 group flex flex-col">
                           {/* Image */}
                           <div className="relative h-[180px] overflow-hidden flex-shrink-0">
                             <img

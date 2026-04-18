@@ -365,13 +365,59 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
     return 'For Sale By Owner';
   })();
 
+  const listingImage = property.photos?.[0] ? `/storage/${property.photos[0]}` : undefined;
+  const listingDescription = `${property.property_title} - ${property.bedrooms || 0} bed, ${property.full_bathrooms || property.bathrooms || 0} bath${property.sqft ? `, ${Number(property.sqft).toLocaleString()} sqft` : ''} home for sale by owner in ${property.city}, ${property.state}. Listed at ${formatPriceShort(property.price)}.`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const listingUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}${window.location.pathname}`
+    : undefined;
+  const listingJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': ['Product', 'RealEstateListing'],
+        name: property.property_title,
+        description: listingDescription,
+        image: listingImage ? [`${origin}${listingImage}`] : undefined,
+        url: listingUrl,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: property.street_address || property.address || undefined,
+          addressLocality: property.city,
+          addressRegion: property.state,
+          postalCode: property.zip_code || property.zip || undefined,
+          addressCountry: 'US',
+        },
+        numberOfRooms: property.bedrooms || undefined,
+        numberOfBathroomsTotal: property.full_bathrooms || property.bathrooms || undefined,
+        floorSize: property.sqft ? { '@type': 'QuantitativeValue', value: property.sqft, unitCode: 'FTK' } : undefined,
+        offers: {
+          '@type': 'Offer',
+          price: property.price,
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          url: listingUrl,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+          { '@type': 'ListItem', position: 2, name: 'Properties', item: `${origin}/properties` },
+          { '@type': 'ListItem', position: 3, name: property.property_title, item: listingUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <SEOHead
         title={property.property_title}
-        description={`${property.property_title} - ${property.bedrooms || 0} bed, ${property.full_bathrooms || property.bathrooms || 0} bath${property.sqft ? `, ${Number(property.sqft).toLocaleString()} sqft` : ''} home for sale by owner in ${property.city}, ${property.state}. Listed at ${formatPriceShort(property.price)}.`}
-        image={property.photos?.[0] ? `/storage/${property.photos[0]}` : undefined}
+        description={listingDescription}
+        image={listingImage}
         type="article"
+        jsonLd={listingJsonLd}
       />
 
       <div className="bg-[#F8F8F7]">

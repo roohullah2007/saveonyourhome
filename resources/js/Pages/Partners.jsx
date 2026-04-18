@@ -1,40 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import React from 'react';
+import { Link } from '@inertiajs/react';
 import { Phone, Mail, Globe, MapPin, ArrowRight } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
 function Partners({ partnersByCategory = {}, categories = [] }) {
-  const { flash } = usePage().props;
-  const [submitted, setSubmitted] = useState(false);
-
-  const { data, setData, post, processing, errors, reset, transform } = useForm({
-    full_name: '',
-    email: '',
-    phone: '',
-    industry: '',
-    message: '',
-  });
-
-  transform((d) => ({
-    name: d.full_name,
-    email: d.email,
-    phone: d.phone,
-    subject: 'Partner Application',
-    message: `Industry: ${d.industry}\n\n${d.message}`,
-  }));
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    post(route('contact.store'), {
-      onSuccess: () => {
-        reset();
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 5000);
-      },
-    });
-  };
-
   const formatWebsite = (url) => {
     if (!url) return '';
     return url.startsWith('http') ? url : `https://${url}`;
@@ -44,9 +15,10 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
     return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
   };
 
-  const inputClass = "w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500";
-  const inputStyle = { height: '57px', fontSize: '17px', color: 'rgb(26,24,22)' };
-  const labelStyle = { display: 'block', fontSize: '15px', fontWeight: 600, color: 'rgb(26,24,22)', marginBottom: '8px' };
+  const logoSrc = (p) => {
+    if (!p.logo) return null;
+    return p.logo.startsWith('http') ? p.logo : `/storage/${p.logo}`;
+  };
 
   return (
     <>
@@ -68,10 +40,7 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
         <div className="relative flex flex-col h-full">
           <div className="mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-[40px]" style={{ maxWidth: '1400px', width: '100%' }}>
             <div className="w-full max-w-[640px]">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5" style={{ border: '1px solid rgba(156,163,175,0.25)', background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)' }}>
-                <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: 'rgba(52,211,153,0.6) 0px 0px 8px' }} />
-                <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '1.5px', color: 'rgba(255,255,255,0.9)' }}>PARTNERS</span>
-              </div>
+              <HeroBadge>PARTNERS</HeroBadge>
               <h1 className="text-[28px] leading-[37px] sm:text-[40px] sm:leading-[48px] lg:text-[50px] lg:leading-[61px] font-extrabold text-white">
                 Trusted Vendor <span style={{ background: 'linear-gradient(135deg, rgb(255,255,255) 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Partners</span>
               </h1>
@@ -95,149 +64,93 @@ function Partners({ partnersByCategory = {}, categories = [] }) {
         </div>
       </section>
 
-      {/* Partners Directory */}
+      {/* Partners Directory — individual cards, each links to a detail page */}
       <section style={{ backgroundColor: 'rgb(249,250,251)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] pb-12 md:pb-20" style={{ maxWidth: '1400px' }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {categories.map((category) => {
-              const partners = partnersByCategory[category] || [];
-              return (
-                <div
-                  key={category}
-                  className="rounded-2xl border border-gray-200/60 p-6 transition-all duration-300 hover:shadow-md"
-                  style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(16px)' }}
-                >
-                  <h3
-                    className="mb-4 pb-3 border-b border-gray-200"
-                    style={{ fontSize: '18px', fontWeight: 700, color: 'rgb(26,24,22)' }}
-                  >
-                    {category}
-                  </h3>
-                  {partners.length === 0 ? (
-                    <p style={{ fontSize: '14px', color: 'rgb(156,163,175)', fontStyle: 'italic' }}>Coming soon</p>
-                  ) : (
-                    <div className="space-y-4">
-                      {partners.map((p) => (
-                        <div key={p.id} className="space-y-1.5">
-                          <div style={{ fontSize: '17px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{p.name}</div>
-                          {p.description && (
-                            <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)' }}>{p.description}</p>
-                          )}
-                          {p.phone && (
-                            <a href={`tel:${p.phone}`} className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '14px', color: 'rgb(75,75,75)' }}>
-                              <Phone className="w-4 h-4" /> {p.phone}
-                            </a>
-                          )}
-                          {p.email && (
-                            <a href={`mailto:${p.email}`} className="flex items-center gap-2 hover:opacity-80 break-all" style={{ fontSize: '14px', color: 'rgb(75,75,75)' }}>
-                              <Mail className="w-4 h-4 flex-shrink-0" /> {p.email}
-                            </a>
-                          )}
-                          {p.website && (
-                            <a href={formatWebsite(p.website)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:opacity-80" style={{ fontSize: '14px', color: '#3355FF' }}>
-                              <Globe className="w-4 h-4" /> {displayWebsite(p.website)}
-                            </a>
-                          )}
-                          {p.address && (
-                            <div className="flex items-start gap-2" style={{ fontSize: '14px', color: 'rgb(100,100,100)' }}>
-                              <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" /> {p.address}
-                            </div>
-                          )}
+          {categories.map((category) => {
+            const partners = partnersByCategory[category] || [];
+            if (partners.length === 0) return null;
+            return (
+              <div key={category} className="mb-12">
+                <h2 className="mb-6" style={{ fontSize: '22px', fontWeight: 700, color: 'rgb(26,24,22)' }}>
+                  {category}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {partners.map((p) => {
+                    const logo = logoSrc(p);
+                    return (
+                      <Link
+                        key={p.id}
+                        href={`/partners/${p.slug || p.id}`}
+                        className="group rounded-2xl border border-gray-200/70 bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                      >
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                            {logo ? (
+                              <img src={logo} alt={p.name} className="h-full w-full object-contain" />
+                            ) : (
+                              <span style={{ fontSize: '20px', fontWeight: 700, color: 'rgb(100,100,100)' }}>
+                                {(p.name || '?').charAt(0).toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="truncate" style={{ fontSize: '17px', fontWeight: 700, color: 'rgb(26,24,22)' }}>{p.name}</div>
+                            <div className="truncate" style={{ fontSize: '12px', color: 'rgb(100,100,100)', letterSpacing: '0.5px', textTransform: 'uppercase' }}>{p.category}</div>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
+                        {p.description && (
+                          <p className="line-clamp-3 mb-4" style={{ fontSize: '14px', lineHeight: '22px', color: 'rgb(100,100,100)' }}>
+                            {p.description}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-3 text-xs" style={{ color: 'rgb(100,100,100)' }}>
+                          {p.phone && <span className="inline-flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> {p.phone}</span>}
+                          {p.email && <span className="inline-flex items-center gap-1 truncate max-w-[180px]"><Mail className="w-3.5 h-3.5" /> {p.email}</span>}
+                          {p.website && <span className="inline-flex items-center gap-1"><Globe className="w-3.5 h-3.5" /> Website</span>}
+                          {p.address && <span className="inline-flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {p.address}</span>}
+                        </div>
+                        <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold group-hover:gap-2.5 transition-all" style={{ color: '#3355FF' }}>
+                          View profile <ArrowRight className="w-4 h-4" />
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
+          {Object.keys(partnersByCategory).length === 0 && (
+            <div className="rounded-2xl border border-gray-200/60 bg-white p-8 text-center">
+              <p style={{ fontSize: '17px', color: 'rgb(100,100,100)' }}>
+                No partners listed yet. Check back soon.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Partner With Us Section */}
+      {/* Become A Partner CTA */}
       <section style={{ backgroundColor: 'rgb(255,255,255)' }}>
         <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12 md:py-20" style={{ maxWidth: '1400px' }}>
-          <div className="text-center mb-10 mx-auto" style={{ maxWidth: '720px' }}>
-            <div className="mb-4">
-              <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgb(100,100,100)' }}>BECOME A PARTNER</span>
-            </div>
+          <div className="rounded-3xl p-10 md:p-14 text-center" style={{ background: 'linear-gradient(135deg, #1A1816 0%, #2d2a26 100%)' }}>
+            <span style={{ fontWeight: 600, fontSize: '14px', letterSpacing: '2px', color: 'rgba(255,255,255,0.6)' }}>BECOME A PARTNER</span>
             <h2
-              className="mb-5 text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px]"
-              style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}
+              className="mt-3 mb-5 text-[28px] leading-[37px] sm:text-[35px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] text-white"
+              style={{ fontWeight: 700 }}
             >
-              Partner With SaveOnYourHome.com!
+              Grow your business with SaveOnYourHome
             </h2>
-            <p style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)' }}>
-              Submit your details, and our dedicated team will promptly connect with you to explore tailored advertising opportunities that resonate with your business aspirations.
+            <p className="mx-auto" style={{ maxWidth: 640, fontSize: '17px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)' }}>
+              Get in front of motivated FSBO sellers and buyers. Add your business, services, logo, and contact details — we review every application within 2 business days.
             </p>
-            <p className="mt-4" style={{ fontSize: '17px', lineHeight: '28px', color: 'rgb(100,100,100)' }}>
-              Join us now and start turning our visitors into your clients — your next successful campaign begins here!
-            </p>
-          </div>
-
-          <div className="mx-auto" style={{ maxWidth: '680px' }}>
-            <div className="rounded-2xl border border-gray-200/60 p-8 sm:p-10" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px' }}>
-              {(submitted || flash?.success) && (
-                <div className="mb-6 rounded-xl p-4 flex items-center gap-3" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgb(22,163,74)" strokeWidth="2"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p style={{ fontSize: '15px', fontWeight: 500, color: 'rgb(22,101,52)' }}>Thank you! We'll be in touch about partnership opportunities.</p>
-                </div>
-              )}
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label style={labelStyle}>Industry</label>
-                  <select
-                    value={data.industry}
-                    onChange={(e) => setData('industry', e.target.value)}
-                    className="w-full rounded-xl border border-gray-300 bg-white px-4 outline-none focus:border-gray-500 appearance-none"
-                    style={{
-                      ...inputStyle,
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 14px center',
-                    }}
-                  >
-                    <option value="">Please select from the options below</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label style={labelStyle}>Full Name *</label>
-                  <input type="text" required value={data.full_name} onChange={(e) => setData('full_name', e.target.value)} className={inputClass} style={inputStyle} />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label style={labelStyle}>Email *</label>
-                    <input type="email" required value={data.email} onChange={(e) => setData('email', e.target.value)} className={inputClass} style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Phone Number</label>
-                    <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)} className={inputClass} style={inputStyle} />
-                  </div>
-                </div>
-                <div>
-                  <label style={labelStyle}>Your Message</label>
-                  <textarea
-                    rows={4}
-                    value={data.message}
-                    onChange={(e) => setData('message', e.target.value)}
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition-colors focus:border-gray-500 resize-vertical"
-                    style={{ fontSize: '17px', color: 'rgb(26,24,22)' }}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={processing}
-                  className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-                  style={{ backgroundColor: '#3355FF', height: '46px', paddingLeft: '26px', paddingRight: '26px', fontSize: '14px', fontWeight: 600 }}
-                >
-                  {processing ? 'Submitting...' : 'Submit'}
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </form>
-            </div>
+            <Link
+              href="/become-a-partner"
+              className="mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#3355FF', color: 'white' }}
+            >
+              Apply to become a partner <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>

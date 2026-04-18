@@ -22,6 +22,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\MediaOrderController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,57 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 // QR Code Short URL Redirect (public, no auth required)
 Route::get('/p/{code}', [QrCodeController::class, 'handleScan'])->name('qr.scan');
+
+/*
+|--------------------------------------------------------------------------
+| 301 Redirects — legacy (WordPress/Houzez) URLs → new Laravel routes
+|--------------------------------------------------------------------------
+| Preserves link equity and search rankings from the prior site. Laravel
+| matches routes with or without a trailing slash, so a single entry here
+| covers both /about-us and /about-us/.
+*/
+$legacyRedirects = [
+    '/about-us'                                => '/about',
+    '/frequently-ask-questions'                => '/faqs',
+    '/terms-conditions'                        => '/terms-of-use',
+    '/seller-guide'                            => '/fsbo-guide',
+    '/blog-and-resources'                      => '/blog',
+    '/posts'                                   => '/blog',
+    '/insight'                                 => '/blog',
+    '/advertiser-sponsor-honor-pledge'         => '/honor-pledge',
+    '/whats-my-home-worth'                     => '/home-worth',
+    '/valuation'                               => '/home-worth',
+    '/test-valuation-report'                   => '/home-worth',
+    '/get-information-on-360-virtual-tour'     => '/virtual-tours',
+    '/e-book'                                  => '/ebook',
+    '/create-listing'                          => '/list-property',
+    '/create-account'                          => '/register',
+    '/signup-buyer'                            => '/register',
+    '/signup-step-1'                           => '/register',
+    '/signup-step-2'                           => '/register',
+    '/how-to-register'                         => '/register',
+    '/login-test'                              => '/login',
+    '/partners-new'                            => '/partners',
+    '/search-homes'                            => '/properties',
+    '/properties-2'                            => '/properties',
+    '/property-search'                         => '/properties',
+    '/search-results'                          => '/properties',
+    '/compare'                                 => '/properties',
+    '/dashboard-favorites'                     => '/dashboard/favorites',
+    '/dashboard-staff'                         => '/dashboard',
+    '/booking-dashboard'                       => '/dashboard',
+    '/bookings'                                => '/dashboard',
+    '/saved-searches'                          => '/dashboard',
+    '/membership-info'                         => '/',
+    '/thank-you'                               => '/',
+];
+foreach ($legacyRedirects as $from => $to) {
+    Route::permanentRedirect($from, $to);
+}
+
+// Legacy property detail URLs: /property/{slug}/ → /properties
+Route::permanentRedirect('/property/{slug}', '/properties')
+    ->where('slug', '[A-Za-z0-9\-]+');
 
 // Public routes
 Route::get('/', function () {
@@ -133,13 +185,19 @@ Route::get('/join-the-fsbo-weekly-call', function () {
 })->name('join-weekly-call');
 
 Route::get('/partners', function () {
-    $partners = \App\Models\Partner::active()->orderBy('category')->orderBy('sort_order')->orderBy('name')->get();
+    $partners = \App\Models\Partner::public()
+        ->orderBy('category')->orderBy('sort_order')->orderBy('name')->get();
     $partnersByCategory = $partners->groupBy('category')->toArray();
     return Inertia::render('Partners', [
         'partnersByCategory' => $partnersByCategory,
         'categories' => \App\Models\Partner::categories(),
     ]);
 })->name('partners');
+
+Route::get('/become-a-partner', [PartnerController::class, 'becomeForm'])->name('partners.become');
+Route::post('/become-a-partner', [PartnerController::class, 'becomeStore'])->name('partners.become.store');
+Route::post('/partner-inquiry', [PartnerController::class, 'inquire'])->name('partners.inquire');
+Route::get('/partners/{slug}', [PartnerController::class, 'show'])->name('partners.show');
 
 Route::get('/seller-resources', function () {
     $resources = \App\Models\Resource::published()->category('seller')->latest('published_at')->get();
@@ -380,7 +438,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Partners Management
     Route::get('/partners', [AdminPartnerController::class, 'index'])->name('partners.index');
     Route::post('/partners', [AdminPartnerController::class, 'store'])->name('partners.store');
-    Route::put('/partners/{partner}', [AdminPartnerController::class, 'update'])->name('partners.update');
+    Route::match(['put', 'post'], '/partners/{partner}', [AdminPartnerController::class, 'update'])->name('partners.update');
+    Route::post('/partners/{partner}/approve', [AdminPartnerController::class, 'approve'])->name('partners.approve');
+    Route::post('/partners/{partner}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
     Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
 
     // Imports Management

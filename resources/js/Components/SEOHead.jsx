@@ -15,28 +15,34 @@ export default function SEOHead({
   noindex = false,
   jsonLd,
 }) {
-  const pageUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
-  const fullImage = image?.startsWith('http') ? image : (typeof window !== 'undefined' ? `${window.location.origin}${image}` : image);
+  const pathOnly = typeof window !== 'undefined'
+    ? `${window.location.origin}${window.location.pathname}`
+    : '';
+  const pageUrl = url || pathOnly;
+  const fullImage = image?.startsWith('http')
+    ? image
+    : (typeof window !== 'undefined' ? `${window.location.origin}${image}` : image);
+
+  const pageTitle = title ? `${title} - ${SITE_NAME}` : SITE_NAME;
 
   return (
     <Head>
-      <title>{title ? `${title} - ${SITE_NAME}` : SITE_NAME}</title>
-      <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords} />}
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
-      <link rel="canonical" href={pageUrl} />
+      <title>{pageTitle}</title>
+      <meta head-key="description" name="description" content={description} />
+      {keywords && <meta head-key="keywords" name="keywords" content={keywords} />}
+      {noindex && <meta head-key="robots" name="robots" content="noindex, nofollow" />}
 
       {/* Open Graph */}
-      <meta property="og:title" content={title ? `${title} - ${SITE_NAME}` : SITE_NAME} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={fullImage} />
-      <meta property="og:url" content={pageUrl} />
-      <meta property="og:type" content={type} />
+      <meta head-key="og:title" property="og:title" content={pageTitle} />
+      <meta head-key="og:description" property="og:description" content={description} />
+      <meta head-key="og:image" property="og:image" content={fullImage} />
+      {pageUrl && <meta head-key="og:url" property="og:url" content={pageUrl} />}
+      <meta head-key="og:type" property="og:type" content={type} />
 
       {/* Twitter */}
-      <meta name="twitter:title" content={title ? `${title} - ${SITE_NAME}` : SITE_NAME} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImage} />
+      <meta head-key="twitter:title" name="twitter:title" content={pageTitle} />
+      <meta head-key="twitter:description" name="twitter:description" content={description} />
+      <meta head-key="twitter:image" name="twitter:image" content={fullImage} />
 
       {/* JSON-LD Structured Data */}
       {jsonLd && (

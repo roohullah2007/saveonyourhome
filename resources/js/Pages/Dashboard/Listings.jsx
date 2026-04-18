@@ -335,6 +335,13 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <Sticker className="w-3.5 h-3.5" />
                                                 Free Stickers
                                             </button>
+                                            <button
+                                                onClick={() => openOrderModal(listing, 'yard_sign')}
+                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                                            >
+                                                <Package className="w-3.5 h-3.5" />
+                                                Order Yard Sign
+                                            </button>
                                             <Link
                                                 href={route('dashboard.listings.edit', listing.id)}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
@@ -507,7 +514,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-lg font-semibold text-gray-900">
-                                    Order Free QR Stickers
+                                    {orderType === 'yard_sign' ? 'Order Free Yard Sign' : 'Order Free QR Stickers'}
                                 </h3>
                                 <button
                                     onClick={closeOrderModal}
@@ -524,7 +531,9 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                     </div>
                                     <h4 className="text-xl font-semibold text-gray-900 mb-2">Order Submitted!</h4>
                                     <p className="text-gray-500 mb-6">
-                                        Your free QR stickers will be mailed to you within 3-5 business days.
+                                        {orderType === 'yard_sign'
+                                            ? 'Your custom yard sign will be printed and shipped within 5-7 business days.'
+                                            : 'Your free QR stickers will be mailed to you within 3-5 business days.'}
                                     </p>
                                     <button
                                         onClick={closeOrderModal}
@@ -543,19 +552,62 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                     </div>
 
                                     {/* What You Get */}
-                                    <div className="rounded-xl p-4 mb-6 bg-orange-50">
-                                        <h5 className="font-medium mb-2 flex items-center gap-2 text-orange-900">
-                                            <Sticker className="w-4 h-4" />
-                                            What You'll Receive (FREE)
-                                        </h5>
-                                        <ul className="text-sm space-y-1 text-orange-800">
-                                            <li>• Waterproof vinyl QR code stickers</li>
-                                            <li>• 4" x 4" size - fits FSBO yard signs</li>
-                                            <li>• Weather resistant for outdoor use</li>
-                                            <li>• "Scan to View Listing" text included</li>
-                                            <li>• Links directly to your listing</li>
-                                        </ul>
-                                    </div>
+                                    {orderType === 'yard_sign' ? (
+                                        <>
+                                            <div className="rounded-xl p-4 mb-4 bg-emerald-50">
+                                                <h5 className="font-medium mb-2 flex items-center gap-2 text-emerald-900">
+                                                    <Package className="w-4 h-4" />
+                                                    What You'll Receive (FREE)
+                                                </h5>
+                                                <ul className="text-sm space-y-1 text-emerald-800">
+                                                    <li>• 18" × 24" professional corrugated plastic yard sign</li>
+                                                    <li>• Weatherproof, double-sided print</li>
+                                                    <li>• SaveOnYourHome branding + "For Sale By Owner" callout</li>
+                                                    <li>• Custom QR code linking to your listing</li>
+                                                    <li>• Your property address printed on the sign</li>
+                                                    <li>• H-stakes included for easy installation</li>
+                                                </ul>
+                                            </div>
+                                            {/* Yard sign preview */}
+                                            <div className="rounded-xl p-4 mb-6 border border-emerald-200 bg-white">
+                                                <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Sign preview</p>
+                                                <div className="mx-auto max-w-xs rounded-md border-2 border-[#A41E34] bg-white p-4 text-center">
+                                                    <div className="bg-[#A41E34] text-white font-black text-sm py-2 rounded-t -mx-4 -mt-4 mb-3">
+                                                        FOR SALE BY OWNER
+                                                    </div>
+                                                    <div className="text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-1">
+                                                        SaveOnYourHome.com
+                                                    </div>
+                                                    <div className="my-3 mx-auto flex h-20 w-20 items-center justify-center rounded-md bg-gray-100 border border-gray-300">
+                                                        <QrCode className="w-10 h-10 text-gray-400" />
+                                                    </div>
+                                                    <div className="text-[11px] font-bold text-[#1a1816] leading-tight">
+                                                        {orderListing.address}
+                                                    </div>
+                                                    <div className="text-[10px] text-gray-600">
+                                                        {orderListing.city}, {orderListing.state}
+                                                    </div>
+                                                    <div className="mt-2 text-[9px] font-semibold uppercase tracking-wider text-[#A41E34]">
+                                                        Scan QR to view listing
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="rounded-xl p-4 mb-6 bg-orange-50">
+                                            <h5 className="font-medium mb-2 flex items-center gap-2 text-orange-900">
+                                                <Sticker className="w-4 h-4" />
+                                                What You'll Receive (FREE)
+                                            </h5>
+                                            <ul className="text-sm space-y-1 text-orange-800">
+                                                <li>• Waterproof vinyl QR code stickers</li>
+                                                <li>• 4" x 4" size - fits FSBO yard signs</li>
+                                                <li>• Weather resistant for outdoor use</li>
+                                                <li>• "Scan to View Listing" text included</li>
+                                                <li>• Links directly to your listing</li>
+                                            </ul>
+                                        </div>
+                                    )}
 
                                     <form onSubmit={submitOrder} className="space-y-4">
                                         <div>
@@ -630,20 +682,22 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                             />
                                         </div>
 
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Quantity
-                                            </label>
-                                            <select
-                                                value={orderForm.data.quantity}
-                                                onChange={(e) => orderForm.setData('quantity', parseInt(e.target.value))}
-                                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                                            >
-                                                <option value={2}>2 stickers</option>
-                                                <option value={4}>4 stickers</option>
-                                                <option value={6}>6 stickers</option>
-                                            </select>
-                                        </div>
+                                        {orderType !== 'yard_sign' && (
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                    Quantity
+                                                </label>
+                                                <select
+                                                    value={orderForm.data.quantity}
+                                                    onChange={(e) => orderForm.setData('quantity', parseInt(e.target.value))}
+                                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                                >
+                                                    <option value={2}>2 stickers</option>
+                                                    <option value={4}>4 stickers</option>
+                                                    <option value={6}>6 stickers</option>
+                                                </select>
+                                            </div>
+                                        )}
 
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">

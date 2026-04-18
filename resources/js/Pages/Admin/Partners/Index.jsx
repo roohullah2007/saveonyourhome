@@ -1,41 +1,40 @@
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Plus, Edit, Trash2, X, CheckCircle, XCircle, Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { Plus, Edit, Trash2, X, CheckCircle, XCircle, Phone, Mail, Globe, Check, Ban, Clock } from 'lucide-react';
 
-export default function PartnersIndex({ partners = [], categories = [] }) {
+const emptyForm = {
+    name: '',
+    contact_name: '',
+    category: '',
+    phone: '',
+    email: '',
+    website: '',
+    address: '',
+    description: '',
+    sort_order: 0,
+    is_active: true,
+    approval_status: 'approved',
+    services: [],
+    logo: null,
+};
+
+export default function PartnersIndex({ partners = [], categories = [], counts = {}, filters = {} }) {
     const [showModal, setShowModal] = useState(false);
     const [editingPartner, setEditingPartner] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [partnerToDelete, setPartnerToDelete] = useState(null);
     const [filterCategory, setFilterCategory] = useState('all');
+    const [serviceInput, setServiceInput] = useState('');
+    const currentStatus = filters.status || 'all';
 
-    const [formData, setFormData] = useState({
-        name: '',
-        category: '',
-        phone: '',
-        email: '',
-        website: '',
-        address: '',
-        description: '',
-        sort_order: 0,
-        is_active: true,
-    });
+    const [formData, setFormData] = useState({ ...emptyForm });
     const [submitting, setSubmitting] = useState(false);
 
     const resetForm = () => {
-        setFormData({
-            name: '',
-            category: '',
-            phone: '',
-            email: '',
-            website: '',
-            address: '',
-            description: '',
-            sort_order: 0,
-            is_active: true,
-        });
+        setFormData({ ...emptyForm });
         setEditingPartner(null);
+        setServiceInput('');
     };
 
     const openAddModal = () => {
@@ -47,6 +46,7 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
         setEditingPartner(partner);
         setFormData({
             name: partner.name || '',
+            contact_name: partner.contact_name || '',
             category: partner.category || '',
             phone: partner.phone || '',
             email: partner.email || '',
@@ -55,13 +55,40 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
             description: partner.description || '',
             sort_order: partner.sort_order || 0,
             is_active: partner.is_active ?? true,
+            approval_status: partner.approval_status || 'approved',
+            services: Array.isArray(partner.services) ? partner.services : [],
+            logo: null,
         });
         setShowModal(true);
     };
 
+    const setStatusFilter = (s) => router.get(route('admin.partners.index'), s === 'all' ? {} : { status: s }, { preserveScroll: true });
+
+    const approvePartner = (p) => router.post(route('admin.partners.approve', p.id), {}, { preserveScroll: true });
+    const rejectPartner = (p) => {
+        const reason = prompt('Rejection reason (optional, shown to partner):') ?? '';
+        router.post(route('admin.partners.reject', p.id), { reason }, { preserveScroll: true });
+    };
+
+    const addService = () => {
+        const v = serviceInput.trim();
+        if (!v || formData.services.includes(v)) return;
+        setFormData({ ...formData, services: [...formData.services, v] });
+        setServiceInput('');
+    };
+    const removeService = (s) => setFormData({ ...formData, services: formData.services.filter((x) => x !== s) });
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
+
+        const payload = new FormData();
+        Object.entries(formData).forEach(([k, v]) => {
+            if (k === 'services') (v || []).forEach((s, i) => payload.append(`services[${i}]`, s));
+            else if (k === 'logo' && v instanceof File) payload.append('logo', v);
+            else if (k === 'is_active') payload.append('is_active', v ? 1 : 0);
+            else if (v !== null && v !== undefined) payload.append(k, v);
+        });
 
         const onFinish = () => {
             setSubmitting(false);
@@ -70,13 +97,14 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
         };
 
         if (editingPartner) {
-            router.put(route('admin.partners.update', editingPartner.id), formData, {
+            payload.append('_method', 'PUT');
+            router.post(route('admin.partners.update', editingPartner.id), payload, {
                 preserveScroll: true,
                 onSuccess: onFinish,
                 onError: () => setSubmitting(false),
             });
         } else {
-            router.post(route('admin.partners.store'), formData, {
+            router.post(route('admin.partners.store'), payload, {
                 preserveScroll: true,
                 onSuccess: onFinish,
                 onError: () => setSubmitting(false),
@@ -119,6 +147,24 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
                     >
                         <Plus className="w-4 h-4" /> Add Partner
                     </button>
+                </div>
+
+                {/* Status Tabs */}
+                <div className="mb-4 flex flex-wrap gap-2">
+                    {[
+                        { k: 'all', label: 'All', count: counts.all ?? partners.length },
+                        { k: 'pending', label: 'Pending', count: counts.pending ?? 0 },
+                        { k: 'approved', label: 'Approved', count: counts.approved ?? 0 },
+                        { k: 'rejected', label: 'Rejected', count: counts.rejected ?? 0 },
+                    ].map((t) => (
+                        <button
+                            key={t.k}
+                            onClick={() => setStatusFilter(t.k)}
+                            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${currentStatus === t.k ? 'bg-[#1a1816] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                        >
+                            {t.label} <span className="opacity-70">({t.count})</span>
+                        </button>
+                    ))}
                 </div>
 
                 {/* Category Filter */}
@@ -174,17 +220,40 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
                                                 {partner.website && <div className="flex items-center gap-1"><Globe className="w-3 h-3" /> {partner.website}</div>}
                                             </td>
                                             <td className="px-4 py-3">
-                                                {partner.is_active ? (
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-50 text-green-700 text-xs font-medium">
-                                                        <CheckCircle className="w-3 h-3" /> Active
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
-                                                        <XCircle className="w-3 h-3" /> Inactive
-                                                    </span>
-                                                )}
+                                                <div className="flex flex-col gap-1">
+                                                    {partner.approval_status === 'pending' && (
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-medium">
+                                                            <Clock className="w-3 h-3" /> Pending review
+                                                        </span>
+                                                    )}
+                                                    {partner.approval_status === 'approved' && (
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                                                            <CheckCircle className="w-3 h-3" /> Approved
+                                                        </span>
+                                                    )}
+                                                    {partner.approval_status === 'rejected' && (
+                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-50 text-red-700 text-xs font-medium">
+                                                            <Ban className="w-3 h-3" /> Rejected
+                                                        </span>
+                                                    )}
+                                                    {partner.is_active ? (
+                                                        <span className="text-[10px] text-green-700">Visible</span>
+                                                    ) : (
+                                                        <span className="text-[10px] text-gray-400">Hidden</span>
+                                                    )}
+                                                </div>
                                             </td>
-                                            <td className="px-4 py-3 text-right">
+                                            <td className="px-4 py-3 text-right whitespace-nowrap">
+                                                {partner.approval_status === 'pending' && (
+                                                    <>
+                                                        <button onClick={() => approvePartner(partner)} title="Approve" className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-green-50 text-green-700 transition-colors mr-1">
+                                                            <Check className="w-4 h-4" />
+                                                        </button>
+                                                        <button onClick={() => rejectPartner(partner)} title="Reject" className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-red-50 text-red-700 transition-colors mr-1">
+                                                            <Ban className="w-4 h-4" />
+                                                        </button>
+                                                    </>
+                                                )}
                                                 <button onClick={() => openEditModal(partner)} className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors mr-1">
                                                     <Edit className="w-4 h-4" />
                                                 </button>
@@ -244,21 +313,55 @@ export default function PartnersIndex({ partners = [], categories = [] }) {
                                 <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[#1A1816] outline-none" />
                             </div>
                             <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Contact person</label>
+                                <input type="text" value={formData.contact_name} onChange={(e) => setFormData({ ...formData, contact_name: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[#1A1816] outline-none" />
+                            </div>
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                                 <textarea rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[#1A1816] outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Logo {editingPartner?.logo && <span className="text-xs text-gray-500">(current uploaded; choose a file to replace)</span>}</label>
+                                <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, logo: e.target.files[0] || null })} className="block w-full text-sm text-gray-600" />
+                                {editingPartner?.logo && (
+                                    <img src={editingPartner.logo.startsWith('http') ? editingPartner.logo : `/storage/${editingPartner.logo}`} alt="" className="mt-2 h-16 w-16 object-contain rounded border border-gray-200" />
+                                )}
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Services offered</label>
+                                <div className="flex gap-2">
+                                    <input type="text" placeholder="Add a service and press Enter" className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:border-[#1A1816] outline-none" value={serviceInput} onChange={(e) => setServiceInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addService(); } }} />
+                                    <button type="button" onClick={addService} className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">Add</button>
+                                </div>
+                                {formData.services.length > 0 && (
+                                    <div className="mt-2 flex flex-wrap gap-1.5">
+                                        {formData.services.map((s) => (
+                                            <span key={s} className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs">
+                                                {s}
+                                                <button type="button" onClick={() => removeService(s)}><X className="w-3 h-3" /></button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
                                     <input type="number" min="0" value={formData.sort_order} onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-[#1A1816] outline-none" />
                                 </div>
-                                <div className="flex items-end">
-                                    <label className="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" checked={formData.is_active} onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })} className="w-4 h-4 rounded border-gray-300" />
-                                        <span className="text-sm font-medium text-gray-700">Active (visible on public page)</span>
-                                    </label>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Approval</label>
+                                    <select value={formData.approval_status} onChange={(e) => setFormData({ ...formData, approval_status: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:border-[#1A1816] outline-none">
+                                        <option value="pending">Pending</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
                                 </div>
                             </div>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" checked={formData.is_active} onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })} className="w-4 h-4 rounded border-gray-300" />
+                                <span className="text-sm font-medium text-gray-700">Visible on public page</span>
+                            </label>
                             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Cancel</button>
                                 <button type="submit" disabled={submitting} className="px-4 py-2 bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50">{submitting ? 'Saving...' : (editingPartner ? 'Update' : 'Create')}</button>
