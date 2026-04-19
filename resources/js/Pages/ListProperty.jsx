@@ -5,6 +5,7 @@ import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, Chevron
 import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
+import HomeValuationModal from '@/Components/HomeValuationModal';
 import { AMENITY_GROUPS } from '@/constants/amenities';
 
 // Yes/No radio pair, used for seller-preference fields.
@@ -52,6 +53,7 @@ function ListProperty() {
   const [isUploading, setIsUploading] = useState(false); // Track if any upload is in progress
   const [isDragActive, setIsDragActive] = useState(false); // Track drag state for visual feedback
   const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
+  const [showValuation, setShowValuation] = useState(false);
   const toggleAmenityGroup = (cat) =>
     setOpenAmenityGroups((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
@@ -666,16 +668,25 @@ function ListProperty() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2">
-                    Listing Price *
-                  </label>
+                  <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                    <label className="block text-sm font-semibold text-[#111]">
+                      Listing Price *
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowValuation(true)}
+                      className="text-xs font-semibold text-[#1A1816] underline underline-offset-2 hover:text-[#3355FF] transition-colors"
+                    >
+                      Use Home Valuation Tool
+                    </button>
+                  </div>
                   <div className="relative">
                     <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#666]" />
                     <input
                       type="number"
                       placeholder="299000"
                       className="w-full pl-10 pr-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                     
+
                       value={data.price}
                       onChange={(e) => handleInputChange('price', e.target.value)}
                       required
@@ -1149,8 +1160,11 @@ function ListProperty() {
                     {(txListingLabels.length > 0 ? txListingLabels : [
                       { value: 'new_listing', label: 'New Listing' },
                       { value: 'open_house', label: 'Open House' },
-                      { value: 'price_reduced', label: 'Price Reduced' },
-                      { value: 'back_on_market', label: 'Back On Market' },
+                      { value: 'motivated_seller', label: 'Motivated Seller' },
+                      { value: 'price_reduction', label: 'Price Reduction' },
+                      { value: 'new_construction', label: 'New Construction' },
+                      { value: 'auction', label: 'Auction' },
+                      { value: 'must_sell_by_date', label: 'Must Sell By Date' },
                     ]).map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
@@ -1689,6 +1703,8 @@ function ListProperty() {
           </div>
         </div>
       )}
+
+      <HomeValuationModal isOpen={showValuation} onClose={() => setShowValuation(false)} />
     </>
   );
 }

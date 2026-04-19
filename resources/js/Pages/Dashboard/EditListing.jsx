@@ -5,6 +5,7 @@ import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import OpenHouseManager from '@/Components/OpenHouseManager';
 import RichTextEditor from '@/Components/RichTextEditor';
+import HomeValuationModal from '@/Components/HomeValuationModal';
 import {
     ArrowLeft,
     Save,
@@ -121,6 +122,7 @@ export default function EditListing({ property }) {
 
     // Photo management state
     const [uploadError, setUploadError] = useState('');
+    const [showValuation, setShowValuation] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [photoToDelete, setPhotoToDelete] = useState(null);
     const [deleting, setDeleting] = useState(false);
@@ -617,10 +619,19 @@ export default function EditListing({ property }) {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                <DollarSign className="w-4 h-4 inline-block mr-1" />
-                                Price *
-                            </label>
+                            <div className="flex items-center justify-between mb-1 gap-2 flex-wrap">
+                                <label className="block text-sm font-medium text-gray-700">
+                                    <DollarSign className="w-4 h-4 inline-block mr-1" />
+                                    Price *
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowValuation(true)}
+                                    className="text-xs font-semibold text-[#1A1816] underline underline-offset-2 hover:text-[#3355FF] transition-colors"
+                                >
+                                    Use Home Valuation Tool
+                                </button>
+                            </div>
                             <input
                                 type="number"
                                 value={data.price}
@@ -1188,8 +1199,11 @@ export default function EditListing({ property }) {
                                 {(txListingLabels.length > 0 ? txListingLabels : [
                                     { value: 'new_listing', label: 'New Listing' },
                                     { value: 'open_house', label: 'Open House' },
-                                    { value: 'price_reduced', label: 'Price Reduced' },
-                                    { value: 'back_on_market', label: 'Back On Market' },
+                                    { value: 'motivated_seller', label: 'Motivated Seller' },
+                                    { value: 'price_reduction', label: 'Price Reduction' },
+                                    { value: 'new_construction', label: 'New Construction' },
+                                    { value: 'auction', label: 'Auction' },
+                                    { value: 'must_sell_by_date', label: 'Must Sell By Date' },
                                 ]).map((opt) => (
                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
                                 ))}
@@ -1635,6 +1649,8 @@ export default function EditListing({ property }) {
                     </div>
                 </div>
             )}
+
+            <HomeValuationModal isOpen={showValuation} onClose={() => setShowValuation(false)} />
         </UserDashboardLayout>
     );
 }

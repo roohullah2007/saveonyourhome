@@ -86,7 +86,7 @@ class PropertyController extends Controller
             'listingHeadline' => 'nullable|string|max:80',
             'developer' => 'nullable|string|max:255',
             'transactionType' => 'nullable|string|in:for_sale,for_rent',
-            'listingLabel' => 'nullable|string|in:new_listing,open_house,price_reduced,back_on_market',
+            'listingLabel' => 'nullable|string|max:50',
             'monthlyRent' => 'nullable|numeric|min:0',
             'availableFrom' => 'nullable|date',
             'leaseTerm' => 'nullable|string|max:30',
