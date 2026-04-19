@@ -23,6 +23,43 @@ class PropertyDescriptionController extends Controller
         return response()->json(['description' => $html]);
     }
 
+    /**
+     * Generate a description from an unsaved (draft) form payload. Used by the
+     * Create Listing page where no Property row exists yet.
+     */
+    public function generateDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'property_type' => 'nullable|string|max:60',
+            'bedrooms' => 'nullable|integer|min:0',
+            'full_bathrooms' => 'nullable|integer|min:0',
+            'half_bathrooms' => 'nullable|integer|min:0',
+            'sqft' => 'nullable|integer|min:0',
+            'year_built' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
+            'price' => 'nullable|numeric|min:0',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:120',
+            'state' => 'nullable|string|max:50',
+            'school_district' => 'nullable|string|max:255',
+            'grade_school' => 'nullable|string|max:255',
+            'middle_school' => 'nullable|string|max:255',
+            'high_school' => 'nullable|string|max:255',
+            'has_hoa' => 'nullable|boolean',
+            'hoa_fee' => 'nullable|numeric|min:0',
+            'annual_property_tax' => 'nullable|numeric|min:0',
+            'features' => 'nullable|array',
+            'features.*' => 'string',
+        ]);
+
+        $p = new Property($validated);
+        // Features is cast to array on the model, but for an unsaved instance we set it directly.
+        $p->features = $validated['features'] ?? [];
+
+        return response()->json([
+            'description' => $this->buildDescription($p),
+        ]);
+    }
+
     protected function buildDescription(Property $p): string
     {
         $bedrooms = (int) ($p->bedrooms ?? 0);

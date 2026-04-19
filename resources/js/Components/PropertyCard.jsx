@@ -37,6 +37,23 @@ const PropertyCard = ({ property, onAuthRequired }) => {
     return days <= NEW_LISTING_WINDOW_DAYS;
   })();
 
+  // Human-readable Special Notice badge text for any of the 7 seller-chosen labels.
+  const specialNoticeText = (() => {
+    const map = {
+      new_listing: 'New Listing',
+      open_house: 'Open House',
+      motivated_seller: 'Motivated Seller',
+      price_reduction: 'Price Reduction',
+      new_construction: 'New Construction',
+      auction: 'Auction',
+      must_sell_by_date: 'Must Sell By Date',
+    };
+    if (property.listing_label && map[property.listing_label]) return map[property.listing_label];
+    if (isNewListing) return 'New Listing';
+    if (property.is_motivated_seller) return 'Motivated Seller';
+    return null;
+  })();
+
   const listingStatusLabel = (() => {
     const ls = property.listing_status || property.status;
     if (ls === 'sold') return 'Sold';
@@ -120,15 +137,11 @@ const PropertyCard = ({ property, onAuthRequired }) => {
               <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
                 {listingStatusLabel}
               </span>
-              {isNewListing ? (
+              {specialNoticeText && (
                 <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
-                  New Listing
+                  {specialNoticeText}
                 </span>
-              ) : property.is_motivated_seller ? (
-                <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
-                  Motivated Seller
-                </span>
-              ) : null}
+              )}
             </div>
 
             {/* Top-Right media indicators */}
@@ -220,6 +233,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
           property={property}
           onClose={handleClosePreview}
           isNewListing={isNewListing}
+          specialNoticeText={specialNoticeText}
           listingStatusLabel={listingStatusLabel}
           detailUrl={detailUrl}
           formatPrice={formatPrice}
@@ -231,7 +245,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 };
 
 /* ---------- Quick Preview Modal ---------- */
-function QuickPreviewModal({ property, onClose, isNewListing, listingStatusLabel, detailUrl, formatPrice }) {
+function QuickPreviewModal({ property, onClose, isNewListing, specialNoticeText, listingStatusLabel, detailUrl, formatPrice }) {
   const photos = property.photos && property.photos.length > 0 ? property.photos : ['/images/property-placeholder.svg'];
   const [activeIdx, setActiveIdx] = useState(0);
 
@@ -275,15 +289,11 @@ function QuickPreviewModal({ property, onClose, isNewListing, listingStatusLabel
               <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
                 {listingStatusLabel}
               </span>
-              {isNewListing ? (
+              {specialNoticeText && (
                 <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
-                  New Listing
+                  {specialNoticeText}
                 </span>
-              ) : property.is_motivated_seller ? (
-                <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#4B5563] text-white rounded-sm shadow-sm">
-                  Motivated Seller
-                </span>
-              ) : null}
+              )}
             </div>
 
             {/* Thumbnails */}

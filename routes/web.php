@@ -303,6 +303,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
         return Inertia::render('ListProperty');
     })->name('.listings.create');
     Route::get('/listings/{property}/edit', [UserDashboardController::class, 'editListing'])->name('.listings.edit');
+    Route::post('/listings/generate-description-draft', [\App\Http\Controllers\PropertyDescriptionController::class, 'generateDraft'])->name('.listings.generate-description-draft');
     Route::post('/listings/{property}/generate-description', [\App\Http\Controllers\PropertyDescriptionController::class, 'generate'])->name('.listings.generate-description');
     Route::put('/listings/{property}', [UserDashboardController::class, 'updateListing'])->name('.listings.update');
     Route::delete('/listings/{property}', [UserDashboardController::class, 'destroyListing'])->name('.listings.destroy');

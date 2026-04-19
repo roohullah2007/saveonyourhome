@@ -502,11 +502,25 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                 <span className="inline-flex items-center text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 bg-[#4B5563] text-white rounded-md shadow-sm">
                   {listingStatusLabel}
                 </span>
-                {property.is_motivated_seller && (
-                  <span className="inline-flex items-center text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white rounded-md shadow-sm">
-                    Motivated Seller
-                  </span>
-                )}
+                {(() => {
+                  const map = {
+                    new_listing: 'New Listing',
+                    open_house: 'Open House',
+                    motivated_seller: 'Motivated Seller',
+                    price_reduction: 'Price Reduction',
+                    new_construction: 'New Construction',
+                    auction: 'Auction',
+                    must_sell_by_date: 'Must Sell By Date',
+                  };
+                  const text = (property.listing_label && map[property.listing_label])
+                    || (property.is_motivated_seller ? 'Motivated Seller' : null);
+                  if (!text) return null;
+                  return (
+                    <span className="inline-flex items-center text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white rounded-md shadow-sm">
+                      {text}
+                    </span>
+                  );
+                })()}
               </div>
               <p className="mt-4 flex items-center gap-2 text-[#6B7280]">
                 <MapPin className="w-4 h-4 text-[#9CA3AF]" />

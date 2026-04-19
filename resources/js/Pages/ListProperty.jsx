@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback } from 'react';
 import { useForm, router, usePage } from '@inertiajs/react';
 import SEOHead from '@/Components/SEOHead';
-import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, ChevronDown, X, AlertCircle, Loader2, Star } from 'lucide-react';
+import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, ChevronDown, X, AlertCircle, Loader2, Star, Sparkles } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
@@ -54,6 +54,7 @@ function ListProperty() {
   const [isDragActive, setIsDragActive] = useState(false); // Track drag state for visual feedback
   const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
   const [showValuation, setShowValuation] = useState(false);
+  const [generatingDescription, setGeneratingDescription] = useState(false);
   const toggleAmenityGroup = (cat) =>
     setOpenAmenityGroups((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
@@ -393,6 +394,45 @@ function ListProperty() {
 
   const setAsMainPhoto = (index) => {
     setMainPhotoIndex(index);
+  };
+
+  const generateDescription = async () => {
+    setGeneratingDescription(true);
+    try {
+      const res = await axios.post('/dashboard/listings/generate-description-draft', {
+        property_type: data.propertyType,
+        bedrooms: data.bedrooms ? parseInt(data.bedrooms, 10) : null,
+        full_bathrooms: data.fullBathrooms ? parseInt(data.fullBathrooms, 10) : null,
+        half_bathrooms: data.halfBathrooms ? parseInt(data.halfBathrooms, 10) : null,
+        sqft: data.sqft ? parseInt(data.sqft, 10) : null,
+        year_built: data.yearBuilt ? parseInt(data.yearBuilt, 10) : null,
+        price: data.price || null,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        school_district: data.schoolDistrict || null,
+        grade_school: data.gradeSchool || null,
+        middle_school: data.middleSchool || null,
+        high_school: data.highSchool || null,
+        has_hoa: !!data.hasHoa,
+        hoa_fee: data.hoaFee || null,
+        annual_property_tax: data.annualPropertyTax || null,
+        features: Array.isArray(data.features) ? data.features : [],
+      });
+      if (res.data?.description) {
+        // The backend returns HTML paragraphs; strip tags into plain text
+        // since this form uses a textarea rather than a rich editor.
+        const plain = String(res.data.description)
+          .replace(/<\/p>\s*<p>/gi, '\n\n')
+          .replace(/<[^>]+>/g, '')
+          .trim();
+        handleInputChange('description', plain);
+      }
+    } catch (err) {
+      alert('Could not generate a description right now. Please try again.');
+    } finally {
+      setGeneratingDescription(false);
+    }
   };
 
   const handleSubmit = (e, isDraft = false) => {
@@ -1238,18 +1278,31 @@ function ListProperty() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#111] mb-2">
-                  Property Description *
-                </label>
+                <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                  <label className="block text-sm font-semibold text-[#111]">
+                    Property Description *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={generateDescription}
+                    disabled={generatingDescription}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3355FF] to-[#7c3aed] text-white px-3 py-1 text-xs font-semibold hover:opacity-90 disabled:opacity-60"
+                  >
+                    {generatingDescription
+                      ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating…</>
+                      : <><Sparkles className="w-3.5 h-3.5" /> Generate with AI</>}
+                  </button>
+                </div>
                 <textarea
                   rows="6"
                   placeholder="Describe your property in detail. Include information about the neighborhood, recent updates, special features, etc."
                   className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
-                 
+
                   value={data.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   required
                 ></textarea>
+                <p className="text-xs text-[#666] mt-1.5">Click Generate with AI to start from a quick draft based on your listing details.</p>
               </div>
             </div>
 
