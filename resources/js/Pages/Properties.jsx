@@ -5,7 +5,7 @@ import SEOHead from '@/Components/SEOHead';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
 import AuthModal from '@/Components/AuthModal';
-import { AMENITY_GROUPS } from '@/constants/amenities';
+import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
 // Beds & Baths dropdown with own local state so Apply always works
 function BedsDropdown({ searchParams, onApply }) {
@@ -967,7 +967,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     {group.category}
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1.5">
-                    {group.items.map((item) => (
+                    {groupItems(group).map((item) => (
                       <label
                         key={item}
                         className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"

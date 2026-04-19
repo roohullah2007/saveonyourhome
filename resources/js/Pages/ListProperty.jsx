@@ -6,7 +6,7 @@ import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import HomeValuationModal from '@/Components/HomeValuationModal';
-import { AMENITY_GROUPS } from '@/constants/amenities';
+import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
 // Yes/No radio pair, used for seller-preference fields.
 function YesNoField({ label, value, onChange }) {
@@ -1285,8 +1285,20 @@ function ListProperty() {
               ) : (
                 <div className="space-y-3">
                   {AMENITY_GROUPS.map((group) => {
-                    const selectedInGroup = group.items.filter(i => data.features.includes(i)).length;
+                    const allItems = groupItems(group);
+                    const selectedInGroup = allItems.filter(i => data.features.includes(i)).length;
                     const isOpen = openAmenityGroups.includes(group.category);
+                    const renderCheckbox = (item) => (
+                      <label key={item} className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-[#F4F3F0] transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={data.features.includes(item)}
+                          onChange={() => handleFeatureToggle(item)}
+                          className="w-4 h-4 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
+                        />
+                        <span className="text-sm text-[#111]">{item}</span>
+                      </label>
+                    );
                     return (
                       <div key={group.category} className="border border-gray-200 rounded-xl overflow-hidden">
                         <button
@@ -1305,18 +1317,21 @@ function ListProperty() {
                           <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                         </button>
                         {isOpen && (
-                          <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                            {group.items.map(item => (
-                              <label key={item} className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-[#F4F3F0] transition-colors">
-                                <input
-                                  type="checkbox"
-                                  checked={data.features.includes(item)}
-                                  onChange={() => handleFeatureToggle(item)}
-                                  className="w-4 h-4 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
-                                />
-                                <span className="text-sm text-[#111]">{item}</span>
-                              </label>
-                            ))}
+                          <div className="p-4 space-y-5">
+                            {group.subgroups ? (
+                              group.subgroups.map((sg) => (
+                                <div key={sg.label}>
+                                  <div className="text-xs font-semibold uppercase tracking-wide text-[#666] mb-2">{sg.label}</div>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                    {sg.items.map(renderCheckbox)}
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                {group.items.map(renderCheckbox)}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>

@@ -6,6 +6,7 @@ import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import OpenHouseManager from '@/Components/OpenHouseManager';
 import RichTextEditor from '@/Components/RichTextEditor';
 import HomeValuationModal from '@/Components/HomeValuationModal';
+import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 import {
     ArrowLeft,
     Save,
@@ -31,6 +32,7 @@ import {
     Sparkles,
     Video,
     Code2,
+    ChevronDown,
 } from 'lucide-react';
 
 export default function EditListing({ property }) {
@@ -123,6 +125,9 @@ export default function EditListing({ property }) {
     // Photo management state
     const [uploadError, setUploadError] = useState('');
     const [showValuation, setShowValuation] = useState(false);
+    const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
+    const toggleAmenityGroup = (cat) =>
+        setOpenAmenityGroups((prev) => prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [photoToDelete, setPhotoToDelete] = useState(null);
     const [deleting, setDeleting] = useState(false);
@@ -1017,45 +1022,128 @@ export default function EditListing({ property }) {
 
                 {/* Features */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                        {data.property_type === 'land' ? 'Land Features' : 'Features & Amenities'}
-                    </h2>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {(data.property_type === 'land' ? landFeatureOptions : featureOptions).map((feature) => {
-                            const features = Array.isArray(data.features) ? data.features : [];
-                            const isSelected = features.includes(feature);
-                            return (
-                                <label
-                                    key={feature}
-                                    className={`flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-colors ${
-                                        isSelected
-                                            ? 'border-[#1A1816] bg-[#1A1816]/5 text-[#1A1816]'
-                                            : 'border-gray-200 hover:border-gray-300'
-                                    }`}
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={isSelected}
-                                        onChange={() => toggleFeature(feature)}
-                                        className="sr-only"
-                                    />
-                                    <span className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                        isSelected
-                                            ? 'bg-[#1A1816] border-[#1A1816]'
-                                            : 'border-gray-300'
-                                    }`}>
-                                        {isSelected && (
-                                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        )}
-                                    </span>
-                                    <span className="text-sm">{feature}</span>
-                                </label>
-                            );
-                        })}
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-semibold text-gray-900">
+                            {data.property_type === 'land' ? 'Land Features' : 'Features & Amenities'}
+                        </h2>
+                        {data.property_type !== 'land' && Array.isArray(data.features) && data.features.length > 0 && (
+                            <span className="text-sm text-gray-500">{data.features.length} selected</span>
+                        )}
                     </div>
+
+                    {data.property_type === 'land' ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                            {landFeatureOptions.map((feature) => {
+                                const features = Array.isArray(data.features) ? data.features : [];
+                                const isSelected = features.includes(feature);
+                                return (
+                                    <label
+                                        key={feature}
+                                        className={`flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-colors ${
+                                            isSelected
+                                                ? 'border-[#1A1816] bg-[#1A1816]/5 text-[#1A1816]'
+                                                : 'border-gray-200 hover:border-gray-300'
+                                        }`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={isSelected}
+                                            onChange={() => toggleFeature(feature)}
+                                            className="sr-only"
+                                        />
+                                        <span className={`w-4 h-4 rounded border flex items-center justify-center ${
+                                            isSelected
+                                                ? 'bg-[#1A1816] border-[#1A1816]'
+                                                : 'border-gray-300'
+                                        }`}>
+                                            {isSelected && (
+                                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            )}
+                                        </span>
+                                        <span className="text-sm">{feature}</span>
+                                    </label>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {AMENITY_GROUPS.map((group) => {
+                                const features = Array.isArray(data.features) ? data.features : [];
+                                const allItems = groupItems(group);
+                                const selectedInGroup = allItems.filter((i) => features.includes(i)).length;
+                                const isOpen = openAmenityGroups.includes(group.category);
+                                const renderCheckbox = (item) => {
+                                    const isSelected = features.includes(item);
+                                    return (
+                                        <label
+                                            key={item}
+                                            className={`flex items-center gap-2 p-2.5 rounded-lg border cursor-pointer transition-colors ${
+                                                isSelected
+                                                    ? 'border-[#1A1816] bg-[#1A1816]/5'
+                                                    : 'border-gray-200 hover:border-gray-300'
+                                            }`}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={isSelected}
+                                                onChange={() => toggleFeature(item)}
+                                                className="sr-only"
+                                            />
+                                            <span className={`w-4 h-4 shrink-0 rounded border flex items-center justify-center ${
+                                                isSelected ? 'bg-[#1A1816] border-[#1A1816]' : 'border-gray-300'
+                                            }`}>
+                                                {isSelected && (
+                                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                )}
+                                            </span>
+                                            <span className="text-sm text-gray-800">{item}</span>
+                                        </label>
+                                    );
+                                };
+                                return (
+                                    <div key={group.category} className="border border-gray-200 rounded-xl overflow-hidden">
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleAmenityGroup(group.category)}
+                                            className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className="font-semibold text-gray-900 text-sm">{group.category}</span>
+                                                {selectedInGroup > 0 && (
+                                                    <span className="bg-[#1A1816] text-white text-[11px] font-semibold rounded-full px-2 py-0.5">
+                                                        {selectedInGroup}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {isOpen && (
+                                            <div className="p-4 space-y-5">
+                                                {group.subgroups ? (
+                                                    group.subgroups.map((sg) => (
+                                                        <div key={sg.label}>
+                                                            <div className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">{sg.label}</div>
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                                                {sg.items.map(renderCheckbox)}
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                                        {group.items.map(renderCheckbox)}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Virtual Tours & Media */}

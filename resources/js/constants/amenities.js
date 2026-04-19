@@ -1,5 +1,9 @@
-// Canonical amenities catalog used by ListProperty, PropertyDetail, and the
-// Properties listing filter modal. Groups are rendered in this order.
+// Canonical amenities catalog used by ListProperty, EditListing, PropertyDetail,
+// and the Properties listing filter modal. Groups are rendered in this order.
+//
+// A group has either:
+//   - items: string[]                         (flat group — most categories)
+//   - subgroups: [{ label, items: string[] }] (nested — used for Kitchen Features)
 
 export const AMENITY_GROUPS = [
     {
@@ -30,68 +34,73 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Kitchen — Appliances',
-        items: [
-            'Stainless Steel Refrigerator',
-            'Gas or Electric Range/Oven',
-            'Microwave with Convection',
-            'Dishwasher',
-            'Wine Cooler / Refrigerator',
-            'Built-in Coffee Machine',
-            'Double Ovens',
-            'Double Dishwashers',
-        ],
-    },
-    {
-        category: 'Kitchen — Cabinetry',
-        items: [
-            'Custom-built Cabinetry',
-            'Soft-close Drawers and Cabinets',
-            'Under-cabinet Lighting',
-        ],
-    },
-    {
-        category: 'Kitchen — Countertops',
-        items: [
-            'Granite Countertops',
-            'Quartz Countertops',
-            'Marble Countertops',
-            'Butcher Block Island Countertop',
-            'Stainless Steel Countertops',
-            'Concrete Countertops',
-            'Solid Surface Countertops',
-        ],
-    },
-    {
-        category: 'Kitchen — Islands',
-        items: [
-            'Large Center Island with Seating',
-            'Multi-level Island with Breakfast Bar',
-            'Prep Sink in the Island',
-        ],
-    },
-    {
-        category: 'Kitchen — Appliance Upgrades',
-        items: [
-            'Commercial-grade Range/Oven',
-            'Sub-Zero or High-end Refrigerator',
-            'Stainless Steel Appliances',
-            'Warming Drawer for Food Storage',
-        ],
-    },
-    {
-        category: 'Kitchen — Sinks & Faucets',
-        items: [
-            'Apron-front Farmhouse Sink',
-            'Undermount Sink',
-            'Pot-filler Faucet Above the Stove',
-        ],
-    },
-    {
-        category: 'Kitchen — Entertainment & Seating',
-        items: [
-            'Open Concept Kitchen with Bar Seating',
-            'Breakfast Nook with Built-in Bench Seating',
+        category: 'Kitchen Features',
+        subgroups: [
+            {
+                label: 'Appliances',
+                items: [
+                    'Stainless steel refrigerator',
+                    'Gas or electric range/oven',
+                    'Microwave with convection features',
+                    'Dishwasher',
+                    'Wine cooler or wine refrigerator',
+                    'Built-in coffee machine',
+                    'Double ovens',
+                    'Double dishwashers',
+                ],
+            },
+            {
+                label: 'Cabinetry',
+                items: [
+                    'Custom-built cabinetry',
+                    'Soft-close drawers and cabinets',
+                    'Under-cabinet lighting',
+                ],
+            },
+            {
+                label: 'Countertops',
+                items: [
+                    'Granite countertops',
+                    'Quartz countertops',
+                    'Marble countertops',
+                    'Butcher block island countertop',
+                    'Stainless steel countertops',
+                    'Concrete countertops',
+                    'Solid surface countertops',
+                ],
+            },
+            {
+                label: 'Kitchen Islands',
+                items: [
+                    'Large center island with seating',
+                    'Multi-level island with breakfast bar',
+                    'Prep sink in the island',
+                ],
+            },
+            {
+                label: 'Appliance Upgrades',
+                items: [
+                    'Commercial-grade range/oven',
+                    'Sub-Zero or high-end refrigerator',
+                    'Stainless Steel Appliances',
+                    'Warming drawer for food storage',
+                ],
+            },
+            {
+                label: 'Sinks and Faucets',
+                items: [
+                    'Apron-front farmhouse sink',
+                    'Undermount sink',
+                    'Pot-filler faucet above the stove',
+                ],
+            },
+            {
+                label: 'Entertainment and Seating',
+                items: [
+                    'Open concept kitchen with bar seating',
+                    'Breakfast nook with built-in bench seating',
+                ],
+            },
         ],
     },
     {
@@ -104,7 +113,7 @@ export const AMENITY_GROUPS = [
             'Fruit Trees or Vegetable Garden',
             'Patio or Deck',
             'Garden Area',
-            'Pet-friendly Features',
+            'Pet-friendly Features (e.g., Pet Door, Fenced Yard)',
             'Hot Tub or Jacuzzi',
             'Public Sewer',
             'Septic Tank',
@@ -117,11 +126,11 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Additional Rooms',
+        category: 'Additional Rooms and Spaces',
         items: [
             'Additional Storage Space (Basement, Attic, etc.)',
             'Attic or Loft',
-            'Balcony / Terrace',
+            'Balcony/Terrace',
             'Finished Basement',
             'Formal Dining Room',
             'Guest House or Mother-in-Law Suite',
@@ -138,7 +147,7 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Safety & Security',
+        category: 'Safety and Security Features',
         items: [
             'Carbon Monoxide Detectors',
             'Gated Community',
@@ -149,7 +158,7 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Energy & Technology',
+        category: 'Energy Efficiency and Technology',
         items: [
             'Energy Star Appliances',
             'Energy-Efficient Windows',
@@ -159,7 +168,7 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Garage & Parking',
+        category: 'Garage and Parking',
         items: [
             'Attached Garage',
             'Carport',
@@ -169,7 +178,7 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Accessibility',
+        category: 'Accessibility Features',
         items: [
             'Elevator',
             'Handicap Accessible Bathroom',
@@ -178,11 +187,11 @@ export const AMENITY_GROUPS = [
         ],
     },
     {
-        category: 'Location & Surroundings',
+        category: 'Location and Surroundings',
         items: [
             'Close to Parks or Recreational Facilities',
             'Nearby Schools',
-            'Nearby Shopping or Restaurants',
+            'Nearby Shopping Centers or Restaurants',
             'Private Driveway or Cul-de-sac Location',
             'Walking Distance to Houses of Worship',
             'Public Transportation Access',
@@ -196,13 +205,17 @@ export const AMENITY_GROUPS = [
         items: [
             'Clubhouse',
             'Playground',
-            'Community Pool',
+            'Pool',
             'Sports Courts',
-            'Community Tennis Courts',
+            'Tennis Courts',
             'Walking Trails',
         ],
     },
 ];
 
+// Items for a group — handles both flat and nested groups.
+export const groupItems = (group) =>
+    group.items ?? group.subgroups?.flatMap((sg) => sg.items) ?? [];
+
 // Flat list of all amenities (for validation / "all" checks).
-export const AMENITY_FLAT = AMENITY_GROUPS.flatMap((g) => g.items);
+export const AMENITY_FLAT = AMENITY_GROUPS.flatMap(groupItems);

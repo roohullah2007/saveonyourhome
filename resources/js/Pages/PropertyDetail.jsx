@@ -8,7 +8,7 @@ import {
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
-import { AMENITY_GROUPS } from '@/constants/amenities';
+import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
 const propertyTypeLabels = {
   'single-family-home': 'Single Family Home',
@@ -333,9 +333,20 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
     if (!property.features || property.features.length === 0) return [];
     const selected = new Set(property.features);
     const groups = AMENITY_GROUPS
-      .map((g) => ({ category: g.category, items: g.items.filter((i) => selected.has(i)) }))
-      .filter((g) => g.items.length > 0);
-    const categorized = new Set(groups.flatMap((g) => g.items));
+      .map((g) => {
+        if (g.subgroups) {
+          const subs = g.subgroups
+            .map((sg) => ({ label: sg.label, items: sg.items.filter((i) => selected.has(i)) }))
+            .filter((sg) => sg.items.length > 0);
+          if (subs.length === 0) return null;
+          return { category: g.category, subgroups: subs };
+        }
+        const items = g.items.filter((i) => selected.has(i));
+        if (items.length === 0) return null;
+        return { category: g.category, items };
+      })
+      .filter(Boolean);
+    const categorized = new Set(groups.flatMap((g) => (g.items || g.subgroups.flatMap((sg) => sg.items))));
     const uncategorized = property.features.filter((f) => !categorized.has(f));
     if (uncategorized.length) groups.push({ category: 'Other', items: uncategorized });
     return groups;
@@ -759,11 +770,10 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-6">Features</h2>
                   <div className="space-y-7">
-                    {groupedFeatures.map((g) => (
-                      <div key={g.category}>
-                        <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#6B7280] mb-4">{g.category}</h3>
+                    {groupedFeatures.map((g) => {
+                      const renderItems = (items) => (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-2.5 gap-x-6">
-                          {g.items.map((item, i) => (
+                          {items.map((item, i) => (
                             <div key={i} className="flex items-center gap-2.5">
                               <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#10B981]/10 flex items-center justify-center">
                                 <Check className="w-3 h-3 text-[#10B981]" strokeWidth={3} />
@@ -772,8 +782,25 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                             </div>
                           ))}
                         </div>
-                      </div>
-                    ))}
+                      );
+                      return (
+                        <div key={g.category}>
+                          <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#6B7280] mb-4">{g.category}</h3>
+                          {g.subgroups ? (
+                            <div className="space-y-5">
+                              {g.subgroups.map((sg) => (
+                                <div key={sg.label}>
+                                  <div className="text-[13px] font-semibold text-[#0F172A] mb-2.5">{sg.label}</div>
+                                  {renderItems(sg.items)}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            renderItems(g.items)
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
