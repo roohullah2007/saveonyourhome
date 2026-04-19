@@ -159,44 +159,78 @@ class UserDashboardController extends Controller
 
         $request->merge($input);
 
-        // Check if this is a land/lot listing (different validation rules apply)
+        $isDraft = $request->boolean('is_draft');
         $isLand = $request->input('property_type') === 'land';
 
-        $validated = $request->validate([
-            'property_title' => 'required|string|max:255',
-            'property_type' => 'required|string',
-            'status' => 'required|string',
-            'listing_status' => 'required|string|in:for_sale,pending,sold,inactive',
-            'price' => 'required|numeric|min:0',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:50',
-            'zip_code' => 'required|string|max:20',
-            // School Information
+        $baseRules = $isDraft
+            ? [
+                'property_title' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'property_type' => 'nullable|string',
+                'status' => 'nullable|string',
+                'listing_status' => 'nullable|string|in:for_sale,pending,sold,inactive',
+                'price' => 'nullable|numeric|min:0',
+                'city' => 'nullable|string|max:100',
+                'state' => 'nullable|string|max:50',
+                'zip_code' => 'nullable|string|max:20',
+                'bedrooms' => 'nullable|integer|min:0',
+                'full_bathrooms' => 'nullable|integer|min:0',
+                'sqft' => 'nullable|integer|min:0',
+                'description' => 'nullable|string',
+            ]
+            : [
+                'property_title' => 'required|string|max:255',
+                'property_type' => 'required|string',
+                'status' => 'required|string',
+                'listing_status' => 'required|string|in:for_sale,pending,sold,inactive',
+                'price' => 'required|numeric|min:0',
+                'address' => 'required|string|max:255',
+                'city' => 'required|string|max:100',
+                'state' => 'required|string|max:50',
+                'zip_code' => 'required|string|max:20',
+                'bedrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
+                'full_bathrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
+                'sqft' => 'nullable|integer|min:0',
+                'description' => 'nullable|string',
+            ];
+
+        $validated = $request->validate(array_merge($baseRules, [
+            'listing_headline' => 'nullable|string|max:80',
+            'developer' => 'nullable|string|max:255',
+            'transaction_type' => 'nullable|string|in:for_sale,for_rent',
+            'listing_label' => 'nullable|string|max:50',
+            'county' => 'nullable|string|max:120',
+            'subdivision' => 'nullable|string|max:255',
             'school_district' => 'nullable|string|max:255',
             'grade_school' => 'nullable|string|max:255',
             'middle_school' => 'nullable|string|max:255',
             'high_school' => 'nullable|string|max:255',
-            // For land listings, bedrooms/bathrooms/sqft/yearBuilt are not applicable
-            'bedrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
-            'full_bathrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
             'half_bathrooms' => 'nullable|integer|min:0',
-            'sqft' => 'nullable|integer|min:0',
-            'lot_size' => $isLand ? 'required|integer|min:0' : 'nullable|integer|min:0',
+            'lot_size' => $isLand && !$isDraft ? 'required|integer|min:0' : 'nullable|integer|min:0',
             'acres' => 'nullable|numeric|min:0',
+            'property_dimensions' => 'nullable|string|max:120',
             'zoning' => 'nullable|string|max:100',
             'year_built' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
-            'description' => 'nullable|string',
+            'garage' => 'nullable|integer|min:0|max:5',
             'features' => 'nullable|array',
             'contact_name' => 'nullable|string|max:255',
             'contact_email' => 'nullable|email',
             'contact_phone' => 'nullable|string|max:20',
             'virtual_tour_url' => 'nullable|url|max:500',
+            'virtual_tour_type' => 'nullable|in:video,embed',
+            'virtual_tour_embed' => 'nullable|string|max:20000',
             'matterport_url' => 'nullable|url|max:500',
             'video_tour_url' => 'nullable|url|max:500',
+            'annual_property_tax' => 'nullable|numeric|min:0',
+            'has_hoa' => 'nullable|boolean',
+            'hoa_fee' => 'nullable|numeric|min:0',
+            'is_motivated_seller' => 'nullable|boolean',
+            'is_licensed_agent' => 'nullable|boolean',
+            'open_to_realtors' => 'nullable|boolean',
+            'requires_pre_approval' => 'nullable|boolean',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
-        ]);
+        ]));
 
         // Sync the old status field based on listing_status
         $statusMap = [
@@ -252,17 +286,50 @@ class UserDashboardController extends Controller
             }
         }
 
+        // Apply listing state transitions based on draft / publish intent.
+        $previousStatus = $property->approval_status;
+        $publishingFromDraft = !$isDraft && in_array($previousStatus, ['draft', 'changes_requested', 'rejected'], true);
+
+        if ($isDraft) {
+            $validated['approval_status'] = 'draft';
+            $validated['is_active'] = false;
+        } elseif ($publishingFromDraft) {
+            $validated['approval_status'] = 'pending';
+            $validated['is_active'] = true;
+            $validated['published_at'] = now();
+            $validated['admin_feedback'] = null;
+            $validated['rejection_reason'] = null;
+        }
+
         $property->update($validated);
 
-        // Log confirmation of update
         \Log::info('Property ' . $property->id . ' updated successfully');
 
-        // Only geocode if no coordinates were provided by user
         if (empty($validated['latitude']) && empty($validated['longitude'])) {
             GeocodingService::geocodeProperty($property);
         }
 
-        // Send update notification email
+        if ($publishingFromDraft) {
+            try {
+                $adminEmail = \App\Models\Setting::get('admin_email');
+                if ($adminEmail) {
+                    EmailService::sendToUser($adminEmail, new \App\Mail\PropertySubmittedToAdmin($property));
+                }
+                if ($property->contact_email) {
+                    EmailService::sendToUser($property->contact_email, new \App\Mail\PropertySubmittedToOwner($property));
+                }
+            } catch (\Throwable $e) {
+                \Log::error('Publish-from-draft email failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
+            }
+
+            return redirect()->route('dashboard.listings')
+                ->with('success', 'Your listing has been submitted for review. We\'ll email you when it\'s approved.');
+        }
+
+        if ($isDraft) {
+            return redirect()->route('dashboard.listings')->with('success', 'Draft saved.');
+        }
+
         if ($property->contact_email) {
             EmailService::sendToUser($property->contact_email, new PropertyUpdatedNotification($property));
         }
@@ -521,13 +588,30 @@ class UserDashboardController extends Controller
         // Send email notification to the other party
         if (EmailService::isEnabled()) {
             $property = $inquiry->property;
+
             if ($isPropertyOwner && $inquiry->email) {
                 // Seller replying → email the buyer
                 $sellerName = $property->contact_name ?? $user->name;
-                EmailService::sendToUser(
-                    $inquiry->email,
-                    new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
-                );
+                try {
+                    EmailService::sendToUser(
+                        $inquiry->email,
+                        new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
+                    );
+                } catch (\Throwable $e) {
+                    \Log::error('Seller→buyer reply email failed', ['inquiry_id' => $inquiry->id, 'error' => $e->getMessage()]);
+                }
+            } elseif ($isInquirySender && $property->contact_email) {
+                // Buyer replying → email the seller
+                $buyerName = $inquiry->name ?? $user->name;
+                $buyerEmail = $user->email ?? $inquiry->email;
+                try {
+                    EmailService::sendToUser(
+                        $property->contact_email,
+                        new \App\Mail\BuyerReplyNotification($inquiry, $property, $validated['reply'], $buyerName, $buyerEmail)
+                    );
+                } catch (\Throwable $e) {
+                    \Log::error('Buyer→seller reply email failed', ['inquiry_id' => $inquiry->id, 'error' => $e->getMessage()]);
+                }
             }
         }
 

@@ -43,37 +43,62 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        // Check if this is a land/lot listing (different validation rules apply)
+        $isDraft = $request->boolean('is_draft');
         $isLand = $request->input('propertyType') === 'land';
 
-        $validated = $request->validate([
-            'propertyTitle' => 'required|string|max:255',
+        // When saving as draft we only require the bare minimum (title + address)
+        // so the seller can keep their work even if other fields aren't filled out yet.
+        $rules = $isDraft
+            ? [
+                'propertyTitle' => 'required|string|max:255',
+                'address' => 'required|string',
+                'city' => 'nullable|string',
+                'zipCode' => 'nullable|string',
+                'propertyType' => 'nullable|string',
+                'description' => 'nullable|string',
+                'schoolDistrict' => 'nullable|string|max:255',
+                'contactName' => 'nullable|string',
+                'contactEmail' => 'nullable|email',
+                'contactPhone' => 'nullable|string',
+                'price' => 'nullable|numeric|min:0',
+                'bedrooms' => 'nullable|integer|min:0',
+                'fullBathrooms' => 'nullable|integer|min:0',
+                'sqft' => 'nullable|integer|min:0',
+            ]
+            : [
+                'propertyTitle' => 'required|string|max:255',
+                'propertyType' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'address' => 'required|string',
+                'city' => 'required|string',
+                'zipCode' => 'required|string',
+                'schoolDistrict' => 'required|string|max:255',
+                'bedrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
+                'fullBathrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
+                'sqft' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
+                'description' => 'required|string',
+                'contactName' => 'required|string',
+                'contactEmail' => 'required|email',
+                'contactPhone' => 'required|string',
+            ];
+
+        $validated = $request->validate(array_merge($rules, [
             'listingHeadline' => 'nullable|string|max:80',
             'developer' => 'nullable|string|max:255',
-            'propertyType' => 'required|string',
             'transactionType' => 'nullable|string|in:for_sale,for_rent',
             'listingLabel' => 'nullable|string|in:new_listing,open_house,price_reduced,back_on_market',
-            'price' => 'required|numeric|min:0',
             'monthlyRent' => 'nullable|numeric|min:0',
             'availableFrom' => 'nullable|date',
             'leaseTerm' => 'nullable|string|max:30',
             'petsAllowed' => 'nullable|boolean',
-            'address' => 'required|string',
-            'city' => 'required|string',
-            'zipCode' => 'required|string',
             'subdivision' => 'nullable|string',
-            // School Information (required for all property types)
-            'schoolDistrict' => 'required|string|max:255',
             'gradeSchool' => 'nullable|string|max:255',
             'middleSchool' => 'nullable|string|max:255',
             'highSchool' => 'nullable|string|max:255',
-            // For land listings, bedrooms/bathrooms/sqft/yearBuilt are not applicable
-            'bedrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
-            'fullBathrooms' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
             'halfBathrooms' => 'nullable|integer|min:0',
-            'sqft' => $isLand ? 'nullable|integer|min:0' : 'required|integer|min:0',
             'lotSize' => 'nullable|integer|min:0',
             'acres' => 'nullable|numeric|min:0',
+            'propertyDimensions' => 'nullable|string|max:120',
             'zoning' => 'nullable|string|max:100',
             'yearBuilt' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
             'garage' => 'nullable|integer|min:0|max:5',
@@ -84,18 +109,18 @@ class PropertyController extends Controller
             'annualPropertyTax' => 'nullable|numeric|min:0',
             'county' => 'nullable|string|max:120',
             'isMotivatedSeller' => 'nullable|boolean',
+            'isLicensedAgent' => 'nullable|boolean',
             'openToRealtors' => 'nullable|boolean',
             'requiresPreApproval' => 'nullable|boolean',
-            'description' => 'required|string',
-            'features' => 'nullable', // JSON string or array from frontend
-            'contactName' => 'required|string',
-            'contactEmail' => 'required|email',
-            'contactPhone' => 'required|string',
-            'photoPaths' => 'nullable|array|max:' . ImageService::MAX_INITIAL_PHOTOS, // Pre-uploaded photo paths
-            'photoPaths.*' => 'string', // Each path is a string
+            'features' => 'nullable',
+            'photoPaths' => 'nullable|array|max:' . ImageService::MAX_INITIAL_PHOTOS,
+            'photoPaths.*' => 'string',
+            'virtualTourType' => 'nullable|in:video,embed',
+            'virtualTourUrl' => 'nullable|url|max:500',
+            'virtualTourEmbed' => 'nullable|string|max:20000',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
-        ]);
+        ]));
 
         // Parse features - handle both JSON string and array formats
         $features = [];
@@ -127,27 +152,29 @@ class PropertyController extends Controller
 
         $transactionType = $validated['transactionType'] ?? 'for_sale';
 
+        // For drafts, many NOT-NULL columns might not be filled yet. Apply safe fallbacks
+        // so the row can be persisted even when the seller only typed title + address.
         $property = Property::create([
             'user_id' => $user->id,
             'property_title' => $validated['propertyTitle'],
             'listing_headline' => $validated['listingHeadline'] ?? null,
             'developer' => $validated['developer'] ?? null,
-            'property_type' => $validated['propertyType'],
+            'property_type' => $validated['propertyType'] ?? ($isDraft ? 'single-family-home' : null),
             'transaction_type' => $transactionType,
             'listing_label' => $validated['listingLabel'] ?? null,
-            'price' => $validated['price'],
+            'price' => $validated['price'] ?? 0,
             'monthly_rent' => $validated['monthlyRent'] ?? null,
             'available_from' => $validated['availableFrom'] ?? null,
             'lease_term' => $validated['leaseTerm'] ?? null,
             'pets_allowed' => $validated['petsAllowed'] ?? null,
             'address' => $validated['address'],
-            'city' => $validated['city'],
+            'city' => $validated['city'] ?? '',
             'state' => 'Oklahoma',
-            'zip_code' => $validated['zipCode'],
+            'zip_code' => $validated['zipCode'] ?? '',
             'county' => $validated['county'] ?? null,
             'subdivision' => $validated['subdivision'] ?? null,
             // School Information
-            'school_district' => $validated['schoolDistrict'],
+            'school_district' => $validated['schoolDistrict'] ?? '',
             'grade_school' => $validated['gradeSchool'] ?? null,
             'middle_school' => $validated['middleSchool'] ?? null,
             'high_school' => $validated['highSchool'] ?? null,
@@ -158,6 +185,7 @@ class PropertyController extends Controller
             'sqft' => $sqft,
             'lot_size' => $validated['lotSize'] ?? null,
             'acres' => $validated['acres'] ?? null,
+            'property_dimensions' => $validated['propertyDimensions'] ?? null,
             'zoning' => $validated['zoning'] ?? null,
             'year_built' => $isLand ? null : ($validated['yearBuilt'] ?? null),
             'garage' => $validated['garage'] ?? null,
@@ -167,19 +195,24 @@ class PropertyController extends Controller
             'hoa_fee' => $validated['hoaFee'] ?? null,
             'annual_property_tax' => $validated['annualPropertyTax'] ?? null,
             'is_motivated_seller' => $validated['isMotivatedSeller'] ?? false,
+            'is_licensed_agent' => $validated['isLicensedAgent'] ?? false,
             'open_to_realtors' => $validated['openToRealtors'] ?? true,
             'requires_pre_approval' => $validated['requiresPreApproval'] ?? false,
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? '',
             'features' => $features,
             'photos' => $photoPaths,
-            'contact_name' => $validated['contactName'],
-            'contact_email' => $validated['contactEmail'],
-            'contact_phone' => $validated['contactPhone'],
+            'virtual_tour_type' => $validated['virtualTourType'] ?? null,
+            'virtual_tour_url' => $validated['virtualTourUrl'] ?? null,
+            'virtual_tour_embed' => $validated['virtualTourEmbed'] ?? null,
+            'contact_name' => $validated['contactName'] ?? $user->name ?? '',
+            'contact_email' => $validated['contactEmail'] ?? $user->email ?? '',
+            'contact_phone' => $validated['contactPhone'] ?? '',
             'status' => 'for-sale',
             'listing_status' => 'for_sale',
-            'is_active' => true,
-            'approval_status' => 'approved',
-            'approved_at' => now(),
+            'is_active' => !$isDraft,
+            'approval_status' => $isDraft ? 'draft' : 'pending',
+            'approved_at' => null,
+            'published_at' => $isDraft ? null : now(),
             // Use provided coordinates if available
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,
@@ -190,10 +223,16 @@ class PropertyController extends Controller
             GeocodingService::geocodeProperty($property);
         }
 
-        // Send email notifications
+        if ($isDraft) {
+            return redirect()->route('dashboard.listings')
+                ->with('success', 'Draft saved. Finish filling it in and hit Publish whenever you\'re ready.');
+        }
+
+        // Send email notifications (admin review + owner confirmation)
         $this->sendPropertySubmissionEmails($property);
 
-        return redirect()->route('dashboard.listings')->with('success', 'Property listed successfully! Your listing is now live.');
+        return redirect()->route('dashboard.listings')
+            ->with('success', 'Listing submitted for review. We\'ll email you when the admin approves it.');
     }
 
     /**

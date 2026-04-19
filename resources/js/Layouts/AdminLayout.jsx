@@ -16,7 +16,8 @@ import {
     UserSearch,
     ImageIcon,
     Upload,
-    Package
+    Package,
+    Tags,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -35,6 +36,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Imports', href: route('admin.imports.index'), icon: Upload, current: route().current('admin.imports.*') },
         { name: 'Service Requests', href: route('admin.service-requests.index'), icon: Package, current: route().current('admin.service-requests.*') },
         { name: 'Company Logos', href: route('admin.company-logos.index'), icon: ImageIcon, current: route().current('admin.company-logos.*') },
+        { name: 'Taxonomies', href: route('admin.taxonomies.index'), icon: Tags, current: route().current('admin.taxonomies.*') },
         { name: 'Settings', href: route('admin.settings.index'), icon: Settings, current: route().current('admin.settings.*') },
     ];
 

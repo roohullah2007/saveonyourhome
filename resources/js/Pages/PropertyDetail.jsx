@@ -588,6 +588,53 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                 )}
               </div>
 
+              {/* Virtual Tour */}
+              {(() => {
+                const tourType = property.virtual_tour_type || (property.virtual_tour_embed ? 'embed' : 'video');
+                const videoUrl = property.virtual_tour_url || property.video_tour_url || property.video_url;
+                const embedCode = property.virtual_tour_embed;
+
+                const toEmbedUrl = (url) => {
+                  if (!url) return null;
+                  let m = url.match(/youtube\.com\/watch\?v=([A-Za-z0-9_-]+)/) || url.match(/youtu\.be\/([A-Za-z0-9_-]+)/);
+                  if (m) return `https://www.youtube.com/embed/${m[1]}`;
+                  m = url.match(/vimeo\.com\/(\d+)/);
+                  if (m) return `https://player.vimeo.com/video/${m[1]}`;
+                  return url;
+                };
+
+                if (tourType === 'embed' && embedCode) {
+                  return (
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
+                      <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-4">Virtual Tour</h2>
+                      <div
+                        className="relative rounded-xl overflow-hidden aspect-video bg-black [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:border-0"
+                        dangerouslySetInnerHTML={{ __html: embedCode }}
+                      />
+                    </div>
+                  );
+                }
+
+                if (tourType === 'video' && videoUrl) {
+                  const src = toEmbedUrl(videoUrl);
+                  return (
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
+                      <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-4">Virtual Tour</h2>
+                      <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
+                        <iframe
+                          src={src}
+                          title="Virtual Tour"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full border-0"
+                        />
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
+
               {/* Overview */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                 <div className="flex items-center justify-between mb-6">
@@ -627,12 +674,21 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
               </div>
 
               {/* Description */}
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
-                <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-4">Description</h2>
-                <p className="text-[#4B5563] leading-[1.75] whitespace-pre-line">
-                  {property.description}
-                </p>
-              </div>
+              {property.description && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-4">Description</h2>
+                  {/\<[a-z][\s\S]*\>/i.test(property.description) ? (
+                    <div
+                      className="prose prose-sm sm:prose-base max-w-none text-[#4B5563] leading-[1.75]"
+                      dangerouslySetInnerHTML={{ __html: property.description }}
+                    />
+                  ) : (
+                    <p className="text-[#4B5563] leading-[1.75] whitespace-pre-line">
+                      {property.description}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Address */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">

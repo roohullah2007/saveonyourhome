@@ -10,13 +10,25 @@ class SellerAvailabilityController extends Controller
 {
     public function index(Request $request)
     {
-        $rules = SellerAvailabilityRule::where('user_id', $request->user()->id)
+        $user = $request->user();
+
+        $rules = SellerAvailabilityRule::where('user_id', $user->id)
             ->orderBy('day_of_week')
             ->orderBy('start_time')
             ->get();
 
+        $externalCalendars = $user->externalCalendars()
+            ->withCount('events')
+            ->orderBy('created_at')
+            ->get();
+
+        $feedUrl = route('calendar.feed', ['token' => $user->ensureCalendarFeedToken()]);
+
         return Inertia::render('Dashboard/Availability', [
             'rules' => $rules,
+            'externalCalendars' => $externalCalendars,
+            'feedUrl' => $feedUrl,
+            'webcalUrl' => preg_replace('#^https?://#i', 'webcal://', $feedUrl),
         ]);
     }
 

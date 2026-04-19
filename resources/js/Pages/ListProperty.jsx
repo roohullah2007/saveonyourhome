@@ -7,8 +7,39 @@ import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import { AMENITY_GROUPS } from '@/constants/amenities';
 
+// Yes/No radio pair, used for seller-preference fields.
+function YesNoField({ label, value, onChange }) {
+  const on = !!value;
+  const Radio = ({ checked, onClick, children }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center gap-2 cursor-pointer select-none"
+    >
+      <span
+        className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${checked ? 'border-[#3355FF]' : 'border-gray-300'}`}
+      >
+        {checked && <span className="h-2.5 w-2.5 rounded-full bg-[#3355FF]" />}
+      </span>
+      <span className="text-sm font-medium text-[#111]">{children}</span>
+    </button>
+  );
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-[#111] mb-3 leading-snug">{label}</label>
+      <div className="flex items-center gap-6">
+        <Radio checked={on} onClick={() => onChange(true)}>Yes</Radio>
+        <Radio checked={!on} onClick={() => onChange(false)}>No</Radio>
+      </div>
+    </div>
+  );
+}
+
 function ListProperty() {
-  const { auth } = usePage().props;
+  const { auth, taxonomies } = usePage().props;
+  const txPropertyTypes = (taxonomies?.property_types || []);
+  const txTransactionTypes = (taxonomies?.transaction_types || []);
+  const txListingLabels = (taxonomies?.listing_labels || []);
   const user = auth?.user;
 
   const fileInputRef = useRef(null);
@@ -55,6 +86,7 @@ function ListProperty() {
     sqft: '',
     lotSize: '',
     acres: '',
+    propertyDimensions: '',
     zoning: '',
     yearBuilt: '',
     garage: '',
@@ -67,14 +99,22 @@ function ListProperty() {
 
     // Seller preferences
     isMotivatedSeller: false,
+    isLicensedAgent: false,
     openToRealtors: true,
     requiresPreApproval: false,
+    transactionType: 'for_sale',
+    listingLabel: '',
 
     // Description
     description: '',
 
     // Features
     features: [],
+
+    // Virtual tour
+    virtualTourType: 'video',
+    virtualTourUrl: '',
+    virtualTourEmbed: '',
 
     // Photos
     photos: [],
@@ -120,7 +160,9 @@ function ListProperty() {
     });
   }, [setData]);
 
-  const propertyTypes = [
+  // Dynamic property types come from admin-managed taxonomy. Fall back to a
+  // sensible built-in list if the shared prop hasn't propagated yet.
+  const propertyTypes = txPropertyTypes.length > 0 ? txPropertyTypes : [
     { value: 'single-family-home', label: 'Single Family Home' },
     { value: 'condos-townhomes-co-ops', label: 'Condos/Townhomes/Co-Ops' },
     { value: 'multi-family', label: 'Multi-Family' },
@@ -351,8 +393,8 @@ function ListProperty() {
     setMainPhotoIndex(index);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (e, isDraft = false) => {
+    if (e && e.preventDefault) e.preventDefault();
 
     // Check if there are any photos still uploading
     const stillUploading = photoPreviews.some(p => p.uploading);
@@ -401,6 +443,7 @@ function ListProperty() {
       sqft: data.sqft,
       lotSize: data.lotSize ? parseInt(data.lotSize, 10) : null,
       acres: data.acres ? parseFloat(data.acres) : null,
+      propertyDimensions: data.propertyDimensions || null,
       zoning: data.zoning || '',
       yearBuilt: data.yearBuilt ? parseInt(data.yearBuilt, 10) : null,
       garage: data.garage !== '' ? parseInt(data.garage, 10) : null,
@@ -409,17 +452,25 @@ function ListProperty() {
       hasHoa: !!data.hasHoa,
       hoaFee: data.hoaFee !== '' ? parseFloat(data.hoaFee) : null,
       isMotivatedSeller: !!data.isMotivatedSeller,
+      isLicensedAgent: !!data.isLicensedAgent,
       openToRealtors: !!data.openToRealtors,
       requiresPreApproval: !!data.requiresPreApproval,
+      transactionType: data.transactionType || 'for_sale',
+      listingLabel: data.listingLabel || null,
       description: data.description,
       contactName: data.contactName,
       contactEmail: data.contactEmail,
       contactPhone: data.contactPhone,
       features: JSON.stringify(data.features),
       photoPaths: reorderedPaths, // Pre-uploaded photo paths
+      // Virtual tour
+      virtualTourType: data.virtualTourType || 'video',
+      virtualTourUrl: data.virtualTourUrl || null,
+      virtualTourEmbed: data.virtualTourEmbed || null,
       // Location coordinates from map picker
       latitude: data.latitude || null,
       longitude: data.longitude || null,
+      is_draft: isDraft,
     };
 
     router.post('/properties', submitData, {
@@ -449,7 +500,7 @@ function ListProperty() {
       />
 
       {/* Hero Section */}
-      <div className="relative pt-0 md:pt-[77px]">
+      <div className="relative">
         <div className="relative min-h-[60vh] flex items-center py-16 md:py-20 overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
@@ -949,6 +1000,20 @@ function ListProperty() {
                   </>
                 )}
 
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
+                    Property Dimensions
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 70x70"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.propertyDimensions}
+                    onChange={(e) => handleInputChange('propertyDimensions', e.target.value)}
+                  />
+                  <p className="text-xs text-[#666] mt-1">Width × depth in feet</p>
+                </div>
+
                 {data.propertyType !== 'land' && (
                   <div>
                     <label className="block text-sm font-semibold text-[#111] mb-2">
@@ -1032,46 +1097,118 @@ function ListProperty() {
                 </div>
               </div>
 
-              <div className="mt-6 space-y-4">
-                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={data.isMotivatedSeller}
-                    onChange={(e) => handleInputChange('isMotivatedSeller', e.target.checked)}
-                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold text-[#111]">Motivated Seller</p>
-                    <p className="text-xs text-[#666] mt-1">Show a "Motivated Seller" badge on your listing to attract buyers.</p>
-                  </div>
-                </label>
-
-                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={data.openToRealtors}
-                    onChange={(e) => handleInputChange('openToRealtors', e.target.checked)}
-                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold text-[#111]">Open to contact from Realtors</p>
-                    <p className="text-xs text-[#666] mt-1">Allow licensed Realtors representing buyers to contact you.</p>
-                  </div>
-                </label>
-
-                <label className="flex items-start gap-3 cursor-pointer p-4 rounded-lg border border-[#D0CCC7] hover:border-[#1A1816] transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={data.requiresPreApproval}
-                    onChange={(e) => handleInputChange('requiresPreApproval', e.target.checked)}
-                    className="mt-1 w-5 h-5 text-[#1A1816] rounded border-[#D0CCC7] focus:ring-[#1A1816]"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold text-[#111]">Require Pre-Approval before viewings</p>
-                    <p className="text-xs text-[#666] mt-1">Buyer must show a Pre-Approval from a licensed mortgage company before touring the home.</p>
-                  </div>
-                </label>
+              {/* Seller preferences — Yes/No radios */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mt-6">
+                <YesNoField
+                  label="Seller is licensed real estate agent"
+                  value={data.isLicensedAgent}
+                  onChange={(v) => handleInputChange('isLicensedAgent', v)}
+                />
+                <YesNoField
+                  label="Seller is open to contact from Realtors"
+                  value={data.openToRealtors}
+                  onChange={(v) => handleInputChange('openToRealtors', v)}
+                />
+                <YesNoField
+                  label="Seller requires a Pre-Approval from a Licensed Mortgage Company Prior to Viewing the Home"
+                  value={data.requiresPreApproval}
+                  onChange={(v) => handleInputChange('requiresPreApproval', v)}
+                />
+                <YesNoField
+                  label="Show a Motivated Seller badge on the listing"
+                  value={data.isMotivatedSeller}
+                  onChange={(v) => handleInputChange('isMotivatedSeller', v)}
+                />
               </div>
+
+              {/* Transaction Type + Special Notice */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">Transaction Type</label>
+                  <select
+                    value={data.transactionType}
+                    onChange={(e) => handleInputChange('transactionType', e.target.value)}
+                    className="w-full border border-[#D0CCC7] rounded-lg px-4 py-3 text-[#111] bg-white focus:border-[#1A1816] focus:ring-1 focus:ring-[#1A1816] outline-none"
+                  >
+                    {(txTransactionTypes.length > 0 ? txTransactionTypes : [
+                      { value: 'for_sale', label: 'For Sale By Owner' },
+                      { value: 'for_rent', label: 'For Rent By Owner' },
+                    ]).map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">Special Notice</label>
+                  <select
+                    value={data.listingLabel}
+                    onChange={(e) => handleInputChange('listingLabel', e.target.value)}
+                    className="w-full border border-[#D0CCC7] rounded-lg px-4 py-3 text-[#111] bg-white focus:border-[#1A1816] focus:ring-1 focus:ring-[#1A1816] outline-none"
+                  >
+                    <option value="">None</option>
+                    {(txListingLabels.length > 0 ? txListingLabels : [
+                      { value: 'new_listing', label: 'New Listing' },
+                      { value: 'open_house', label: 'Open House' },
+                      { value: 'price_reduced', label: 'Price Reduced' },
+                      { value: 'back_on_market', label: 'Back On Market' },
+                    ]).map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-[#666] mt-1">Badge shown on your listing card.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Virtual Tour */}
+            <div className="bg-white rounded-xl p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-semibold text-[#111] mb-4">Virtual Tour</h2>
+              <p className="text-sm text-[#666] mb-4">Add a video URL or paste a 3D-tour embed code. Shown prominently on your listing detail page.</p>
+
+              <div className="mb-4">
+                <div className="inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1">
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('virtualTourType', 'video')}
+                    className={`rounded-md px-4 py-1.5 text-sm font-semibold transition-colors ${data.virtualTourType === 'video' ? 'bg-white shadow text-[#111]' : 'text-gray-500'}`}
+                  >
+                    Video URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('virtualTourType', 'embed')}
+                    className={`rounded-md px-4 py-1.5 text-sm font-semibold transition-colors ${data.virtualTourType === 'embed' ? 'bg-white shadow text-[#111]' : 'text-gray-500'}`}
+                  >
+                    Embed code
+                  </button>
+                </div>
+              </div>
+
+              {data.virtualTourType === 'video' ? (
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">Video URL</label>
+                  <input
+                    type="url"
+                    placeholder="https://www.youtube.com/watch?v=…  or  https://vimeo.com/…"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.virtualTourUrl}
+                    onChange={(e) => handleInputChange('virtualTourUrl', e.target.value)}
+                  />
+                  <p className="text-xs text-[#666] mt-1">YouTube, Vimeo, or any direct video link. Optional.</p>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-semibold text-[#111] mb-2">Embed code</label>
+                  <textarea
+                    rows={6}
+                    placeholder={'<iframe src="https://my.matterport.com/show/?m=..." allow="fullscreen"></iframe>'}
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all font-mono text-xs"
+                    value={data.virtualTourEmbed}
+                    onChange={(e) => handleInputChange('virtualTourEmbed', e.target.value)}
+                  />
+                  <p className="text-xs text-[#666] mt-1">Paste the iframe/embed code from Matterport, Kuula, iStaging, or your 3D-tour provider.</p>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -1490,8 +1627,17 @@ function ListProperty() {
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center pt-6">
+            {/* Submit Buttons: Save draft OR Submit for review */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6">
+              <button
+                type="button"
+                onClick={(e) => handleSubmit(e, true)}
+                disabled={processing || isUploading || photoPreviews.some(p => p.uploading)}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-[#1a1816] transition-all duration-300 hover:bg-gray-50 disabled:opacity-50"
+                style={{ height: '46px', paddingLeft: '22px', paddingRight: '22px', fontSize: '14px', fontWeight: 600 }}
+              >
+                Save as draft
+              </button>
               <button
                 type="submit"
                 disabled={processing || isUploading || photoPreviews.some(p => p.uploading)}
@@ -1501,21 +1647,24 @@ function ListProperty() {
                 {processing ? (
                   <>
                     <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
-                    <span>Submitting...</span>
+                    <span>Submitting…</span>
                   </>
                 ) : isUploading || photoPreviews.some(p => p.uploading) ? (
                   <>
                     <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
-                    <span>Uploading Photos...</span>
+                    <span>Uploading Photos…</span>
                   </>
                 ) : (
                   <>
-                    <span>Submit Property Listing</span>
+                    <span>Publish listing for review</span>
                     <ChevronRight style={{ width: '16px', height: '16px' }} />
                   </>
                 )}
               </button>
             </div>
+            <p className="text-center text-xs text-[#666] mt-3">
+              Save a draft to keep your progress, or publish — publishing sends it to an admin for a quick approval.
+            </p>
           </form>
         </div>
       </div>

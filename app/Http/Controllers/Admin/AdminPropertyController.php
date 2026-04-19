@@ -393,6 +393,38 @@ class AdminPropertyController extends Controller
         return back()->with('success', 'Property rejected.');
     }
 
+    public function requestChanges(Request $request, Property $property)
+    {
+        $validated = $request->validate([
+            'admin_feedback' => 'required|string|max:2000',
+        ]);
+
+        $property->update([
+            'approval_status' => 'changes_requested',
+            'admin_feedback' => $validated['admin_feedback'],
+            'changes_requested_at' => now(),
+            'is_active' => false,
+            'approved_at' => null,
+            'approved_by' => null,
+            'rejection_reason' => null,
+        ]);
+
+        ActivityLog::log('property_changes_requested', $property, null, ['feedback' => $validated['admin_feedback']], "Requested changes on property: {$property->property_title}");
+
+        if ($property->contact_email) {
+            try {
+                EmailService::sendToUser(
+                    $property->contact_email,
+                    new \App\Mail\PropertyChangesRequested($property, $validated['admin_feedback'])
+                );
+            } catch (\Throwable $e) {
+                \Log::error('Request-changes email failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
+            }
+        }
+
+        return back()->with('success', 'Changes requested. The seller has been notified.');
+    }
+
     public function toggleFeatured(Property $property)
     {
         $property->update(['is_featured' => !$property->is_featured]);

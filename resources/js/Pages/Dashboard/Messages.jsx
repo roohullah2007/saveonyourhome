@@ -132,7 +132,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
         <UserDashboardLayout title="Messages">
             <Head title="Messages" />
 
-            <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-180px)]">
+            <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-96px)] lg:h-[calc(100vh-96px)] min-h-[600px]">
                 {/* Messages List */}
                 <div className="lg:w-96 flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden">
                     {/* Header */}

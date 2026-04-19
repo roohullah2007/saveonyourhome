@@ -1,9 +1,10 @@
-import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Head, Link, useForm, router, usePage } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
 import { useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import OpenHouseManager from '@/Components/OpenHouseManager';
+import RichTextEditor from '@/Components/RichTextEditor';
 import {
     ArrowLeft,
     Save,
@@ -25,20 +26,33 @@ import {
     Trash2,
     Star,
     Loader2,
-    CheckCircle
+    CheckCircle,
+    Sparkles,
+    Video,
+    Code2,
 } from 'lucide-react';
 
 export default function EditListing({ property }) {
+    const { taxonomies } = usePage().props;
+    const txPropertyTypes = taxonomies?.property_types || [];
+    const txTransactionTypes = taxonomies?.transaction_types || [];
+    const txListingLabels = taxonomies?.listing_labels || [];
     const { data, setData, put, processing, errors } = useForm({
         property_title: property.property_title || '',
+        listing_headline: property.listing_headline || '',
+        developer: property.developer || '',
         property_type: property.property_type || 'single-family-home',
         status: property.status || 'for-sale',
         listing_status: property.listing_status || 'for_sale',
+        transaction_type: property.transaction_type || 'for_sale',
+        listing_label: property.listing_label || '',
         price: property.price ?? '',
         address: property.address || '',
         city: property.city || '',
         state: property.state || '',
         zip_code: property.zip_code || '',
+        county: property.county || '',
+        subdivision: property.subdivision || '',
         // School Information
         school_district: property.school_district || '',
         grade_school: property.grade_school || '',
@@ -52,14 +66,26 @@ export default function EditListing({ property }) {
         acres: property.acres ?? '',
         zoning: property.zoning ?? '',
         year_built: property.year_built ?? '',
+        garage: property.garage ?? '',
         description: property.description || '',
         features: Array.isArray(property.features) ? property.features : [],
         contact_name: property.contact_name || '',
         contact_email: property.contact_email || '',
         contact_phone: property.contact_phone || '',
         virtual_tour_url: property.virtual_tour_url ?? '',
+        virtual_tour_type: property.virtual_tour_type || (property.virtual_tour_embed ? 'embed' : 'video'),
+        virtual_tour_embed: property.virtual_tour_embed ?? '',
         matterport_url: property.matterport_url ?? '',
+        property_dimensions: property.property_dimensions ?? '',
         video_tour_url: property.video_tour_url ?? '',
+        // Financials + seller preferences
+        annual_property_tax: property.annual_property_tax ?? '',
+        has_hoa: !!property.has_hoa,
+        hoa_fee: property.hoa_fee ?? '',
+        is_motivated_seller: !!property.is_motivated_seller,
+        is_licensed_agent: !!property.is_licensed_agent,
+        open_to_realtors: property.open_to_realtors ?? true,
+        requires_pre_approval: !!property.requires_pre_approval,
         latitude: property.latitude ?? '',
         longitude: property.longitude ?? '',
     });
@@ -308,7 +334,7 @@ export default function EditListing({ property }) {
         });
     };
 
-    const propertyTypes = [
+    const propertyTypes = txPropertyTypes.length > 0 ? txPropertyTypes : [
         { value: 'single-family-home', label: 'Single Family Home' },
         { value: 'single_family', label: 'Single Family Home' },
         { value: 'condos-townhomes-co-ops', label: 'Condos/Townhomes/Co-Ops' },
@@ -322,11 +348,9 @@ export default function EditListing({ property }) {
         { value: 'mobile_home', label: 'Mobile Home' },
     ];
 
-    const statusOptions = [
-        { value: 'for_sale', label: 'Active (For Sale)' },
-        { value: 'pending', label: 'Pending (Under Contract)' },
-        { value: 'sold', label: 'Sold' },
-        { value: 'inactive', label: 'Inactive (Temporarily Off-Market)' },
+    const statusOptions = txTransactionTypes.length > 0 ? txTransactionTypes : [
+        { value: 'for_sale', label: 'For Sale By Owner' },
+        { value: 'for_rent', label: 'For Rent By Owner' },
     ];
 
     const featureOptions = [
@@ -379,8 +403,8 @@ export default function EditListing({ property }) {
 
     const [savingPhotos, setSavingPhotos] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e, isDraft = false) => {
+        if (e && e.preventDefault) e.preventDefault();
 
         // Check if there are any photos still uploading
         if (newPhotoPreviews.some(p => p.uploading)) {
@@ -424,6 +448,7 @@ export default function EditListing({ property }) {
             transform: (formData) => ({
                 ...formData,
                 lot_size: formData.lot_size ? parseInt(formData.lot_size, 10) : null,
+                is_draft: isDraft,
             }),
             onError: (errors) => {
                 console.error('Validation errors:', errors);
@@ -523,9 +548,32 @@ export default function EditListing({ property }) {
                                 }`}
                                 placeholder="e.g., Beautiful 3 Bedroom Family Home"
                             />
+                            <p className="text-xs text-gray-500 mt-1">Shown as the main heading on your listing.</p>
                             {errors.property_title && (
                                 <p className="text-red-500 text-sm mt-1">{errors.property_title}</p>
                             )}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Listing Headline</label>
+                            <input
+                                type="text" maxLength={80}
+                                value={data.listing_headline}
+                                onChange={(e) => setData('listing_headline', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                placeholder="Short tagline (80 chars max)"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Developer / Builder</label>
+                            <input
+                                type="text"
+                                value={data.developer}
+                                onChange={(e) => setData('developer', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                placeholder="Optional"
+                            />
                         </div>
 
                         <div>
@@ -550,38 +598,21 @@ export default function EditListing({ property }) {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Listing Status *
+                                Property Status *
                             </label>
                             <select
-                                value={data.listing_status}
-                                onChange={(e) => {
-                                    const newListingStatus = e.target.value;
-                                    // Map listing_status to legacy status field
-                                    const statusMap = {
-                                        'for_sale': 'for-sale',
-                                        'pending': 'pending',
-                                        'sold': 'sold',
-                                        'inactive': 'inactive',
-                                    };
-                                    setData(data => ({
-                                        ...data,
-                                        listing_status: newListingStatus,
-                                        status: statusMap[newListingStatus] || 'for-sale'
-                                    }));
-                                }}
+                                value={data.transaction_type}
+                                onChange={(e) => setData('transaction_type', e.target.value)}
                                 className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
-                                    errors.listing_status ? 'border-red-500' : 'border-gray-200'
+                                    errors.transaction_type ? 'border-red-500' : 'border-gray-200'
                                 }`}
                             >
                                 {statusOptions.map((status) => (
                                     <option key={status.value} value={status.value}>{status.label}</option>
                                 ))}
                             </select>
-                            {errors.listing_status && (
-                                <p className="text-red-500 text-sm mt-1">{errors.listing_status}</p>
-                            )}
-                            {data.listing_status === 'inactive' && (
-                                <p className="text-sm text-amber-600 mt-1">This listing will be hidden from public search while inactive.</p>
+                            {errors.transaction_type && (
+                                <p className="text-red-500 text-sm mt-1">{errors.transaction_type}</p>
                             )}
                         </div>
 
@@ -929,19 +960,47 @@ export default function EditListing({ property }) {
                                 </div>
                             </>
                         )}
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Property Dimensions
+                            </label>
+                            <input
+                                type="text"
+                                value={data.property_dimensions}
+                                onChange={(e) => setData('property_dimensions', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                placeholder="e.g., 70x70"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">Width × depth in feet</p>
+                        </div>
                     </div>
 
                     <div className="mt-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Description
-                        </label>
-                        <textarea
+                        <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-gray-700">Description</label>
+                            <button
+                                type="button"
+                                onClick={async () => {
+                                    try {
+                                        const res = await axios.post(route('dashboard.listings.generate-description', property.id));
+                                        if (res.data?.description) setData('description', res.data.description);
+                                    } catch (e) {
+                                        alert('Could not generate a description right now. Please try again.');
+                                    }
+                                }}
+                                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3355FF] to-[#7c3aed] text-white px-3 py-1 text-xs font-semibold hover:opacity-90"
+                            >
+                                <Sparkles className="w-3.5 h-3.5" /> Generate with AI
+                            </button>
+                        </div>
+                        <RichTextEditor
                             value={data.description}
-                            onChange={(e) => setData('description', e.target.value)}
-                            rows={5}
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                            placeholder={data.property_type === 'land' ? 'Describe your lot/land...' : 'Describe your property...'}
+                            onChange={(html) => setData('description', html)}
+                            placeholder={data.property_type === 'land' ? 'Describe your lot/land…' : 'Describe your property…'}
+                            minHeight={200}
                         />
+                        <p className="text-xs text-gray-500 mt-1.5">Bold, italic, and lists are supported. Click Generate with AI to start from a quick draft.</p>
                     </div>
                 </div>
 
@@ -997,65 +1056,54 @@ export default function EditListing({ property }) {
                         Virtual Tours & Media
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Virtual Tour Type */}
+                    <div className="mb-5">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Virtual Tour Type</label>
+                        <div className="inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1">
+                            <button
+                                type="button"
+                                onClick={() => setData('virtual_tour_type', 'video')}
+                                className={`inline-flex items-center gap-1.5 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors ${data.virtual_tour_type === 'video' ? 'bg-white shadow text-[#111]' : 'text-gray-500'}`}
+                            >
+                                <Video className="w-4 h-4" /> Video URL
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setData('virtual_tour_type', 'embed')}
+                                className={`inline-flex items-center gap-1.5 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors ${data.virtual_tour_type === 'embed' ? 'bg-white shadow text-[#111]' : 'text-gray-500'}`}
+                            >
+                                <Code2 className="w-4 h-4" /> Embed code
+                            </button>
+                        </div>
+                    </div>
+
+                    {data.virtual_tour_type === 'video' ? (
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Virtual Tour URL
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Video URL</label>
                             <input
                                 type="url"
                                 value={data.virtual_tour_url}
                                 onChange={(e) => setData('virtual_tour_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
-                                    errors.virtual_tour_url ? 'border-red-500' : 'border-gray-200'
-                                }`}
-                                placeholder="https://..."
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${errors.virtual_tour_url ? 'border-red-500' : 'border-gray-200'}`}
+                                placeholder="https://www.youtube.com/watch?v=…  or  https://vimeo.com/…"
                             />
-                            {errors.virtual_tour_url && (
-                                <p className="text-red-500 text-sm mt-1">{errors.virtual_tour_url}</p>
-                            )}
+                            <p className="text-xs text-gray-500 mt-1">Paste a YouTube, Vimeo, or direct video URL. We'll render it on your listing detail page.</p>
+                            {errors.virtual_tour_url && <p className="text-red-500 text-sm mt-1">{errors.virtual_tour_url}</p>}
                         </div>
-
+                    ) : (
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Matterport 3D Tour URL
-                            </label>
-                            <input
-                                type="url"
-                                value={data.matterport_url}
-                                onChange={(e) => setData('matterport_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
-                                    errors.matterport_url ? 'border-red-500' : 'border-gray-200'
-                                }`}
-                                placeholder="https://my.matterport.com/show/?m=..."
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Embed code</label>
+                            <textarea
+                                rows={6}
+                                value={data.virtual_tour_embed}
+                                onChange={(e) => setData('virtual_tour_embed', e.target.value)}
+                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] font-mono text-xs ${errors.virtual_tour_embed ? 'border-red-500' : 'border-gray-200'}`}
+                                placeholder={'<iframe src="https://my.matterport.com/show/?m=..." allow="fullscreen"></iframe>'}
                             />
-                            {errors.matterport_url && (
-                                <p className="text-red-500 text-sm mt-1">{errors.matterport_url}</p>
-                            )}
+                            <p className="text-xs text-gray-500 mt-1">Paste the iframe/embed code from Matterport, Kuula, iStaging, or your provider. We'll render it responsively.</p>
+                            {errors.virtual_tour_embed && <p className="text-red-500 text-sm mt-1">{errors.virtual_tour_embed}</p>}
                         </div>
-
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Video Tour URL
-                            </label>
-                            <input
-                                type="url"
-                                value={data.video_tour_url}
-                                onChange={(e) => setData('video_tour_url', e.target.value)}
-                                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
-                                    errors.video_tour_url ? 'border-red-500' : 'border-gray-200'
-                                }`}
-                                placeholder="https://..."
-                            />
-                            {errors.video_tour_url && (
-                                <p className="text-red-500 text-sm mt-1">{errors.video_tour_url}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    <p className="text-xs text-gray-400 mt-3">
-                        Paste URLs only. Do not include iframe code or embed snippets.
-                    </p>
+                    )}
                 </div>
 
                 {/* Open Houses */}
@@ -1065,6 +1113,121 @@ export default function EditListing({ property }) {
                         openHouses={property.open_houses || []}
                         routePrefix="dashboard.listings"
                     />
+                </div>
+
+                {/* Financials & Seller Preferences */}
+                <div className="bg-white rounded-2xl shadow-sm p-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <DollarSign className="w-5 h-5 text-[#1A1816]" />
+                        Financials & Seller Preferences
+                    </h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Annual Property Tax ($)</label>
+                            <input
+                                type="number" min="0" step="0.01"
+                                value={data.annual_property_tax}
+                                onChange={(e) => setData('annual_property_tax', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                placeholder="e.g., 4080"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Used in the mortgage calculator for buyers.</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">HOA Fee ($ / month)</label>
+                            <input
+                                type="number" min="0" step="0.01"
+                                value={data.hoa_fee}
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    setData((d) => ({ ...d, hoa_fee: v, has_hoa: v !== '' && parseFloat(v) > 0 }));
+                                }}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                placeholder="e.g., 170"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Leave blank if no HOA.</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">County</label>
+                            <input
+                                type="text"
+                                value={data.county}
+                                onChange={(e) => setData('county', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Subdivision</label>
+                            <input
+                                type="text"
+                                value={data.subdivision}
+                                onChange={(e) => setData('subdivision', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                            />
+                        </div>
+                        {data.property_type !== 'land' && (
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Garage (# of cars)</label>
+                                <input
+                                    type="number" min="0" max="5"
+                                    value={data.garage}
+                                    onChange={(e) => setData('garage', e.target.value)}
+                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                />
+                            </div>
+                        )}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Special Notice</label>
+                            <select
+                                value={data.listing_label}
+                                onChange={(e) => setData('listing_label', e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                            >
+                                <option value="">None</option>
+                                {(txListingLabels.length > 0 ? txListingLabels : [
+                                    { value: 'new_listing', label: 'New Listing' },
+                                    { value: 'open_house', label: 'Open House' },
+                                    { value: 'price_reduced', label: 'Price Reduced' },
+                                    { value: 'back_on_market', label: 'Back On Market' },
+                                ]).map((opt) => (
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Yes/No prefs */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 pt-5 border-t border-gray-100">
+                        {[
+                            { key: 'is_licensed_agent', label: 'Seller is licensed real estate agent' },
+                            { key: 'open_to_realtors', label: 'Seller is open to contact from Realtors' },
+                            { key: 'requires_pre_approval', label: 'Seller requires a Pre-Approval from a Licensed Mortgage Company Prior to Viewing the Home' },
+                            { key: 'is_motivated_seller', label: 'Show a Motivated Seller badge on the listing' },
+                        ].map((f) => {
+                            const on = !!data[f.key];
+                            return (
+                                <div key={f.key}>
+                                    <div className="text-sm font-semibold text-gray-800 mb-2.5 leading-snug">{f.label}</div>
+                                    <div className="flex items-center gap-6">
+                                        {[{v: true, lbl: 'Yes'}, {v: false, lbl: 'No'}].map((r) => (
+                                            <button
+                                                key={r.lbl}
+                                                type="button"
+                                                onClick={() => setData(f.key, r.v)}
+                                                className="inline-flex items-center gap-2 select-none"
+                                            >
+                                                <span className={`inline-flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors ${on === r.v ? 'border-[#3355FF]' : 'border-gray-300'}`}>
+                                                    {on === r.v && <span className="h-2.5 w-2.5 rounded-full bg-[#3355FF]" />}
+                                                </span>
+                                                <span className="text-sm text-gray-700">{r.lbl}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
 
                 {/* Contact Information */}
@@ -1382,26 +1545,41 @@ export default function EditListing({ property }) {
                 </div>
 
                 {/* Submit */}
-                <div className="flex items-center justify-between bg-white rounded-2xl shadow-sm p-6">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white rounded-2xl shadow-sm p-6">
                     <Link
                         href={route('dashboard.listings')}
-                        className="px-6 py-2.5 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+                        className="px-6 py-2.5 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors text-center"
                     >
                         Cancel
                     </Link>
-                    <button
-                        type="submit"
-                        disabled={processing || savingPhotos || isUploading}
-                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-xl font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
-                    >
-                        {(processing || savingPhotos) ? (
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                            <Save className="w-5 h-5" />
-                        )}
-                        {savingPhotos ? 'Saving Photos...' : processing ? 'Saving...' : 'Save Changes'}
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                            type="button"
+                            onClick={(e) => handleSubmit(e, true)}
+                            disabled={processing || savingPhotos || isUploading}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 border border-gray-300 bg-white text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        >
+                            Save as draft
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={processing || savingPhotos || isUploading}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#3355FF] text-white rounded-xl font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
+                        >
+                            {(processing || savingPhotos) ? (
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                            ) : (
+                                <Save className="w-5 h-5" />
+                            )}
+                            {savingPhotos ? 'Saving Photos…' : processing ? 'Saving…' : (property.approval_status === 'draft' || property.approval_status === 'changes_requested' || property.approval_status === 'rejected' ? 'Publish for review' : 'Save changes')}
+                        </button>
+                    </div>
                 </div>
+                {(property.approval_status === 'draft' || property.approval_status === 'changes_requested' || property.approval_status === 'rejected') && (
+                    <p className="text-xs text-center text-gray-500 pt-2">
+                        Clicking "Publish for review" will submit your listing to an admin for approval.
+                    </p>
+                )}
             </form>
 
             {/* Delete Photo Modal */}

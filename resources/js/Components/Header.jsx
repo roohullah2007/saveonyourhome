@@ -9,6 +9,14 @@ const Header = ({ maxWidth, noPadding }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalIntent, setAuthModalIntent] = useState('generic');
+  const [authModalTab, setAuthModalTab] = useState('login');
+
+  const openAuthModal = (intent = 'generic', tab = 'login') => {
+    setAuthModalIntent(intent);
+    setAuthModalTab(tab);
+    setShowAuthModal(true);
+  };
   const [sellDropdownOpen, setSellDropdownOpen] = useState(false);
   const [buyDropdownOpen, setBuyDropdownOpen] = useState(false);
   const [mobileSellOpen, setMobileSellOpen] = useState(false);
@@ -28,8 +36,20 @@ const Header = ({ maxWidth, noPadding }) => {
       router.visit('/list-property');
     } else {
       setMobileMenuOpen(false);
-      setShowAuthModal(true);
+      openAuthModal('list', 'login');
     }
+  };
+
+  const handleOpenLogin = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    openAuthModal('generic', 'login');
+  };
+
+  const handleOpenRegister = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    openAuthModal('generic', 'register');
   };
 
   // Close dropdowns when clicking outside
@@ -324,12 +344,12 @@ const Header = ({ maxWidth, noPadding }) => {
                   </div>
                 ) : (
                   /* Not Logged In - Login Button */
-                  <Link
-                    href="/login"
+                  <button
+                    onClick={handleOpenLogin}
                     className="hidden md:block text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors"
                   >
                     Login
-                  </Link>
+                  </button>
                 )}
 
                 <button
@@ -556,20 +576,20 @@ const Header = ({ maxWidth, noPadding }) => {
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/login"
-                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                      onClick={() => setMobileMenuOpen(false)}
+                    <button
+                      type="button"
+                      onClick={handleOpenLogin}
+                      className="block text-left w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                     >
                       Login
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
-                      onClick={() => setMobileMenuOpen(false)}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleOpenRegister}
+                      className="block text-left w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                     >
                       Sign Up
-                    </Link>
+                    </button>
                   </>
                 )}
                 <button
@@ -586,7 +606,12 @@ const Header = ({ maxWidth, noPadding }) => {
       )}
 
       {/* Auth Modal */}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        intent={authModalIntent}
+        initialTab={authModalTab}
+      />
     </>
   );
 };

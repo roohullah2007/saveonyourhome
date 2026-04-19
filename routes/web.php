@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminMediaOrderController;
 use App\Http\Controllers\Admin\AdminCompanyLogoController;
 use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminPartnerController;
+use App\Http\Controllers\Admin\AdminTaxonomyController;
 use App\Http\Controllers\Admin\AdminImportController;
 use App\Http\Controllers\Admin\AdminServiceRequestController;
 use App\Http\Controllers\ClaimController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\BuyerInquiryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\CalendarFeedController;
+use App\Http\Controllers\CalendarImportController;
 use App\Http\Controllers\MediaOrderController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PropertyShowingController;
@@ -33,6 +36,11 @@ use Inertia\Inertia;
 
 // Sitemap
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// Public ICS feed (token-protected) — sellers subscribe from their own calendars
+Route::get('/calendar-feeds/{token}.ics', [CalendarFeedController::class, 'show'])
+    ->where('token', '[A-Za-z0-9]+')
+    ->name('calendar.feed');
 
 // QR Code Short URL Redirect (public, no auth required)
 Route::get('/p/{code}', [QrCodeController::class, 'handleScan'])->name('qr.scan');
@@ -295,6 +303,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
         return Inertia::render('ListProperty');
     })->name('.listings.create');
     Route::get('/listings/{property}/edit', [UserDashboardController::class, 'editListing'])->name('.listings.edit');
+    Route::post('/listings/{property}/generate-description', [\App\Http\Controllers\PropertyDescriptionController::class, 'generate'])->name('.listings.generate-description');
     Route::put('/listings/{property}', [UserDashboardController::class, 'updateListing'])->name('.listings.update');
     Route::delete('/listings/{property}', [UserDashboardController::class, 'destroyListing'])->name('.listings.destroy');
     Route::post('/listings/{property}/photos', [UserDashboardController::class, 'addPhotos'])->name('.listings.photos.add');
@@ -348,6 +357,12 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
     Route::put('/availability/{rule}', [SellerAvailabilityController::class, 'update'])->name('.availability.update');
     Route::delete('/availability/{rule}', [SellerAvailabilityController::class, 'destroy'])->name('.availability.destroy');
 
+    // Calendar sync (import + export)
+    Route::post('/calendars', [CalendarImportController::class, 'store'])->name('.calendars.store');
+    Route::delete('/calendars/{calendar}', [CalendarImportController::class, 'destroy'])->name('.calendars.destroy');
+    Route::post('/calendars/{calendar}/sync', [CalendarImportController::class, 'sync'])->name('.calendars.sync');
+    Route::post('/calendar-feed/regenerate', [CalendarImportController::class, 'regenerateFeed'])->name('.calendar-feed.regenerate');
+
     // Showings (booked meetings)
     Route::get('/showings', [SellerShowingsController::class, 'index'])->name('.showings');
     Route::post('/showings/{showing}/cancel', [SellerShowingsController::class, 'cancel'])->name('.showings.cancel');
@@ -386,6 +401,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/properties/{property}', [AdminPropertyController::class, 'destroy'])->name('properties.destroy');
     Route::post('/properties/{property}/approve', [AdminPropertyController::class, 'approve'])->name('properties.approve');
     Route::post('/properties/{property}/reject', [AdminPropertyController::class, 'reject'])->name('properties.reject');
+    Route::post('/properties/{property}/request-changes', [AdminPropertyController::class, 'requestChanges'])->name('properties.request-changes');
     Route::post('/properties/{property}/toggle-featured', [AdminPropertyController::class, 'toggleFeatured'])->name('properties.toggle-featured');
     Route::post('/properties/{property}/toggle-active', [AdminPropertyController::class, 'toggleActive'])->name('properties.toggle-active');
     Route::post('/properties/bulk-action', [AdminPropertyController::class, 'bulkAction'])->name('properties.bulk-action');
@@ -454,6 +470,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
     Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');
+
+    // Taxonomies (property types, transaction types, statuses, special notices)
+    Route::get('/taxonomies', [AdminTaxonomyController::class, 'index'])->name('taxonomies.index');
+    Route::post('/taxonomies', [AdminTaxonomyController::class, 'store'])->name('taxonomies.store');
+    Route::put('/taxonomies/{term}', [AdminTaxonomyController::class, 'update'])->name('taxonomies.update');
+    Route::delete('/taxonomies/{term}', [AdminTaxonomyController::class, 'destroy'])->name('taxonomies.destroy');
+    Route::post('/taxonomies/reorder', [AdminTaxonomyController::class, 'reorder'])->name('taxonomies.reorder');
 
     // Partners Management
     Route::get('/partners', [AdminPartnerController::class, 'index'])->name('partners.index');

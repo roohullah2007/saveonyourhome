@@ -45,9 +45,9 @@ export default function UserDashboardLayout({ children, title }) {
             >
                 <div className="flex flex-col h-full">
                     {/* Brand */}
-                    <div className="flex items-center justify-between h-16 px-5 border-b border-gray-100">
+                    <div className="flex items-center justify-between h-20 px-5 border-b border-gray-100">
                         <Link href="/" className="flex items-center gap-2">
-                            <img src="/images/saveonyourhome-logo.png" alt="SaveOnYourHome" className="h-8 w-auto" />
+                            <img src="/images/saveonyourhome-logo.png" alt="SaveOnYourHome" className="h-14 w-auto" />
                         </Link>
                         <button
                             onClick={() => setSidebarOpen(false)}
@@ -120,10 +120,10 @@ export default function UserDashboardLayout({ children, title }) {
                         <Menu className="w-5 h-5" />
                         <span className="font-medium text-sm">Menu</span>
                     </button>
-                    <img src="/images/saveonyourhome-logo.png" alt="SaveOnYourHome" className="h-7 w-auto" />
+                    <img src="/images/saveonyourhome-logo.png" alt="SaveOnYourHome" className="h-10 w-auto" />
                 </div>
 
-                <main className="p-4 sm:p-6 lg:p-8 max-w-[1400px]">
+                <main className="p-4 sm:p-6 lg:p-8 max-w-[1400px] mx-auto lg:mx-0">
                     {children}
                 </main>
             </div>

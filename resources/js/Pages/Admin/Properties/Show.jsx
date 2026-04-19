@@ -40,10 +40,12 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showApproveModal, setShowApproveModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showChangesModal, setShowChangesModal] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showDeletePhotoModal, setShowDeletePhotoModal] = useState(false);
     const [photoToDelete, setPhotoToDelete] = useState(null);
     const [rejectionReason, setRejectionReason] = useState('');
+    const [adminFeedback, setAdminFeedback] = useState('');
     const [processing, setProcessing] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [downloadingZip, setDownloadingZip] = useState(false);
@@ -156,6 +158,23 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
             onFinish: () => {
                 setProcessing(false);
                 setShowRejectModal(false);
+            }
+        });
+    };
+
+    const handleRequestChanges = () => {
+        if (!adminFeedback.trim()) {
+            alert('Please describe what the seller needs to change.');
+            return;
+        }
+        setProcessing(true);
+        router.post(route('admin.properties.request-changes', property.id), {
+            admin_feedback: adminFeedback,
+        }, {
+            preserveScroll: true,
+            onFinish: () => {
+                setProcessing(false);
+                setShowChangesModal(false);
             }
         });
     };
@@ -331,6 +350,13 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                             >
                                 <CheckCircle className="w-4 h-4" />
                                 Approve
+                            </button>
+                            <button
+                                onClick={() => setShowChangesModal(true)}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors"
+                            >
+                                <AlertCircle className="w-4 h-4" />
+                                Request changes
                             </button>
                             <button
                                 onClick={() => setShowRejectModal(true)}
@@ -995,6 +1021,46 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
                             >
                                 {processing ? 'Rejecting...' : 'Reject Property'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Request Changes Modal */}
+            {showChangesModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-md w-full p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-orange-100 p-2 rounded-lg">
+                                <AlertCircle className="w-5 h-5 text-orange-600" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-gray-900">Request changes</h3>
+                        </div>
+                        <p className="text-gray-600 mb-4">
+                            Tell the seller what needs to be updated before you approve this listing. They'll get an email with your feedback and can resubmit from their dashboard.
+                        </p>
+                        <textarea
+                            value={adminFeedback}
+                            onChange={(e) => setAdminFeedback(e.target.value)}
+                            placeholder="e.g. Please add at least 4 interior photos and clarify the school district."
+                            rows={5}
+                            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 resize-none mb-4"
+                        />
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => { setShowChangesModal(false); setAdminFeedback(''); }}
+                                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                disabled={processing}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleRequestChanges}
+                                disabled={processing || !adminFeedback.trim()}
+                                className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                            >
+                                {processing ? 'Sending…' : 'Send feedback'}
                             </button>
                         </div>
                     </div>

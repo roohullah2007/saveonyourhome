@@ -118,8 +118,18 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
             case 'approved': return 'bg-green-100 text-green-700';
             case 'pending': return 'bg-yellow-100 text-yellow-700';
             case 'rejected': return 'bg-red-100 text-red-700';
+            case 'changes_requested': return 'bg-orange-100 text-orange-700';
+            case 'draft': return 'bg-gray-200 text-gray-700';
             case 'sold': return 'bg-blue-100 text-blue-700';
             default: return 'bg-gray-100 text-gray-700';
+        }
+    };
+
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 'changes_requested': return 'Changes requested';
+            case 'draft': return 'Draft';
+            default: return status;
         }
     };
 
@@ -243,7 +253,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                         {listing.property_title}
                                                     </h3>
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded-full capitalize flex-shrink-0 ${getStatusColor(listing.approval_status)}`}>
-                                                        {listing.approval_status}
+                                                        {getStatusLabel(listing.approval_status)}
                                                     </span>
                                                     {/* Listing Status Badge */}
                                                     {listing.listing_status && listing.listing_status !== 'for_sale' && (
@@ -280,6 +290,23 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                             <div className="mt-2 p-2 bg-red-50 rounded-lg flex items-start gap-2">
                                                 <AlertCircle className="w-3 h-3 text-red-600 mt-0.5 flex-shrink-0" />
                                                 <p className="text-xs text-red-700 line-clamp-1">{listing.rejection_reason}</p>
+                                            </div>
+                                        )}
+
+                                        {listing.approval_status === 'changes_requested' && listing.admin_feedback && (
+                                            <div className="mt-2 p-2 bg-orange-50 rounded-lg flex items-start gap-2">
+                                                <AlertCircle className="w-3 h-3 text-orange-600 mt-0.5 flex-shrink-0" />
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-xs font-semibold text-orange-800">Admin requested changes</p>
+                                                    <p className="text-xs text-orange-700 line-clamp-2">{listing.admin_feedback}</p>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {listing.approval_status === 'draft' && (
+                                            <div className="mt-2 p-2 bg-gray-50 rounded-lg flex items-start gap-2">
+                                                <AlertCircle className="w-3 h-3 text-gray-500 mt-0.5 flex-shrink-0" />
+                                                <p className="text-xs text-gray-700">This listing is a draft — publish it from the edit page to send it to admin for review.</p>
                                             </div>
                                         )}
                                     </div>
@@ -335,13 +362,23 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <Sticker className="w-3.5 h-3.5" />
                                                 Free Stickers
                                             </button>
-                                            <button
-                                                onClick={() => openOrderModal(listing, 'yard_sign')}
-                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-                                            >
-                                                <Package className="w-3.5 h-3.5" />
-                                                Order Yard Sign
-                                            </button>
+                                            {listing.is_active && listing.approval_status === 'approved' && (listing.transaction_type === 'for_sale' || !listing.transaction_type) && (() => {
+                                                const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                                                const listingUrl = `${origin}/properties/${listing.slug || listing.id}`;
+                                                const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(listingUrl)}`;
+                                                const partnerUrl = `https://humanitysource.org/product/dave-on-your-house-yard-sign-24-x-18-inch-double-sided-print-h-stake-included/?qrcode=${encodeURIComponent(qrImageUrl)}`;
+                                                return (
+                                                    <a
+                                                        href={partnerUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                                                    >
+                                                        <Package className="w-3.5 h-3.5" />
+                                                        Order Yard Sign
+                                                    </a>
+                                                );
+                                            })()}
                                             <Link
                                                 href={route('dashboard.listings.edit', listing.id)}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"

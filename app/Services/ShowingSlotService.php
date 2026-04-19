@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ExternalBusyEvent;
 use App\Models\PropertyShowing;
 use App\Models\SellerAvailabilityRule;
 use App\Models\User;
@@ -43,6 +44,13 @@ class ShowingSlotService
             ->whereBetween('scheduled_at', [$from, $to])
             ->get(['scheduled_at', 'duration_minutes']);
 
+        // Busy events imported from the seller's external calendars.
+        $busyEvents = ExternalBusyEvent::query()
+            ->whereHas('calendar', fn ($q) => $q->where('user_id', $seller->id)->where('is_active', true))
+            ->where('ends_at', '>=', $from)
+            ->where('starts_at', '<=', $to)
+            ->get(['starts_at', 'ends_at']);
+
         $cutoff = Carbon::now()->addMinutes(self::MIN_NOTICE_MINUTES);
         $out = [];
 
@@ -79,9 +87,16 @@ class ShowingSlotService
                             break;
                         }
                     }
-                    if ($conflicts) {
-                        continue;
+                    if ($conflicts) continue;
+
+                    // Skip if overlaps a busy event from the seller's imported calendars
+                    foreach ($busyEvents as $e) {
+                        if ($slotStart->lt($e->ends_at) && $slotEnd->gt($e->starts_at)) {
+                            $conflicts = true;
+                            break;
+                        }
                     }
+                    if ($conflicts) continue;
 
                     $types = [];
                     if ($rule->allow_phone) $types[] = 'phone';
@@ -166,6 +181,15 @@ class ShowingSlotService
             ->whereRaw('DATE_ADD(scheduled_at, INTERVAL duration_minutes MINUTE) > ?', [$start])
             ->exists();
 
-        return !$conflict;
+        if ($conflict) return false;
+
+        // Check for conflicts with imported-calendar busy events
+        $busyConflict = ExternalBusyEvent::query()
+            ->whereHas('calendar', fn ($q) => $q->where('user_id', $seller->id)->where('is_active', true))
+            ->where('starts_at', '<', $slotEnd)
+            ->where('ends_at', '>', $start)
+            ->exists();
+
+        return !$busyConflict;
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SellerReplyNotification extends Mailable
+class BuyerReplyNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,34 +18,31 @@ class SellerReplyNotification extends Mailable
         public Inquiry $inquiry,
         public Property $property,
         public string $replyMessage,
-        public string $sellerName,
+        public string $buyerName,
+        public ?string $buyerEmail = null,
     ) {}
 
     public function envelope(): Envelope
     {
+        $replyTo = $this->buyerEmail ?: $this->inquiry->email;
+
         return new Envelope(
-            subject: 'You have a new message from ' . $this->sellerName,
-            replyTo: [$this->property->contact_email],
+            subject: 'New reply from ' . $this->buyerName . ' about ' . ($this->property->address ?? $this->property->property_title),
+            replyTo: $replyTo ? [$replyTo] : [],
         );
     }
 
     public function content(): Content
     {
-        $isRegistered = $this->inquiry->user_id !== null
-            || \App\Models\User::where('email', $this->inquiry->email)->exists();
-
         return new Content(
-            view: 'emails.seller-reply',
+            view: 'emails.buyer-reply',
             with: [
                 'inquiry' => $this->inquiry,
                 'property' => $this->property,
                 'replyMessage' => $this->replyMessage,
-                'sellerName' => $this->sellerName,
-                'propertyUrl' => url('/properties/' . ($this->property->slug ?? $this->property->id)),
-                'isRegistered' => $isRegistered,
+                'buyerName' => $this->buyerName,
+                'buyerEmail' => $this->buyerEmail,
                 'messagesUrl' => url('/dashboard/messages'),
-                'loginUrl' => url('/login'),
-                'registerUrl' => url('/register?email=' . urlencode($this->inquiry->email)),
             ],
         );
     }

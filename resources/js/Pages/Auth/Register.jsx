@@ -5,9 +5,12 @@ import { useState } from 'react';
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const prefilledEmail = typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('email') || ''
+        : '';
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        email: '',
+        email: prefilledEmail,
         phone: '',
         sms_consent: false,
         password: '',

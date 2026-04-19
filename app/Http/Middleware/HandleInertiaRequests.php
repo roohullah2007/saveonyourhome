@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\CompanyLogo;
 use App\Models\Inquiry;
+use App\Models\TaxonomyTerm;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -68,6 +69,12 @@ class HandleInertiaRequests extends Middleware
             ],
             'googleMapsApiKey' => config('services.google.maps_api_key'),
             'companyLogos' => fn () => CompanyLogo::getActive(),
+            'taxonomies' => fn () => [
+                'property_types' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_PROPERTY_TYPE),
+                'transaction_types' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_TRANSACTION_TYPE),
+                'listing_labels' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_LISTING_LABEL),
+                'listing_statuses' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_LISTING_STATUS),
+            ],
         ];
     }
 }

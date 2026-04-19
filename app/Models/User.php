@@ -190,6 +190,20 @@ class User extends Authenticatable
         return $this->hasMany(PropertyShowing::class, 'buyer_user_id');
     }
 
+    public function externalCalendars(): HasMany
+    {
+        return $this->hasMany(ExternalCalendar::class);
+    }
+
+    public function ensureCalendarFeedToken(): string
+    {
+        if (!$this->calendar_feed_token) {
+            $this->calendar_feed_token = \Illuminate\Support\Str::random(48);
+            $this->save();
+        }
+        return $this->calendar_feed_token;
+    }
+
     /**
      * Get user's full address
      */
