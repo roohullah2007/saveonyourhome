@@ -105,6 +105,7 @@ class Property extends Model
         'video_url',
         'video_tour_url',
         'floor_plan_url',
+        'floor_plans',
         'matterport_url',
         'mls_virtual_tour_url',
         'is_mls_listed',
@@ -130,6 +131,7 @@ class Property extends Model
     protected $casts = [
         'features' => 'array',
         'photos' => 'array',
+        'floor_plans' => 'array',
         'price' => 'decimal:2',
         'bathrooms' => 'decimal:1',
         'acres' => 'decimal:4',

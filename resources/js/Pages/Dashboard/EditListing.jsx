@@ -78,6 +78,7 @@ export default function EditListing({ property }) {
         virtual_tour_url: property.virtual_tour_url ?? '',
         virtual_tour_type: property.virtual_tour_type || (property.virtual_tour_embed ? 'embed' : 'video'),
         virtual_tour_embed: property.virtual_tour_embed ?? '',
+        floor_plans: Array.isArray(property.floor_plans) ? property.floor_plans : [],
         matterport_url: property.matterport_url ?? '',
         property_dimensions: property.property_dimensions ?? '',
         video_tour_url: property.video_tour_url ?? '',
@@ -128,6 +129,8 @@ export default function EditListing({ property }) {
     const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
     const toggleAmenityGroup = (cat) =>
         setOpenAmenityGroups((prev) => prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]);
+    const [floorPlanUploading, setFloorPlanUploading] = useState(0);
+    const floorPlanInputRef = useRef(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [photoToDelete, setPhotoToDelete] = useState(null);
     const [deleting, setDeleting] = useState(false);
@@ -463,6 +466,30 @@ export default function EditListing({ property }) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
         });
+    };
+
+    const handleFloorPlanFiles = async (files) => {
+        const list = Array.from(files || []).filter((f) => f.type.startsWith('image/'));
+        for (const file of list) {
+            setFloorPlanUploading((n) => n + 1);
+            try {
+                const fd = new FormData();
+                fd.append('photo', file);
+                const res = await axios.post('/upload-photo', fd, { timeout: 120000 });
+                if (res.data?.success && res.data?.path) {
+                    setData('floor_plans', [...(Array.isArray(data.floor_plans) ? data.floor_plans : []), res.data.path]);
+                }
+            } catch (_) { /* swallow per-file failures */ }
+            finally {
+                setFloorPlanUploading((n) => Math.max(0, n - 1));
+            }
+        }
+    };
+
+    const removeFloorPlan = async (path) => {
+        const next = (Array.isArray(data.floor_plans) ? data.floor_plans : []).filter((p) => p !== path);
+        setData('floor_plans', next);
+        try { await axios.post('/delete-uploaded-photo', { path }); } catch (_) { /* ignore */ }
     };
 
     const toggleFeature = (feature) => {
@@ -1148,12 +1175,19 @@ export default function EditListing({ property }) {
 
                 {/* Virtual Tours & Media */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                         <svg className="w-5 h-5 text-[#1A1816]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                         </svg>
-                        Virtual Tours & Media
+                        360° Virtual Tour
                     </h2>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-5">
+                        360° Virtual Tour is a 3D View of the property interior or exterior. You can generate it using tools like{' '}
+                        <a href="https://www.klapty.com/" target="_blank" rel="noopener noreferrer" className="text-[#3355FF] hover:underline">Klapty</a>
+                        {' '}or{' '}
+                        <a href="https://matterport.com/" target="_blank" rel="noopener noreferrer" className="text-[#3355FF] hover:underline">Matterport</a>,
+                        then paste the generated embed code in the input field below.
+                    </p>
 
                     {/* Virtual Tour Type */}
                     <div className="mb-5">
@@ -1203,6 +1237,65 @@ export default function EditListing({ property }) {
                             {errors.virtual_tour_embed && <p className="text-red-500 text-sm mt-1">{errors.virtual_tour_embed}</p>}
                         </div>
                     )}
+                </div>
+
+                {/* Floor Plans */}
+                <div className="bg-white rounded-2xl shadow-sm p-6">
+                    <div className="flex items-center justify-between mb-2">
+                        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                            <FileText className="w-5 h-5 text-[#1A1816]" />
+                            Floor Plans
+                        </h2>
+                        {Array.isArray(data.floor_plans) && data.floor_plans.length > 0 && (
+                            <span className="text-xs text-gray-500">{data.floor_plans.length} uploaded</span>
+                        )}
+                    </div>
+                    <p className="text-sm text-gray-600 mb-4">
+                        Upload floor plan images to help buyers understand your home's layout. Each image shows up on your listing detail page. Up to 20 files.
+                    </p>
+
+                    <input
+                        ref={floorPlanInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => { handleFloorPlanFiles(e.target.files); e.target.value = ''; }}
+                    />
+
+                    {Array.isArray(data.floor_plans) && data.floor_plans.length > 0 && (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
+                            {data.floor_plans.map((path) => (
+                                <div key={path} className="relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-[4/3]">
+                                    <img src={`/storage/${path}`} alt="Floor plan" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeFloorPlan(path)}
+                                        className="absolute top-2 right-2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        aria-label="Remove"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ))}
+                            {floorPlanUploading > 0 && Array.from({ length: floorPlanUploading }).map((_, i) => (
+                                <div key={`up-${i}`} className="relative rounded-xl border border-dashed border-gray-300 bg-gray-50 aspect-[4/3] flex items-center justify-center">
+                                    <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <button
+                        type="button"
+                        onClick={() => floorPlanInputRef.current?.click()}
+                        disabled={(data.floor_plans?.length || 0) >= 20}
+                        className="w-full border-2 border-dashed border-gray-200 hover:border-[#1A1816] rounded-xl p-6 flex flex-col items-center justify-center gap-2 text-gray-500 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <Upload className="w-5 h-5" />
+                        <span className="text-sm font-semibold">Click to upload floor plan images</span>
+                        <span className="text-xs text-gray-400">PNG, JPG, GIF or WebP</span>
+                    </button>
                 </div>
 
                 {/* Open Houses */}

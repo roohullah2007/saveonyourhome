@@ -219,6 +219,8 @@ class UserDashboardController extends Controller
             'virtual_tour_url' => 'nullable|url|max:500',
             'virtual_tour_type' => 'nullable|in:video,embed',
             'virtual_tour_embed' => 'nullable|string|max:20000',
+            'floor_plans' => 'nullable|array|max:20',
+            'floor_plans.*' => 'string',
             'matterport_url' => 'nullable|url|max:500',
             'video_tour_url' => 'nullable|url|max:500',
             'annual_property_tax' => 'nullable|numeric|min:0',

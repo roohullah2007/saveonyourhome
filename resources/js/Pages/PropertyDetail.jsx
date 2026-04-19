@@ -819,6 +819,31 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                 </div>
               )}
 
+              {/* Floor Plans */}
+              {Array.isArray(property.floor_plans) && property.floor_plans.length > 0 && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-5">Floor Plans</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {property.floor_plans.map((path, i) => (
+                      <a
+                        key={i}
+                        href={`/storage/${path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3] group"
+                      >
+                        <img
+                          src={`/storage/${path}`}
+                          alt={`Floor plan ${i + 1}`}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }}
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Mortgage Calculator */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                 <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Mortgage Calculator</h2>

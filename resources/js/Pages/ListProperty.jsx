@@ -55,6 +55,9 @@ function ListProperty() {
   const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
   const [showValuation, setShowValuation] = useState(false);
   const [generatingDescription, setGeneratingDescription] = useState(false);
+  // Floor plans: each entry is { id, preview, path?, uploading?, error? }
+  const [floorPlans, setFloorPlans] = useState([]);
+  const floorPlanInputRef = useRef(null);
   const toggleAmenityGroup = (cat) =>
     setOpenAmenityGroups((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
@@ -396,6 +399,37 @@ function ListProperty() {
     setMainPhotoIndex(index);
   };
 
+  const handleFloorPlanFiles = async (files) => {
+    const list = Array.from(files || []).filter((f) => f.type.startsWith('image/'));
+    for (const file of list) {
+      const id = `fp-${Date.now()}-${Math.random()}`;
+      const preview = URL.createObjectURL(file);
+      setFloorPlans((prev) => [...prev, { id, preview, uploading: true }]);
+      try {
+        const fd = new FormData();
+        fd.append('photo', file);
+        const res = await axios.post('/upload-photo', fd, { timeout: 120000 });
+        if (res.data?.success) {
+          setFloorPlans((prev) => prev.map((fp) => fp.id === id ? { ...fp, uploading: false, path: res.data.path } : fp));
+        } else {
+          setFloorPlans((prev) => prev.map((fp) => fp.id === id ? { ...fp, uploading: false, error: 'Upload failed' } : fp));
+        }
+      } catch (err) {
+        setFloorPlans((prev) => prev.map((fp) => fp.id === id ? { ...fp, uploading: false, error: 'Upload failed' } : fp));
+      }
+    }
+  };
+
+  const removeFloorPlan = async (id) => {
+    const target = floorPlans.find((fp) => fp.id === id);
+    setFloorPlans((prev) => prev.filter((fp) => fp.id !== id));
+    if (target?.path) {
+      try {
+        await axios.post('/delete-uploaded-photo', { path: target.path });
+      } catch (_) { /* ignore */ }
+    }
+  };
+
   const generateDescription = async () => {
     setGeneratingDescription(true);
     try {
@@ -505,6 +539,7 @@ function ListProperty() {
       contactPhone: data.contactPhone,
       features: JSON.stringify(data.features),
       photoPaths: reorderedPaths, // Pre-uploaded photo paths
+      floorPlans: floorPlans.filter((f) => !!f.path).map((f) => f.path),
       // Virtual tour
       virtualTourType: data.virtualTourType || 'video',
       virtualTourUrl: data.virtualTourUrl || null,
@@ -522,6 +557,7 @@ function ListProperty() {
         setPhotoPreviews([]);
         setUploadedPaths([]);
         setMainPhotoIndex(0);
+        setFloorPlans([]);
         setShowSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
@@ -1217,8 +1253,14 @@ function ListProperty() {
 
             {/* Virtual Tour */}
             <div className="bg-white rounded-xl p-6 md:p-8">
-              <h2 className="text-xl md:text-2xl font-semibold text-[#111] mb-4">Virtual Tour</h2>
-              <p className="text-sm text-[#666] mb-4">Add a video URL or paste a 3D-tour embed code. Shown prominently on your listing detail page.</p>
+              <h2 className="text-xl md:text-2xl font-semibold text-[#111] mb-4">360° Virtual Tour</h2>
+              <p className="text-sm text-[#111] leading-relaxed mb-4">
+                360° Virtual Tour is a 3D View of the property interior or exterior. You can generate it using tools like{' '}
+                <a href="https://www.klapty.com/" target="_blank" rel="noopener noreferrer" className="text-[#3355FF] hover:underline">Klapty</a>
+                {' '}or{' '}
+                <a href="https://matterport.com/" target="_blank" rel="noopener noreferrer" className="text-[#3355FF] hover:underline">Matterport</a>,
+                then paste the generated embed code in the input field below.
+              </p>
 
               <div className="mb-4">
                 <div className="inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1">
@@ -1644,6 +1686,76 @@ function ListProperty() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Floor Plans */}
+            <div className="bg-white rounded-xl p-6 md:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#E5E1DC] p-3 rounded-lg">
+                    <FileText className="w-6 h-6 text-[#3D3D3D]" />
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                    Floor Plans
+                  </h2>
+                </div>
+                {floorPlans.length > 0 && (
+                  <span className="text-sm text-gray-500">{floorPlans.length} uploaded</span>
+                )}
+              </div>
+              <p className="text-sm text-[#666] mb-4">
+                Upload floor plan images to help buyers understand your home's layout. Each image shows up on your listing detail page. Up to 20 files.
+              </p>
+
+              <input
+                ref={floorPlanInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => { handleFloorPlanFiles(e.target.files); e.target.value = ''; }}
+              />
+
+              {floorPlans.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+                  {floorPlans.map((fp) => (
+                    <div key={fp.id} className="relative group rounded-lg overflow-hidden border border-[#D0CCC7] bg-[#F4F3F0] aspect-[4/3]">
+                      <img src={fp.preview} alt="Floor plan" className="w-full h-full object-cover" />
+                      {fp.uploading && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                          <Loader2 className="w-6 h-6 text-white animate-spin" />
+                        </div>
+                      )}
+                      {fp.error && (
+                        <div className="absolute inset-0 bg-red-600/80 flex items-center justify-center text-xs text-white font-semibold text-center px-2">
+                          {fp.error}
+                        </div>
+                      )}
+                      {!fp.uploading && (
+                        <button
+                          type="button"
+                          onClick={() => removeFloorPlan(fp.id)}
+                          className="absolute top-2 right-2 bg-white/90 hover:bg-white text-[#111] rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                          aria-label="Remove"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={() => floorPlanInputRef.current?.click()}
+                disabled={floorPlans.length >= 20}
+                className="w-full border-2 border-dashed border-[#D0CCC7] hover:border-[#1A1816] rounded-xl p-6 flex flex-col items-center justify-center gap-2 text-[#666] hover:text-[#111] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Upload className="w-6 h-6" />
+                <span className="text-sm font-semibold">Click to upload floor plan images</span>
+                <span className="text-xs text-[#888]">PNG, JPG, GIF or WebP</span>
+              </button>
             </div>
 
             {/* Contact Information */}
