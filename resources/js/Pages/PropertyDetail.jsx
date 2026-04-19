@@ -823,23 +823,43 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
               {Array.isArray(property.floor_plans) && property.floor_plans.length > 0 && (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-5">Floor Plans</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {property.floor_plans.map((path, i) => (
-                      <a
-                        key={i}
-                        href={`/storage/${path}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3] group"
-                      >
-                        <img
-                          src={`/storage/${path}`}
-                          alt={`Floor plan ${i + 1}`}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }}
-                        />
-                      </a>
-                    ))}
+                  <div className="space-y-6">
+                    {property.floor_plans.map((fp, i) => {
+                      // Legacy string entries (older listings) — render as image only.
+                      if (typeof fp === 'string') {
+                        return (
+                          <a key={i} href={`/storage/${fp}`} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[16/9]">
+                            <img src={`/storage/${fp}`} alt={`Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                          </a>
+                        );
+                      }
+                      const metaBits = [];
+                      if (fp.bedrooms != null && fp.bedrooms !== '') metaBits.push(`${fp.bedrooms} BR`);
+                      if (fp.bathrooms != null && fp.bathrooms !== '') metaBits.push(`${fp.bathrooms} Bath`);
+                      if (fp.size) metaBits.push(fp.size);
+                      return (
+                        <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-5 items-start">
+                          <div className="md:col-span-2">
+                            {fp.image ? (
+                              <a href={`/storage/${fp.image}`} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3]">
+                                <img src={`/storage/${fp.image}`} alt={fp.title || `Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                              </a>
+                            ) : (
+                              <div className="rounded-xl bg-gray-50 border border-dashed border-gray-200 aspect-[4/3] flex items-center justify-center text-sm text-gray-400">No image</div>
+                            )}
+                          </div>
+                          <div className="md:col-span-3">
+                            {fp.title && <h3 className="text-base font-semibold text-[#0F172A] mb-1">{fp.title}</h3>}
+                            {metaBits.length > 0 && (
+                              <p className="text-sm text-[#6B7280] mb-3">{metaBits.join(' · ')}</p>
+                            )}
+                            {fp.description && (
+                              <p className="text-[14.5px] text-[#0F172A] whitespace-pre-line leading-relaxed">{fp.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}

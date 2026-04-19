@@ -33,7 +33,102 @@ import {
     Video,
     Code2,
     ChevronDown,
+    PlusCircle,
+    XCircle,
 } from 'lucide-react';
+
+// Floor Plan card — hoisted outside the page component so its identity stays
+// stable between parent renders (prevents input focus loss on each keystroke).
+function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
+    const fileRef = useRef(null);
+    const previewUrl = plan.image ? `/storage/${plan.image}` : '';
+    return (
+        <div className="border border-gray-200 rounded-2xl p-5 relative bg-white">
+            <div className="absolute top-4 right-4">
+                {canRemove && (
+                    <button type="button" onClick={onRemove} className="text-red-500 hover:text-red-600 transition-colors" aria-label="Remove floor plan">
+                        <XCircle className="w-6 h-6" />
+                    </button>
+                )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Floor Plan Title</label>
+                    <input
+                        type="text"
+                        value={plan.title}
+                        onChange={(e) => onChange({ title: e.target.value })}
+                        placeholder="Enter the plan title"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">For example: First Floor</p>
+                </div>
+                <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Bedrooms on this floor</label>
+                    <input
+                        type="number" min="0"
+                        value={plan.bedrooms}
+                        onChange={(e) => onChange({ bedrooms: e.target.value })}
+                        placeholder="Enter the number of bedrooms"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Bathrooms on this floor</label>
+                    <input
+                        type="number" min="0" step="0.5"
+                        value={plan.bathrooms}
+                        onChange={(e) => onChange({ bathrooms: e.target.value })}
+                        placeholder="Enter the number of bathrooms"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Floor Size</label>
+                    <input
+                        type="text"
+                        value={plan.size}
+                        onChange={(e) => onChange({ size: e.target.value })}
+                        placeholder="Enter the plan size"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">For example: 200 Sq Ft</p>
+                </div>
+                <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Plan Image</label>
+                    <div className="flex items-center gap-3">
+                        <div className="w-20 h-20 rounded-lg border border-gray-200 bg-gray-50 overflow-hidden flex items-center justify-center">
+                            {plan.uploading ? (
+                                <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+                            ) : previewUrl ? (
+                                <img src={previewUrl} alt="Floor plan" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                            ) : (
+                                <Image className="w-6 h-6 text-gray-400" />
+                            )}
+                        </div>
+                        <input ref={fileRef} type="file" accept="image/*" className="hidden"
+                            onChange={(e) => { if (e.target.files?.[0]) onImage(e.target.files[0]); e.target.value = ''; }}
+                        />
+                        <button type="button" onClick={() => fileRef.current?.click()} className="rounded-lg bg-[#3355FF] text-white px-4 py-2.5 text-sm font-semibold hover:bg-[#1D4ED8] transition-colors">
+                            Select Image
+                        </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">Minimum size 800 x 600 px</p>
+                </div>
+                <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Description of this floor</label>
+                    <textarea
+                        rows={4}
+                        value={plan.description}
+                        onChange={(e) => onChange({ description: e.target.value })}
+                        placeholder="Enter the plan description"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] resize-y"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function EditListing({ property }) {
     const { taxonomies } = usePage().props;
@@ -78,7 +173,12 @@ export default function EditListing({ property }) {
         virtual_tour_url: property.virtual_tour_url ?? '',
         virtual_tour_type: property.virtual_tour_type || (property.virtual_tour_embed ? 'embed' : 'video'),
         virtual_tour_embed: property.virtual_tour_embed ?? '',
-        floor_plans: Array.isArray(property.floor_plans) ? property.floor_plans : [],
+        floor_plans: Array.isArray(property.floor_plans)
+            ? property.floor_plans.map((fp, i) => (typeof fp === 'string'
+                ? { _cid: `fp-e-${i}`, title: '', bedrooms: '', bathrooms: '', size: '', image: fp, description: '', uploading: false }
+                : { _cid: `fp-e-${i}`, title: fp.title || '', bedrooms: fp.bedrooms ?? '', bathrooms: fp.bathrooms ?? '', size: fp.size || '', image: fp.image || '', description: fp.description || '', uploading: false }
+              ))
+            : [],
         matterport_url: property.matterport_url ?? '',
         property_dimensions: property.property_dimensions ?? '',
         video_tour_url: property.video_tour_url ?? '',
@@ -129,8 +229,6 @@ export default function EditListing({ property }) {
     const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
     const toggleAmenityGroup = (cat) =>
         setOpenAmenityGroups((prev) => prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]);
-    const [floorPlanUploading, setFloorPlanUploading] = useState(0);
-    const floorPlanInputRef = useRef(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [photoToDelete, setPhotoToDelete] = useState(null);
     const [deleting, setDeleting] = useState(false);
@@ -468,28 +566,49 @@ export default function EditListing({ property }) {
         });
     };
 
-    const handleFloorPlanFiles = async (files) => {
-        const list = Array.from(files || []).filter((f) => f.type.startsWith('image/'));
-        for (const file of list) {
-            setFloorPlanUploading((n) => n + 1);
-            try {
-                const fd = new FormData();
-                fd.append('photo', file);
-                const res = await axios.post('/upload-photo', fd, { timeout: 120000 });
-                if (res.data?.success && res.data?.path) {
-                    setData('floor_plans', [...(Array.isArray(data.floor_plans) ? data.floor_plans : []), res.data.path]);
-                }
-            } catch (_) { /* swallow per-file failures */ }
-            finally {
-                setFloorPlanUploading((n) => Math.max(0, n - 1));
-            }
+    const makeFloorPlan = () => ({
+        _cid: `fp-n-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        title: '', bedrooms: '', bathrooms: '', size: '', image: '', description: '', uploading: false,
+    });
+
+    const updateFloorPlan = (cid, patch) => {
+        const next = (Array.isArray(data.floor_plans) ? data.floor_plans : [])
+            .map((fp) => fp._cid === cid ? { ...fp, ...patch } : fp);
+        setData('floor_plans', next);
+    };
+
+    const addFloorPlan = () => setData('floor_plans', [...(Array.isArray(data.floor_plans) ? data.floor_plans : []), makeFloorPlan()]);
+
+    const removeFloorPlan = async (cid) => {
+        const current = Array.isArray(data.floor_plans) ? data.floor_plans : [];
+        const target = current.find((fp) => fp._cid === cid);
+        setData('floor_plans', current.filter((fp) => fp._cid !== cid));
+        if (target?.image) {
+            try { await axios.post('/delete-uploaded-photo', { path: target.image }); } catch (_) { /* ignore */ }
         }
     };
 
-    const removeFloorPlan = async (path) => {
-        const next = (Array.isArray(data.floor_plans) ? data.floor_plans : []).filter((p) => p !== path);
-        setData('floor_plans', next);
-        try { await axios.post('/delete-uploaded-photo', { path }); } catch (_) { /* ignore */ }
+    const handleFloorPlanImage = async (cid, file) => {
+        if (!file || !file.type.startsWith('image/')) return;
+        const current = Array.isArray(data.floor_plans) ? data.floor_plans : [];
+        const target = current.find((fp) => fp._cid === cid);
+        const previousPath = target?.image;
+        updateFloorPlan(cid, { uploading: true });
+        try {
+            const fd = new FormData();
+            fd.append('photo', file);
+            const res = await axios.post('/upload-photo', fd, { timeout: 120000 });
+            if (res.data?.success && res.data?.path) {
+                updateFloorPlan(cid, { uploading: false, image: res.data.path });
+                if (previousPath && previousPath !== res.data.path) {
+                    try { await axios.post('/delete-uploaded-photo', { path: previousPath }); } catch (_) { /* ignore */ }
+                }
+            } else {
+                updateFloorPlan(cid, { uploading: false });
+            }
+        } catch (_) {
+            updateFloorPlan(cid, { uploading: false });
+        }
     };
 
     const toggleFeature = (feature) => {
@@ -1241,60 +1360,35 @@ export default function EditListing({ property }) {
 
                 {/* Floor Plans */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                            <FileText className="w-5 h-5 text-[#1A1816]" />
-                            Floor Plans
-                        </h2>
-                        {Array.isArray(data.floor_plans) && data.floor_plans.length > 0 && (
-                            <span className="text-xs text-gray-500">{data.floor_plans.length} uploaded</span>
-                        )}
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">
-                        Upload floor plan images to help buyers understand your home's layout. Each image shows up on your listing detail page. Up to 20 files.
+                    <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-2">
+                        <FileText className="w-5 h-5 text-[#1A1816]" />
+                        Floor Plans
+                    </h2>
+                    <p className="text-sm text-gray-600 mb-5">
+                        Add each floor as its own card. Title, bedrooms, bathrooms, size, image, and a short description are shown on your listing detail page.
                     </p>
 
-                    <input
-                        ref={floorPlanInputRef}
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        className="hidden"
-                        onChange={(e) => { handleFloorPlanFiles(e.target.files); e.target.value = ''; }}
-                    />
-
-                    {Array.isArray(data.floor_plans) && data.floor_plans.length > 0 && (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
-                            {data.floor_plans.map((path) => (
-                                <div key={path} className="relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-[4/3]">
-                                    <img src={`/storage/${path}`} alt="Floor plan" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFloorPlan(path)}
-                                        className="absolute top-2 right-2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        aria-label="Remove"
-                                    >
-                                        <X className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            ))}
-                            {floorPlanUploading > 0 && Array.from({ length: floorPlanUploading }).map((_, i) => (
-                                <div key={`up-${i}`} className="relative rounded-xl border border-dashed border-gray-300 bg-gray-50 aspect-[4/3] flex items-center justify-center">
-                                    <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    <div className="space-y-5">
+                        {(Array.isArray(data.floor_plans) ? data.floor_plans : []).map((fp, idx) => (
+                            <FloorPlanCard
+                                key={fp._cid}
+                                plan={fp}
+                                onChange={(patch) => updateFloorPlan(fp._cid, patch)}
+                                onRemove={() => removeFloorPlan(fp._cid)}
+                                onImage={(file) => handleFloorPlanImage(fp._cid, file)}
+                                canRemove={(data.floor_plans?.length || 0) > 1 || idx > 0}
+                            />
+                        ))}
+                    </div>
 
                     <button
                         type="button"
-                        onClick={() => floorPlanInputRef.current?.click()}
+                        onClick={addFloorPlan}
                         disabled={(data.floor_plans?.length || 0) >= 20}
-                        className="w-full border-2 border-dashed border-gray-200 hover:border-[#1A1816] rounded-xl p-6 flex flex-col items-center justify-center gap-2 text-gray-500 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#3355FF] text-white px-4 py-2.5 text-sm font-semibold hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
                     >
-                        <Upload className="w-5 h-5" />
-                        <span className="text-sm font-semibold">Click to upload floor plan images</span>
-                        <span className="text-xs text-gray-400">PNG, JPG, GIF or WebP</span>
+                        <PlusCircle className="w-4 h-4" />
+                        Add New
                     </button>
                 </div>
 

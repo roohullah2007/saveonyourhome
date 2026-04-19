@@ -118,7 +118,12 @@ class PropertyController extends Controller
             'photoPaths' => 'nullable|array|max:' . ImageService::MAX_INITIAL_PHOTOS,
             'photoPaths.*' => 'string',
             'floorPlans' => 'nullable|array|max:20',
-            'floorPlans.*' => 'string',
+            'floorPlans.*.title' => 'nullable|string|max:120',
+            'floorPlans.*.bedrooms' => 'nullable|integer|min:0|max:50',
+            'floorPlans.*.bathrooms' => 'nullable|numeric|min:0|max:50',
+            'floorPlans.*.size' => 'nullable|string|max:60',
+            'floorPlans.*.image' => 'nullable|string|max:500',
+            'floorPlans.*.description' => 'nullable|string|max:2000',
             'virtualTourType' => 'nullable|in:video,embed',
             'virtualTourUrl' => 'nullable|url|max:500',
             'virtualTourEmbed' => 'nullable|string|max:20000',
@@ -205,7 +210,18 @@ class PropertyController extends Controller
             'description' => $validated['description'] ?? '',
             'features' => $features,
             'photos' => $photoPaths,
-            'floor_plans' => $validated['floorPlans'] ?? [],
+            'floor_plans' => collect($validated['floorPlans'] ?? [])
+                ->map(fn ($fp) => [
+                    'title' => $fp['title'] ?? '',
+                    'bedrooms' => isset($fp['bedrooms']) ? (int) $fp['bedrooms'] : null,
+                    'bathrooms' => isset($fp['bathrooms']) ? (float) $fp['bathrooms'] : null,
+                    'size' => $fp['size'] ?? '',
+                    'image' => $fp['image'] ?? '',
+                    'description' => $fp['description'] ?? '',
+                ])
+                ->filter(fn ($fp) => $fp['title'] !== '' || $fp['image'] !== '' || $fp['description'] !== '')
+                ->values()
+                ->all(),
             'virtual_tour_type' => $validated['virtualTourType'] ?? null,
             'virtual_tour_url' => $validated['virtualTourUrl'] ?? null,
             'virtual_tour_embed' => $validated['virtualTourEmbed'] ?? null,

@@ -220,7 +220,12 @@ class UserDashboardController extends Controller
             'virtual_tour_type' => 'nullable|in:video,embed',
             'virtual_tour_embed' => 'nullable|string|max:20000',
             'floor_plans' => 'nullable|array|max:20',
-            'floor_plans.*' => 'string',
+            'floor_plans.*.title' => 'nullable|string|max:120',
+            'floor_plans.*.bedrooms' => 'nullable|integer|min:0|max:50',
+            'floor_plans.*.bathrooms' => 'nullable|numeric|min:0|max:50',
+            'floor_plans.*.size' => 'nullable|string|max:60',
+            'floor_plans.*.image' => 'nullable|string|max:500',
+            'floor_plans.*.description' => 'nullable|string|max:2000',
             'matterport_url' => 'nullable|url|max:500',
             'video_tour_url' => 'nullable|url|max:500',
             'annual_property_tax' => 'nullable|numeric|min:0',
@@ -301,6 +306,21 @@ class UserDashboardController extends Controller
             $validated['published_at'] = now();
             $validated['admin_feedback'] = null;
             $validated['rejection_reason'] = null;
+        }
+
+        if (array_key_exists('floor_plans', $validated)) {
+            $validated['floor_plans'] = collect($validated['floor_plans'] ?? [])
+                ->map(fn ($fp) => [
+                    'title' => $fp['title'] ?? '',
+                    'bedrooms' => isset($fp['bedrooms']) ? (int) $fp['bedrooms'] : null,
+                    'bathrooms' => isset($fp['bathrooms']) ? (float) $fp['bathrooms'] : null,
+                    'size' => $fp['size'] ?? '',
+                    'image' => $fp['image'] ?? '',
+                    'description' => $fp['description'] ?? '',
+                ])
+                ->filter(fn ($fp) => $fp['title'] !== '' || $fp['image'] !== '' || $fp['description'] !== '')
+                ->values()
+                ->all();
         }
 
         $property->update($validated);
