@@ -744,10 +744,11 @@ function ListProperty() {
                   </label>
                   <input
                     type="text"
-                    value="Oklahoma"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg bg-[#EEEDEA]"
-                   
-                    disabled
+                    placeholder="Oklahoma"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.state}
+                    onChange={(e) => handleInputChange('state', e.target.value)}
+                    required
                   />
                 </div>
 
