@@ -50,6 +50,19 @@
         <a href="{{ $propertyUrl }}" class="btn">View Your Listing</a>
     </p>
 
+    <h3>Order a Free Yard Sign</h3>
+    <p>
+        Now that your listing is live, you can order a <strong>Save On Your Home</strong> yard sign with a QR
+        code pre-linked to your listing. Buyers who scan it land directly on your property page.
+    </p>
+    <p>
+        Log in to your dashboard, open <strong>My Listings</strong>, and click the <strong>Order Yard Sign</strong>
+        button next to this property &mdash; we'll pass the QR code for your listing through to our partner's checkout.
+    </p>
+    <p>
+        <a href="{{ $dashboardUrl }}" class="btn">Order a Yard Sign</a>
+    </p>
+
     <h3>Maximize Your Listing's Potential</h3>
     <ul>
         <li>Share your listing on social media to reach more buyers</li>

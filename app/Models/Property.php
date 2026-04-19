@@ -106,6 +106,7 @@ class Property extends Model
         'video_tour_url',
         'floor_plan_url',
         'floor_plans',
+        'slug',
         'matterport_url',
         'mls_virtual_tour_url',
         'is_mls_listed',
@@ -467,15 +468,53 @@ class Property extends Model
     }
 
     /**
-     * Get URL slug for the property
+     * Public URL slug for this property.
+     *
+     * Prefers the stored slug column so permalinks remain stable even if the
+     * address is later edited (important for printed QR codes / yard signs).
+     * Falls back to the legacy computed shape for any row that predates the
+     * column or hasn't been backfilled.
      */
     public function getSlugAttribute(): string
+    {
+        $stored = $this->attributes['slug'] ?? null;
+        if (!empty($stored)) {
+            return $stored;
+        }
+        return $this->buildStableSlug();
+    }
+
+    /**
+     * Build the canonical "{id}-{slugified-address}" slug. Used both to seed
+     * the slug column on create and as a fallback for un-backfilled rows.
+     */
+    public function buildStableSlug(): string
     {
         $slug = strtolower(trim($this->address ?? ''));
         $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
         $slug = preg_replace('/[\s-]+/', '-', $slug);
         $slug = trim($slug, '-');
-        return $this->id . '-' . $slug;
+        $prefix = $this->id ? $this->id . '-' : '';
+        return $slug !== '' ? $prefix . $slug : rtrim($prefix, '-');
+    }
+
+    protected static function booted(): void
+    {
+        // Populate the slug once the property's id is assigned.
+        static::created(function (self $p) {
+            if (empty($p->attributes['slug'] ?? null)) {
+                $p->forceFill(['slug' => $p->buildStableSlug()])->saveQuietly();
+            }
+        });
+
+        // Permalinks must not change after creation. If anything tries to
+        // rewrite the slug on update, revert it to the stored original.
+        static::updating(function (self $p) {
+            $original = $p->getOriginal('slug');
+            if (!empty($original) && $p->isDirty('slug')) {
+                $p->slug = $original;
+            }
+        });
     }
 
     /**
