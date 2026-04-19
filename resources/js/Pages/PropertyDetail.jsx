@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
+import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import { AMENITY_GROUPS } from '@/constants/amenities';
 
 const propertyTypeLabels = {
@@ -217,6 +218,7 @@ function InquiryForm({ property, variant = 'compact' }) {
 /* ---------- Main page ---------- */
 function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [mainIndex, setMainIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(() => {
@@ -829,6 +831,29 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
             <aside className="lg:col-span-1 space-y-6">
               <div className="sticky top-24 space-y-6">
 
+                {/* Schedule a meeting */}
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: '#3355FF' }}>
+                      <Calendar className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[#111]">Schedule a meeting</h3>
+                      <p className="text-xs text-gray-500">Phone call or in-person showing</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4 leading-6">
+                    Book a time that works for both of you. Get an instant confirmation and a calendar invite.
+                  </p>
+                  <button
+                    onClick={() => setShowScheduleModal(true)}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-sm font-bold text-white hover:opacity-90"
+                    style={{ backgroundColor: '#3355FF' }}
+                  >
+                    <Calendar className="w-4 h-4" /> See available times
+                  </button>
+                </div>
+
                 {/* Share This Property */}
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6">
                   <h3 className="text-lg font-semibold text-[#111] mb-5">Share This Property</h3>
@@ -920,6 +945,13 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
           </a>
         </div>
       </div>
+
+      {/* Schedule a meeting modal */}
+      <ScheduleShowingModal
+        property={property}
+        open={showScheduleModal}
+        onClose={() => setShowScheduleModal(false)}
+      />
 
       {/* Gallery modal */}
       {showGalleryModal && (

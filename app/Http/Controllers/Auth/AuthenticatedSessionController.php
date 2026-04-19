@@ -33,12 +33,22 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Redirect admin users to admin dashboard
-        if (Auth::user()->isAdmin()) {
+        $user = Auth::user();
+
+        // Admins: go to admin dashboard, honoring any intended admin URL
+        if ($user->isAdmin()) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Non-admins: if the "intended" URL points into /admin (e.g. they hit an
+        // admin-only link and got bounced to login), drop it so they don't land
+        // on a 403. Everyone else goes to their user dashboard.
+        $intended = $request->session()->pull('url.intended');
+        if ($intended && str_starts_with(parse_url($intended, PHP_URL_PATH) ?? '', '/admin')) {
+            $intended = null;
+        }
+
+        return redirect($intended ?: route('dashboard', absolute: false));
     }
 
     /**

@@ -23,6 +23,9 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\MediaOrderController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PropertyShowingController;
+use App\Http\Controllers\SellerAvailabilityController;
+use App\Http\Controllers\SellerShowingsController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -266,6 +269,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
 });
 
+// Showings (public booking + cancel)
+Route::get('/api/properties/{property}/availability', [PropertyShowingController::class, 'availability'])->name('showings.availability');
+Route::post('/showings', [PropertyShowingController::class, 'store'])->name('showings.store');
+Route::get('/showings/cancel/{token}', [PropertyShowingController::class, 'showCancel'])->name('showings.cancel');
+Route::post('/showings/cancel/{token}', [PropertyShowingController::class, 'cancel'])->name('showings.cancel.process');
+
 // Buyer inquiry submission route (public)
 Route::post('/buyer-inquiry', [BuyerInquiryController::class, 'store'])->name('buyer-inquiry.store');
 
@@ -332,6 +341,17 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
     Route::get('/media-orders', [MediaOrderController::class, 'userOrders'])->name('.media-orders');
     Route::get('/media-orders/{mediaOrder}', [MediaOrderController::class, 'show'])->name('.media-orders.show');
     Route::post('/media-orders/{mediaOrder}/cancel', [MediaOrderController::class, 'cancel'])->name('.media-orders.cancel');
+
+    // Availability (seller's weekly schedule)
+    Route::get('/availability', [SellerAvailabilityController::class, 'index'])->name('.availability');
+    Route::post('/availability', [SellerAvailabilityController::class, 'store'])->name('.availability.store');
+    Route::put('/availability/{rule}', [SellerAvailabilityController::class, 'update'])->name('.availability.update');
+    Route::delete('/availability/{rule}', [SellerAvailabilityController::class, 'destroy'])->name('.availability.destroy');
+
+    // Showings (booked meetings)
+    Route::get('/showings', [SellerShowingsController::class, 'index'])->name('.showings');
+    Route::post('/showings/{showing}/cancel', [SellerShowingsController::class, 'cancel'])->name('.showings.cancel');
+    Route::post('/showings/{showing}/complete', [SellerShowingsController::class, 'complete'])->name('.showings.complete');
 });
 
 // User Profile routes

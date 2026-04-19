@@ -259,6 +259,11 @@ class Property extends Model
         return $this->hasMany(OpenHouse::class)->orderBy('date')->orderBy('start_time');
     }
 
+    public function showings(): HasMany
+    {
+        return $this->hasMany(PropertyShowing::class);
+    }
+
     /**
      * Get upcoming open houses for this property
      */

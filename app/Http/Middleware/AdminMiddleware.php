@@ -18,7 +18,9 @@ class AdminMiddleware
         }
 
         if (!auth()->user()->isAdmin()) {
-            abort(403, 'Unauthorized. Admin access required.');
+            // Signed in but not an admin — send them to their own dashboard
+            // instead of a dead-end 403 page.
+            return redirect('/dashboard')->with('error', 'That area is admin-only.');
         }
 
         if (!auth()->user()->is_active) {

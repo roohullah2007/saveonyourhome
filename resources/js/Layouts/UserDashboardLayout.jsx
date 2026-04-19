@@ -9,6 +9,8 @@ import {
     LogOut,
     Menu,
     X,
+    Calendar,
+    Clock,
 } from 'lucide-react';
 
 export default function UserDashboardLayout({ children, title }) {
@@ -21,6 +23,8 @@ export default function UserDashboardLayout({ children, title }) {
         { name: 'Overview', href: route('dashboard'), icon: LayoutDashboard, current: route().current('dashboard') && !route().current('dashboard.*') },
         { name: 'My Listings', href: route('dashboard.listings'), icon: Home, current: route().current('dashboard.listings*') },
         { name: 'Messages', href: route('dashboard.messages'), icon: MessageSquare, current: route().current('dashboard.messages*'), badge: unreadMessages },
+        { name: 'Showings', href: route('dashboard.showings'), icon: Calendar, current: route().current('dashboard.showings*') },
+        { name: 'Availability', href: route('dashboard.availability'), icon: Clock, current: route().current('dashboard.availability*') },
         { name: 'Saved Properties', href: route('dashboard.favorites'), icon: Heart, current: route().current('dashboard.favorites*') },
         { name: 'Profile', href: route('profile.edit'), icon: User, current: route().current('profile.edit') },
     ];

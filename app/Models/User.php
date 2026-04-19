@@ -175,6 +175,21 @@ class User extends Authenticatable
         return $this->hasOne(SellerMessagePreference::class);
     }
 
+    public function availabilityRules(): HasMany
+    {
+        return $this->hasMany(SellerAvailabilityRule::class);
+    }
+
+    public function sellerShowings(): HasMany
+    {
+        return $this->hasMany(PropertyShowing::class, 'seller_user_id');
+    }
+
+    public function buyerShowings(): HasMany
+    {
+        return $this->hasMany(PropertyShowing::class, 'buyer_user_id');
+    }
+
     /**
      * Get user's full address
      */
