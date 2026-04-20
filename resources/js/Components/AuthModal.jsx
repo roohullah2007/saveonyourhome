@@ -69,7 +69,7 @@ const AuthModal = ({ isOpen, onClose, intent = 'favorites', initialTab = 'login'
           <X className="w-5 h-5 text-[#111]" />
         </button>
 
-        <div className="p-7 pt-10">
+        <div className="p-5 pt-10 sm:p-7">
           <div className="w-14 h-14 bg-[#1A1816]/10 rounded-full flex items-center justify-center mx-auto mb-5">
             <Icon className="w-7 h-7 text-[#1A1816]" />
           </div>

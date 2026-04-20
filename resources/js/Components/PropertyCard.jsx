@@ -117,7 +117,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
   return (
     <>
       <Link href={detailUrl} className="block h-full">
-        <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-xl hover:border-gray-300 transition-all duration-300 group w-[300px] h-full flex flex-col">
+        <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-xl hover:border-gray-300 transition-all duration-300 group w-full sm:w-[300px] h-full flex flex-col">
           {/* Property Image */}
           <div className="relative h-[180px] overflow-hidden flex-shrink-0">
             <img
