@@ -343,13 +343,13 @@ const Header = ({ maxWidth, noPadding }) => {
                     )}
                   </div>
                 ) : (
-                  /* Not Logged In - Login Button */
-                  <button
-                    onClick={handleOpenLogin}
+                  /* Not Logged In - Login link */
+                  <Link
+                    href={route('login')}
                     className="hidden md:block text-[14px] font-semibold text-[#111111] hover:text-[#555] transition-colors"
                   >
                     Login
-                  </button>
+                  </Link>
                 )}
 
                 <button
@@ -576,20 +576,20 @@ const Header = ({ maxWidth, noPadding }) => {
                   </>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      onClick={handleOpenLogin}
+                    <Link
+                      href={route('login')}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="block text-left w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                     >
                       Login
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleOpenRegister}
+                    </Link>
+                    <Link
+                      href={route('register')}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="block text-left w-full text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
                     >
                       Sign Up
-                    </button>
+                    </Link>
                   </>
                 )}
                 <button

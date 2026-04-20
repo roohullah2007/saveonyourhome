@@ -451,12 +451,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/messages/{message}/archive', [AdminContactController::class, 'archive'])->name('messages.archive');
     Route::post('/messages/bulk-action', [AdminContactController::class, 'bulkAction'])->name('messages.bulk-action');
 
-    // Buyer Inquiries Management
-    Route::get('/buyer-inquiries', [BuyerInquiryController::class, 'index'])->name('buyer-inquiries.index');
-    Route::get('/buyer-inquiries/{inquiry}', [BuyerInquiryController::class, 'show'])->name('buyer-inquiries.show');
-    Route::put('/buyer-inquiries/{inquiry}', [BuyerInquiryController::class, 'update'])->name('buyer-inquiries.update');
-    Route::delete('/buyer-inquiries/{inquiry}', [BuyerInquiryController::class, 'destroy'])->name('buyer-inquiries.destroy');
-
     // Activity Logs
     Route::get('/activity', [AdminActivityController::class, 'index'])->name('activity.index');
     Route::get('/activity/{activity}', [AdminActivityController::class, 'show'])->name('activity.show');
