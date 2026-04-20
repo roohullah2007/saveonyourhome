@@ -121,7 +121,7 @@ Route::get('/csrf-token', function () {
 })->name('csrf.token');
 
 // Photo upload endpoints (require auth)
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::post('/upload-photo', [PropertyController::class, 'uploadPhoto'])->name('upload.photo');
     Route::post('/delete-uploaded-photo', [PropertyController::class, 'deleteUploadedPhoto'])->name('delete.uploaded.photo');
     Route::post('/api/geocode', [PropertyController::class, 'geocodeAddress'])->name('api.geocode');
@@ -272,11 +272,11 @@ Route::post('/media-order', [MediaOrderController::class, 'store'])->name('media
 
 // Claim routes (imported property claiming)
 Route::get('/claim/{token}', [ClaimController::class, 'show'])->name('claim.show');
-Route::post('/claim/{token}', [ClaimController::class, 'claim'])->name('claim.process')->middleware(['auth', 'verified']);
+Route::post('/claim/{token}', [ClaimController::class, 'claim'])->name('claim.process')->middleware(['auth']);
 Route::post('/claim/{token}/register', [ClaimController::class, 'register'])->name('claim.register');
 
 // Property listing routes - require authentication
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/list-property', function () {
         return Inertia::render('ListProperty');
     })->name('list-property');
@@ -300,7 +300,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
 
 // User Dashboard
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->name('dashboard')->group(function () {
     // Dashboard Overview
     Route::get('/', [UserDashboardController::class, 'index']);
 

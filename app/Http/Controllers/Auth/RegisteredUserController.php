@@ -72,8 +72,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Redirect to verification page instead of dashboard
-        return redirect()->route('verification.code');
+        // Email verification is optional — drop the user straight onto the
+        // dashboard so they can start using the site immediately. A code has
+        // already been emailed; they can verify any time from the banner or
+        // /email/verify-code if they choose to.
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Welcome to SaveOnYourHome! We also emailed you a verification code if you want to verify your email.');
     }
 
     /**
