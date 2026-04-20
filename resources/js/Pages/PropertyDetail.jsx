@@ -218,7 +218,7 @@ function InquiryForm({ property, variant = 'compact' }) {
 }
 
 /* ---------- Main page ---------- */
-function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {} }) {
+function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {}, auth = {} }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -1007,6 +1007,30 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                     <Calendar className="w-4 h-4" /> See available times
                   </button>
                 </div>
+
+                {/* Create account — only shown to logged-out visitors */}
+                {!auth?.user && (
+                  <div className="bg-gradient-to-br from-[#1A1816] to-[#3355FF] rounded-2xl p-6 text-white shadow-[0_1px_3px_rgba(15,23,42,0.08),0_8px_24px_rgba(15,23,42,0.12)]">
+                    <h3 className="text-lg font-bold mb-2">Create a free account</h3>
+                    <p className="text-sm text-white/80 leading-6 mb-4">
+                      Save this listing, message the seller directly, and track your favorite homes — all free, no agent fees.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <Link
+                        href={route('register')}
+                        className="inline-flex items-center justify-center rounded-full bg-white text-[#0F172A] text-sm font-bold px-5 py-2 hover:bg-white/90 transition-colors"
+                      >
+                        Create account
+                      </Link>
+                      <Link
+                        href={route('login')}
+                        className="inline-flex items-center justify-center rounded-full border border-white/30 text-white text-sm font-semibold px-5 py-2 hover:bg-white/10 transition-colors"
+                      >
+                        Sign in
+                      </Link>
+                    </div>
+                  </div>
+                )}
 
                 {/* Share This Property */}
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6">
