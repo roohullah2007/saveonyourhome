@@ -1190,13 +1190,14 @@ function LegendRow({ color, border, label, value }) {
 }
 
 function CalcInput({ label, prefix, value, onChange }) {
+  const prefixIsText = typeof prefix === 'string';
   return (
     <div>
       <label className="block text-[13px] font-semibold text-[#0F172A] mb-2">{label}</label>
-      <div className="flex items-stretch border border-gray-200 rounded-xl overflow-hidden bg-white transition-all focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-[#2563EB]/15">
-        <div className="px-3 flex items-center justify-center text-[#9CA3AF] text-sm border-r border-gray-200 bg-[#FAFAF8] min-w-[44px]">
+      <div className="relative">
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] text-sm flex items-center">
           {prefix}
-        </div>
+        </span>
         <input
           type="text"
           inputMode="decimal"
@@ -1207,7 +1208,7 @@ function CalcInput({ label, prefix, value, onChange }) {
               onChange(v);
             }
           }}
-          className="flex-1 px-3 py-2.5 focus:outline-none text-[#0F172A] min-w-0 bg-white"
+          className={`w-full ${prefixIsText ? 'pl-8' : 'pl-10'} pr-3 py-2.5 border border-gray-200 rounded-xl bg-white text-[#0F172A] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-colors`}
         />
       </div>
     </div>

@@ -424,6 +424,10 @@ class PropertyController extends Controller
         if ($status === 'all') {
             $query->where('is_active', true);
             $query->whereIn('listing_status', ['for_sale', 'pending', 'sold']);
+        } elseif ($status === 'for-rent') {
+            // For Rent is a transaction_type, not a listing_status.
+            $query->where('is_active', true);
+            $query->where('transaction_type', 'for_rent');
         } else {
             $listingStatus = $statusMap[$status] ?? 'for_sale';
 

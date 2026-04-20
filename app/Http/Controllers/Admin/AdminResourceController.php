@@ -28,7 +28,9 @@ class AdminResourceController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'nullable|string',
             'category' => 'required|in:seller,buyer,blog',
-            'image' => 'nullable|image|max:2048',
+            // Featured image is required on create so articles always have a hero.
+            // On update it stays optional because the existing image is kept.
+            'image' => 'required|image|max:4096',
             'is_published' => 'boolean',
             'published_at' => 'nullable|date',
         ]);
@@ -68,7 +70,7 @@ class AdminResourceController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'nullable|string',
             'category' => 'required|in:seller,buyer,blog',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:4096',
             'is_published' => 'boolean',
             'published_at' => 'nullable|date',
         ]);

@@ -1,6 +1,7 @@
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
+import RichTextEditor from '@/Components/RichTextEditor';
 import {
     Plus,
     Edit,
@@ -10,6 +11,8 @@ import {
     FileText,
     Eye,
     EyeOff,
+    ImageIcon,
+    Upload,
 } from 'lucide-react';
 
 export default function ResourcesIndex({ resources = [] }) {
@@ -332,29 +335,48 @@ export default function ResourcesIndex({ resources = [] }) {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                                <textarea
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Content *</label>
+                                <RichTextEditor
                                     value={formData.content}
-                                    onChange={e => setFormData({ ...formData, content: e.target.value })}
-                                    rows={8}
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                                    placeholder="Full article content"
+                                    onChange={(html) => setFormData({ ...formData, content: html })}
+                                    placeholder="Write the full article…"
+                                    minHeight={280}
                                 />
+                                <p className="text-xs text-gray-500 mt-1.5">Use the toolbar for bold, italic, and lists.</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Featured Image {editingResource ? '' : <span className="text-red-500">*</span>}
+                                </label>
+                                <label
+                                    htmlFor="resource-image-input"
+                                    className="block rounded-xl border-2 border-dashed border-gray-200 hover:border-[#3355FF] transition-colors cursor-pointer overflow-hidden bg-gray-50"
+                                >
+                                    {imagePreview ? (
+                                        <div className="relative">
+                                            <img src={imagePreview} alt="Preview" className="w-full max-h-64 object-cover" />
+                                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-2 text-white text-xs font-semibold flex items-center gap-1.5">
+                                                <Upload className="w-3.5 h-3.5" />
+                                                Click to replace
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center py-10 text-gray-500">
+                                            <ImageIcon className="w-8 h-8 mb-2" />
+                                            <p className="text-sm font-semibold">Click to upload a featured image</p>
+                                            <p className="text-xs text-gray-400 mt-1">JPG, PNG, or WebP · up to 2 MB</p>
+                                        </div>
+                                    )}
+                                </label>
                                 <input
+                                    id="resource-image-input"
                                     type="file"
                                     accept="image/*"
                                     onChange={handleImageChange}
-                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#1A1816]/10 file:text-[#1A1816] hover:file:bg-[#1A1816]/20"
+                                    className="hidden"
                                 />
-                                {imagePreview && (
-                                    <div className="mt-2 p-2 bg-gray-50 rounded-lg inline-block">
-                                        <img src={imagePreview} alt="Preview" className="h-20 w-auto object-contain rounded" />
-                                    </div>
-                                )}
+                                <p className="text-xs text-gray-500 mt-1.5">Shown as the hero image on the article detail page and in the grid on /blog, /seller-resources, and /buyer-resources.</p>
                             </div>
 
                             <div className="flex items-center">

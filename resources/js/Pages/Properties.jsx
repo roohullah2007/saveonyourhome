@@ -709,6 +709,18 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                 <button
                   className="rounded-full px-4 py-1.5 text-xs font-semibold transition-colors"
                   style={{
+                    backgroundColor: searchParams.status === 'for-rent' ? '#1e293b' : 'transparent',
+                    color: searchParams.status === 'for-rent' ? 'white' : '#1a1816',
+                    border: searchParams.status === 'for-rent' ? '1px solid #1e293b' : '1px solid #d1d5db',
+                    letterSpacing: '0.5px',
+                  }}
+                  onClick={() => handleStatusTab('for-rent')}
+                >
+                  FOR RENT
+                </button>
+                <button
+                  className="rounded-full px-4 py-1.5 text-xs font-semibold transition-colors"
+                  style={{
                     backgroundColor: searchParams.status === 'sold' ? '#1e293b' : 'transparent',
                     color: searchParams.status === 'sold' ? 'white' : '#1a1816',
                     border: searchParams.status === 'sold' ? '1px solid #1e293b' : '1px solid #d1d5db',
