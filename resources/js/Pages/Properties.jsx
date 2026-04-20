@@ -502,18 +502,22 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                 );
               })()}
 
-              {/* Type */}
+              {/* Type — pulls options from the admin-managed taxonomy so this stays in sync with the Create Listing form */}
               {(() => {
-                const typeLabels = { '': 'Type', 'single-family-home': 'Single Family', 'condos-townhomes-co-ops': 'Condo / Townhome', 'multi-family': 'Multi-Family', 'land': 'Land', 'farms-ranches': 'Farm / Ranch', 'mfd-mobile-homes': 'Mobile / Manufactured' };
+                const typeOptions = Array.isArray(taxonomies?.property_types) && taxonomies.property_types.length
+                  ? taxonomies.property_types
+                  : [];
+                const labelMap = Object.fromEntries(typeOptions.map((t) => [t.value, t.label]));
+                const options = [{ value: '', label: 'All Types' }, ...typeOptions];
                 return (
                   <div className="relative">
                     <button className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-gray-50" style={{ height: 40, fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#1a1816' }} onClick={() => setOpenDropdown(openDropdown === 'type' ? null : 'type')}>
-                      {typeLabels[searchParams.propertyType] || 'Type'}
+                      {labelMap[searchParams.propertyType] || 'Type'}
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                     </button>
                     {openDropdown === 'type' && (
-                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1">
-                        {[{ value: '', label: 'All Types' }, { value: 'single-family-home', label: 'Single Family' }, { value: 'condos-townhomes-co-ops', label: 'Condo / Townhome' }, { value: 'multi-family', label: 'Multi-Family' }, { value: 'land', label: 'Land' }, { value: 'farms-ranches', label: 'Farm / Ranch' }, { value: 'mfd-mobile-homes', label: 'Mobile / Manufactured' }].map((opt) => (
+                      <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl border border-gray-200 shadow-xl z-50 py-1 max-h-80 overflow-y-auto">
+                        {options.map((opt) => (
                           <button key={opt.value} className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 ${searchParams.propertyType === opt.value ? 'font-semibold text-[#1a1816]' : 'text-gray-600'}`} onClick={() => { const np = { ...searchParams, propertyType: opt.value }; setSearchParams(np); setOpenDropdown(null); router.get('/properties', serializeParams(np), { preserveState: true }); }}>{opt.label}</button>
                         ))}
                       </div>
@@ -619,7 +623,10 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
               <div className="col-span-2">
                 <label className="block text-xs font-medium text-gray-500 mb-1">Type</label>
                 <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white" value={searchParams.propertyType} onChange={(e) => handleSearchChange('propertyType', e.target.value)}>
-                  <option value="">All Types</option><option value="single-family-home">Single Family</option><option value="condos-townhomes-co-ops">Condo / Townhome</option><option value="multi-family">Multi-Family</option><option value="land">Land</option>
+                  <option value="">All Types</option>
+                  {(Array.isArray(taxonomies?.property_types) ? taxonomies.property_types : []).map((t) => (
+                    <option key={t.value} value={t.value}>{t.label}</option>
+                  ))}
                 </select>
               </div>
               <div className="col-span-2">

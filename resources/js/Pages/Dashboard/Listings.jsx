@@ -355,13 +355,6 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <QrCode className="w-3.5 h-3.5" />
                                                 QR Code
                                             </button>
-                                            <button
-                                                onClick={() => openOrderModal(listing, 'qr_stickers')}
-                                                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-orange-700 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors"
-                                            >
-                                                <Sticker className="w-3.5 h-3.5" />
-                                                Free Stickers
-                                            </button>
                                             {listing.is_active && listing.approval_status === 'approved' && (listing.transaction_type === 'for_sale' || !listing.transaction_type) && (() => {
                                                 const origin = typeof window !== 'undefined' ? window.location.origin : '';
                                                 const listingUrl = `${origin}/properties/${listing.slug || listing.id}`;
