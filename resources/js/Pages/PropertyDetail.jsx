@@ -218,7 +218,7 @@ function InquiryForm({ property, variant = 'compact' }) {
 }
 
 /* ---------- Main page ---------- */
-function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
+function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {} }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -334,7 +334,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
   const groupedFeatures = useMemo(() => {
     if (!property.features || property.features.length === 0) return [];
     const selected = new Set(property.features);
-    const groups = AMENITY_GROUPS
+    const groups = (Array.isArray(taxonomies?.amenity_groups) && taxonomies.amenity_groups.length ? taxonomies.amenity_groups : AMENITY_GROUPS)
       .map((g) => {
         if (g.subgroups) {
           const subs = g.subgroups

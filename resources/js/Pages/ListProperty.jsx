@@ -156,6 +156,11 @@ function ListProperty() {
   const txPropertyTypes = (taxonomies?.property_types || []);
   const txTransactionTypes = (taxonomies?.transaction_types || []);
   const txListingLabels = (taxonomies?.listing_labels || []);
+  // Admin-managed amenity catalog (DB) — fall back to the bundled JS constant
+  // if the shared prop isn't populated (first page load during development).
+  const amenityGroups = (Array.isArray(taxonomies?.amenity_groups) && taxonomies.amenity_groups.length)
+    ? taxonomies.amenity_groups
+    : AMENITY_GROUPS;
   const user = auth?.user;
 
   const fileInputRef = useRef(null);
@@ -1517,7 +1522,7 @@ function ListProperty() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {AMENITY_GROUPS.map((group) => {
+                  {amenityGroups.map((group) => {
                     const allItems = groupItems(group);
                     const selectedInGroup = allItems.filter(i => data.features.includes(i)).length;
                     const isOpen = openAmenityGroups.includes(group.category);

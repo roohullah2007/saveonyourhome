@@ -135,6 +135,9 @@ export default function EditListing({ property }) {
     const txPropertyTypes = taxonomies?.property_types || [];
     const txTransactionTypes = taxonomies?.transaction_types || [];
     const txListingLabels = taxonomies?.listing_labels || [];
+    const amenityGroups = (Array.isArray(taxonomies?.amenity_groups) && taxonomies.amenity_groups.length)
+        ? taxonomies.amenity_groups
+        : AMENITY_GROUPS;
     const { data, setData, put, processing, errors } = useForm({
         property_title: property.property_title || '',
         listing_headline: property.listing_headline || '',
@@ -1215,7 +1218,7 @@ export default function EditListing({ property }) {
                         </div>
                     ) : (
                         <div className="space-y-3">
-                            {AMENITY_GROUPS.map((group) => {
+                            {amenityGroups.map((group) => {
                                 const features = Array.isArray(data.features) ? data.features : [];
                                 const allItems = groupItems(group);
                                 const selectedInGroup = allItems.filter((i) => features.includes(i)).length;

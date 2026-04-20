@@ -74,6 +74,7 @@ class HandleInertiaRequests extends Middleware
                 'transaction_types' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_TRANSACTION_TYPE),
                 'listing_labels' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_LISTING_LABEL),
                 'listing_statuses' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_LISTING_STATUS),
+                'amenity_groups' => TaxonomyTerm::amenityTree(),
             ],
         ];
     }

@@ -36,7 +36,7 @@ function BedsDropdown({ searchParams, onApply }) {
 }
 
 function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [], sellerInfo = null }) {
-  const { auth } = usePage().props;
+  const { auth, taxonomies } = usePage().props;
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'map' or 'list'
   const [searchParams, setSearchParams] = useState({
@@ -961,7 +961,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
-              {AMENITY_GROUPS.map((group) => (
+              {(Array.isArray(taxonomies?.amenity_groups) && taxonomies.amenity_groups.length ? taxonomies.amenity_groups : AMENITY_GROUPS).map((group) => (
                 <div key={group.category}>
                   <h3 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
                     {group.category}
