@@ -90,7 +90,7 @@ const Header = ({ maxWidth, noPadding }) => {
     { label: 'Buyer Resources', href: '/buyer-resources' },
     { label: 'Advertiser & Sponsor Honor Pledge', href: '/honor-pledge' },
     { label: 'Blog', href: '/blog' },
-    { label: 'E-Book', href: '/ebook' },
+    { label: 'Free eBooks', href: '/ebooks' },
   ];
 
   const sellDropdownItems = [

@@ -19,6 +19,8 @@ import {
     Package,
     Tags,
     Layers,
+    BookOpen,
+    BarChart3,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -29,6 +31,7 @@ export default function AdminLayout({ children, title }) {
 
     const navigation = [
         { name: 'Dashboard', href: route('admin.dashboard'), icon: LayoutDashboard, current: route().current('admin.dashboard') },
+        { name: 'Analytics', href: route('admin.analytics.index'), icon: BarChart3, current: route().current('admin.analytics.*') },
         { name: 'Properties', href: route('admin.properties.index'), icon: Home, current: route().current('admin.properties.*') },
         { name: 'Users', href: route('admin.users.index'), icon: Users, current: route().current('admin.users.*') },
         { name: 'Inquiries', href: route('admin.inquiries.index'), icon: MessageSquare, current: route().current('admin.inquiries.*') },
@@ -39,6 +42,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Company Logos', href: route('admin.company-logos.index'), icon: ImageIcon, current: route().current('admin.company-logos.*') },
         { name: 'Taxonomies', href: route('admin.taxonomies.index'), icon: Tags, current: route().current('admin.taxonomies.*') },
         { name: 'Amenities', href: route('admin.amenities.index'), icon: Layers, current: route().current('admin.amenities.*') },
+        { name: 'eBooks', href: route('admin.ebooks.index'), icon: BookOpen, current: route().current('admin.ebooks.*') },
         { name: 'Settings', href: route('admin.settings.index'), icon: Settings, current: route().current('admin.settings.*') },
     ];
 

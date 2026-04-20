@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useForm } from '@inertiajs/react';
-import { X, Heart, Home as HomeIcon, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { X, Heart, Home as HomeIcon, Lock, Eye, EyeOff, Loader2, Download as DownloadIcon } from 'lucide-react';
 
 const INTENTS = {
   favorites: {
@@ -12,6 +12,11 @@ const INTENTS = {
     icon: HomeIcon,
     title: 'List your property',
     subtitle: 'Sign in or create a free account to list your home and start receiving offers.',
+  },
+  download: {
+    icon: DownloadIcon,
+    title: 'Download this eBook',
+    subtitle: 'Create a free SaveOnYourHome account to download this guide and other resources. It takes under a minute.',
   },
   generic: {
     icon: Lock,

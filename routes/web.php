@@ -237,6 +237,12 @@ Route::get('/ebook', function () {
     return Inertia::render('EBook');
 })->name('ebook');
 
+// Free eBooks library (public index; download requires auth)
+Route::get('/ebooks', [\App\Http\Controllers\EbookController::class, 'index'])->name('ebooks.index');
+Route::post('/ebooks/{ebook:slug}/download', [\App\Http\Controllers\EbookController::class, 'download'])
+    ->middleware(['auth'])
+    ->name('ebooks.download');
+
 Route::get('/resources/{slug}', function ($slug) {
     $resource = \App\Models\Resource::where('slug', $slug)->published()->firstOrFail();
     return Inertia::render('ResourceDetail', ['resource' => $resource]);
@@ -475,6 +481,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
     Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');
+
+    // eBooks library
+    Route::get('/ebooks', [\App\Http\Controllers\Admin\AdminEbookController::class, 'index'])->name('ebooks.index');
+    Route::post('/ebooks', [\App\Http\Controllers\Admin\AdminEbookController::class, 'store'])->name('ebooks.store');
+    Route::post('/ebooks/{ebook}', [\App\Http\Controllers\Admin\AdminEbookController::class, 'update'])->name('ebooks.update');
+    Route::delete('/ebooks/{ebook}', [\App\Http\Controllers\Admin\AdminEbookController::class, 'destroy'])->name('ebooks.destroy');
+
+    // Analytics dashboard
+    Route::get('/analytics', [\App\Http\Controllers\Admin\AdminAnalyticsController::class, 'index'])->name('analytics.index');
 
     // Taxonomies (property types, transaction types, statuses, special notices)
     Route::get('/taxonomies', [AdminTaxonomyController::class, 'index'])->name('taxonomies.index');
