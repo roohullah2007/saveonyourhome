@@ -6,7 +6,7 @@
 @section('content')
     <h2>New User Registration</h2>
 
-    <p>A new user has registered on OK By Owner.</p>
+    <p>A new user has registered on SaveOnYourHome.</p>
 
     <div class="property-details">
         <h3>User Details</h3>

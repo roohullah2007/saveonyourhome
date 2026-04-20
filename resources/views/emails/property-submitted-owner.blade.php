@@ -8,7 +8,7 @@
 
     <p>Hello {{ $property->contact_name }},</p>
 
-    <p>Great news! Your property listing has been successfully submitted and is now live on OK By Owner.</p>
+    <p>Great news! Your property listing has been successfully submitted and is now live on SaveOnYourHome.</p>
 
     <div class="highlight">
         <p><strong>Your listing is immediately visible to potential buyers!</strong></p>
@@ -65,6 +65,6 @@
     <p>Best of luck with your sale!</p>
 
     <p>
-        <strong>The OK By Owner Team</strong>
+        <strong>The SaveOnYourHome Team</strong>
     </p>
 @endsection

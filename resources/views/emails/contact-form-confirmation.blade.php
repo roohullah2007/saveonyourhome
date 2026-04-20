@@ -8,7 +8,7 @@
 
     <p>Hello {{ $contactMessage->name }},</p>
 
-    <p>Thank you for reaching out to OK By Owner! We've received your message and our team will review it shortly.</p>
+    <p>Thank you for reaching out to SaveOnYourHome! We've received your message and our team will review it shortly.</p>
 
     <div class="highlight">
         <p><strong>We typically respond within 24 hours during business days.</strong></p>
@@ -46,9 +46,9 @@
 
     <p>If your matter is urgent, please note that our team prioritizes messages in the order they're received.</p>
 
-    <p>Thank you for choosing OK By Owner!</p>
+    <p>Thank you for choosing SaveOnYourHome!</p>
 
     <p>
-        <strong>The OK By Owner Team</strong>
+        <strong>The SaveOnYourHome Team</strong>
     </p>
 @endsection

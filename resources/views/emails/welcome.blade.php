@@ -1,14 +1,14 @@
 @extends('emails.layout')
 
-@section('title', 'Welcome to OK By Owner')
+@section('title', 'Welcome to SaveOnYourHome')
 @section('header-title', 'Welcome!')
 
 @section('content')
-    <h2>Welcome to OK By Owner!</h2>
+    <h2>Welcome to SaveOnYourHome!</h2>
 
     <p>Hello {{ $user->name }},</p>
 
-    <p>Thank you for creating an account with OK By Owner - Oklahoma's premier For Sale By Owner marketplace!</p>
+    <p>Thank you for creating an account with SaveOnYourHome — the commission-free For Sale By Owner marketplace!</p>
 
     <div class="highlight">
         <p><strong>Your account is now active and ready to use.</strong></p>
@@ -38,13 +38,13 @@
 
     @if($user->role === 'seller')
     <h3>Ready to List Your Property?</h3>
-    <p>As a seller, you can now list your property for free and reach thousands of potential buyers in Oklahoma.</p>
+    <p>As a seller, you can now list your property for free and reach thousands of potential buyers nationwide.</p>
     <p>
         <a href="{{ $listPropertyUrl }}" class="btn">List Your Property</a>
     </p>
     @elseif($user->role === 'buyer')
     <h3>Start Your Property Search</h3>
-    <p>Browse our extensive listings to find your dream home in Oklahoma.</p>
+    <p>Browse our extensive listings to find your dream home.</p>
     <p>
         <a href="{{ $propertiesUrl }}" class="btn">Browse Properties</a>
     </p>
@@ -78,6 +78,6 @@
     <p>Welcome aboard!</p>
 
     <p>
-        <strong>The OK By Owner Team</strong>
+        <strong>The SaveOnYourHome Team</strong>
     </p>
 @endsection

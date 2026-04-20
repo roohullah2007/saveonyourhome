@@ -27,7 +27,7 @@ class WelcomeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to OK By Owner!',
+            subject: 'Welcome to SaveOnYourHome!',
         );
     }
 

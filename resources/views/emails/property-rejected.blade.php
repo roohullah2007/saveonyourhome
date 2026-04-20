@@ -8,7 +8,7 @@
 
     <p>Hello {{ $property->contact_name }},</p>
 
-    <p>Thank you for submitting your property listing to OK By Owner. After reviewing your submission, we found some issues that need to be addressed before we can approve your listing.</p>
+    <p>Thank you for submitting your property listing to SaveOnYourHome. After reviewing your submission, we found some issues that need to be addressed before we can approve your listing.</p>
 
     <div class="property-details">
         <h3>{{ $property->property_title }}</h3>
@@ -50,6 +50,6 @@
     <p>We're here to help you get your property listed successfully!</p>
 
     <p>
-        <strong>The OK By Owner Team</strong>
+        <strong>The SaveOnYourHome Team</strong>
     </p>
 @endsection

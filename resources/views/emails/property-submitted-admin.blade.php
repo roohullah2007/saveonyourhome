@@ -83,6 +83,6 @@
     @endif
 
     <p>
-        <strong>OK By Owner Admin System</strong>
+        <strong>SaveOnYourHome Admin System</strong>
     </p>
 @endsection

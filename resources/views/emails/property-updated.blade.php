@@ -55,6 +55,6 @@
     <p>If you did not make this update or have any concerns, please contact us immediately.</p>
 
     <p>
-        <strong>The OK By Owner Team</strong>
+        <strong>The SaveOnYourHome Team</strong>
     </p>
 @endsection

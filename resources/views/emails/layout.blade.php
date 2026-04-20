@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'OK By Owner')</title>
+    <title>@yield('title', 'SaveOnYourHome')</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -144,15 +144,15 @@
     <div class="email-wrapper">
         <div class="email-container">
             <div class="email-header">
-                <div class="logo">OK By Owner</div>
+                <div class="logo">SaveOnYourHome</div>
                 <h1>@yield('header-title', 'Notification')</h1>
             </div>
             <div class="email-body">
                 @yield('content')
             </div>
             <div class="email-footer">
-                <p>&copy; {{ date('Y') }} OK By Owner. All rights reserved.</p>
-                <p>Oklahoma's #1 For Sale By Owner Marketplace</p>
+                <p>&copy; {{ date('Y') }} SaveOnYourHome. All rights reserved.</p>
+                <p>Commission-free For Sale By Owner marketplace</p>
                 <p><a href="{{ url('/') }}">Visit our website</a></p>
             </div>
         </div>
