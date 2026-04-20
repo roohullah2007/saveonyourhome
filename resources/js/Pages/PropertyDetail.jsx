@@ -94,11 +94,12 @@ function MortgageDonut({ principalInterest, propertyTax, insurance, hoa, pmi = 0
 }
 
 /* ---------- Contact / Request Info form used in sidebar + bottom ---------- */
-function InquiryForm({ property, variant = 'compact' }) {
+function InquiryForm({ property, variant = 'compact', auth = {} }) {
+  const authedUser = auth?.user || null;
   const { data, setData, post, processing, reset } = useForm({
-    name: '',
-    email: '',
-    phone: '',
+    name: authedUser?.name || '',
+    email: authedUser?.email || '',
+    phone: authedUser?.phone || '',
     iAm: '',
     message: `Hello, I am interested in [${property.property_title}]`,
     agree: false,
@@ -114,6 +115,9 @@ function InquiryForm({ property, variant = 'compact' }) {
       onSuccess: () => {
         setSent(true);
         reset();
+        setData('name', authedUser?.name || '');
+        setData('email', authedUser?.email || '');
+        setData('phone', authedUser?.phone || '');
         setData('message', `Hello, I am interested in [${property.property_title}]`);
         setData('property_id', property.id);
         setTimeout(() => setSent(false), 4000);
@@ -132,22 +136,38 @@ function InquiryForm({ property, variant = 'compact' }) {
         </div>
       )}
 
+      {authedUser && (
+        <div className="flex items-center gap-3 p-3 bg-[#F5F7FF] border border-[#E0E7FF] rounded-md">
+          <div className="w-9 h-9 rounded-full bg-[#2563EB]/10 text-[#2563EB] flex items-center justify-center text-sm font-semibold">
+            {(authedUser.name || 'U').charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1 min-w-0 text-sm">
+            <div className="font-semibold text-[#0F172A] truncate">Sending as {authedUser.name}</div>
+            <div className="text-[#4B5563] truncate">{authedUser.email}</div>
+          </div>
+        </div>
+      )}
+
       {variant === 'full' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-[#111] mb-2">Name</label>
-            <input type="text" value={data.name} onChange={(e) => setData('name', e.target.value)}
-              placeholder="Enter your name" className={inputCls} required />
-          </div>
+          {!authedUser && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-[#111] mb-2">Name</label>
+                <input type="text" value={data.name} onChange={(e) => setData('name', e.target.value)}
+                  placeholder="Enter your name" className={inputCls} required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#111] mb-2">Email</label>
+                <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)}
+                  placeholder="Enter your email" className={inputCls} required />
+              </div>
+            </>
+          )}
           <div>
             <label className="block text-sm font-medium text-[#111] mb-2">Phone</label>
             <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)}
               placeholder="Enter your Phone" className={inputCls} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-[#111] mb-2">Email</label>
-            <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)}
-              placeholder="Enter your email" className={inputCls} required />
           </div>
           <div>
             <label className="block text-sm font-medium text-[#111] mb-2">I'm a</label>
@@ -168,12 +188,16 @@ function InquiryForm({ property, variant = 'compact' }) {
         </div>
       ) : (
         <>
-          <input type="text" value={data.name} onChange={(e) => setData('name', e.target.value)}
-            placeholder="Name" className={inputCls} required />
+          {!authedUser && (
+            <>
+              <input type="text" value={data.name} onChange={(e) => setData('name', e.target.value)}
+                placeholder="Name" className={inputCls} required />
+              <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)}
+                placeholder="Email" className={inputCls} required />
+            </>
+          )}
           <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)}
             placeholder="Phone" className={inputCls} />
-          <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)}
-            placeholder="Email" className={inputCls} required />
           <textarea value={data.message} onChange={(e) => setData('message', e.target.value)}
             rows={4} className={inputCls + ' resize-none'} />
           <select value={data.iAm} onChange={(e) => setData('iAm', e.target.value)} className={inputCls}>
@@ -404,7 +428,16 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
     return 'For Sale By Owner';
   })();
 
-  const listingImage = property.photos?.[0] ? `/storage/${property.photos[0]}` : undefined;
+  // Photo paths in the DB may already include "/storage/" (older uploads) or
+  // start with an http(s) URL for CDN-hosted images — only prepend when
+  // neither is the case so we don't produce "/storage//storage/…" URLs.
+  const resolvePhotoUrl = (p) => {
+    if (!p) return undefined;
+    if (/^https?:\/\//i.test(p)) return p;
+    if (p.startsWith('/')) return p;
+    return `/storage/${p}`;
+  };
+  const listingImage = property.photos?.[0] ? resolvePhotoUrl(property.photos[0]) : undefined;
   const listingDescription = `${property.property_title} - ${property.bedrooms || 0} bed, ${property.full_bathrooms || property.bathrooms || 0} bath${property.sqft ? `, ${Number(property.sqft).toLocaleString()} sqft` : ''} home for sale by owner in ${property.city}, ${property.state}. Listed at ${formatPriceShort(property.price)}.`;
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const listingUrl = typeof window !== 'undefined'
@@ -854,8 +887,8 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                       // Legacy string entries (older listings) — render as image only.
                       if (typeof fp === 'string') {
                         return (
-                          <a key={i} href={`/storage/${fp}`} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[16/9]">
-                            <img src={`/storage/${fp}`} alt={`Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                          <a key={i} href={resolvePhotoUrl(fp)} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[16/9]">
+                            <img src={resolvePhotoUrl(fp)} alt={`Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
                           </a>
                         );
                       }
@@ -867,8 +900,8 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                         <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-5 items-start">
                           <div className="md:col-span-2">
                             {fp.image ? (
-                              <a href={`/storage/${fp.image}`} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3]">
-                                <img src={`/storage/${fp.image}`} alt={fp.title || `Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                              <a href={resolvePhotoUrl(fp.image)} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3]">
+                                <img src={resolvePhotoUrl(fp.image)} alt={fp.title || `Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
                               </a>
                             ) : (
                               <div className="rounded-xl bg-gray-50 border border-dashed border-gray-200 aspect-[4/3] flex items-center justify-center text-sm text-gray-400">No image</div>
@@ -963,7 +996,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
               </div>
 
               {/* Contact Information */}
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
+              <div id="contact-seller" className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                 <div className="flex items-start justify-between mb-6">
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Contact Information</h2>
                   {property.user_id && (
@@ -989,7 +1022,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                 </div>
 
                 <h3 className="text-lg font-semibold text-[#111] mb-5">Enquire About This Property</h3>
-                <InquiryForm property={property} variant="full" />
+                <InquiryForm property={property} variant="full" auth={auth} />
               </div>
 
               {/* Similar Listings */}
@@ -1030,6 +1063,18 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                   >
                     <Calendar className="w-4 h-4" /> See available times
                   </button>
+                  {auth?.user && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById('contact-seller');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                      className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-sm font-bold border-2 border-[#3355FF] text-[#3355FF] hover:bg-[#3355FF]/5 transition-colors"
+                    >
+                      <Mail className="w-4 h-4" /> Send message to seller
+                    </button>
+                  )}
                 </div>
 
                 {/* Create account — only shown to logged-out visitors */}
@@ -1127,7 +1172,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                         )}
                       </div>
                     </div>
-                    <InquiryForm property={property} variant="compact" />
+                    <InquiryForm property={property} variant="compact" auth={auth} />
                   </div>
                 </div>
               </div>

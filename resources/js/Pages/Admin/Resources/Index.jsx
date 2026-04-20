@@ -1,5 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
+import axios from 'axios';
 import AdminLayout from '@/Layouts/AdminLayout';
 import RichTextEditor from '@/Components/RichTextEditor';
 import {
@@ -13,6 +14,8 @@ import {
     EyeOff,
     ImageIcon,
     Upload,
+    Sparkles,
+    Loader2,
 } from 'lucide-react';
 
 export default function ResourcesIndex({ resources = [] }) {
@@ -33,6 +36,37 @@ export default function ResourcesIndex({ resources = [] }) {
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+
+    // AI draft state
+    const [aiTopic, setAiTopic] = useState('');
+    const [aiBusy, setAiBusy] = useState(false);
+    const [aiError, setAiError] = useState('');
+
+    const generateAiDraft = async () => {
+        if (!aiTopic.trim()) {
+            setAiError('Tell the AI what the article should be about.');
+            return;
+        }
+        setAiBusy(true);
+        setAiError('');
+        try {
+            const { data } = await axios.post(route('admin.resources.ai-generate'), {
+                topic: aiTopic.trim(),
+                category: formData.category,
+                existing_title: formData.title || null,
+            });
+            setFormData((prev) => ({
+                ...prev,
+                title: data.title || prev.title,
+                excerpt: data.excerpt || prev.excerpt,
+                content: data.content || prev.content,
+            }));
+        } catch (err) {
+            setAiError(err?.response?.data?.error || 'Something went wrong generating the draft.');
+        } finally {
+            setAiBusy(false);
+        }
+    };
 
     const categories = [
         { key: 'all', label: 'All' },
@@ -56,6 +90,8 @@ export default function ResourcesIndex({ resources = [] }) {
         setImageFile(null);
         setImagePreview(null);
         setEditingResource(null);
+        setAiTopic('');
+        setAiError('');
     };
 
     const openAddModal = () => {
@@ -294,6 +330,37 @@ export default function ResourcesIndex({ resources = [] }) {
                             <button onClick={() => { setShowModal(false); resetForm(); }} className="text-gray-400 hover:text-gray-600">
                                 <X className="w-5 h-5" />
                             </button>
+                        </div>
+
+                        {/* AI draft panel */}
+                        <div className="mb-5 rounded-xl border border-[#3355FF]/20 bg-gradient-to-br from-[#3355FF]/5 to-[#1A1816]/5 p-4">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Sparkles className="w-4 h-4 text-[#3355FF]" />
+                                <span className="text-sm font-semibold text-gray-900">Draft with AI</span>
+                            </div>
+                            <p className="text-xs text-gray-500 mb-3">
+                                Describe the article you want (topic, angle, audience). The AI will fill in the title, excerpt, and content — you can edit everything before saving.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-2">
+                                <input
+                                    type="text"
+                                    value={aiTopic}
+                                    onChange={(e) => setAiTopic(e.target.value)}
+                                    placeholder="e.g. How to price your home when you FSBO"
+                                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3355FF]/30 focus:border-[#3355FF] bg-white"
+                                    disabled={aiBusy}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={generateAiDraft}
+                                    disabled={aiBusy}
+                                    className="inline-flex items-center justify-center gap-2 bg-[#3355FF] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#1D4ED8] disabled:opacity-60"
+                                >
+                                    {aiBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                                    {aiBusy ? 'Drafting…' : 'Generate draft'}
+                                </button>
+                            </div>
+                            {aiError && <p className="text-xs text-red-600 mt-2">{aiError}</p>}
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">

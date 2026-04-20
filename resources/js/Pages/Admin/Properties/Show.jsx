@@ -898,7 +898,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     type="text"
                                     value={testimonialName}
                                     onChange={(e) => setTestimonialName(e.target.value)}
-                                    placeholder="e.g., John D., Oklahoma City"
+                                    placeholder="e.g., John D., Austin TX"
                                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                                 />
                                 <p className="text-xs text-gray-400 mt-1">Anonymized name for public display</p>
@@ -1146,7 +1146,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                     type="text"
                                     value={testimonialName}
                                     onChange={(e) => setTestimonialName(e.target.value)}
-                                    placeholder="e.g., John D., Oklahoma City"
+                                    placeholder="e.g., John D., Austin TX"
                                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
                                 />
                             </div>

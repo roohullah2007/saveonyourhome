@@ -65,7 +65,7 @@ class AdminImportController extends Controller
     public function downloadCsvTemplate()
     {
         $headers = ['address', 'city', 'state', 'zip_code', 'price', 'bedrooms', 'bathrooms', 'sqft', 'property_type', 'year_built', 'lot_size', 'owner_name', 'owner_phone', 'owner_email', 'owner_address', 'description'];
-        $example = ['123 Main St', 'Tulsa', 'Oklahoma', '74105', '299000', '3', '2', '1800', 'single_family', '1995', '0.25', 'John Smith', '918-555-1234', 'john@example.com', '456 Oak Ave, Tulsa, OK 74105', 'Beautiful 3-bed home in midtown Tulsa'];
+        $example = ['123 Main St', 'Austin', 'Texas', '78701', '299000', '3', '2', '1800', 'single_family', '1995', '0.25', 'John Smith', '555-555-1234', 'john@example.com', '456 Oak Ave, Austin, TX 78701', 'Beautiful 3-bed home in a great neighborhood'];
 
         $csv = implode(',', $headers) . "\n" . implode(',', $example) . "\n";
 
@@ -166,7 +166,7 @@ class AdminImportController extends Controller
                 $isLand = ($listing['property_type'] ?? 'single_family') === 'land';
                 $address = $listing['address'];
                 $city = $listing['city'];
-                $state = $listing['state'] ?? 'Oklahoma';
+                $state = $listing['state'] ?? '';
 
                 // Fetch property images and contact info
                 $photos = [];

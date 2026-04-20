@@ -1,7 +1,8 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { loadGoogleMaps } from '@/Components/Properties/LocationMapPicker';
 import { useForm, router, usePage } from '@inertiajs/react';
 import SEOHead from '@/Components/SEOHead';
-import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, ChevronDown, X, AlertCircle, Loader2, Star, Sparkles, PlusCircle, XCircle } from 'lucide-react';
+import { Upload, Home, MapPin, DollarSign, Image, FileText, CheckCircle, ChevronRight, ChevronDown, X, AlertCircle, Loader2, Star, Sparkles, PlusCircle, XCircle, Wand2 } from 'lucide-react';
 import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
@@ -152,7 +153,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
 }
 
 function ListProperty() {
-  const { auth, taxonomies } = usePage().props;
+  const { auth, taxonomies, googleMapsApiKey } = usePage().props;
   const txPropertyTypes = (taxonomies?.property_types || []);
   const txTransactionTypes = (taxonomies?.transaction_types || []);
   const txListingLabels = (taxonomies?.listing_labels || []);
@@ -204,7 +205,7 @@ function ListProperty() {
     // Location
     address: '',
     city: '',
-    state: 'Oklahoma',
+    state: '',
     zipCode: '',
     subdivision: '',
 
@@ -324,6 +325,191 @@ function ListProperty() {
   const handleInputChange = (field, value) => {
     setData(field, value);
   };
+
+  // RentCast auto-fill state + handler.
+  const [autoFillBusy, setAutoFillBusy] = useState(false);
+  const [autoFillMsg, setAutoFillMsg] = useState('');
+  const [autoFillErr, setAutoFillErr] = useState('');
+  const [placesDisabled, setPlacesDisabled] = useState(false);
+  const addressInputRef = useRef(null);
+  const autocompleteRef = useRef(null);
+  const skipAutocompleteNextChange = useRef(false);
+
+  /**
+   * Google's Places library hijacks the input and shows a disabled
+   * "Oops! Something went wrong." state if the API key / project isn't
+   * authorized. Roll the input back to a plain one so the seller can type
+   * manually and still use the RentCast auto-fill button.
+   */
+  const resetAddressInputAfterAuthFailure = () => {
+    const el = addressInputRef.current;
+    if (!el) return;
+    el.disabled = false;
+    el.removeAttribute('disabled');
+    el.classList.remove('gm-err-autocomplete', 'pac-target-input');
+    el.style.backgroundImage = '';
+    el.placeholder = 'Start typing — e.g., 1600 Pennsylvania Ave NW';
+    // Also drop the invisible pac-container dropdown Google injected.
+    document.querySelectorAll('.pac-container').forEach((n) => n.remove());
+    setPlacesDisabled(true);
+  };
+
+  const applyRentcastRecord = (r) => {
+    setData((prev) => {
+      const next = { ...prev };
+      // Only overwrite fields the seller hasn't filled yet — never blow away their edits.
+      const merge = (key, value) => {
+        if (value === undefined || value === null || value === '') return;
+        if (prev[key] === '' || prev[key] === null || prev[key] === undefined || prev[key] === 0 || prev[key] === false) {
+          next[key] = value;
+        }
+      };
+      merge('propertyType', r.propertyType);
+      merge('city', r.city);
+      merge('state', r.state);
+      merge('zipCode', r.zipCode);
+      merge('county', r.county);
+      merge('bedrooms', r.bedrooms);
+      merge('fullBathrooms', r.fullBathrooms);
+      merge('halfBathrooms', r.halfBathrooms);
+      merge('sqft', r.sqft);
+      merge('yearBuilt', r.yearBuilt);
+      merge('lotSize', r.lotSize);
+      merge('annualPropertyTax', r.annualPropertyTax);
+      if (r.hasHoa !== undefined) next.hasHoa = prev.hasHoa || r.hasHoa;
+      merge('hoaFee', r.hoaFee);
+      if (Array.isArray(r.features) && r.features.length && (!prev.features || prev.features.length === 0)) {
+        next.features = r.features;
+      }
+      if (r.latitude && !prev.latitude) next.latitude = r.latitude;
+      if (r.longitude && !prev.longitude) next.longitude = r.longitude;
+      return next;
+    });
+  };
+
+  const runRentcastLookup = async (composedAddress) => {
+    const composed = (composedAddress || '').trim();
+    if (!composed) {
+      setAutoFillErr('Enter an address first.');
+      return;
+    }
+    setAutoFillBusy(true);
+    setAutoFillMsg('');
+    setAutoFillErr('');
+    try {
+      const { data: resp } = await axios.post(route('api.rentcast-lookup'), { address: composed });
+      if (!resp?.success || !resp.data) throw new Error('No match');
+      applyRentcastRecord(resp.data);
+      setAutoFillMsg('Auto-filled from property records — review and edit anything that looks off.');
+    } catch (err) {
+      setAutoFillErr(
+        err?.response?.data?.message ||
+        "We couldn't find a record for that address. Try adding the city/state or ZIP."
+      );
+    } finally {
+      setAutoFillBusy(false);
+    }
+  };
+
+  const runAutoFill = () => {
+    const composed = [data.address, data.city, data.state, data.zipCode]
+      .filter(Boolean)
+      .join(', ');
+    return runRentcastLookup(composed);
+  };
+
+  // Wire Google Places Autocomplete onto the Street Address input. When the
+  // user picks a suggestion we parse address_components, fill the individual
+  // fields, then trigger the RentCast lookup with the selected formatted
+  // address so beds/baths/etc. also fill in without a second click.
+  useEffect(() => {
+    if (!googleMapsApiKey) return;
+    if (!addressInputRef.current) return;
+
+    // Google invokes window.gm_authFailure when the API key is rejected
+    // (e.g. Maps JS / Places not enabled on the GCP project). Wire it up
+    // *before* loading so we can recover whenever it fires.
+    const priorAuthFailureHandler = window.gm_authFailure;
+    window.gm_authFailure = () => {
+      resetAddressInputAfterAuthFailure();
+      if (typeof priorAuthFailureHandler === 'function') priorAuthFailureHandler();
+    };
+
+    let mounted = true;
+    loadGoogleMaps(googleMapsApiKey).then(() => {
+      if (!mounted || !addressInputRef.current) return;
+      if (autocompleteRef.current) return; // already initialized
+      if (!window.google?.maps?.places?.Autocomplete) {
+        // Places library didn't load — probably ApiNotActivated. Don't
+        // throw, just leave the input as a plain text box.
+        resetAddressInputAfterAuthFailure();
+        return;
+      }
+
+      let ac;
+      try {
+        ac = new window.google.maps.places.Autocomplete(addressInputRef.current, {
+          types: ['address'],
+          componentRestrictions: { country: 'us' },
+          fields: ['address_components', 'formatted_address', 'geometry'],
+        });
+      } catch (e) {
+        console.warn('Places autocomplete failed to initialize', e);
+        resetAddressInputAfterAuthFailure();
+        return;
+      }
+      autocompleteRef.current = ac;
+
+      ac.addListener('place_changed', () => {
+        const place = ac.getPlace();
+        if (!place || !place.address_components) return;
+
+        // Parse address components.
+        const get = (type, short = false) => {
+          const c = place.address_components.find((x) => x.types.includes(type));
+          return c ? (short ? c.short_name : c.long_name) : '';
+        };
+
+        const streetNumber = get('street_number');
+        const route = get('route');
+        const streetAddress = [streetNumber, route].filter(Boolean).join(' ');
+        const city = get('locality') || get('sublocality') || get('postal_town');
+        const state = get('administrative_area_level_1', true);
+        const zip = get('postal_code');
+        const county = get('administrative_area_level_2').replace(/ County$/, '');
+        const lat = place.geometry?.location?.lat?.();
+        const lng = place.geometry?.location?.lng?.();
+
+        // Overwrite the main location fields unconditionally since the user
+        // just explicitly picked this address from the dropdown.
+        skipAutocompleteNextChange.current = true;
+        setData((prev) => ({
+          ...prev,
+          address: streetAddress || place.formatted_address || prev.address,
+          city: city || prev.city,
+          state: state || prev.state,
+          zipCode: zip || prev.zipCode,
+          county: county || prev.county,
+          latitude: lat ?? prev.latitude,
+          longitude: lng ?? prev.longitude,
+        }));
+
+        // Kick off the RentCast auto-fill with the canonical formatted address.
+        const composed = place.formatted_address
+          || [streetAddress, city, state, zip].filter(Boolean).join(', ');
+        if (composed) runRentcastLookup(composed);
+      });
+    }).catch(() => {
+      resetAddressInputAfterAuthFailure();
+    });
+
+    return () => {
+      mounted = false;
+      if (window.gm_authFailure === resetAddressInputAfterAuthFailure) {
+        window.gm_authFailure = priorAuthFailureHandler;
+      }
+    };
+  }, [googleMapsApiKey]);
 
   const handleFeatureToggle = (feature) => {
     const currentFeatures = data.features;
@@ -832,41 +1018,12 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <FileText className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   Basic Information
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2">
-                    Property Title *
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Beautiful Home in Great Neighborhood"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                   
-                    value={data.propertyTitle}
-                    onChange={(e) => handleInputChange('propertyTitle', e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-[#111] mb-2">
-                    Developer/Builder
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., ABC Homes"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                   
-                    value={data.developer}
-                    onChange={(e) => handleInputChange('developer', e.target.value)}
-                  />
-                </div>
-
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold text-[#111] mb-2">
                     Property Type *
@@ -911,34 +1068,71 @@ function ListProperty() {
                     />
                   </div>
                 </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-semibold text-[#111] mb-2">
+                    Developer/Builder
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Optional — e.g., Simmons Homes"
+                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    value={data.developer}
+                    onChange={(e) => handleInputChange('developer', e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Location */}
             <div className="bg-white rounded-xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                  <MapPin className="w-6 h-6 text-[#3D3D3D]" />
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="bg-[#E5E1DC] p-3 rounded-lg">
+                    <MapPin className="w-6 h-6 text-[#3D3D3D]" />
+                  </div>
+                  <h2 className="text-lg md:text-xl font-semibold text-[#111]">
+                    Location
+                  </h2>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
-                  Location
-                </h2>
+                <button
+                  type="button"
+                  onClick={runAutoFill}
+                  disabled={autoFillBusy}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#3355FF]/30 bg-[#3355FF]/5 text-[#3355FF] text-xs font-semibold px-3 py-2 hover:bg-[#3355FF]/10 disabled:opacity-60"
+                  title="Use RentCast to auto-fill property facts from the address"
+                >
+                  {autoFillBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
+                  {autoFillBusy ? 'Looking up…' : 'Auto-fill from address'}
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {(autoFillMsg || autoFillErr) && (
+                <div className={`mb-5 text-xs rounded-lg px-3 py-2 border ${autoFillErr ? 'bg-red-50 border-red-100 text-red-700' : 'bg-emerald-50 border-emerald-100 text-emerald-700'}`}>
+                  {autoFillErr || autoFillMsg}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-[#111] mb-2">
                     Street Address *
                   </label>
                   <input
+                    ref={addressInputRef}
                     type="text"
-                    placeholder="123 Main Street"
+                    placeholder="Start typing — e.g., 1600 Pennsylvania Ave NW"
+                    autoComplete="off"
                     className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                   
                     value={data.address}
                     onChange={(e) => handleInputChange('address', e.target.value)}
                     required
                   />
+                  <p className="mt-1.5 text-xs text-gray-500">
+                    {placesDisabled
+                      ? "Address suggestions unavailable right now — type the address, then click Auto-fill to pull the property facts."
+                      : "Pick an address from the dropdown and we'll auto-fill city, state, ZIP, and the property facts from public records."}
+                  </p>
                 </div>
 
                 <div>
@@ -962,7 +1156,7 @@ function ListProperty() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Oklahoma"
+                    placeholder="State"
                     className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.state}
                     onChange={(e) => handleInputChange('state', e.target.value)}
@@ -1036,7 +1230,7 @@ function ListProperty() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   School Information
                 </h2>
               </div>
@@ -1107,7 +1301,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <Home className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   {data.propertyType === 'land' ? 'Lot Details' : 'Property Details'}
                 </h2>
               </div>
@@ -1285,7 +1479,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <DollarSign className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   Financials & Seller Preferences
                 </h2>
               </div>
@@ -1456,7 +1650,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <FileText className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   Description
                 </h2>
               </div>
@@ -1497,7 +1691,7 @@ function ListProperty() {
                   <div className="bg-[#E5E1DC] p-3 rounded-lg">
                     <CheckCircle className="w-6 h-6 text-[#3D3D3D]" />
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                  <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                     {data.propertyType === 'land' ? 'Land Features' : 'Amenities & Features'}
                   </h2>
                 </div>
@@ -1586,7 +1780,7 @@ function ListProperty() {
                   <div className="bg-[#E5E1DC] p-3 rounded-lg">
                     <Image className="w-6 h-6 text-[#3D3D3D]" />
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                  <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                     Photos
                   </h2>
                 </div>
@@ -1836,7 +2030,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <FileText className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">Floor Plans</h2>
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">Floor Plans</h2>
               </div>
               <p className="text-sm text-[#666] mb-6">
                 Add each floor as its own card. Title, bedrooms, bathrooms, size, image, and a short description are shown on your listing detail page.
@@ -1872,7 +2066,7 @@ function ListProperty() {
                 <div className="bg-[#E5E1DC] p-3 rounded-lg">
                   <Home className="w-6 h-6 text-[#3D3D3D]" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-semibold text-[#111]">
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
                   Contact Information
                 </h2>
               </div>

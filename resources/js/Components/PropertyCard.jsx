@@ -221,7 +221,7 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 
             <div className="pb-2 mb-2 border-b border-gray-200">
               <p className="text-sm text-[#293056] line-clamp-2">
-                {property.address}, {property.city}, {property.state || 'Oklahoma'} {property.zip_code}
+                {property.address}, {property.city}, {property.state || ''} {property.zip_code}
               </p>
             </div>
 
@@ -338,7 +338,7 @@ function QuickPreviewModal({ property, onClose, isNewListing, specialNoticeText,
 
               <p className="mt-3 flex items-center gap-1.5 text-sm text-[#6B7280]">
                 <MapPin className="w-4 h-4 text-[#9CA3AF]" />
-                {property.address}, {property.city}, {property.state || 'Oklahoma'} {property.zip_code}
+                {property.address}, {property.city}, {property.state || ''} {property.zip_code}
               </p>
 
               {property.property_type !== 'land' ? (

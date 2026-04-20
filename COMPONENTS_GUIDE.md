@@ -1,6 +1,6 @@
 # Component Structure Guide
 
-This guide explains the structure of the homepage components in the OK BY OWNER Laravel React application.
+This guide explains the structure of the homepage components in the SaveOnYourHome Laravel React application.
 
 ## Directory Structure
 
@@ -50,7 +50,7 @@ function MyPage() {
 
 The HeroSection component contains:
 - Hero banner with background image
-- Main headline: "Sell Your Oklahoma Property And Save Thousands!"
+- Main headline: "Sell Your Home And Save Thousands!"
 - Call-to-action buttons (Search Listings, List Your Property)
 - Bottom red section promoting MLS packages
 

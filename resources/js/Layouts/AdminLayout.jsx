@@ -17,6 +17,10 @@ import {
     Layers,
     BookOpen,
     BarChart3,
+    FileText,
+    Handshake,
+    Package,
+    Activity,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -34,7 +38,11 @@ export default function AdminLayout({ children, title }) {
         { name: 'Messages', href: route('admin.messages.index'), icon: Mail, current: route().current('admin.messages.*') },
         { name: 'Taxonomies', href: route('admin.taxonomies.index'), icon: Tags, current: route().current('admin.taxonomies.*') },
         { name: 'Amenities', href: route('admin.amenities.index'), icon: Layers, current: route().current('admin.amenities.*') },
+        { name: 'Resources & Blog', href: route('admin.resources.index'), icon: FileText, current: route().current('admin.resources.*') },
         { name: 'eBooks', href: route('admin.ebooks.index'), icon: BookOpen, current: route().current('admin.ebooks.*') },
+        { name: 'Partners', href: route('admin.partners.index'), icon: Handshake, current: route().current('admin.partners.*') },
+        { name: 'Media Orders', href: route('admin.media-orders.index'), icon: Package, current: route().current('admin.media-orders.*') },
+        { name: 'Activity', href: route('admin.activity.index'), icon: Activity, current: route().current('admin.activity.*') },
         { name: 'Settings', href: route('admin.settings.index'), icon: Settings, current: route().current('admin.settings.*') },
     ];
 

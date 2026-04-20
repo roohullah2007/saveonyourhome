@@ -8,26 +8,8 @@ const SearchFilters = ({ searchParams, onSearchChange }) => {
     max: searchParams.maxPrice
   });
 
-  const cities = [
-    { value: 'afton', label: 'Afton', subtext: 'Oklahoma' },
-    { value: 'beggs', label: 'Beggs' },
-    { value: 'bixby', label: 'Bixby' },
-    { value: 'blanchard', label: 'Blanchard' },
-    { value: 'broken-arrow', label: 'Broken Arrow', subtext: 'OK' },
-    { value: 'checotah', label: 'Checotah' },
-    { value: 'claremore', label: 'Claremore' },
-    { value: 'collinsville', label: 'Collinsville' },
-    { value: 'coweta', label: 'Coweta' },
-    { value: 'edmond', label: 'Edmond' },
-    { value: 'glenpool', label: 'Glenpool' },
-    { value: 'grove', label: 'Grove' },
-    { value: 'lawton', label: 'Lawton' },
-    { value: 'norman', label: 'Norman', subtext: 'Oklahoma' },
-    { value: 'oklahoma-city', label: 'Oklahoma City', subtext: 'Oklahoma County' },
-    { value: 'owasso', label: 'Owasso' },
-    { value: 'tulsa', label: 'Tulsa', subtext: 'OK' },
-    { value: 'yukon', label: 'Yukon' },
-  ];
+  // City list is dynamic — leave empty so the search input is free-text.
+  const cities = [];
 
   const statuses = [
     { value: 'coming-soon', label: 'Coming Soon' },

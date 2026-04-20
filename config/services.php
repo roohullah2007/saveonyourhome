@@ -56,6 +56,15 @@ return [
         'api_key' => env('WALKSCORE_API_KEY'),
     ],
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
+    ],
+
+    'rentcast' => [
+        'key' => env('RENTCAST_API_KEY'),
+    ],
+
     'bunnycdn' => [
         'hostname' => env('BUNNYCDN_HOSTNAME'),
         'username' => env('BUNNYCDN_USERNAME'),

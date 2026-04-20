@@ -3,22 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use App\Services\OpenAiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
  * Generates a draft property description from the listing fields.
  *
- * MVP: template-based. Swap the body of buildDescription() for a real LLM call
- * (Anthropic / OpenAI) when an API key is configured — the contract stays the same.
+ * Uses OpenAI when OPENAI_API_KEY is set; falls back to the local template
+ * if the key is missing or the API call fails so sellers always get a draft.
  */
 class PropertyDescriptionController extends Controller
 {
+    public function __construct(private OpenAiService $openAi) {}
+
     public function generate(Request $request, Property $property): JsonResponse
     {
         abort_unless($property->user_id === $request->user()->id, 403);
 
-        $html = $this->buildDescription($property);
+        $html = $this->aiOrTemplate($property);
 
         return response()->json(['description' => $html]);
     }
@@ -56,8 +59,73 @@ class PropertyDescriptionController extends Controller
         $p->features = $validated['features'] ?? [];
 
         return response()->json([
-            'description' => $this->buildDescription($p),
+            'description' => $this->aiOrTemplate($p),
         ]);
+    }
+
+    protected function aiOrTemplate(Property $p): string
+    {
+        $ai = $this->generateWithAi($p);
+        return $ai ?: $this->buildDescription($p);
+    }
+
+    protected function generateWithAi(Property $p): ?string
+    {
+        if (!$this->openAi->isConfigured()) {
+            return null;
+        }
+
+        $features = is_array($p->features) ? $p->features : (json_decode($p->features ?? '[]', true) ?: []);
+        $baths = (float) (($p->full_bathrooms ?? 0) + (($p->half_bathrooms ?? 0) * 0.5));
+
+        $facts = [
+            'Property type' => $p->property_type,
+            'Bedrooms' => $p->bedrooms,
+            'Bathrooms' => $baths ?: null,
+            'Square feet' => $p->sqft,
+            'Year built' => $p->year_built,
+            'Address' => $p->address,
+            'City' => $p->city,
+            'State' => $p->state,
+            'Price' => $p->price ? '$' . number_format((float) $p->price) : null,
+            'School district' => $p->school_district,
+            'Grade school' => $p->grade_school,
+            'Middle school' => $p->middle_school,
+            'High school' => $p->high_school,
+            'HOA fee (monthly)' => $p->has_hoa && $p->hoa_fee ? '$' . number_format((float) $p->hoa_fee) : null,
+            'Annual property tax' => $p->annual_property_tax ? '$' . number_format((float) $p->annual_property_tax) : null,
+            'Standout features' => !empty($features) ? implode(', ', array_filter($features)) : null,
+        ];
+
+        $factLines = [];
+        foreach ($facts as $k => $v) {
+            if ($v !== null && $v !== '' && $v !== 0) {
+                $factLines[] = "- {$k}: {$v}";
+            }
+        }
+
+        $system = 'You are a professional real-estate copywriter. Write warm, concrete, specific listing descriptions for For Sale By Owner homes on SaveOnYourHome. Never invent amenities, neighborhoods, or facts that were not provided. Never mention agents, commissions, or MLS. Output plain HTML: three to five short <p> paragraphs, no headings, no lists. Around 150-220 words total.';
+
+        $user = "Write a listing description for this home using only the facts below.\n\n" . implode("\n", $factLines);
+
+        $content = $this->openAi->chat([
+            ['role' => 'system', 'content' => $system],
+            ['role' => 'user', 'content' => $user],
+        ], ['temperature' => 0.75]);
+
+        if (!$content) return null;
+
+        $content = trim($content);
+        // Strip any stray markdown fences just in case.
+        $content = preg_replace('/^```(?:html)?\s*|\s*```$/i', '', $content);
+
+        // If the model returned plain prose without <p>, wrap each paragraph.
+        if (stripos($content, '<p') === false) {
+            $paragraphs = preg_split('/\n\s*\n/', $content);
+            $content = implode('', array_map(fn ($para) => '<p>' . e(trim($para)) . '</p>', $paragraphs));
+        }
+
+        return $content;
     }
 
     protected function buildDescription(Property $p): string

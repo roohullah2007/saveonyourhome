@@ -182,7 +182,7 @@ class ZillowApiService
 
     /**
      * Convert a user location input to a Zillow URL slug.
-     * Examples: "Tulsa, OK" => "tulsa-ok", "74105" => "74105", "Oklahoma" => "ok"
+     * Examples: "Austin, TX" => "austin-tx", "78701" => "78701", "Texas" => "tx"
      */
     protected function locationToSlug(string $location): string
     {

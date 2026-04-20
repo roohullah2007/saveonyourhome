@@ -85,7 +85,7 @@ function TermsOfUse() {
                 className="text-[17px] text-[#666] leading-relaxed mb-4"
                
               >
-                SAVEONYOURHOME provides an online platform that allows property owners in Oklahoma to:
+                SAVEONYOURHOME provides an online platform that allows property owners to:
               </p>
               <ul className="list-disc list-inside text-[17px] text-[#666] leading-relaxed space-y-2 ml-4">
                 <li>List properties for sale by owner (FSBO)</li>
@@ -321,7 +321,7 @@ function TermsOfUse() {
                 className="text-[17px] text-[#666] leading-relaxed"
                
               >
-                These Terms shall be governed by and construed in accordance with the laws of the State of Oklahoma, without regard to its conflict of law provisions. Any disputes arising from these Terms shall be resolved in the courts located in Oklahoma County, Oklahoma.
+                These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to conflict of law provisions. Any disputes arising from these Terms shall be resolved in the courts of competent jurisdiction where SaveOnYourHome maintains its principal place of business.
               </p>
             </section>
 

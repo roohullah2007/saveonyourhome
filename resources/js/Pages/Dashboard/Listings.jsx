@@ -58,7 +58,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
         shipping_name: '',
         shipping_address: '',
         shipping_city: '',
-        shipping_state: 'Oklahoma',
+        shipping_state: '',
         shipping_zip: '',
         shipping_phone: '',
         quantity: 2,

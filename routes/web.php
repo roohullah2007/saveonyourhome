@@ -126,6 +126,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/delete-uploaded-photo', [PropertyController::class, 'deleteUploadedPhoto'])->name('delete.uploaded.photo');
     Route::post('/api/geocode', [PropertyController::class, 'geocodeAddress'])->name('api.geocode');
     Route::post('/api/reverse-geocode', [PropertyController::class, 'reverseGeocodeAddress'])->name('api.reverse-geocode');
+    Route::post('/api/rentcast-lookup', [PropertyController::class, 'rentcastLookup'])->name('api.rentcast-lookup');
 
     // Saved Searches
     Route::post('/api/saved-searches', function (\Illuminate\Http\Request $request) {
@@ -471,6 +472,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     // Resources Management
     Route::get('/resources', [AdminResourceController::class, 'index'])->name('resources.index');
+    Route::post('/resources/ai-generate', [AdminResourceController::class, 'aiGenerate'])->name('resources.ai-generate');
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
     Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
     Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');

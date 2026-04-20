@@ -839,7 +839,7 @@ export default function EditListing({ property }) {
                                 className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] ${
                                     errors.city ? 'border-red-500' : 'border-gray-200'
                                 }`}
-                                placeholder="e.g., Oklahoma City"
+                                placeholder="e.g., Austin"
                             />
                             {errors.city && (
                                 <p className="text-red-500 text-sm mt-1">{errors.city}</p>

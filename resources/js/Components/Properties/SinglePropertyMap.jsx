@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ZoomIn, ZoomOut, Navigation, Layers } from 'lucide-react';
+import { ZoomIn, ZoomOut, Navigation, Layers, MapPin } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
+import { onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
 
 const SinglePropertyMap = ({ property }) => {
   const { googleMapsApiKey } = usePage().props;
@@ -11,11 +12,14 @@ const SinglePropertyMap = ({ property }) => {
   const markerRef = useRef(null);
   const infoWindowRef = useRef(null);
   const [mapType, setMapType] = useState('roadmap');
+  const [authFailed, setAuthFailed] = useState(isMapsAuthFailed());
 
-  // Oklahoma default center
-  const defaultLat = 35.5;
-  const defaultLng = -97.5;
-  const defaultZoom = 7;
+  useEffect(() => onMapsAuthFailure(() => setAuthFailed(true)), []);
+
+  // Continental US default center
+  const defaultLat = 39.5;
+  const defaultLng = -98.35;
+  const defaultZoom = 4;
 
   const hasCoordinates = property?.latitude && property?.longitude;
   const lat = hasCoordinates ? parseFloat(property.latitude) : defaultLat;
@@ -59,7 +63,7 @@ const SinglePropertyMap = ({ property }) => {
     }
 
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&loading=async`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&loading=async`;
     script.async = true;
     script.defer = true;
     script.onload = () => initializeMap();
@@ -163,7 +167,7 @@ const SinglePropertyMap = ({ property }) => {
     const q = encodeURIComponent(
       hasCoordinates
         ? `${lat},${lng}`
-        : `${property.address || ''}, ${property.city || ''}, ${property.state || 'OK'} ${property.zip_code || ''}`
+        : `${property.address || ''}, ${property.city || ''}, ${property.state || ''} ${property.zip_code || ''}`
     );
     return (
       <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-100">
@@ -175,6 +179,18 @@ const SinglePropertyMap = ({ property }) => {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
+      </div>
+    );
+  }
+
+  if (authFailed) {
+    return (
+      <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex flex-col items-center justify-center text-center px-6" style={{ minHeight: '300px' }}>
+        <MapPin className="w-8 h-8 text-gray-400 mb-2" />
+        <p className="text-sm font-semibold text-gray-800">Map unavailable</p>
+        <p className="text-xs text-gray-500 mt-1 max-w-sm">
+          {property.address ? `${property.address}, ${property.city || ''} ${property.state || ''}`.trim() : 'Map loading failed for this listing.'}
+        </p>
       </div>
     );
   }

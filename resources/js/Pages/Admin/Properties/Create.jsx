@@ -26,15 +26,19 @@ export default function CreateProperty({ users = [], listingStatuses = {} }) {
     const { data, setData, post, processing, errors } = useForm({
         user_id: '',
         property_title: '',
+        developer: '',
         property_type: 'single-family-home',
         status: 'for-sale',
         listing_status: 'for_sale',
+        transaction_type: 'for_sale',
+        listing_label: '',
         price: '',
         address: '',
         city: '',
-        state: 'Oklahoma',
+        state: '',
         zip_code: '',
         subdivision: '',
+        county: '',
         school_district: '',
         grade_school: '',
         middle_school: '',
@@ -45,8 +49,17 @@ export default function CreateProperty({ users = [], listingStatuses = {} }) {
         sqft: '',
         lot_size: '',
         acres: '',
+        property_dimensions: '',
         zoning: '',
         year_built: '',
+        garage: '',
+        annual_property_tax: '',
+        has_hoa: false,
+        hoa_fee: '',
+        is_motivated_seller: false,
+        is_licensed_agent: false,
+        open_to_realtors: true,
+        requires_pre_approval: false,
         description: '',
         features: [],
         contact_name: '',
@@ -54,7 +67,9 @@ export default function CreateProperty({ users = [], listingStatuses = {} }) {
         contact_phone: '',
         is_featured: false,
         is_active: true,
+        virtual_tour_type: 'video',
         virtual_tour_url: '',
+        virtual_tour_embed: '',
         matterport_url: '',
         video_tour_url: '',
         mls_virtual_tour_url: '',
@@ -862,6 +877,108 @@ export default function CreateProperty({ users = [], listingStatuses = {} }) {
                                     disabled={isUploading}
                                 />
                             </label>
+                        )}
+                    </div>
+                </div>
+
+                {/* Extended details & seller preferences */}
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Extended details & seller preferences</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Developer / Builder</label>
+                            <input type="text" value={data.developer} onChange={e => setData('developer', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Simmons Homes" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Listing label</label>
+                            <input type="text" value={data.listing_label} onChange={e => setData('listing_label', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Open House, New" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Transaction type</label>
+                            <select value={data.transaction_type} onChange={e => setData('transaction_type', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+                                <option value="for_sale">For Sale</option>
+                                <option value="for_rent">For Rent</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">County</label>
+                            <input type="text" value={data.county} onChange={e => setData('county', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Garage</label>
+                            <input type="text" value={data.garage} onChange={e => setData('garage', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., 2-car attached" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Lot dimensions</label>
+                            <input type="text" value={data.property_dimensions} onChange={e => setData('property_dimensions', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., 120 x 80 ft" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Annual property tax ($)</label>
+                            <input type="number" min="0" step="1" value={data.annual_property_tax} onChange={e => setData('annual_property_tax', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">HOA fee ($ / month)</label>
+                            <input type="number" min="0" step="1" value={data.hoa_fee} onChange={e => setData('hoa_fee', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" disabled={!data.has_hoa} />
+                        </div>
+                        <div className="md:col-span-2 flex flex-wrap gap-6 pt-2">
+                            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" checked={!!data.has_hoa} onChange={e => setData('has_hoa', e.target.checked)} className="w-4 h-4 rounded" />
+                                Has HOA
+                            </label>
+                            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" checked={!!data.is_motivated_seller} onChange={e => setData('is_motivated_seller', e.target.checked)} className="w-4 h-4 rounded" />
+                                Motivated seller
+                            </label>
+                            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" checked={!!data.is_licensed_agent} onChange={e => setData('is_licensed_agent', e.target.checked)} className="w-4 h-4 rounded" />
+                                Listed by licensed agent
+                            </label>
+                            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" checked={!!data.open_to_realtors} onChange={e => setData('open_to_realtors', e.target.checked)} className="w-4 h-4 rounded" />
+                                Open to Realtors
+                            </label>
+                            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" checked={!!data.requires_pre_approval} onChange={e => setData('requires_pre_approval', e.target.checked)} className="w-4 h-4 rounded" />
+                                Requires pre-approval
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Virtual tour (unified) */}
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Virtual tour</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Tour type</label>
+                            <select value={data.virtual_tour_type} onChange={e => setData('virtual_tour_type', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm">
+                                <option value="video">Video (YouTube / Vimeo)</option>
+                                <option value="matterport">Matterport</option>
+                                <option value="embed">Custom embed</option>
+                                <option value="link">External link</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Tour URL</label>
+                            <input type="url" value={data.virtual_tour_url} onChange={e => setData('virtual_tour_url', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="https://…" />
+                        </div>
+                        {data.virtual_tour_type === 'embed' && (
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Embed code</label>
+                                <textarea value={data.virtual_tour_embed} onChange={e => setData('virtual_tour_embed', e.target.value)}
+                                    rows={4} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" placeholder="<iframe …>" />
+                            </div>
                         )}
                     </div>
                 </div>

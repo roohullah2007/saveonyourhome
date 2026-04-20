@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Resource;
 use App\Models\ActivityLog;
+use App\Services\OpenAiService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +14,67 @@ use Inertia\Inertia;
 
 class AdminResourceController extends Controller
 {
+    public function __construct(private OpenAiService $openAi) {}
+
+    /**
+     * Generate a draft article (title + excerpt + HTML content) from a topic prompt.
+     * Returns JSON so the front-end can fill the Resources modal fields.
+     */
+    public function aiGenerate(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'topic' => 'required|string|max:500',
+            'category' => 'nullable|in:seller,buyer,blog',
+            'existing_title' => 'nullable|string|max:255',
+        ]);
+
+        if (!$this->openAi->isConfigured()) {
+            return response()->json(['error' => 'OpenAI API key is not configured.'], 422);
+        }
+
+        $category = $validated['category'] ?? 'blog';
+        $audience = match ($category) {
+            'seller' => 'home sellers considering For Sale By Owner',
+            'buyer' => 'home buyers shopping without a traditional agent',
+            default => 'a general real-estate audience',
+        };
+
+        $system = 'You are a professional real-estate journalist writing for SaveOnYourHome, a For Sale By Owner marketplace. '
+            . 'Write practical, specific, well-structured articles. Never invent statistics or quotes. '
+            . 'Return STRICT JSON with keys: title (string, under 90 chars), excerpt (string, under 280 chars), '
+            . 'content (HTML string with <h2>/<h3>/<p>/<ul>/<li>/<strong> tags, around 500-800 words, no <html>/<body>, no markdown fences). '
+            . 'Do not recommend traditional listing agents or MLS-only approaches.';
+
+        $prompt = "Write an article for {$audience}. Topic: {$validated['topic']}.";
+        if (!empty($validated['existing_title'])) {
+            $prompt .= "\nUse this headline if it still fits: \"{$validated['existing_title']}\".";
+        }
+        $prompt .= "\n\nReturn only JSON — no prose outside the JSON, no markdown fences.";
+
+        $raw = $this->openAi->chat([
+            ['role' => 'system', 'content' => $system],
+            ['role' => 'user', 'content' => $prompt],
+        ], [
+            'temperature' => 0.7,
+            'response_format' => ['type' => 'json_object'],
+        ]);
+
+        if (!$raw) {
+            return response()->json(['error' => 'AI service is unavailable right now. Please try again.'], 502);
+        }
+
+        $decoded = json_decode($raw, true);
+        if (!is_array($decoded) || empty($decoded['content'])) {
+            return response()->json(['error' => 'AI returned an invalid response. Try a different topic.'], 502);
+        }
+
+        return response()->json([
+            'title' => trim($decoded['title'] ?? ''),
+            'excerpt' => trim($decoded['excerpt'] ?? ''),
+            'content' => trim($decoded['content']),
+        ]);
+    }
+
     public function index()
     {
         $resources = Resource::orderBy('created_at', 'desc')->get();

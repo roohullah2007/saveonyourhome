@@ -27,7 +27,7 @@ function Mortgages() {
     { title: 'CALCULATE YOUR BUDGET', desc: 'Monthly housing payment (including taxes and insurance) shouldn\'t exceed 28% of your gross monthly income.' },
     { title: 'GATHER DOCUMENTS', desc: 'Prepare pay stubs, W-2s, tax returns, bank statements, and ID. Self-employed need 2 years of tax returns.' },
     { title: 'LOCK YOUR RATE', desc: 'Once you find your rate, lock it in. Rate locks typically last 30-60 days and protect from market fluctuations.' },
-    { title: 'ASK ABOUT ASSISTANCE', desc: 'Oklahoma offers down payment assistance programs. Ask your lender about first-time buyer programs and grants.' },
+    { title: 'ASK ABOUT ASSISTANCE', desc: 'Many states offer down payment assistance programs. Ask your lender about first-time buyer programs and grants available in your area.' },
   ];
 
   const faqs = [

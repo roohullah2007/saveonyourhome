@@ -12,7 +12,7 @@ export default function CreateUser() {
         phone: '',
         address: '',
         city: '',
-        state: 'Oklahoma',
+        state: '',
         zip_code: '',
         is_active: true,
     });
@@ -160,7 +160,7 @@ export default function CreateUser() {
                                 value={data.city}
                                 onChange={(e) => setData('city', e.target.value)}
                                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                                placeholder="Oklahoma City"
+                                placeholder="City"
                             />
                         </div>
 
@@ -174,7 +174,7 @@ export default function CreateUser() {
                                 value={data.state}
                                 onChange={(e) => setData('state', e.target.value)}
                                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                                placeholder="Oklahoma"
+                                placeholder="State"
                             />
                         </div>
 

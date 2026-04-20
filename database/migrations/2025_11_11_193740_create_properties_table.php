@@ -23,7 +23,7 @@ return new class extends Migration
             // Location
             $table->string('address');
             $table->string('city');
-            $table->string('state')->default('Oklahoma');
+            $table->string('state')->nullable();
             $table->string('zip_code');
             $table->string('subdivision')->nullable();
 

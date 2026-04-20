@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Navigation, ZoomIn, ZoomOut, X, ChevronUp, BedDouble, Bath, Maximize2, Layers } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
+import { onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
 
 const PropertyMap = ({ properties = [], onPropertyClick }) => {
   const { googleMapsApiKey } = usePage().props;
@@ -12,10 +13,13 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
   const infoWindowRef = useRef(null);
   const [showListingsPanel, setShowListingsPanel] = useState(false);
   const [mapType, setMapType] = useState('roadmap');
+  const [authFailed, setAuthFailed] = useState(isMapsAuthFailed());
 
-  // Oklahoma default center
-  const defaultLat = 35.5;
-  const defaultLng = -97.5;
+  useEffect(() => onMapsAuthFailure(() => setAuthFailed(true)), []);
+
+  // Continental US default center
+  const defaultLat = 39.5;
+  const defaultLng = -98.35;
   const defaultZoom = 7;
 
   useEffect(() => {
@@ -67,7 +71,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
     }
 
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&loading=async`;
     script.async = true;
     script.defer = true;
     script.onload = () => initializeMap();
@@ -77,6 +81,9 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
 
   const initializeMap = () => {
     if (!mapRef.current || mapInstance) return;
+    // If the Maps JS SDK failed to initialize (e.g. ApiNotActivatedMapError),
+    // window.google.maps.Map will be missing — bail cleanly so we don't throw.
+    if (!window.google?.maps?.Map) return;
 
     const map = new window.google.maps.Map(mapRef.current, {
       center: { lat: defaultLat, lng: defaultLng },
@@ -274,6 +281,18 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
   };
 
   const propertiesWithCoords = properties.filter(p => p.latitude && p.longitude);
+
+  if (authFailed) {
+    return (
+      <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex flex-col items-center justify-center text-center px-6" style={{ minHeight: '400px' }}>
+        <MapPin className="w-10 h-10 text-gray-400 mb-3" />
+        <p className="text-sm font-semibold text-gray-800">Map unavailable</p>
+        <p className="text-xs text-gray-500 mt-1 max-w-md">
+          We couldn't load the map right now. The listings below are still searchable and filterable.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full rounded-xl overflow-hidden">

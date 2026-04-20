@@ -18,8 +18,10 @@ const isValidCoord = (val) => val !== null && val !== undefined && val !== '' &&
 
 // Load Google Maps script once globally
 let googleMapsLoadPromise = null;
+// Load the Maps JS SDK with the `places` library — needed for the Street
+// Address autocomplete on ListProperty.jsx as well as the map picker.
 function loadGoogleMaps(apiKey) {
-    if (window.google?.maps) return Promise.resolve();
+    if (window.google?.maps?.places) return Promise.resolve();
     if (googleMapsLoadPromise) return googleMapsLoadPromise;
 
     googleMapsLoadPromise = new Promise((resolve, reject) => {
@@ -27,7 +29,7 @@ function loadGoogleMaps(apiKey) {
         const existing = document.querySelector('script[src*="maps.googleapis.com"]');
         if (existing) {
             const check = setInterval(() => {
-                if (window.google?.maps) {
+                if (window.google?.maps?.places) {
                     clearInterval(check);
                     resolve();
                 }
@@ -36,7 +38,10 @@ function loadGoogleMaps(apiKey) {
         }
 
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+        // loading=async is the Google-recommended pattern; avoids the
+        // "loaded directly without loading=async" console warning and
+        // unlocks best-practice perf for the Maps JS SDK.
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
         script.async = true;
         script.defer = true;
         script.onload = () => resolve();
@@ -49,6 +54,36 @@ function loadGoogleMaps(apiKey) {
 
     return googleMapsLoadPromise;
 }
+
+// Singleton registry for Google Maps auth failures. The Maps SDK fires
+// `window.gm_authFailure` once when the API key is rejected (e.g. the
+// required APIs aren't enabled on the GCP project). Multiple map
+// components need to react to it, so we own the handler in one place and
+// fan out to any subscribers.
+let mapsAuthFailed = false;
+const authFailureSubscribers = new Set();
+
+if (typeof window !== 'undefined' && !window.__gmAuthHookInstalled) {
+    window.__gmAuthHookInstalled = true;
+    window.gm_authFailure = () => {
+        mapsAuthFailed = true;
+        authFailureSubscribers.forEach((cb) => {
+            try { cb(); } catch (_) { /* noop */ }
+        });
+    };
+}
+
+function onMapsAuthFailure(cb) {
+    authFailureSubscribers.add(cb);
+    if (mapsAuthFailed) cb();
+    return () => authFailureSubscribers.delete(cb);
+}
+
+function isMapsAuthFailed() {
+    return mapsAuthFailed;
+}
+
+export { loadGoogleMaps, onMapsAuthFailure, isMapsAuthFailed };
 
 const LocationMapPicker = ({
     latitude,
@@ -76,6 +111,11 @@ const LocationMapPicker = ({
     const [mapType, setMapType] = useState('roadmap');
     const [latInput, setLatInput] = useState(isValidCoord(latitude) ? parseFloat(latitude).toFixed(6) : '');
     const [lngInput, setLngInput] = useState(isValidCoord(longitude) ? parseFloat(longitude).toFixed(6) : '');
+    const [authFailed, setAuthFailed] = useState(isMapsAuthFailed());
+
+    // Swap the map container for a friendly placeholder if the Maps API key
+    // is rejected at runtime.
+    useEffect(() => onMapsAuthFailure(() => setAuthFailed(true)), []);
 
     const defaultLat = 35.5;
     const defaultLng = -97.5;
@@ -532,9 +572,20 @@ const LocationMapPicker = ({
 
             {/* Map Container */}
             <div className="relative w-full rounded-xl overflow-hidden border border-gray-200" style={{ height: '300px' }}>
-                <div ref={mapContainerRef} className="w-full h-full" />
+                {authFailed ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-center px-6 bg-gray-50 text-gray-600">
+                        <MapPin className="w-8 h-8 text-gray-400 mb-2" />
+                        <p className="text-sm font-semibold text-gray-800">Map unavailable</p>
+                        <p className="text-xs text-gray-500 mt-1 max-w-sm">
+                            The map can't load right now. You can still enter the address and coordinates manually — everything else on this form works as usual.
+                        </p>
+                    </div>
+                ) : (
+                    <div ref={mapContainerRef} className="w-full h-full" />
+                )}
 
-                {/* Map Controls */}
+                {/* Map Controls — hide when the SDK failed to auth */}
+                {!authFailed && (<>
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-[10]">
                     <button
                         type="button"
@@ -618,6 +669,7 @@ const LocationMapPicker = ({
                         </div>
                     </div>
                 )}
+                </>)}
             </div>
         </div>
     );

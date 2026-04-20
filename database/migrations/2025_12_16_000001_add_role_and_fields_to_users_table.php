@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('phone')->nullable()->after('role');
             $table->text('address')->nullable()->after('phone');
             $table->string('city')->nullable()->after('address');
-            $table->string('state')->default('Oklahoma')->after('city');
+            $table->string('state')->nullable()->after('city');
             $table->string('zip_code')->nullable()->after('state');
             $table->string('profile_photo')->nullable()->after('zip_code');
             $table->boolean('is_active')->default(true)->after('profile_photo');

@@ -161,7 +161,7 @@ class CsvImportService
 
         $address = $row['address'];
         $city = $row['city'];
-        $state = !empty($row['state']) ? $row['state'] : 'Oklahoma';
+        $state = !empty($row['state']) ? $row['state'] : '';
         $zipCode = $row['zip_code'] ?? '';
 
         // Auto-generate title from address
@@ -181,7 +181,7 @@ class CsvImportService
             'sqft' => $isLand ? 0 : (int) str_replace(',', '', $row['sqft'] ?? '0'),
             'year_built' => $isLand ? null : (!empty($row['year_built']) ? (int) $row['year_built'] : null),
             'lot_size' => !empty($row['lot_size']) ? (int) str_replace(',', '', $row['lot_size']) : null,
-            'description' => $row['description'] ?? "For sale by owner in {$city}, Oklahoma.",
+            'description' => $row['description'] ?? ("For sale by owner in {$city}" . ($state ? ", {$state}" : '') . '.'),
             'photos' => [],
             'features' => [],
             'contact_name' => $row['owner_name'] ?? 'Property Owner',

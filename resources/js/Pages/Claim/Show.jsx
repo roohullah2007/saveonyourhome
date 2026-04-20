@@ -519,7 +519,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
                                     </h3>
                                     <div className="space-y-3">
                                         {[
-                                            { icon: Home, title: 'Property Listing', desc: 'Your home visible to Oklahoma buyers' },
+                                            { icon: Home, title: 'Property Listing', desc: 'Your home visible to buyers nationwide' },
                                             { icon: QrCode, title: 'QR Code Stickers', desc: 'Free sticker for your yard sign' },
                                             { icon: DollarSign, title: 'Zero Fees', desc: 'No commissions, no contract, no obligation' },
                                             { icon: Mail, title: 'Direct Inquiries', desc: 'Buyer messages sent straight to you' },

@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Services\EmailService;
 use App\Services\GeocodingService;
 use App\Services\ImageService;
+use App\Services\RentCastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -50,7 +51,7 @@ class PropertyController extends Controller
         // so the seller can keep their work even if other fields aren't filled out yet.
         $rules = $isDraft
             ? [
-                'propertyTitle' => 'required|string|max:255',
+                'propertyTitle' => 'nullable|string|max:255',
                 'address' => 'required|string',
                 'city' => 'nullable|string',
                 'state' => 'nullable|string|max:50',
@@ -67,7 +68,7 @@ class PropertyController extends Controller
                 'sqft' => 'nullable|integer|min:0',
             ]
             : [
-                'propertyTitle' => 'required|string|max:255',
+                'propertyTitle' => 'nullable|string|max:255',
                 'propertyType' => 'required|string',
                 'price' => 'required|numeric|min:0',
                 'address' => 'required|string',
@@ -165,7 +166,7 @@ class PropertyController extends Controller
         // so the row can be persisted even when the seller only typed title + address.
         $property = Property::create([
             'user_id' => $user->id,
-            'property_title' => $validated['propertyTitle'],
+            'property_title' => $this->resolvePropertyTitle($validated),
             'listing_headline' => $validated['listingHeadline'] ?? null,
             'developer' => $validated['developer'] ?? null,
             'property_type' => $validated['propertyType'] ?? ($isDraft ? 'single-family-home' : null),
@@ -178,7 +179,7 @@ class PropertyController extends Controller
             'pets_allowed' => $validated['petsAllowed'] ?? null,
             'address' => $validated['address'],
             'city' => $validated['city'] ?? '',
-            'state' => $validated['state'] ?? 'Oklahoma',
+            'state' => $validated['state'] ?? '',
             'zip_code' => $validated['zipCode'] ?? '',
             'county' => $validated['county'] ?? null,
             'subdivision' => $validated['subdivision'] ?? null,
@@ -385,6 +386,28 @@ class PropertyController extends Controller
     protected function getPrimaryAdmin(): ?User
     {
         return User::where('role', 'admin')->orderBy('id')->first();
+    }
+
+    /**
+     * Resolve a listing headline from the seller's input. When the seller
+     * doesn't type one (the form no longer shows the field), we build a
+     * clean "Street — City, State" title from the address fields.
+     */
+    protected function resolvePropertyTitle(array $validated): string
+    {
+        $title = trim($validated['propertyTitle'] ?? '');
+        if ($title !== '') {
+            return $title;
+        }
+
+        $address = trim($validated['address'] ?? '');
+        $city = trim($validated['city'] ?? '');
+        $state = trim($validated['state'] ?? '');
+
+        $parts = array_filter([$address, trim(implode(', ', array_filter([$city, $state])))]);
+        $fallback = implode(' — ', $parts);
+
+        return $fallback !== '' ? $fallback : 'New listing';
     }
 
     /**
@@ -619,7 +642,7 @@ class PropertyController extends Controller
         $coordinates = GeocodingService::geocode(
             $request->address,
             $request->city,
-            $request->state ?? 'Oklahoma',
+            $request->state ?? '',
             $request->zip_code ?? ''
         );
 
@@ -634,6 +657,38 @@ class PropertyController extends Controller
         return response()->json([
             'success' => false,
             'message' => 'Could not geocode the address.',
+        ]);
+    }
+
+    /**
+     * Look up a property record via RentCast and return normalized fields
+     * the ListProperty.jsx form can auto-fill.
+     */
+    public function rentcastLookup(Request $request, RentCastService $rentcast)
+    {
+        $validated = $request->validate([
+            'address' => 'required|string|min:5|max:255',
+        ]);
+
+        if (!$rentcast->isConfigured()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Address lookup is not configured on this server.',
+            ], 503);
+        }
+
+        $record = $rentcast->lookupByAddress($validated['address']);
+
+        if (!$record) {
+            return response()->json([
+                'success' => false,
+                'message' => "We couldn't find a record for that address. Try a more specific address or enter the details manually.",
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $record,
         ]);
     }
 

@@ -12,7 +12,7 @@ export default function EditUser({ user }) {
         phone: user.phone || '',
         address: user.address || '',
         city: user.city || '',
-        state: user.state || 'Oklahoma',
+        state: user.state || '',
         zip_code: user.zip_code || '',
         is_active: user.is_active ?? true,
     });
