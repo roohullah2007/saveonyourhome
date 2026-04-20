@@ -11,6 +11,7 @@ import {
     X,
     Calendar,
     Clock,
+    ArrowLeft,
 } from 'lucide-react';
 
 export default function UserDashboardLayout({ children, title }) {
@@ -96,7 +97,14 @@ export default function UserDashboardLayout({ children, title }) {
                         ))}
                     </nav>
 
-                    <div className="p-3 border-t border-gray-100">
+                    <div className="p-3 border-t border-gray-100 space-y-1">
+                        <Link
+                            href="/"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 transition-all duration-200"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                            <span className="font-medium text-sm">Back to site</span>
+                        </Link>
                         <Link
                             href={route('logout')}
                             method="post"
