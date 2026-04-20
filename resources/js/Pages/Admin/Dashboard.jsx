@@ -13,7 +13,6 @@ import {
     Star,
     ArrowRight,
     Mail,
-    Upload
 } from 'lucide-react';
 
 export default function Dashboard({
@@ -82,13 +81,6 @@ export default function Dashboard({
             color: 'bg-pink-500',
             href: '#',
         },
-        ...(importStats && importStats.total_imported > 0 ? [{
-            label: 'FSBO Imports',
-            value: `${importStats.total_claimed}/${importStats.total_imported}`,
-            icon: Upload,
-            color: 'bg-rose-500',
-            href: route('admin.imports.index'),
-        }] : []),
     ];
 
     const getStatusBadge = (status) => {

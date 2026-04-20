@@ -11,12 +11,9 @@ use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminSettingsController;
 use App\Http\Controllers\Admin\AdminActivityController;
 use App\Http\Controllers\Admin\AdminMediaOrderController;
-use App\Http\Controllers\Admin\AdminCompanyLogoController;
 use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminPartnerController;
 use App\Http\Controllers\Admin\AdminTaxonomyController;
-use App\Http\Controllers\Admin\AdminImportController;
-use App\Http\Controllers\Admin\AdminServiceRequestController;
 use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\BuyerInquiryController;
 use App\Http\Controllers\ContactController;
@@ -463,13 +460,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/settings/{setting}', [AdminSettingsController::class, 'destroy'])->name('settings.destroy');
     Route::post('/settings/initialize', [AdminSettingsController::class, 'initializeDefaults'])->name('settings.initialize');
 
-    // Company Logos Management
-    Route::get('/company-logos', [AdminCompanyLogoController::class, 'index'])->name('company-logos.index');
-    Route::post('/company-logos', [AdminCompanyLogoController::class, 'store'])->name('company-logos.store');
-    Route::put('/company-logos/{companyLogo}', [AdminCompanyLogoController::class, 'update'])->name('company-logos.update');
-    Route::delete('/company-logos/{companyLogo}', [AdminCompanyLogoController::class, 'destroy'])->name('company-logos.destroy');
-    Route::post('/company-logos/reorder', [AdminCompanyLogoController::class, 'reorder'])->name('company-logos.reorder');
-
     // Resources Management
     Route::get('/resources', [AdminResourceController::class, 'index'])->name('resources.index');
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
@@ -502,28 +492,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/partners/{partner}/approve', [AdminPartnerController::class, 'approve'])->name('partners.approve');
     Route::post('/partners/{partner}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
     Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
-
-    // Imports Management
-    Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');
-    Route::get('/imports/create', [AdminImportController::class, 'create'])->name('imports.create');
-    Route::post('/imports/preview', [AdminImportController::class, 'preview'])->name('imports.preview');
-    Route::get('/imports/search-zillow', [AdminImportController::class, 'searchZillow'])->name('imports.search-zillow');
-    Route::post('/imports/store-api', [AdminImportController::class, 'storeFromApi'])->name('imports.store-api');
-    Route::get('/imports/csv-template', [AdminImportController::class, 'downloadCsvTemplate'])->name('imports.csv-template');
-    Route::post('/imports', [AdminImportController::class, 'store'])->name('imports.store');
-    Route::get('/imports/{batch}', [AdminImportController::class, 'show'])->name('imports.show');
-    Route::post('/imports/{batch}/extend', [AdminImportController::class, 'extendExpiration'])->name('imports.extend');
-    Route::delete('/imports/{batch}', [AdminImportController::class, 'destroy'])->name('imports.destroy');
-    Route::delete('/imports/property/{property}', [AdminImportController::class, 'destroyProperty'])->name('imports.destroy-property');
-    Route::get('/imports/{batch}/letters', [AdminImportController::class, 'generateBatchLetters'])->name('imports.batch-letters');
-    Route::get('/imports/property/{property}/letter', [AdminImportController::class, 'generateLetter'])->name('imports.letter');
-    Route::get('/imports/property/{property}/qr-code', [AdminImportController::class, 'generateQrCode'])->name('imports.qr-code');
-    Route::post('/imports/{batch}/refetch-images', [AdminImportController::class, 'refetchImages'])->name('imports.refetch-images');
-
-    // Service Requests Management
-    Route::get('/service-requests', [AdminServiceRequestController::class, 'index'])->name('service-requests.index');
-    Route::put('/service-requests/{serviceRequest}/status', [AdminServiceRequestController::class, 'updateStatus'])->name('service-requests.update-status');
-    Route::put('/service-requests/{serviceRequest}/note', [AdminServiceRequestController::class, 'addNote'])->name('service-requests.add-note');
 
     // Media Orders Management
     Route::get('/media-orders', [AdminMediaOrderController::class, 'index'])->name('media-orders.index');
