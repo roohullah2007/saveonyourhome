@@ -117,8 +117,8 @@ const LocationMapPicker = ({
     // is rejected at runtime.
     useEffect(() => onMapsAuthFailure(() => setAuthFailed(true)), []);
 
-    const defaultLat = 35.5;
-    const defaultLng = -97.5;
+    const defaultLat = 40.0583;
+    const defaultLng = -74.4057;
     const defaultZoom = 7;
     const addressZoom = 16;
 
@@ -552,7 +552,7 @@ const LocationMapPicker = ({
                         onChange={(e) => setLatInput(e.target.value)}
                         onBlur={handleManualCoordChange}
                         onKeyDown={handleCoordKeyDown}
-                        placeholder="e.g., 35.4676"
+                        placeholder="e.g., 40.0583"
                         className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     />
                 </div>
@@ -564,7 +564,7 @@ const LocationMapPicker = ({
                         onChange={(e) => setLngInput(e.target.value)}
                         onBlur={handleManualCoordChange}
                         onKeyDown={handleCoordKeyDown}
-                        placeholder="e.g., -97.5164"
+                        placeholder="e.g., -74.4057"
                         className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     />
                 </div>
