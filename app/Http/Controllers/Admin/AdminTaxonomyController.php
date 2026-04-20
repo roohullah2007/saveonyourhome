@@ -16,7 +16,6 @@ class AdminTaxonomyController extends Controller
         TaxonomyTerm::TYPE_TRANSACTION_TYPE => ['label' => 'Transaction Types', 'singular' => 'Transaction Type'],
         TaxonomyTerm::TYPE_LISTING_LABEL => ['label' => 'Special Notices', 'singular' => 'Special Notice'],
         TaxonomyTerm::TYPE_LISTING_STATUS => ['label' => 'Listing Statuses', 'singular' => 'Listing Status'],
-        TaxonomyTerm::TYPE_AMENITY_CATEGORY => ['label' => 'Amenities', 'singular' => 'Amenity Category'],
     ];
 
     public function index()
@@ -34,25 +33,35 @@ class AdminTaxonomyController extends Controller
             $grouped[$type] = $terms[$type] ?? [];
         }
 
-        // Amenity items are edited inline under their category, so ship them as a
-        // nested structure: [{ category: {..}, items: [...] }].
-        $amenityItems = TaxonomyTerm::query()
+        return Inertia::render('Admin/Taxonomies/Index', [
+            'groups' => $grouped,
+            'typeMeta' => self::TYPE_META,
+        ]);
+    }
+
+    /**
+     * Dedicated page for the amenity catalog — richer UX than cramming it into
+     * the generic taxonomies tab-list since amenities are hierarchical.
+     */
+    public function amenities()
+    {
+        $categories = TaxonomyTerm::query()
+            ->where('type', TaxonomyTerm::TYPE_AMENITY_CATEGORY)
+            ->orderBy('sort_order')->orderBy('label')
+            ->get();
+
+        $items = TaxonomyTerm::query()
             ->where('type', TaxonomyTerm::TYPE_AMENITY)
             ->orderBy('sort_order')->orderBy('label')
             ->get()
             ->groupBy('parent_id');
 
-        $amenityTree = collect($grouped[TaxonomyTerm::TYPE_AMENITY_CATEGORY] ?? [])
-            ->map(fn ($cat) => [
-                'category' => $cat,
-                'items' => ($amenityItems->get($cat['id']) ?? collect())->values()->all(),
-            ])
-            ->values()
-            ->all();
+        $amenityTree = $categories->map(fn ($cat) => [
+            'category' => $cat,
+            'items' => ($items->get($cat->id) ?? collect())->values()->all(),
+        ])->values()->all();
 
-        return Inertia::render('Admin/Taxonomies/Index', [
-            'groups' => $grouped,
-            'typeMeta' => self::TYPE_META,
+        return Inertia::render('Admin/Amenities/Index', [
             'amenityTree' => $amenityTree,
         ]);
     }

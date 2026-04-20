@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Head, router, useForm } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Plus, Edit2, Trash2, Check, X, GripVertical, ArrowUp, ArrowDown, Tags, Eye, EyeOff, ChevronDown } from 'lucide-react';
+import { Plus, Edit2, Trash2, Check, X, GripVertical, ArrowUp, ArrowDown, Tags, Eye, EyeOff } from 'lucide-react';
 
 function Row({ term, onEdit, onDelete, onToggle, onMove, isFirst, isLast }) {
   return (
@@ -13,9 +13,7 @@ function Row({ term, onEdit, onDelete, onToggle, onMove, isFirst, isLast }) {
       <GripVertical className="w-4 h-4 text-gray-300" />
       <div className="flex-1 min-w-0">
         <div className="font-semibold text-gray-900 text-sm truncate">{term.label}</div>
-        <div className="text-xs font-mono text-gray-400 truncate">
-          {term.key}{term.sub_label ? <span className="ml-2 inline-flex items-center rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-semibold text-gray-600">{term.sub_label}</span> : null}
-        </div>
+        <div className="text-xs font-mono text-gray-400 truncate">{term.key}</div>
       </div>
       <button
         onClick={() => onToggle(!term.is_active)}
@@ -30,14 +28,12 @@ function Row({ term, onEdit, onDelete, onToggle, onMove, isFirst, isLast }) {
   );
 }
 
-function TermModal({ open, type, parentId, term, onClose, showSubLabel }) {
+function TermModal({ open, type, term, onClose }) {
   const editing = !!term;
   const form = useForm({
     type,
-    parent_id: term?.parent_id ?? parentId ?? null,
     key: term?.key || '',
     label: term?.label || '',
-    sub_label: term?.sub_label || '',
     is_active: term?.is_active ?? true,
     sort_order: term?.sort_order ?? null,
   });
@@ -46,16 +42,14 @@ function TermModal({ open, type, parentId, term, onClose, showSubLabel }) {
     if (open) {
       form.setData({
         type,
-        parent_id: term?.parent_id ?? parentId ?? null,
         key: term?.key || '',
         label: term?.label || '',
-        sub_label: term?.sub_label || '',
         is_active: term?.is_active ?? true,
         sort_order: term?.sort_order ?? null,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, term, parentId, type]);
+  }, [open, term]);
 
   if (!open) return null;
 
@@ -70,7 +64,7 @@ function TermModal({ open, type, parentId, term, onClose, showSubLabel }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
       <form onSubmit={submit} className="bg-white rounded-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <h2 className="text-lg font-bold">{editing ? 'Edit' : 'Add'}</h2>
+          <h2 className="text-lg font-bold">{editing ? 'Edit term' : 'Add term'}</h2>
           <button type="button" onClick={onClose} className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-5 space-y-4">
@@ -82,37 +76,24 @@ function TermModal({ open, type, parentId, term, onClose, showSubLabel }) {
               value={form.data.label}
               onChange={(e) => form.setData('label', e.target.value)}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#3355FF] focus:ring-2 focus:ring-[#3355FF]/20"
+              placeholder="e.g. Single Family Home"
             />
             {form.errors.label && <p className="text-xs text-red-600 mt-1">{form.errors.label}</p>}
           </div>
           <div>
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-              Key {editing ? '' : <span className="normal-case font-normal text-[10px] text-gray-400">(optional — auto-generated from label)</span>}
+              Key {editing ? '' : <span className="normal-case font-normal text-[10px] text-gray-400">(optional — auto-generated from label if blank)</span>}
             </label>
             <input
               type="text"
               value={form.data.key}
               onChange={(e) => form.setData('key', e.target.value.replace(/[^a-z0-9_-]/gi, '-').toLowerCase())}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-mono focus:border-[#3355FF] focus:ring-2 focus:ring-[#3355FF]/20"
+              placeholder="single-family-home"
             />
-            <p className="text-[11px] text-gray-500 mt-1">Changing the key after use may orphan existing listings.</p>
+            <p className="text-[11px] text-gray-500 mt-1">Changing the key after use may orphan existing listings — rename cautiously.</p>
             {form.errors.key && <p className="text-xs text-red-600 mt-1">{form.errors.key}</p>}
           </div>
-          {showSubLabel && (
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                Sub-group label <span className="normal-case font-normal text-[10px] text-gray-400">(optional — e.g. Appliances, Cabinetry)</span>
-              </label>
-              <input
-                type="text"
-                value={form.data.sub_label || ''}
-                onChange={(e) => form.setData('sub_label', e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#3355FF] focus:ring-2 focus:ring-[#3355FF]/20"
-                placeholder="Appliances"
-              />
-              <p className="text-[11px] text-gray-500 mt-1">Items with the same sub-group label render under a shared heading on listing forms.</p>
-            </div>
-          )}
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} />
             <span>Active (show on public + seller forms)</span>
@@ -129,112 +110,32 @@ function TermModal({ open, type, parentId, term, onClose, showSubLabel }) {
   );
 }
 
-function AmenityGroup({ group, onAddItem, onEditCategory, onEditItem, onDeleteCategory, onDeleteItem, onToggle, onMoveCategory, onMoveItem, isFirstCat, isLastCat }) {
-  const [open, setOpen] = useState(true);
-  const category = group.category;
-  const items = group.items || [];
-  const activeCount = items.filter((i) => i.is_active).length;
-
-  return (
-    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-      <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 border-b border-gray-200">
-        <div className="flex flex-col text-gray-400">
-          <button type="button" onClick={() => onMoveCategory(-1)} disabled={isFirstCat} className="hover:text-gray-700 disabled:opacity-30 h-4"><ArrowUp className="w-3 h-3" /></button>
-          <button type="button" onClick={() => onMoveCategory(1)} disabled={isLastCat} className="hover:text-gray-700 disabled:opacity-30 h-4"><ArrowDown className="w-3 h-3" /></button>
-        </div>
-        <button type="button" onClick={() => setOpen((v) => !v)} className="flex-1 flex items-center gap-2 text-left">
-          <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${open ? '' : '-rotate-90'}`} />
-          <span className="font-semibold text-gray-900">{category.label}</span>
-          <span className="text-xs text-gray-500">{activeCount} / {items.length}</span>
-          {!category.is_active && <span className="text-xs text-gray-400">(hidden)</span>}
-        </button>
-        <button onClick={() => onToggle(category, !category.is_active)} className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${category.is_active ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-100'}`}>
-          {category.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-        </button>
-        <button onClick={onEditCategory} className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-600"><Edit2 className="w-4 h-4" /></button>
-        <button onClick={onDeleteCategory} className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
-      </div>
-      {open && (
-        <div className="p-3 space-y-2">
-          {items.length === 0 && <p className="text-sm text-gray-500 px-2 py-4">No items yet.</p>}
-          {items.map((item, i) => (
-            <Row
-              key={item.id}
-              term={item}
-              isFirst={i === 0}
-              isLast={i === items.length - 1}
-              onEdit={() => onEditItem(item)}
-              onDelete={() => onDeleteItem(item)}
-              onToggle={(v) => onToggle(item, v)}
-              onMove={(dir) => onMoveItem(item, dir, items)}
-            />
-          ))}
-          <button onClick={onAddItem} className="inline-flex items-center gap-2 text-sm text-[#3355FF] font-semibold px-2 py-1.5 hover:bg-blue-50 rounded-lg">
-            <Plus className="w-4 h-4" /> Add item
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default function TaxonomiesIndex({ groups = {}, typeMeta = {}, amenityTree = [] }) {
+export default function TaxonomiesIndex({ groups = {}, typeMeta = {} }) {
   const types = Object.keys(typeMeta);
   const [tab, setTab] = useState(types[0]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState(null);
-  const [modalParentId, setModalParentId] = useState(null);
   const [editingTerm, setEditingTerm] = useState(null);
-  const [modalShowSubLabel, setModalShowSubLabel] = useState(false);
 
-  const openAddCategory = () => {
-    setModalType('amenity_category');
-    setModalParentId(null);
-    setEditingTerm(null);
-    setModalShowSubLabel(false);
-    setModalOpen(true);
-  };
-  const openAddItem = (parentId) => {
-    setModalType('amenity');
-    setModalParentId(parentId);
-    setEditingTerm(null);
-    setModalShowSubLabel(true);
-    setModalOpen(true);
-  };
-  const openEdit = (term) => {
-    setModalType(term.type);
-    setModalParentId(term.parent_id ?? null);
-    setEditingTerm(term);
-    setModalShowSubLabel(term.type === 'amenity');
-    setModalOpen(true);
-  };
-  const openAddSimple = () => {
-    setModalType(tab);
-    setModalParentId(null);
-    setEditingTerm(null);
-    setModalShowSubLabel(false);
-    setModalOpen(true);
-  };
+  const openAdd = () => { setEditingTerm(null); setModalOpen(true); };
+  const openEdit = (term) => { setEditingTerm(term); setModalOpen(true); };
 
   const toggleActive = (term, value) => {
     router.put(route('admin.taxonomies.update', term.id), {
       type: term.type,
-      parent_id: term.parent_id ?? null,
       label: term.label,
       key: term.key,
-      sub_label: term.sub_label ?? null,
       is_active: value,
       sort_order: term.sort_order,
     }, { preserveScroll: true });
   };
 
-  const deleteTerm = (term, extraWarning = '') => {
-    if (!confirm(`Remove "${term.label}"? ${extraWarning}`)) return;
+  const deleteTerm = (term) => {
+    if (!confirm(`Remove "${term.label}"? Existing listings using this value will still show the raw key on their records.`)) return;
     router.delete(route('admin.taxonomies.destroy', term.id), { preserveScroll: true });
   };
 
-  const move = (term, direction, siblings) => {
-    const list = [...siblings];
+  const move = (term, direction) => {
+    const list = [...(groups[term.type] || [])];
     const idx = list.findIndex((t) => t.id === term.id);
     if (idx < 0) return;
     const swap = idx + direction;
@@ -243,13 +144,6 @@ export default function TaxonomiesIndex({ groups = {}, typeMeta = {}, amenityTre
     const ids = list.map((t) => t.id);
     router.post(route('admin.taxonomies.reorder'), { type: term.type, ids }, { preserveScroll: true });
   };
-
-  const moveFlat = (term, direction) => {
-    const list = [...(groups[term.type] || [])];
-    move(term, direction, list);
-  };
-
-  const isAmenityTab = tab === 'amenity_category';
 
   return (
     <>
@@ -260,101 +154,58 @@ export default function TaxonomiesIndex({ groups = {}, typeMeta = {}, amenityTre
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
               <Tags className="w-6 h-6 text-[#3355FF]" /> Taxonomies
             </h1>
-            <p className="text-gray-500 text-sm mt-1">Manage the default options sellers see when listing a property — types, special notices, statuses, and the amenity catalog.</p>
+            <p className="text-gray-500 text-sm mt-1">Manage the dropdown options sellers see when listing a property — property types, transaction types, special notices, and listing statuses. Amenities live on their own page.</p>
           </div>
-          {isAmenityTab ? (
-            <button onClick={openAddCategory} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
-              <Plus className="w-4 h-4" /> Add Category
-            </button>
-          ) : (
-            <button onClick={openAddSimple} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
-              <Plus className="w-4 h-4" /> Add {typeMeta[tab]?.singular}
-            </button>
-          )}
+          <button onClick={openAdd} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
+            <Plus className="w-4 h-4" /> Add {typeMeta[tab]?.singular}
+          </button>
         </div>
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-2 mb-5">
-          {types.map((t) => {
-            const count = t === 'amenity_category'
-              ? (groups[t] || []).length
-              : (groups[t] || []).length;
-            return (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${tab === t ? 'bg-[#1a1816] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
-              >
-                {typeMeta[t].label} <span className="opacity-70">({count})</span>
-              </button>
-            );
-          })}
+          {types.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${tab === t ? 'bg-[#1a1816] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+            >
+              {typeMeta[t].label} <span className="opacity-70">({(groups[t] || []).length})</span>
+            </button>
+          ))}
         </div>
 
-        {/* Amenities view — nested */}
-        {isAmenityTab ? (
-          <div className="space-y-3">
-            {amenityTree.length === 0 ? (
-              <div className="rounded-xl bg-white border border-gray-200 p-4 py-10 text-center text-gray-500">
-                <p className="mb-3">No amenity categories yet.</p>
-                <button onClick={openAddCategory} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
-                  <Plus className="w-4 h-4" /> Add the first category
-                </button>
-              </div>
-            ) : (
-              amenityTree.map((group, ci) => (
-                <AmenityGroup
-                  key={group.category.id}
-                  group={group}
-                  isFirstCat={ci === 0}
-                  isLastCat={ci === amenityTree.length - 1}
-                  onAddItem={() => openAddItem(group.category.id)}
-                  onEditCategory={() => openEdit(group.category)}
-                  onEditItem={(item) => openEdit(item)}
-                  onDeleteCategory={() => deleteTerm(group.category, 'All items in this category will also be removed.')}
-                  onDeleteItem={(item) => deleteTerm(item)}
-                  onToggle={(term, value) => toggleActive(term, value)}
-                  onMoveCategory={(dir) => moveFlat(group.category, dir)}
-                  onMoveItem={(item, dir, list) => move(item, dir, list)}
+        {/* Active list */}
+        <div className="rounded-xl bg-white border border-gray-200 p-4">
+          {(groups[tab] || []).length === 0 ? (
+            <div className="py-10 text-center text-gray-500">
+              <p className="mb-3">No {typeMeta[tab].label.toLowerCase()} yet.</p>
+              <button onClick={openAdd} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
+                <Plus className="w-4 h-4" /> Add the first one
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {(groups[tab] || []).map((term, i, arr) => (
+                <Row
+                  key={term.id}
+                  term={term}
+                  isFirst={i === 0}
+                  isLast={i === arr.length - 1}
+                  onEdit={() => openEdit(term)}
+                  onDelete={() => deleteTerm(term)}
+                  onToggle={(v) => toggleActive(term, v)}
+                  onMove={(dir) => move(term, dir)}
                 />
-              ))
-            )}
-          </div>
-        ) : (
-          <div className="rounded-xl bg-white border border-gray-200 p-4">
-            {(groups[tab] || []).length === 0 ? (
-              <div className="py-10 text-center text-gray-500">
-                <p className="mb-3">No {typeMeta[tab].label.toLowerCase()} yet.</p>
-                <button onClick={openAddSimple} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90">
-                  <Plus className="w-4 h-4" /> Add the first one
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {(groups[tab] || []).map((term, i, arr) => (
-                  <Row
-                    key={term.id}
-                    term={term}
-                    isFirst={i === 0}
-                    isLast={i === arr.length - 1}
-                    onEdit={() => openEdit(term)}
-                    onDelete={() => deleteTerm(term, 'Existing listings using this value will still show the raw key on their records.')}
-                    onToggle={(v) => toggleActive(term, v)}
-                    onMove={(dir) => moveFlat(term, dir)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <TermModal
         open={modalOpen}
-        type={modalType}
-        parentId={modalParentId}
+        type={tab}
         term={editingTerm}
-        showSubLabel={modalShowSubLabel}
         onClose={() => setModalOpen(false)}
       />
     </>

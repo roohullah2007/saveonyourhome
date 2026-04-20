@@ -483,6 +483,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/taxonomies/{term}', [AdminTaxonomyController::class, 'destroy'])->name('taxonomies.destroy');
     Route::post('/taxonomies/reorder', [AdminTaxonomyController::class, 'reorder'])->name('taxonomies.reorder');
 
+    // Amenities (dedicated page — shares store / update / destroy / reorder with taxonomies)
+    Route::get('/amenities', [AdminTaxonomyController::class, 'amenities'])->name('amenities.index');
+
     // Partners Management
     Route::get('/partners', [AdminPartnerController::class, 'index'])->name('partners.index');
     Route::post('/partners', [AdminPartnerController::class, 'store'])->name('partners.store');
