@@ -153,6 +153,7 @@ function TermModal({ open, mode, category, term, onClose }) {
 
 export default function AmenitiesIndex({ amenityTree = [] }) {
     const [query, setQuery] = useState('');
+    const [tab, setTab] = useState('all'); // 'all' | category id
     const [openIds, setOpenIds] = useState(() => amenityTree.map((g) => g.category.id));
     const [modalOpen, setModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState(null); // 'category' | 'item'
@@ -162,10 +163,21 @@ export default function AmenitiesIndex({ amenityTree = [] }) {
     const toggle = (id) =>
         setOpenIds((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
 
+    // When admin clicks a specific category tab, auto-expand that card so items show immediately.
+    React.useEffect(() => {
+        if (tab !== 'all' && !openIds.includes(tab)) {
+            setOpenIds((prev) => [...prev, tab]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tab]);
+
     const filteredTree = useMemo(() => {
         const q = query.trim().toLowerCase();
-        if (!q) return amenityTree;
-        return amenityTree
+        const scoped = tab === 'all'
+            ? amenityTree
+            : amenityTree.filter((g) => g.category.id === tab);
+        if (!q) return scoped;
+        return scoped
             .map((g) => {
                 const cat = g.category;
                 const catMatch = cat.label.toLowerCase().includes(q);
@@ -177,7 +189,7 @@ export default function AmenitiesIndex({ amenityTree = [] }) {
                 return null;
             })
             .filter(Boolean);
-    }, [amenityTree, query]);
+    }, [amenityTree, query, tab]);
 
     const openAddCategory = () => {
         setModalMode('category');
@@ -254,6 +266,26 @@ export default function AmenitiesIndex({ amenityTree = [] }) {
                     <button onClick={openAddCategory} className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-4 py-2 rounded-lg hover:opacity-90 font-semibold">
                         <Plus className="w-4 h-4" /> Add Category
                     </button>
+                </div>
+
+                {/* Category tabs */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <button
+                        onClick={() => setTab('all')}
+                        className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${tab === 'all' ? 'bg-[#1a1816] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                    >
+                        All <span className="opacity-70">({amenityTree.reduce((n, g) => n + (g.items?.length || 0), 0)})</span>
+                    </button>
+                    {amenityTree.map((g) => (
+                        <button
+                            key={g.category.id}
+                            onClick={() => setTab(g.category.id)}
+                            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${tab === g.category.id ? 'bg-[#1a1816] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'} ${!g.category.is_active ? 'opacity-60' : ''}`}
+                            title={g.category.is_active ? '' : 'Hidden from seller forms'}
+                        >
+                            {g.category.label} <span className="opacity-70">({(g.items || []).length})</span>
+                        </button>
+                    ))}
                 </div>
 
                 {/* Search */}
