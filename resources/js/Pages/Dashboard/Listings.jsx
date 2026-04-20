@@ -50,6 +50,9 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
     const [showUpgradeModal, setShowUpgradeModal] = useState(false);
     const [upgradeListing, setUpgradeListing] = useState(null);
 
+    // Yard sign sample preview modal
+    const [showYardSignSample, setShowYardSignSample] = useState(false);
+
     const orderForm = useForm({
         service_type: '',
         shipping_name: '',
@@ -361,15 +364,25 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(listingUrl)}`;
                                                 const partnerUrl = `https://humanitysource.org/product/dave-on-your-house-yard-sign-24-x-18-inch-double-sided-print-h-stake-included/?qrcode=${encodeURIComponent(qrImageUrl)}`;
                                                 return (
-                                                    <a
-                                                        href={partnerUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-                                                    >
-                                                        <Package className="w-3.5 h-3.5" />
-                                                        Order Yard Sign
-                                                    </a>
+                                                    <>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setShowYardSignSample(true)}
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-200 hover:bg-emerald-50 rounded-lg transition-colors"
+                                                        >
+                                                            <Eye className="w-3.5 h-3.5" />
+                                                            See sample
+                                                        </button>
+                                                        <a
+                                                            href={partnerUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                                                        >
+                                                            <Package className="w-3.5 h-3.5" />
+                                                            Order Yard Sign
+                                                        </a>
+                                                    </>
                                                 );
                                             })()}
                                             <Link
@@ -457,6 +470,50 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
                             >
                                 {deleting ? 'Deleting...' : 'Delete'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Yard Sign Sample Preview Modal */}
+            {showYardSignSample && (
+                <div
+                    className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
+                    onClick={() => setShowYardSignSample(false)}
+                >
+                    <div
+                        className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">Yard Sign Sample</h3>
+                                <p className="text-xs text-gray-500 mt-0.5">This is what the printed SaveOnYourHome yard sign looks like.</p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowYardSignSample(false)}
+                                className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                                aria-label="Close"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="bg-gray-50 p-4">
+                            <img
+                                src="/images/SOYH%20Yard%20Sign.jpeg"
+                                alt="SaveOnYourHome yard sign sample"
+                                className="w-full h-auto rounded-xl object-contain max-h-[70vh] bg-white"
+                            />
+                        </div>
+                        <div className="px-5 py-4 border-t border-gray-100 flex justify-end">
+                            <button
+                                type="button"
+                                onClick={() => setShowYardSignSample(false)}
+                                className="px-4 py-2 rounded-lg bg-[#1A1816] text-white text-sm font-semibold hover:opacity-90"
+                            >
+                                Close
                             </button>
                         </div>
                     </div>
