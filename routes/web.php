@@ -293,6 +293,9 @@ Route::post('/showings/cancel/{token}', [PropertyShowingController::class, 'canc
 // Buyer inquiry submission route (public)
 Route::post('/buyer-inquiry', [BuyerInquiryController::class, 'store'])->name('buyer-inquiry.store');
 
+// Public token-signed link to turn off alerts for a saved search (from alert emails).
+Route::get('/saved-searches/{savedSearch}/unsubscribe', [\App\Http\Controllers\SavedSearchController::class, 'unsubscribe'])->name('saved-searches.unsubscribe');
+
 // Contact form submission route (public)
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
@@ -343,6 +346,7 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard')->group(funct
     // Saved Searches
     Route::get('/saved-searches', [\App\Http\Controllers\SavedSearchController::class, 'index'])->name('.saved-searches');
     Route::post('/saved-searches', [\App\Http\Controllers\SavedSearchController::class, 'store'])->name('.saved-searches.store');
+    Route::put('/saved-searches/{savedSearch}', [\App\Http\Controllers\SavedSearchController::class, 'update'])->name('.saved-searches.update');
     Route::delete('/saved-searches/{savedSearch}', [\App\Http\Controllers\SavedSearchController::class, 'destroy'])->name('.saved-searches.destroy');
 
     // Service Requests (Upgrades)

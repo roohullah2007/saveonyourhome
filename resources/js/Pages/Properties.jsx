@@ -672,9 +672,16 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                       if (!auth?.user) { setShowAuthModal(true); return; }
                       const name = window.prompt('Name this saved search:', `${searchParams.keyword || searchParams.city || 'My search'}`);
                       if (!name || !name.trim()) return;
+                      const wantAlerts = window.confirm('Email me when new listings match this search?\n\nClick OK to enable alerts, Cancel to save without alerts.');
                       try {
-                        await axios.post(route('dashboard.saved-searches.store'), { name: name.trim(), filters: searchParams });
-                        alert('Saved! Find it under Favorites → Saved Searches in your dashboard.');
+                        await axios.post(route('dashboard.saved-searches.store'), {
+                          name: name.trim(),
+                          filters: searchParams,
+                          alerts_enabled: wantAlerts,
+                        });
+                        alert(wantAlerts
+                          ? 'Saved! You\'ll get an email whenever a new listing matches. Manage under Saved Searches in your dashboard.'
+                          : 'Saved! Find it under Saved Searches in your dashboard.');
                       } catch (err) {
                         if (err?.response?.status === 401 || err?.response?.status === 419) setShowAuthModal(true);
                         else alert('Could not save. Please try again.');

@@ -360,7 +360,7 @@ function TermsOfUse() {
                   SAVEONYOURHOME
                 </p>
                 <p className="text-[17px] text-[#666]">
-                  Email: legal@saveonyourhome.com
+                  Email: info@saveonyourhome.com
                 </p>
               </div>
             </section>

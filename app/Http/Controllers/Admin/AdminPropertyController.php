@@ -367,6 +367,18 @@ class AdminPropertyController extends Controller
             EmailService::sendToUser($property->contact_email, new PropertyApproved($property));
         }
 
+        // Fire saved-search alerts. Runs synchronously but is deliberately
+        // wrapped in try/catch — a matching or mail failure must not block
+        // the approval flow.
+        try {
+            app(\App\Services\SavedSearchAlertDispatcher::class)->dispatchForProperty($property);
+        } catch (\Throwable $e) {
+            \Log::warning('Saved-search alert dispatch failed', [
+                'property_id' => $property->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         return back()->with('success', 'Property approved successfully.');
     }
 

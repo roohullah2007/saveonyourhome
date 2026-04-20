@@ -22,7 +22,14 @@ const Footer = () => {
       <div className="mx-auto px-4 sm:px-6 lg:px-[40px] py-12" style={{ maxWidth: 1400 }}>
         {/* Top: Tagline + Socials */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10 border-b border-white/10">
-          <div>
+          <div className="flex items-start gap-4">
+            <img
+              src="https://saveonyourhome.com/wp-content/uploads/2023/10/Transparent-file-character-01-01-1-min-1-1-960x1024.png"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="hidden sm:block h-28 md:h-36 w-auto flex-shrink-0 select-none pointer-events-none"
+            />
             <p className="text-[#DCD8D5] text-base leading-relaxed max-w-xl">
               Selling by owner doesn't mean you're on your own. Get your questions answered so you can move forward with certainty.
             </p>
@@ -30,7 +37,7 @@ const Footer = () => {
           <div className="flex md:justify-end items-center gap-4">
             <span className="text-white/60 text-sm">Connect with us</span>
             <a
-              href="https://www.facebook.com/SaveOnYourHome"
+              href="https://www.facebook.com/profile.php?id=61558568009788"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -41,7 +48,7 @@ const Footer = () => {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/SaveOnYourHome"
+              href="https://instagram.com/SaveOnYourHome"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"

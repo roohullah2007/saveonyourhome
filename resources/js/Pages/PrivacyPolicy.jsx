@@ -151,7 +151,7 @@ function PrivacyPolicy() {
                 className="text-[17px] text-[#666] leading-relaxed mb-4"
                
               >
-                You can opt out at any time by replying STOP to any message. After opting out, you will no longer receive text messages from us. Reply HELP for help or contact us at hello@saveonyourhome.com.
+                You can opt out at any time by replying STOP to any message. After opting out, you will no longer receive text messages from us. Reply HELP for help or contact us at info@saveonyourhome.com.
               </p>
               <p
                 className="text-[17px] text-[#666] leading-relaxed"
@@ -310,7 +310,7 @@ function PrivacyPolicy() {
                   SAVEONYOURHOME
                 </p>
                 <p className="text-[17px] text-[#666]">
-                  Email: privacy@saveonyourhome.com
+                  Email: info@saveonyourhome.com
                 </p>
               </div>
             </section>

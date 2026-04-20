@@ -342,7 +342,7 @@
         </div>
 
         <div class="contact-info">
-            SaveOnYourHome.com &bull; hello@saveonyourhome.com
+            SaveOnYourHome.com &bull; info@saveonyourhome.com
         </div>
     </div>
 @endforeach
