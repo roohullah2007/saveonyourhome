@@ -12,8 +12,8 @@ function PrivacyPolicy() {
       />
 
       {/* Hero Section */}
-      <div className="relative pt-0 md:pt-[77px]">
-        <div className="bg-[#EEEDEA] py-16 md:py-20">
+      <div className="relative">
+        <div className="bg-[#EEEDEA] py-12 md:py-16">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
             <h1
               className="text-[44px] md:text-[61px] font-medium text-[#111] leading-tight"
@@ -311,12 +311,6 @@ function PrivacyPolicy() {
                 </p>
                 <p className="text-[17px] text-[#666]">
                   Email: privacy@saveonyourhome.com
-                </p>
-                <p className="text-[17px] text-[#666]">
-                  Phone: 888-441-6526
-                </p>
-                <p className="text-[17px] text-[#666]">
-                  Address: 1611 S Utica Ave #515, Tulsa, OK 74104
                 </p>
               </div>
             </section>

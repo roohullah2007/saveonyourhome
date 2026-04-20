@@ -548,53 +548,9 @@ function Packages({ userListings = [] }) {
         </div>
         <div className="p-6">
           <p className="text-[#666] mb-6">
-            Our professional photography services are available in the Tulsa and Oklahoma City metro areas.
-            Properties outside these areas may incur a travel fee (typically $25-$35).
+            Our professional photography services are available in select metro areas across the United States.
+            Properties outside current coverage may incur a small travel fee, which we'll confirm before booking.
           </p>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Tulsa Service Area */}
-            <div className="bg-[#EEEDEA] rounded-xl p-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4">
-                Tulsa Metro Area
-              </h4>
-              <div className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d206176.88985567698!2d-95.9927!3d36.154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1703561234567!5m2!1sen!2sus"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  className="rounded-lg"
-                ></iframe>
-              </div>
-              <p className="text-sm text-[#666]">
-                Coverage includes Tulsa and surrounding areas within approximately 30 miles.
-              </p>
-            </div>
-
-            {/* OKC Service Area */}
-            <div className="bg-[#EEEDEA] rounded-xl p-6">
-              <h4 className="text-lg font-medium text-[#111] mb-4">
-                Oklahoma City Metro Area
-              </h4>
-              <div className="aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d206546.71374804086!2d-97.5164!3d35.4676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1703561234567!5m2!1sen!2sus"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  className="rounded-lg"
-                ></iframe>
-              </div>
-              <p className="text-sm text-[#666]">
-                Coverage includes Oklahoma City and surrounding areas within approximately 30 miles.
-              </p>
-            </div>
-          </div>
 
           <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
             <div className="flex items-start gap-3">
@@ -1294,7 +1250,7 @@ function Packages({ userListings = [] }) {
                   Check Service Area
                 </p>
                 <p className="text-sm text-blue-700 mt-1">
-                  We service Tulsa and OKC metro areas.
+                  We service select metro areas across the United States.
                   <button
                     onClick={() => setShowServiceAreaModal(true)}
                     className="underline font-medium ml-1"

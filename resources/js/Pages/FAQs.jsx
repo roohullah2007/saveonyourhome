@@ -16,7 +16,7 @@ function FAQs() {
         { q: 'What is SaveOnYourHome?', a: 'SaveOnYourHome was created to simplify the sale of private residential properties. Our team is made up of experienced professionals who share a passion for technology and real estate. We empower FSBO sellers with comprehensive free tools while enhancing the buyer experience — making home buying and selling more accessible, transparent, and cost-effective for everyone.' },
         { q: 'How do I get started listing my property?', a: "Simply click on 'List Your Property' button, create a free account, and follow our step-by-step listing process. You'll add property details, upload photos, set your price, and your listing will be live within minutes." },
         { q: 'Do I need to be a licensed realtor?', a: "No, you don't need any license or real estate experience. SaveOnYourHome is specifically designed for homeowners who want to sell their property themselves. We provide all the guidance and tools you need." },
-        { q: 'What areas does SaveOnYourHome serve?', a: 'We serve all of Oklahoma, including major cities like Oklahoma City, Tulsa, Norman, Broken Arrow, Edmond, and all surrounding areas.' },
+        { q: 'What areas does SaveOnYourHome serve?', a: 'We serve homeowners and buyers nationwide. Sellers can list properties anywhere in the United States, and buyers can search across every metro area we cover.' },
       ],
     },
     {

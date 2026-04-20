@@ -48,7 +48,7 @@ function Sellers() {
   ];
 
   const testimonials = [
-    { name: 'Jessica & Mark', city: 'Tulsa, OK', text: 'We listed on SaveOnYourHome on a Monday and accepted an offer the following Sunday. We saved $18,400 in commissions.', savings: '$18,400 saved' },
+    { name: 'Jessica & Mark', city: 'Austin, TX', text: 'We listed on SaveOnYourHome on a Monday and accepted an offer the following Sunday. We saved $18,400 in commissions.', savings: '$18,400 saved' },
     { name: 'David L.', city: 'Raleigh, NC', text: 'The process was shockingly easy. The QR yard sign alone drove 40+ scans in the first weekend.', savings: '$22,750 saved' },
     { name: 'Priya & Sanjay', city: 'Brandon, FL', text: 'We handled showings on our terms. Our attorney reviewed the contract for $500 — that\'s it.', savings: '$14,900 saved' },
   ];
