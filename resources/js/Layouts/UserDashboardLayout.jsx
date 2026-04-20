@@ -12,6 +12,7 @@ import {
     Calendar,
     Clock,
     ArrowLeft,
+    Search,
 } from 'lucide-react';
 
 export default function UserDashboardLayout({ children, title }) {
@@ -26,7 +27,8 @@ export default function UserDashboardLayout({ children, title }) {
         { name: 'Messages', href: route('dashboard.messages'), icon: MessageSquare, current: route().current('dashboard.messages*'), badge: unreadMessages },
         { name: 'Showings', href: route('dashboard.showings'), icon: Calendar, current: route().current('dashboard.showings*') },
         { name: 'Availability', href: route('dashboard.availability'), icon: Clock, current: route().current('dashboard.availability*') },
-        { name: 'Saved Properties', href: route('dashboard.favorites'), icon: Heart, current: route().current('dashboard.favorites*') },
+        { name: 'Favorites', href: route('dashboard.favorites'), icon: Heart, current: route().current('dashboard.favorites*') },
+        { name: 'Saved Searches', href: route('dashboard.saved-searches'), icon: Search, current: route().current('dashboard.saved-searches*') },
         { name: 'Profile', href: route('profile.edit'), icon: User, current: route().current('profile.edit') },
     ];
 

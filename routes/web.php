@@ -340,6 +340,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
     Route::post('/favorites/{property}', [UserDashboardController::class, 'addFavorite'])->name('.favorites.add');
     Route::delete('/favorites/{property}', [UserDashboardController::class, 'removeFavorite'])->name('.favorites.remove');
 
+    // Saved Searches
+    Route::get('/saved-searches', [\App\Http\Controllers\SavedSearchController::class, 'index'])->name('.saved-searches');
+    Route::post('/saved-searches', [\App\Http\Controllers\SavedSearchController::class, 'store'])->name('.saved-searches.store');
+    Route::delete('/saved-searches/{savedSearch}', [\App\Http\Controllers\SavedSearchController::class, 'destroy'])->name('.saved-searches.destroy');
+
     // Service Requests (Upgrades)
     Route::get('/service-requests', [UserDashboardController::class, 'serviceRequests'])->name('.service-requests');
     Route::get('/listings/{property}/upgrade', [UserDashboardController::class, 'showUpgradeOptions'])->name('.listings.upgrade');

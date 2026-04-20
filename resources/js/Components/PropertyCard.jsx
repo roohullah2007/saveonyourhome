@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, router, usePage } from '@inertiajs/react';
+import axios from 'axios';
 import {
   Maximize2, Heart, Info, Video, Box, Calendar, X,
   MapPin, BedDouble, Bath, ArrowRight,
@@ -9,14 +10,15 @@ import {
 const NEW_LISTING_WINDOW_DAYS = 14;
 
 const PropertyCard = ({ property, onAuthRequired }) => {
-  const { auth } = usePage().props;
+  const { auth, favoritePropertyIds = [] } = usePage().props;
   const [isFavorite, setIsFavorite] = useState(() => {
-    if (typeof window !== 'undefined' && auth?.user) {
-      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      return favorites.includes(property.id);
-    }
-    return false;
+    // Prefer server-provided favorites for the logged-in user; fall back to
+    // the listing's own flag (some queries eager-load is_favorited).
+    if (!auth?.user) return false;
+    if (Array.isArray(favoritePropertyIds) && favoritePropertyIds.includes(property.id)) return true;
+    return !!property.is_favorited;
   });
+  const [favoritePending, setFavoritePending] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
   // Get the first photo or use placeholder
@@ -86,21 +88,30 @@ const PropertyCard = ({ property, onAuthRequired }) => {
     };
   }, [showPreview]);
 
-  const handleFavorite = (e) => {
+  const handleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!auth?.user) {
       if (onAuthRequired) onAuthRequired();
       return;
     }
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (isFavorite) {
-      localStorage.setItem('favorites', JSON.stringify(favorites.filter(id => id !== property.id)));
-      setIsFavorite(false);
-    } else {
-      favorites.push(property.id);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      setIsFavorite(true);
+    if (favoritePending) return;
+    const next = !isFavorite;
+    setFavoritePending(true);
+    setIsFavorite(next); // optimistic
+    try {
+      if (next) {
+        await axios.post(route('dashboard.favorites.add', property.id));
+      } else {
+        await axios.delete(route('dashboard.favorites.remove', property.id));
+      }
+    } catch (err) {
+      setIsFavorite(!next);
+      if ((err?.response?.status === 401 || err?.response?.status === 419) && onAuthRequired) {
+        onAuthRequired();
+      }
+    } finally {
+      setFavoritePending(false);
     }
   };
 

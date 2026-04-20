@@ -5,9 +5,11 @@ import {
   Phone, Mail, CheckCircle2, ChevronLeft, ChevronRight,
   Printer, Video, X, Images, Car, User, MapPinned, Check,
 } from 'lucide-react';
+import axios from 'axios';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
+import AuthModal from '@/Components/AuthModal';
 import NearbySection from '@/Components/Properties/NearbySection';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
@@ -218,18 +220,15 @@ function InquiryForm({ property, variant = 'compact' }) {
 }
 
 /* ---------- Main page ---------- */
-function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {}, auth = {} }) {
+function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {}, auth = {}, isFavorited = false }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [mainIndex, setMainIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      return favorites.includes(property.id);
-    }
-    return false;
-  });
+  const [isFavorite, setIsFavorite] = useState(!!isFavorited);
+  const [favoritePending, setFavoritePending] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState('register');
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
   const shareRef = useRef(null);
@@ -264,11 +263,36 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
     return () => window.removeEventListener('keydown', h);
   }, [showGalleryModal, photos.length]);
 
-  const handleFavorite = () => {
-    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const next = isFavorite ? favs.filter(id => id !== property.id) : [...favs, property.id];
-    localStorage.setItem('favorites', JSON.stringify(next));
-    setIsFavorite(!isFavorite);
+  const openAuth = (tab = 'register') => {
+    setAuthModalTab(tab);
+    setAuthModalOpen(true);
+  };
+
+  const handleFavorite = async () => {
+    if (!auth?.user) {
+      openAuth('register');
+      return;
+    }
+    if (favoritePending) return;
+    const nextState = !isFavorite;
+    setFavoritePending(true);
+    // Optimistic update so the heart responds instantly.
+    setIsFavorite(nextState);
+    try {
+      if (nextState) {
+        await axios.post(route('dashboard.favorites.add', property.id));
+      } else {
+        await axios.delete(route('dashboard.favorites.remove', property.id));
+      }
+    } catch (err) {
+      // Roll back if the server rejected the change.
+      setIsFavorite(!nextState);
+      if (err?.response?.status === 401 || err?.response?.status === 419) {
+        openAuth('login');
+      }
+    } finally {
+      setFavoritePending(false);
+    }
   };
 
   const copyLink = () => {
@@ -1016,18 +1040,20 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                       Save this listing, message the seller directly, and track your favorite homes — all free, no agent fees.
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      <Link
-                        href={route('register')}
+                      <button
+                        type="button"
+                        onClick={() => openAuth('register')}
                         className="inline-flex items-center justify-center rounded-full bg-white text-[#0F172A] text-sm font-bold px-5 py-2 hover:bg-white/90 transition-colors"
                       >
                         Create account
-                      </Link>
-                      <Link
-                        href={route('login')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openAuth('login')}
                         className="inline-flex items-center justify-center rounded-full border border-white/30 text-white text-sm font-semibold px-5 py-2 hover:bg-white/10 transition-colors"
                       >
                         Sign in
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 )}
@@ -1129,6 +1155,14 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
         property={property}
         open={showScheduleModal}
         onClose={() => setShowScheduleModal(false)}
+      />
+
+      {/* Sign-in / create-account modal (triggered from heart or the sidebar CTA) */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        intent="favorites"
+        initialTab={authModalTab}
       />
 
       {/* Gallery modal */}

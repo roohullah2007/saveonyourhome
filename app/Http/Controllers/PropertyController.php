@@ -307,6 +307,9 @@ class PropertyController extends Controller
             'property' => $property,
             'openHouses' => $property->upcomingOpenHouses()->get(),
             'similarListings' => $similarListings,
+            'isFavorited' => auth()->check()
+                ? auth()->user()->favorites()->where('properties.id', $property->id)->exists()
+                : false,
         ]);
     }
 

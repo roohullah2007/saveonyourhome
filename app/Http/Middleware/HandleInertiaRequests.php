@@ -69,6 +69,12 @@ class HandleInertiaRequests extends Middleware
             ],
             'googleMapsApiKey' => config('services.google.maps_api_key'),
             'companyLogos' => fn () => CompanyLogo::getActive(),
+            // Property ids the logged-in user has favorited — lets every
+            // PropertyCard render its heart in the correct state without
+            // an extra per-page query.
+            'favoritePropertyIds' => fn () => $request->user()
+                ? $request->user()->favorites()->pluck('properties.id')->all()
+                : [],
             'taxonomies' => fn () => [
                 'property_types' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_PROPERTY_TYPE),
                 'transaction_types' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_TRANSACTION_TYPE),

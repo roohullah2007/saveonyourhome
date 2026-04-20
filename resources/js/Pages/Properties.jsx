@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
-import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X } from 'lucide-react';
+import axios from 'axios';
+import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X, BookmarkPlus } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
@@ -658,6 +659,26 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                   {searchParams.status === 'all' ? 'All Listings' : searchParams.status === 'sold' ? 'Sold' : searchParams.status === 'pending' ? 'Pending' : 'All Listings'}
                 </h2>
                 <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!auth?.user) { setShowAuthModal(true); return; }
+                      const name = window.prompt('Name this saved search:', `${searchParams.keyword || searchParams.city || 'My search'}`);
+                      if (!name || !name.trim()) return;
+                      try {
+                        await axios.post(route('dashboard.saved-searches.store'), { name: name.trim(), filters: searchParams });
+                        alert('Saved! Find it under Favorites → Saved Searches in your dashboard.');
+                      } catch (err) {
+                        if (err?.response?.status === 401 || err?.response?.status === 419) setShowAuthModal(true);
+                        else alert('Could not save. Please try again.');
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-gray-300 px-3 py-1.5 text-xs font-semibold text-[#1a1816] hover:bg-gray-50"
+                    title="Save these filters to rerun later"
+                  >
+                    <BookmarkPlus className="w-3.5 h-3.5" />
+                    Save search
+                  </button>
                   <div className="relative flex items-center gap-1.5">
                     <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500 }}>Sort:</span>
                     <button

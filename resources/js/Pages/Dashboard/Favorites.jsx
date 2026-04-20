@@ -59,16 +59,16 @@ export default function Favorites({ favorites, filters = {} }) {
     };
 
     return (
-        <UserDashboardLayout title="Saved Properties">
-            <Head title="Saved Properties" />
+        <UserDashboardLayout title="Favorites">
+            <Head title="Favorites" />
 
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">
-                        Saved Properties
+                        Favorites
                     </h1>
-                    <p className="text-gray-500">{totalCount} properties saved</p>
+                    <p className="text-gray-500">{totalCount} properties favorited</p>
                 </div>
                 <Link
                     href="/properties"
@@ -86,7 +86,7 @@ export default function Favorites({ favorites, filters = {} }) {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search saved properties..."
+                            placeholder="Search favorites..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
@@ -121,7 +121,7 @@ export default function Favorites({ favorites, filters = {} }) {
             {favoritesData.length === 0 ? (
                 <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
                     <Heart className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No saved properties</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No favorites yet</h3>
                     <p className="text-gray-500 mb-6">
                         {search ? 'No properties match your search' : 'Start saving properties you\'re interested in'}
                     </p>
@@ -332,7 +332,7 @@ export default function Favorites({ favorites, filters = {} }) {
                     <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">Remove from Saved</h3>
                         <p className="text-gray-500 mb-6">
-                            Are you sure you want to remove <strong>{propertyToRemove?.property_title}</strong> from your saved properties?
+                            Are you sure you want to remove <strong>{propertyToRemove?.property_title}</strong> from your favorites?
                         </p>
                         <div className="flex justify-end gap-3">
                             <button
