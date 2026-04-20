@@ -19,8 +19,9 @@ function EbookModal({ open, ebook, onClose }) {
     description: ebook?.description || '',
     cover: null,
     file: null,
-    is_active: ebook?.is_active ?? true,
-    _method: editing ? 'POST' : 'POST', // POST in both cases (multipart-friendly)
+    // Use 1/0 so Laravel's `boolean` validator accepts the FormData-serialized value
+    // (multipart forms stringify "true"/"false" which the validator rejects).
+    is_active: (ebook?.is_active ?? true) ? 1 : 0,
   });
 
   React.useEffect(() => {
@@ -30,8 +31,7 @@ function EbookModal({ open, ebook, onClose }) {
       description: ebook?.description || '',
       cover: null,
       file: null,
-      is_active: ebook?.is_active ?? true,
-      _method: 'POST',
+      is_active: (ebook?.is_active ?? true) ? 1 : 0,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, ebook]);
@@ -121,7 +121,7 @@ function EbookModal({ open, ebook, onClose }) {
           </div>
 
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} />
+            <input type="checkbox" checked={!!form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked ? 1 : 0)} />
             <span>Active (visible on public page)</span>
           </label>
 
