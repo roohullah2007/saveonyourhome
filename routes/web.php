@@ -114,6 +114,10 @@ Route::get('/', function () {
 Route::get('/properties', [PropertyController::class, 'publicIndex'])->name('properties');
 Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
 
+// Listing detail widgets — "What's Nearby?" (Yelp) and Walkscore. Public; cached server-side.
+Route::get('/api/properties/{property}/nearby', [\App\Http\Controllers\PropertyNearbyController::class, 'nearby'])->name('properties.nearby');
+Route::get('/api/properties/{property}/walkscore', [\App\Http\Controllers\PropertyNearbyController::class, 'walkscore'])->name('properties.walkscore');
+
 // CSRF token refresh endpoint (for long-lived pages)
 Route::get('/csrf-token', function () {
     return response()->json(['token' => csrf_token()]);

@@ -8,6 +8,8 @@ import {
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
+import NearbySection from '@/Components/Properties/NearbySection';
+import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
 const propertyTypeLabels = {
@@ -862,6 +864,16 @@ function PropertyDetail({ property, openHouses = [], similarListings = [] }) {
                     })}
                   </div>
                 </div>
+              )}
+
+              {/* What's Nearby? (Yelp) */}
+              {property.latitude && property.longitude && (
+                <NearbySection propertyId={property.id} />
+              )}
+
+              {/* Walkscore */}
+              {property.latitude && property.longitude && (
+                <WalkscoreSection propertyId={property.id} />
               )}
 
               {/* Mortgage Calculator */}

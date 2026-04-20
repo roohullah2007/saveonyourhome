@@ -48,6 +48,14 @@ return [
         'images_host' => env('ZILLOW_IMAGES_API_HOST', 'zillow-com1.p.rapidapi.com'),
     ],
 
+    'yelp' => [
+        'api_key' => env('YELP_API_KEY'),
+    ],
+
+    'walkscore' => [
+        'api_key' => env('WALKSCORE_API_KEY'),
+    ],
+
     'bunnycdn' => [
         'hostname' => env('BUNNYCDN_HOSTNAME'),
         'username' => env('BUNNYCDN_USERNAME'),
