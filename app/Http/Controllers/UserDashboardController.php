@@ -394,9 +394,13 @@ class UserDashboardController extends Controller
             $q->where('user_id', $user->id)->orWhere('email', $user->email);
         };
 
+        // Load property with its owner so the frontend can show the seller's
+        // name/email/phone when the viewer is the buyer (Sent tab).
+        $propertyWith = ['property.user:id,name,email'];
+
         if ($tab === 'sent') {
             // All inquiries sent by this user
-            $query = Inquiry::where($userInquiryScope)->with('property');
+            $query = Inquiry::where($userInquiryScope)->with($propertyWith);
         } else {
             // "Received" tab:
             // - Seller: inquiries received on their properties
@@ -410,7 +414,7 @@ class UserDashboardController extends Controller
                 $q->orWhere(function($q2) use ($userInquiryScope) {
                     $q2->where($userInquiryScope)->whereNotNull('seller_reply');
                 });
-            })->with('property');
+            })->with($propertyWith);
         }
 
         // Search

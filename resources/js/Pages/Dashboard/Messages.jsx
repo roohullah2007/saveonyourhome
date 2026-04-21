@@ -33,6 +33,26 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
 
     const messagesData = messages?.data || messages || [];
 
+    // When the logged-in user was the one who SENT the inquiry, show the
+    // seller's identity at the top of the thread — not the buyer's own name.
+    const isBuyerView = (msg) => {
+        if (!msg) return false;
+        if (msg.user_id && msg.user_id === currentUser?.id) return true;
+        if (msg.email && currentUser?.email && msg.email === currentUser.email) return true;
+        return false;
+    };
+
+    const sellerNameOf = (msg) =>
+        msg?.property?.contact_name || msg?.property?.user?.name || 'Seller';
+    const sellerEmailOf = (msg) =>
+        msg?.property?.contact_email || msg?.property?.user?.email || '';
+    const sellerPhoneOf = (msg) =>
+        msg?.property?.contact_phone || '';
+
+    const contactNameOf = (msg) => (isBuyerView(msg) ? sellerNameOf(msg) : msg?.name);
+    const contactEmailOf = (msg) => (isBuyerView(msg) ? sellerEmailOf(msg) : msg?.email);
+    const contactPhoneOf = (msg) => (isBuyerView(msg) ? sellerPhoneOf(msg) : msg?.phone);
+
     const handleSearch = (e) => {
         e.preventDefault();
         router.get(route('dashboard.messages'), { ...filters, tab: activeTab, search }, { preserveState: true });
@@ -239,7 +259,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between gap-2">
                                                 <span className={`text-sm truncate ${isNew ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
-                                                    {msg.name}
+                                                    {contactNameOf(msg)}
                                                 </span>
                                                 <div className="flex items-center gap-1">
                                                     <span className="text-xs text-gray-400">{formatTime(latestTime)}</span>
@@ -301,19 +321,21 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                         <div>
                                             <div className="flex items-center gap-2">
                                                 <h3 className="font-semibold text-gray-900">
-                                                    {selectedMessage.name}
+                                                    {contactNameOf(selectedMessage)}
                                                 </h3>
-                                                {getStatusBadge(selectedMessage.status)}
+                                                {!isBuyerView(selectedMessage) && getStatusBadge(selectedMessage.status)}
                                             </div>
                                             <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mt-1">
-                                                <a href={`mailto:${selectedMessage.email}`} className="flex items-center gap-1 hover:text-[#555]">
-                                                    <Mail className="w-4 h-4" />
-                                                    {selectedMessage.email}
-                                                </a>
-                                                {selectedMessage.phone && (
-                                                    <a href={`tel:${selectedMessage.phone}`} className="flex items-center gap-1 hover:text-[#555]">
+                                                {contactEmailOf(selectedMessage) && (
+                                                    <a href={`mailto:${contactEmailOf(selectedMessage)}`} className="flex items-center gap-1 hover:text-[#555]">
+                                                        <Mail className="w-4 h-4" />
+                                                        {contactEmailOf(selectedMessage)}
+                                                    </a>
+                                                )}
+                                                {contactPhoneOf(selectedMessage) && (
+                                                    <a href={`tel:${contactPhoneOf(selectedMessage)}`} className="flex items-center gap-1 hover:text-[#555]">
                                                         <Phone className="w-4 h-4" />
-                                                        {selectedMessage.phone}
+                                                        {contactPhoneOf(selectedMessage)}
                                                     </a>
                                                 )}
                                             </div>
@@ -321,7 +343,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                     </div>
 
                                     <div className="flex items-center gap-2">
-                                        {selectedMessage.status !== 'responded' && (
+                                        {!isBuyerView(selectedMessage) && selectedMessage.status !== 'responded' && (
                                             <button
                                                 onClick={() => handleMarkResponded(selectedMessage)}
                                                 disabled={actionLoading}
@@ -363,9 +385,9 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                             {/* Message Content — Chat Thread */}
                             <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
                                 {(() => {
-                                    const isBuyerMe = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
+                                    const isBuyerMe = isBuyerView(selectedMessage);
                                     const buyerName = selectedMessage.name || 'Buyer';
-                                    const sellerName = selectedMessage.property?.contact_name || 'Seller';
+                                    const sellerName = sellerNameOf(selectedMessage);
                                     const replies = selectedMessage.replies || [];
 
                                     return (
@@ -441,10 +463,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                 {showReplyForm ? (
                                     <div>
                                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
-                                            {(() => {
-                                                const isBuyerMe = selectedMessage.user_id === currentUser?.id || selectedMessage.email === currentUser?.email;
-                                                return isBuyerMe ? `Reply to ${selectedMessage.property?.contact_name || 'Seller'}` : `Reply to ${selectedMessage.name}`;
-                                            })()}
+                                            Reply to {contactNameOf(selectedMessage)}
                                         </label>
                                         <textarea
                                             value={replyText}
@@ -494,7 +513,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                             </button>
                                         </div>
                                         <p className="mt-2 text-xs text-gray-400">
-                                            Your reply will be emailed to {selectedMessage.email}
+                                            Your reply will be emailed to {contactEmailOf(selectedMessage) || 'the other party'}
                                         </p>
                                     </div>
                                 ) : (
@@ -507,22 +526,24 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                             <Reply className="w-4 h-4" />
                                             {selectedMessage.seller_reply ? 'Reply Again' : 'Reply in Platform'}
                                         </button>
-                                        <a
-                                            href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.property?.property_title || 'Your Inquiry'}`}
-                                            onClick={() => {
-                                                if (selectedMessage.status !== 'responded') {
-                                                    handleMarkResponded(selectedMessage);
-                                                }
-                                            }}
-                                            className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
-                                            style={{ height: '44px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
-                                        >
-                                            <Mail className="w-4 h-4" />
-                                            Reply via Email
-                                        </a>
-                                        {selectedMessage.phone && (
+                                        {contactEmailOf(selectedMessage) && (
                                             <a
-                                                href={`tel:${selectedMessage.phone}`}
+                                                href={`mailto:${contactEmailOf(selectedMessage)}?subject=Re: ${selectedMessage.property?.property_title || 'Your Inquiry'}`}
+                                                onClick={() => {
+                                                    if (!isBuyerView(selectedMessage) && selectedMessage.status !== 'responded') {
+                                                        handleMarkResponded(selectedMessage);
+                                                    }
+                                                }}
+                                                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
+                                                style={{ height: '44px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
+                                            >
+                                                <Mail className="w-4 h-4" />
+                                                Reply via Email
+                                            </a>
+                                        )}
+                                        {contactPhoneOf(selectedMessage) && (
+                                            <a
+                                                href={`tel:${contactPhoneOf(selectedMessage)}`}
                                                 className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
                                                 style={{ height: '44px', paddingLeft: '20px', paddingRight: '20px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
                                             >
@@ -552,7 +573,7 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                     <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Message</h3>
                         <p className="text-gray-500 mb-6">
-                            Are you sure you want to delete this message from <strong>{messageToDelete?.name}</strong>? This action cannot be undone.
+                            Are you sure you want to delete this {isBuyerView(messageToDelete) ? 'conversation with' : 'message from'} <strong>{contactNameOf(messageToDelete)}</strong>? This action cannot be undone.
                         </p>
                         <div className="flex justify-end gap-3">
                             <button

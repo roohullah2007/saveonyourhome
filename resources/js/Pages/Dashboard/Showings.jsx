@@ -22,6 +22,7 @@ function statusBadge(status) {
 function ShowingCard({ showing, onCancel, onComplete, showActions = true }) {
   const type = showing.meeting_type === 'phone' ? 'Phone call' : 'In-person showing';
   const TypeIcon = showing.meeting_type === 'phone' ? Phone : MapPin;
+  const isBuyerView = showing.viewer_role === 'buyer';
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="flex items-start justify-between gap-4">
@@ -31,6 +32,9 @@ function ShowingCard({ showing, onCancel, onComplete, showActions = true }) {
             <span className="text-sm font-semibold text-gray-700">{type}</span>
             {statusBadge(showing.status)}
             <span className="text-xs text-gray-500">• {showing.duration_minutes} min</span>
+            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${isBuyerView ? 'bg-[#EEF1FF] text-[#3355FF]' : 'bg-amber-50 text-amber-700'}`}>
+              {isBuyerView ? 'You booked' : 'Booked with you'}
+            </span>
           </div>
           <div className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-1">
             <Calendar className="w-4 h-4" />
@@ -49,23 +53,32 @@ function ShowingCard({ showing, onCancel, onComplete, showActions = true }) {
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-        <div className="flex items-center gap-2 text-gray-700">
-          <User className="w-4 h-4 text-gray-400" />
-          <span className="font-semibold">{showing.buyer_name}</span>
-        </div>
-        <a href={`mailto:${showing.buyer_email}`} className="flex items-center gap-2 text-gray-700 hover:text-[#3355FF] break-all">
-          <Mail className="w-4 h-4 text-gray-400" />
-          {showing.buyer_email}
-        </a>
-        {showing.buyer_phone && (
-          <a href={`tel:${showing.buyer_phone}`} className="flex items-center gap-2 text-gray-700 hover:text-[#3355FF]">
-            <Phone className="w-4 h-4 text-gray-400" />
-            {showing.buyer_phone}
-          </a>
+        {isBuyerView ? (
+          <div className="flex items-center gap-2 text-gray-700">
+            <User className="w-4 h-4 text-gray-400" />
+            <span className="font-semibold">With {showing.seller_name || 'the seller'}</span>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center gap-2 text-gray-700">
+              <User className="w-4 h-4 text-gray-400" />
+              <span className="font-semibold">{showing.buyer_name}</span>
+            </div>
+            <a href={`mailto:${showing.buyer_email}`} className="flex items-center gap-2 text-gray-700 hover:text-[#3355FF] break-all">
+              <Mail className="w-4 h-4 text-gray-400" />
+              {showing.buyer_email}
+            </a>
+            {showing.buyer_phone && (
+              <a href={`tel:${showing.buyer_phone}`} className="flex items-center gap-2 text-gray-700 hover:text-[#3355FF]">
+                <Phone className="w-4 h-4 text-gray-400" />
+                {showing.buyer_phone}
+              </a>
+            )}
+          </>
         )}
       </div>
 
-      {showing.buyer_notes && (
+      {showing.buyer_notes && !isBuyerView && (
         <div className="mt-3 rounded-lg bg-gray-50 border border-gray-100 p-3 text-sm text-gray-700">
           <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Buyer notes</div>
           {showing.buyer_notes}
@@ -80,16 +93,18 @@ function ShowingCard({ showing, onCancel, onComplete, showActions = true }) {
           >
             <XCircle className="w-3.5 h-3.5" /> Cancel
           </button>
-          <button
-            onClick={() => onComplete(showing)}
-            className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100"
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" /> Mark completed
-          </button>
+          {!isBuyerView && (
+            <button
+              onClick={() => onComplete(showing)}
+              className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" /> Mark completed
+            </button>
+          )}
         </div>
       )}
 
-      {showActions && showing.status === 'confirmed' && new Date(showing.scheduled_at) <= new Date() && (
+      {showActions && !isBuyerView && showing.status === 'confirmed' && new Date(showing.scheduled_at) <= new Date() && (
         <div className="mt-4">
           <button
             onClick={() => onComplete(showing)}
@@ -124,7 +139,7 @@ export default function Showings({ upcoming = [], past = [] }) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Showings</h1>
-            <p className="text-gray-500 text-sm mt-1">Phone calls and in-person viewings buyers have booked on your listings.</p>
+            <p className="text-gray-500 text-sm mt-1">Phone calls and in-person viewings — the ones buyers booked on your listings, and the ones you booked on other listings.</p>
           </div>
           <Link href={route('dashboard.availability')} className="inline-flex items-center gap-2 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50">
             <Clock className="w-4 h-4" /> My availability
@@ -148,7 +163,7 @@ export default function Showings({ upcoming = [], past = [] }) {
 
         {list.length === 0 ? (
           <div className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
-            <p className="text-gray-600">{tab === 'upcoming' ? 'No upcoming showings. Share your listings and make sure your availability is set.' : 'Nothing here yet.'}</p>
+            <p className="text-gray-600">{tab === 'upcoming' ? 'No upcoming showings. Buyers will land here after booking your listings, and any meeting you book with another seller will show here too.' : 'Nothing here yet.'}</p>
           </div>
         ) : (
           <div className="space-y-4">

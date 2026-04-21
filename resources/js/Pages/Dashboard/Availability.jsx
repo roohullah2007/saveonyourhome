@@ -91,6 +91,7 @@ export default function Availability({ rules = [], externalCalendars = [], feedU
   const [copyFromDow, setCopyFromDow] = useState(null);
   const [copyTargets, setCopyTargets] = useState([]);
   const [showAddCalendar, setShowAddCalendar] = useState(false);
+  const [showApplyConfirm, setShowApplyConfirm] = useState(false);
   const [copiedMsg, setCopiedMsg] = useState('');
   const [showHelp, setShowHelp] = useState(false);
 
@@ -152,9 +153,9 @@ export default function Availability({ rules = [], externalCalendars = [], feedU
     setCopyTargets([]);
   };
 
-  const applyDefaultsToAll = () => {
-    if (!confirm('Apply the current meeting defaults (duration + phone/in-person) to every existing time block?')) return;
+  const confirmApplyDefaultsToAll = () => {
     rules.forEach((r) => updateRange({
+      id: r.id,
       day_of_week: r.day_of_week,
       start_time: trimTime(r.start_time),
       end_time: trimTime(r.end_time),
@@ -167,6 +168,7 @@ export default function Availability({ rules = [], externalCalendars = [], feedU
       allow_phone: defaults.allow_phone,
       allow_in_person: defaults.allow_in_person,
     }));
+    setShowApplyConfirm(false);
   };
 
   const copyFeed = async () => {
@@ -281,7 +283,7 @@ export default function Availability({ rules = [], externalCalendars = [], feedU
             </div>
             {rules.length > 0 && (
               <button
-                onClick={applyDefaultsToAll}
+                onClick={() => setShowApplyConfirm(true)}
                 className="sm:ml-auto inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <Check className="w-4 h-4" /> Apply to all existing blocks
@@ -532,6 +534,65 @@ export default function Availability({ rules = [], externalCalendars = [], feedU
             )}
           </div>
         </div>
+
+        {/* Apply-defaults confirmation modal */}
+        {showApplyConfirm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setShowApplyConfirm(false)}>
+            <div className="bg-white rounded-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                <h3 className="text-lg font-bold">Apply defaults to all blocks?</h3>
+                <button onClick={() => setShowApplyConfirm(false)} className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-5">
+                <p className="text-sm text-gray-600 mb-4">
+                  This will overwrite the slot length and meeting types on <strong>every existing time block</strong> ({totalRanges} total) with your current defaults:
+                </p>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">Slot length</span>
+                    <span className="font-semibold text-gray-900">{DURATION_LABELS[defaults.slot_duration_minutes] || `${defaults.slot_duration_minutes} min`}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">Meeting types</span>
+                    <span className="inline-flex items-center gap-2">
+                      {defaults.allow_phone && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-xs font-semibold">
+                          <Phone className="w-3 h-3" /> Phone
+                        </span>
+                      )}
+                      {defaults.allow_in_person && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[#EEF1FF] text-[#3355FF] px-2 py-0.5 text-xs font-semibold">
+                          <MapPin className="w-3 h-3" /> In-person
+                        </span>
+                      )}
+                      {!defaults.allow_phone && !defaults.allow_in_person && (
+                        <span className="text-xs text-red-600 font-semibold">None selected</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
+                {!defaults.allow_phone && !defaults.allow_in_person && (
+                  <div className="mt-3 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>With no meeting types enabled, buyers won't be able to book any of your time blocks.</span>
+                  </div>
+                )}
+                <p className="text-xs text-gray-500 mt-3">Start/end times and active days stay as they are.</p>
+                <div className="flex justify-end gap-2 mt-5">
+                  <button onClick={() => setShowApplyConfirm(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Cancel</button>
+                  <button
+                    onClick={confirmApplyDefaultsToAll}
+                    className="px-4 py-2 bg-[#3355FF] text-white rounded-lg inline-flex items-center gap-2 font-semibold hover:opacity-90"
+                  >
+                    <Check className="w-4 h-4" /> Apply to all
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Copy modal */}
         {copyFromDow !== null && (
