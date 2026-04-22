@@ -509,4 +509,4 @@ export default function ResourcesIndex({ resources = [] }) {
     );
 }
 
-ResourcesIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+ResourcesIndex.layout = (page) => page;

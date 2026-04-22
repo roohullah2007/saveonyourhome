@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
-import { Calendar, Phone, MapPin, Mail, User, ExternalLink, XCircle, CheckCircle2, Clock } from 'lucide-react';
+import { Calendar, Phone, MapPin, Mail, User, ExternalLink, XCircle, CheckCircle2, Clock, X } from 'lucide-react';
 
 function formatWhen(iso) {
   const d = new Date(iso);
@@ -120,14 +120,24 @@ function ShowingCard({ showing, onCancel, onComplete, showActions = true }) {
 
 export default function Showings({ upcoming = [], past = [] }) {
   const [tab, setTab] = useState('upcoming');
+  const [completeTarget, setCompleteTarget] = useState(null);
+  const [completing, setCompleting] = useState(false);
 
   const cancel = (s) => {
     const reason = prompt('Optional reason for cancelling (the buyer will see this):') ?? '';
     router.post(route('dashboard.showings.cancel', s.id), { reason }, { preserveScroll: true });
   };
-  const complete = (s) => {
-    if (!confirm('Mark this showing as completed?')) return;
-    router.post(route('dashboard.showings.complete', s.id), {}, { preserveScroll: true });
+  const complete = (s) => setCompleteTarget(s);
+  const confirmComplete = () => {
+    if (!completeTarget) return;
+    setCompleting(true);
+    router.post(route('dashboard.showings.complete', completeTarget.id), {}, {
+      preserveScroll: true,
+      onFinish: () => {
+        setCompleting(false);
+        setCompleteTarget(null);
+      },
+    });
   };
 
   const list = tab === 'upcoming' ? upcoming : past;
@@ -173,6 +183,64 @@ export default function Showings({ upcoming = [], past = [] }) {
           </div>
         )}
       </div>
+
+      {completeTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => !completing && setCompleteTarget(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <h3 className="text-lg font-bold">Mark showing as completed?</h3>
+              <button
+                onClick={() => setCompleteTarget(null)}
+                disabled={completing}
+                className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center disabled:opacity-50"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-5">
+              <p className="text-sm text-gray-600 mb-4">
+                This moves the showing into your <strong>Past &amp; cancelled</strong> list and removes the cancel/complete actions. Use this after the meeting actually happened.
+              </p>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-gray-700">
+                  {completeTarget.meeting_type === 'phone' ? <Phone className="w-4 h-4 text-[#3355FF]" /> : <MapPin className="w-4 h-4 text-[#3355FF]" />}
+                  <span className="font-semibold">{completeTarget.meeting_type === 'phone' ? 'Phone call' : 'In-person showing'}</span>
+                  <span className="text-xs text-gray-500">• {completeTarget.duration_minutes} min</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-900 font-semibold">
+                  <Calendar className="w-4 h-4 text-gray-500" />
+                  {formatWhen(completeTarget.scheduled_at)}
+                </div>
+                {completeTarget.property?.property_title && (
+                  <div className="text-xs text-gray-500">{completeTarget.property.property_title}</div>
+                )}
+                {completeTarget.buyer_name && (
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <User className="w-4 h-4 text-gray-400" />
+                    <span>{completeTarget.buyer_name}</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-end gap-2 mt-5">
+                <button
+                  onClick={() => setCompleteTarget(null)}
+                  disabled={completing}
+                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmComplete}
+                  disabled={completing}
+                  className="px-4 py-2 bg-[#3355FF] text-white rounded-lg inline-flex items-center gap-2 font-semibold hover:opacity-90 disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4" /> {completing ? 'Marking…' : 'Mark completed'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
