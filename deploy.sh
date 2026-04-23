@@ -1,26 +1,28 @@
 #!/bin/bash
 set -e
 
-echo "Starting deployment of saveonyourhome..."
-
-# Enter maintenance mode
-# php artisan down || true
+echo "--- Starting deployment at $(date) ---"
 
 # Pull the latest version of the app
+echo "Pulling latest code from GitHub..."
 git pull origin main
 
 # Install dependencies
+echo "Installing Composer dependencies..."
 composer install --no-interaction --prefer-dist --optimize-autoloader
+
+echo "Installing NPM dependencies..."
 npm install
+
+echo "Building assets..."
 npm run build
 
 # Run database migrations
+echo "Running migrations..."
 php artisan migrate --force
 
 # Clear and rebuild cache
+echo "Clearing cache..."
 php artisan optimize
 
-# Exit maintenance mode
-# php artisan up
-
-echo "Deployment finished successfully!"
+echo "--- Deployment finished successfully! ---"
