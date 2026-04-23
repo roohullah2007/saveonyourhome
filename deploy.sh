@@ -26,3 +26,4 @@ echo "Clearing and rebuilding cache..."
 php artisan optimize
 
 echo "--- Deployment finished successfully! ---"
+# Triggering GitHub Action again
