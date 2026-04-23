@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting deployment..."
+echo "Starting deployment of saveonyourhome..."
 
 # Enter maintenance mode
 # php artisan down || true
