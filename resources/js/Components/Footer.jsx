@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 const Footer = () => {
   const sellLinks = [
-    { label: 'How It Work', href: '/sell-your-home' },
+    { label: 'How It Works', href: '/sell-your-home' },
     { label: "What's My Home Worth", href: '/home-worth' },
     { label: 'Home Selling Guide', href: '/fsbo-guide' },
   ];
