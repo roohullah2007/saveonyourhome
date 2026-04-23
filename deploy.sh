@@ -22,7 +22,7 @@ echo "Running migrations..."
 php artisan migrate --force
 
 # Clear and rebuild cache
-echo "Clearing cache..."
+echo "Clearing and rebuilding cache..."
 php artisan optimize
 
 echo "--- Deployment finished successfully! ---"
