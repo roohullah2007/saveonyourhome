@@ -23,7 +23,7 @@ class TaxonomyTerm extends Model
         self::TYPE_AMENITY,
     ];
 
-    protected $fillable = ['type', 'parent_id', 'key', 'label', 'sub_label', 'is_active', 'sort_order'];
+    protected $fillable = ['type', 'parent_id', 'key', 'label', 'sub_label', 'is_active', 'sort_order', 'wp_term_id'];
 
     protected $casts = [
         'is_active' => 'boolean',

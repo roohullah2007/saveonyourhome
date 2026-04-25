@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Resource extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'excerpt', 'content', 'category', 'image', 'is_published', 'published_at',
+        'wp_id', 'title', 'slug', 'excerpt', 'content', 'category', 'image', 'is_published', 'published_at',
     ];
 
     protected $casts = [

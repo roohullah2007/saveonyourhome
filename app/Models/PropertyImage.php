@@ -12,6 +12,7 @@ class PropertyImage extends Model
 
     protected $fillable = [
         'property_id',
+        'wp_attachment_id',
         'image_path',
         'image_name',
         'is_primary',

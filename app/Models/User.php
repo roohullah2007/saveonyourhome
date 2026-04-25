@@ -14,6 +14,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'wp_id',
         'name',
         'email',
         'password',

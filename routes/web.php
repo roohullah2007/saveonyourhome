@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\AdminMediaOrderController;
 use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminPartnerController;
 use App\Http\Controllers\Admin\AdminTaxonomyController;
+use App\Http\Controllers\Admin\AdminWordpressImportController;
+use App\Http\Controllers\Admin\AdminImportController;
 use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\BuyerInquiryController;
 use App\Http\Controllers\ContactController;
@@ -503,6 +505,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/partners/{partner}/approve', [AdminPartnerController::class, 'approve'])->name('partners.approve');
     Route::post('/partners/{partner}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
     Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
+
+    // WordPress (Houzez) Import
+    Route::get('/wordpress-import', [AdminWordpressImportController::class, 'index'])->name('wordpress-import.index');
+    Route::post('/wordpress-import/run', [AdminWordpressImportController::class, 'run'])->name('wordpress-import.run');
+
+    // Import Batches (WordPress + Zillow + CSV share the same batch view)
+    Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');
+    Route::get('/imports/{batch}', [AdminImportController::class, 'show'])->name('imports.show');
+    Route::post('/imports/{batch}/extend', [AdminImportController::class, 'extendExpiration'])->name('imports.extend');
+    Route::delete('/imports/{batch}', [AdminImportController::class, 'destroy'])->name('imports.destroy');
 
     // Media Orders Management
     Route::get('/media-orders', [AdminMediaOrderController::class, 'index'])->name('media-orders.index');

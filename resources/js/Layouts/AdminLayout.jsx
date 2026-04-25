@@ -21,6 +21,7 @@ import {
     Handshake,
     Package,
     Activity,
+    Database,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -42,6 +43,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'eBooks', href: route('admin.ebooks.index'), icon: BookOpen, current: route().current('admin.ebooks.*') },
         { name: 'Partners', href: route('admin.partners.index'), icon: Handshake, current: route().current('admin.partners.*') },
         { name: 'Media Orders', href: route('admin.media-orders.index'), icon: Package, current: route().current('admin.media-orders.*') },
+        { name: 'Import WordPress', href: route('admin.wordpress-import.index'), icon: Database, current: route().current('admin.wordpress-import.*') || route().current('admin.imports.*') },
         { name: 'Activity', href: route('admin.activity.index'), icon: Activity, current: route().current('admin.activity.*') },
         { name: 'Settings', href: route('admin.settings.index'), icon: Settings, current: route().current('admin.settings.*') },
     ];

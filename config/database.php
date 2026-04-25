@@ -63,6 +63,25 @@ return [
             ]) : [],
         ],
 
+        // Read-only legacy WordPress (Houzez) database used by the WP importer.
+        // Load the dump first: `mysql -u root saveonyourhomeold < saveonyourhomeold.sql`
+        // We deliberately leave `prefix` empty and reference tables as `wp_posts` etc.
+        // explicitly — clearer than relying on Laravel's prefix machinery for a one-off
+        // import connection.
+        'wp_legacy' => [
+            'driver' => 'mysql',
+            'host' => env('WP_LEGACY_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('WP_LEGACY_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('WP_LEGACY_DB_DATABASE', 'saveonyourhomeold'),
+            'username' => env('WP_LEGACY_DB_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('WP_LEGACY_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

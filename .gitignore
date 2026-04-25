@@ -19,3 +19,5 @@ yarn-error.log
 nul
 env live.txt
 *.env.live*
+.DS_Store
+*.sql

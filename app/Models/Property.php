@@ -28,6 +28,7 @@ class Property extends Model
     ];
 
     protected $fillable = [
+        'wp_id',
         'user_id',
         'original_user_id',
         'property_title',
