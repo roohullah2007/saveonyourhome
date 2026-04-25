@@ -20,13 +20,18 @@ use Illuminate\Support\Str;
  */
 class HouzezPropertyImporter
 {
-    /** Houzez post_status → Laravel listing_status. */
+    /**
+     * Houzez post_status → Laravel listing_status. We treat `on_hold`,
+     * `private`, and `pending` as still active for-sale listings — the
+     * original Houzez site rendered them publicly. Only true draft / trash
+     * states are mapped to `inactive`.
+     */
     private const POST_STATUS_TO_LISTING_STATUS = [
         'publish' => 'for_sale',
         'private' => 'for_sale',
         'pending' => 'for_sale',
+        'on_hold' => 'for_sale',
         'draft' => 'inactive',
-        'on_hold' => 'inactive',
         'expired' => 'inactive',
         'trash' => 'inactive',
     ];
@@ -110,8 +115,37 @@ class HouzezPropertyImporter
             ]);
         }
 
+        // Re-sync photos JSON from PropertyImage rows so the listing cards
+        // (which read property.photos[0]) keep working across re-imports.
+        $this->syncPhotosColumn();
+
         return compact('imported', 'updated', 'skipped', 'imageJobs', 'errors')
             + ['image_jobs' => $imageJobs];
+    }
+
+    /**
+     * Push every property's PropertyImage URLs into its `photos` JSON column.
+     * The PropertyCard reads photos[0] for the thumbnail; without this sync
+     * an idempotent re-import would still leave existing photos in place but
+     * a wipe-then-import cycle would lose them.
+     */
+    private function syncPhotosColumn(): void
+    {
+        Property::where('import_source', 'houzez')
+            ->chunk(50, function ($batch) {
+                foreach ($batch as $p) {
+                    $rows = $p->images()
+                        ->orderByDesc('is_primary')->orderBy('sort_order')
+                        ->get(['image_path']);
+                    $urls = $rows->map(fn ($r) => str_starts_with($r->image_path, 'http')
+                        ? $r->image_path
+                        : '/storage/' . $r->image_path
+                    )->unique()->values()->all();
+                    if ($urls && $p->photos !== $urls) {
+                        $p->forceFill(['photos' => $urls])->saveQuietly();
+                    }
+                }
+            });
     }
 
     private function mapToProperty(object $wp, array $meta, array $terms, ?int $fallbackOwnerId): array
@@ -203,15 +237,17 @@ class HouzezPropertyImporter
             'contact_name' => $contactName,
             'contact_email' => $contactEmail,
             'contact_phone' => $contactPhone,
+            // photos JSON is intentionally NOT set here — DownloadHouzezImage
+            // populates it from PropertyImage rows. We also re-sync at the end
+            // of run() so re-imports don't blank existing photos.
             'features' => $features ?: null,
-            'photos' => [], // populated by DownloadHouzezImage jobs as PropertyImage rows
             'floor_plans' => $this->mapFloorPlans($meta['floor_plans'] ?? null),
             'video_url' => $this->cleanUrl($meta['fave_video_url'] ?? null),
             ...$this->virtualTourFields($meta['fave_virtual_tour'] ?? null),
             'has_video' => !empty($meta['fave_video_url']),
             'is_featured' => $isFeatured,
             'is_motivated_seller' => $isMotivated,
-            'is_active' => $wp->post_status === 'publish',
+            'is_active' => !in_array($wp->post_status, ['draft', 'trash', 'auto-draft', 'expired']),
             'is_licensed_agent' => (string) ($meta['fave_seller-is-licensed-real-estate-agent'] ?? '0') === '1',
             'open_to_realtors' => (string) ($meta['fave_seller-is-open-to-contact-from-realtors'] ?? '0') === '1',
             'requires_pre_approval' => (string) ($meta['fave_seller-requires-a-pre-approval-from-a-licenses-mortgage-company-prior-to-viewing-the-home'] ?? '0') === '1',
@@ -221,8 +257,13 @@ class HouzezPropertyImporter
             'longitude' => $lng,
             'import_source' => 'houzez',
             'import_batch_id' => $this->batch?->id,
+            // These are real existing listings (not Zillow leads), so we mark
+            // them already-claimed by their original owner. That bypasses the
+            // claim flow and lets PropertyController::show() render them
+            // publicly without the "unclaimed" 404 guard.
             'claim_token' => Str::uuid()->toString(),
             'claim_expires_at' => $this->batch?->expires_at,
+            'claimed_at' => now(),
             'created_at' => $wp->post_date,
             'updated_at' => $wp->post_modified,
         ];
