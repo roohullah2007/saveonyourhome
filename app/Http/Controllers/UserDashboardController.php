@@ -83,6 +83,8 @@ class UserDashboardController extends Controller
                 $query->where('is_active', true)->where('approval_status', 'approved');
             } elseif ($request->status === 'pending') {
                 $query->where('approval_status', 'pending');
+            } elseif ($request->status === 'on_hold') {
+                $query->where('approval_status', 'on_hold');
             } elseif ($request->status === 'sold') {
                 $query->where('listing_status', 'sold');
             } elseif ($request->status === 'inactive') {
@@ -100,6 +102,7 @@ class UserDashboardController extends Controller
             'all' => $user->properties()->count(),
             'active' => $user->properties()->where('is_active', true)->where('approval_status', 'approved')->count(),
             'pending' => $user->properties()->where('approval_status', 'pending')->count(),
+            'on_hold' => $user->properties()->where('approval_status', 'on_hold')->count(),
             'sold' => $user->properties()->where('listing_status', 'sold')->count(),
         ];
 
@@ -357,6 +360,48 @@ class UserDashboardController extends Controller
         }
 
         return redirect()->route('dashboard.listings')->with('success', 'Property updated successfully!');
+    }
+
+    /**
+     * Pause this listing (place on hold). Hides it from public results until
+     * the owner resumes it. Owner-initiated; an admin can also hold/release
+     * via the admin panel.
+     */
+    public function holdListing(Property $property)
+    {
+        if ($property->user_id !== Auth::id()) {
+            abort(403, 'You do not own this property.');
+        }
+
+        $property->update([
+            'approval_status' => 'on_hold',
+            'is_active' => false,
+        ]);
+
+        return back()->with('success', 'Listing placed on hold.');
+    }
+
+    /**
+     * Resume an on-hold listing. Goes back to `pending` so admin can re-confirm
+     * before it returns to public results — matches the moderation flow used
+     * for new listings.
+     */
+    public function releaseListing(Property $property)
+    {
+        if ($property->user_id !== Auth::id()) {
+            abort(403, 'You do not own this property.');
+        }
+
+        if ($property->approval_status !== 'on_hold') {
+            return back()->with('error', 'This listing is not on hold.');
+        }
+
+        $property->update([
+            'approval_status' => 'pending',
+            'is_active' => true,
+        ]);
+
+        return back()->with('success', 'Listing resumed and sent for review.');
     }
 
     /**

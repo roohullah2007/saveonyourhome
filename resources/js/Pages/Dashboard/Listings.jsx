@@ -28,7 +28,9 @@ import {
     Building2,
     ArrowRight,
     Camera,
-    Globe
+    Globe,
+    PauseCircle,
+    PlayCircle
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -122,6 +124,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
             case 'pending': return 'bg-yellow-100 text-yellow-700';
             case 'rejected': return 'bg-red-100 text-red-700';
             case 'changes_requested': return 'bg-orange-100 text-orange-700';
+            case 'on_hold': return 'bg-blue-100 text-blue-700';
             case 'draft': return 'bg-gray-200 text-gray-700';
             case 'sold': return 'bg-blue-100 text-blue-700';
             default: return 'bg-gray-100 text-gray-700';
@@ -131,9 +134,18 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
     const getStatusLabel = (status) => {
         switch (status) {
             case 'changes_requested': return 'Changes requested';
+            case 'on_hold': return 'On hold';
             case 'draft': return 'Draft';
             default: return status;
         }
+    };
+
+    const holdListing = (listing) => {
+        router.post(route('dashboard.listings.hold', listing.id), {}, { preserveScroll: true });
+    };
+
+    const releaseListing = (listing) => {
+        router.post(route('dashboard.listings.release', listing.id), {}, { preserveScroll: true });
     };
 
     const formatDate = (dateString) => {
@@ -174,6 +186,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                     { key: 'all', label: 'All', count: counts.all || 0 },
                     { key: 'active', label: 'Active', count: counts.active || 0 },
                     { key: 'pending', label: 'Pending', count: counts.pending || 0 },
+                    { key: 'on_hold', label: 'On Hold', count: counts.on_hold || 0 },
                     { key: 'sold', label: 'Sold', count: counts.sold || 0 },
                 ].map((tab) => (
                     <button
@@ -312,6 +325,13 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <p className="text-xs text-gray-700">This listing is a draft — publish it from the edit page to send it to admin for review.</p>
                                             </div>
                                         )}
+
+                                        {listing.approval_status === 'on_hold' && (
+                                            <div className="mt-2 p-2 bg-blue-50 rounded-lg flex items-start gap-2">
+                                                <PauseCircle className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
+                                                <p className="text-xs text-blue-700">This listing is on hold and hidden from public results. Resume it to send it back for review.</p>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Bottom Row: Stats and Actions */}
@@ -392,6 +412,23 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <Edit className="w-3.5 h-3.5" />
                                                 Edit
                                             </Link>
+                                            {listing.approval_status === 'on_hold' ? (
+                                                <button
+                                                    onClick={() => releaseListing(listing)}
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                                                >
+                                                    <PlayCircle className="w-3.5 h-3.5" />
+                                                    Resume
+                                                </button>
+                                            ) : ['approved', 'pending', 'changes_requested'].includes(listing.approval_status) && (
+                                                <button
+                                                    onClick={() => holdListing(listing)}
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                                                >
+                                                    <PauseCircle className="w-3.5 h-3.5" />
+                                                    Hold
+                                                </button>
+                                            )}
                                             <Link
                                                 href={`/properties/${listing.slug || listing.id}`}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"

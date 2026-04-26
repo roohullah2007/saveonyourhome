@@ -21,19 +21,37 @@ use Illuminate\Support\Str;
 class HouzezPropertyImporter
 {
     /**
-     * Houzez post_status → Laravel listing_status. We treat `on_hold`,
-     * `private`, and `pending` as still active for-sale listings — the
-     * original Houzez site rendered them publicly. Only true draft / trash
-     * states are mapped to `inactive`.
+     * Houzez post_status → Laravel listing_status (market state).
+     * `on_hold` / `disapproved` keep `listing_status='for_sale'` — the
+     * pause/rejected state is encoded in approval_status, not market state.
      */
     private const POST_STATUS_TO_LISTING_STATUS = [
         'publish' => 'for_sale',
         'private' => 'for_sale',
         'pending' => 'for_sale',
         'on_hold' => 'for_sale',
+        'disapproved' => 'for_sale',
+        'houzez_sold' => 'sold',
         'draft' => 'inactive',
         'expired' => 'inactive',
         'trash' => 'inactive',
+    ];
+
+    /**
+     * Houzez post_status → Laravel approval_status (moderation state).
+     * Houzez's `disapproved` is the rejected-by-admin state; `on_hold` is the
+     * admin/owner pause state. Both are preserved here instead of being
+     * collapsed to `approved`, so the imported queue mirrors what was in WP.
+     */
+    private const POST_STATUS_TO_APPROVAL_STATUS = [
+        'publish' => 'approved',
+        'private' => 'approved',
+        'houzez_sold' => 'approved',
+        'pending' => 'pending',
+        'on_hold' => 'on_hold',
+        'disapproved' => 'rejected',
+        'draft' => 'draft',
+        'expired' => 'approved',
     ];
 
     /**
@@ -158,11 +176,18 @@ class HouzezPropertyImporter
         $labelKey = $this->pickTermKey($terms, 'property_label');
         $features = $this->collectFeatures($terms);
 
-        // ---- Listing status ----
+        // ---- Listing status (market state) ----
         $listingStatus = self::POST_STATUS_TO_LISTING_STATUS[$wp->post_status] ?? 'for_sale';
         // Houzez uses property_status taxonomy "Sold"/"Pending" too; honour those.
         if (str_contains(strtolower($transactionKey), 'sold')) $listingStatus = 'sold';
         elseif (str_contains(strtolower($transactionKey), 'pending')) $listingStatus = 'pending';
+
+        // ---- Approval status (moderation state) ----
+        // Mirror the WordPress workflow: publish/private → approved,
+        // disapproved → rejected, on_hold → on_hold, etc. We deliberately do
+        // NOT blanket-set 'approved' so the admin moderation queue reflects
+        // exactly what was in the legacy site.
+        $approvalStatus = self::POST_STATUS_TO_APPROVAL_STATUS[$wp->post_status] ?? 'approved';
 
         // Normalise transaction_type to one of the known keys.
         $transactionType = match (true) {
@@ -247,12 +272,16 @@ class HouzezPropertyImporter
             'has_video' => !empty($meta['fave_video_url']),
             'is_featured' => $isFeatured,
             'is_motivated_seller' => $isMotivated,
+            // Inactive only if Houzez itself marked the row inactive — on_hold
+            // listings stay is_active=true so admin can flip them back to
+            // approved without also having to toggle is_active.
             'is_active' => !in_array($wp->post_status, ['draft', 'trash', 'auto-draft', 'expired']),
             'is_licensed_agent' => (string) ($meta['fave_seller-is-licensed-real-estate-agent'] ?? '0') === '1',
             'open_to_realtors' => (string) ($meta['fave_seller-is-open-to-contact-from-realtors'] ?? '0') === '1',
             'requires_pre_approval' => (string) ($meta['fave_seller-requires-a-pre-approval-from-a-licenses-mortgage-company-prior-to-viewing-the-home'] ?? '0') === '1',
-            'approval_status' => 'approved',
-            'approved_at' => $wp->post_date,
+            'approval_status' => $approvalStatus,
+            'approved_at' => $approvalStatus === 'approved' ? $wp->post_date : null,
+            'rejection_reason' => $approvalStatus === 'rejected' ? 'Disapproved on legacy site (Houzez)' : null,
             'latitude' => $lat,
             'longitude' => $lng,
             'import_source' => 'houzez',

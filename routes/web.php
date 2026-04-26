@@ -320,6 +320,8 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard')->group(funct
     Route::post('/listings/{property}/generate-description', [\App\Http\Controllers\PropertyDescriptionController::class, 'generate'])->name('.listings.generate-description');
     Route::put('/listings/{property}', [UserDashboardController::class, 'updateListing'])->name('.listings.update');
     Route::delete('/listings/{property}', [UserDashboardController::class, 'destroyListing'])->name('.listings.destroy');
+    Route::post('/listings/{property}/hold', [UserDashboardController::class, 'holdListing'])->name('.listings.hold');
+    Route::post('/listings/{property}/release', [UserDashboardController::class, 'releaseListing'])->name('.listings.release');
     Route::post('/listings/{property}/photos', [UserDashboardController::class, 'addPhotos'])->name('.listings.photos.add');
     Route::post('/listings/{property}/photos/remove', [UserDashboardController::class, 'removePhoto'])->name('.listings.photos.remove');
     Route::post('/listings/{property}/photos/reorder', [UserDashboardController::class, 'reorderPhotos'])->name('.listings.photos.reorder');
@@ -422,6 +424,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/properties/{property}/approve', [AdminPropertyController::class, 'approve'])->name('properties.approve');
     Route::post('/properties/{property}/reject', [AdminPropertyController::class, 'reject'])->name('properties.reject');
     Route::post('/properties/{property}/request-changes', [AdminPropertyController::class, 'requestChanges'])->name('properties.request-changes');
+    Route::post('/properties/{property}/hold', [AdminPropertyController::class, 'hold'])->name('properties.hold');
+    Route::post('/properties/{property}/release', [AdminPropertyController::class, 'release'])->name('properties.release');
     Route::post('/properties/{property}/toggle-featured', [AdminPropertyController::class, 'toggleFeatured'])->name('properties.toggle-featured');
     Route::post('/properties/{property}/toggle-active', [AdminPropertyController::class, 'toggleActive'])->name('properties.toggle-active');
     Route::post('/properties/bulk-action', [AdminPropertyController::class, 'bulkAction'])->name('properties.bulk-action');

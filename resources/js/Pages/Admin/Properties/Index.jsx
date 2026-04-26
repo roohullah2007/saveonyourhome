@@ -14,7 +14,9 @@ import {
     ChevronLeft,
     ChevronRight,
     ToggleLeft,
-    ToggleRight
+    ToggleRight,
+    PauseCircle,
+    PlayCircle
 } from 'lucide-react';
 
 export default function PropertiesIndex({ properties, filters = {}, counts = {} }) {
@@ -36,6 +38,14 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
 
     const approveProperty = (property) => {
         router.post(route('admin.properties.approve', property.id), {}, { preserveScroll: true });
+    };
+
+    const holdProperty = (property) => {
+        router.post(route('admin.properties.hold', property.id), {}, { preserveScroll: true });
+    };
+
+    const releaseProperty = (property) => {
+        router.post(route('admin.properties.release', property.id), {}, { preserveScroll: true });
     };
 
     const rejectProperty = () => {
@@ -77,6 +87,9 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
             pending: 'bg-yellow-100 text-yellow-700',
             approved: 'bg-green-100 text-green-700',
             rejected: 'bg-red-100 text-red-700',
+            on_hold: 'bg-blue-100 text-blue-700',
+            draft: 'bg-gray-200 text-gray-700',
+            changes_requested: 'bg-orange-100 text-orange-700',
         };
         return styles[status] || 'bg-gray-100 text-gray-700';
     };
@@ -85,6 +98,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
         { key: '', label: 'All', count: counts.all || properties.total || 0 },
         { key: 'pending', label: 'Pending', count: counts.pending || 0 },
         { key: 'approved', label: 'Approved', count: counts.approved || 0 },
+        { key: 'on_hold', label: 'On Hold', count: counts.on_hold || 0 },
         { key: 'rejected', label: 'Rejected', count: counts.rejected || 0 },
     ];
 
@@ -223,6 +237,24 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                                             <XCircle className="w-4 h-4" />
                                                         </button>
                                                     </>
+                                                )}
+                                                {property.approval_status === 'approved' && (
+                                                    <button
+                                                        onClick={() => holdProperty(property)}
+                                                        className="p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg"
+                                                        title="Place on hold"
+                                                    >
+                                                        <PauseCircle className="w-4 h-4" />
+                                                    </button>
+                                                )}
+                                                {property.approval_status === 'on_hold' && (
+                                                    <button
+                                                        onClick={() => releaseProperty(property)}
+                                                        className="p-2 text-green-500 hover:text-green-700 hover:bg-green-50 rounded-lg"
+                                                        title="Release from hold"
+                                                    >
+                                                        <PlayCircle className="w-4 h-4" />
+                                                    </button>
                                                 )}
                                                 <button
                                                     onClick={() => toggleFeatured(property)}

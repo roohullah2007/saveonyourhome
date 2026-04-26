@@ -309,6 +309,22 @@ class Property extends Model
     }
 
     /**
+     * Scope for on-hold properties (paused by admin or owner; not publicly visible).
+     */
+    public function scopeOnHold($query)
+    {
+        return $query->where('approval_status', 'on_hold');
+    }
+
+    /**
+     * Scope for rejected (disapproved) properties.
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('approval_status', 'rejected');
+    }
+
+    /**
      * Scope for featured properties
      */
     public function scopeFeatured($query)
@@ -568,6 +584,14 @@ class Property extends Model
     public function isRejected(): bool
     {
         return $this->approval_status === 'rejected';
+    }
+
+    /**
+     * Check if property is on hold (paused — hidden from public until released).
+     */
+    public function isOnHold(): bool
+    {
+        return $this->approval_status === 'on_hold';
     }
 
     /**

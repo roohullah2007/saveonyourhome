@@ -117,6 +117,10 @@ class DownloadHouzezImage implements ShouldQueue
             if ($tempFile && file_exists($tempFile)) {
                 @unlink($tempFile);
             }
+            // HEIC → JPEG sidecar created by convertHeicToJpeg().
+            if ($tempFile && file_exists($tempFile . '.jpg')) {
+                @unlink($tempFile . '.jpg');
+            }
         }
     }
 
@@ -153,6 +157,14 @@ class DownloadHouzezImage implements ShouldQueue
 
     private function encodeWebp(string $tempFile): string
     {
+        // Intervention's GD driver can't decode HEIC (iOS Photos default).
+        // Detect by magic bytes — extension is unreliable since downloaded
+        // files have a `.tmp` suffix — and pre-convert to JPEG via the
+        // system tool that's available (sips on macOS, heif-convert on Linux).
+        if ($this->isHeic($tempFile)) {
+            $tempFile = $this->convertHeicToJpeg($tempFile);
+        }
+
         $img = Image::read($tempFile)->orient();
 
         if ($img->width() > self::MAX_DIMENSION || $img->height() > self::MAX_DIMENSION) {
@@ -160,6 +172,48 @@ class DownloadHouzezImage implements ShouldQueue
         }
 
         return (string) $img->encode(new WebpEncoder(self::WEBP_QUALITY));
+    }
+
+    /**
+     * HEIC/HEIF files start with `....ftypheic`, `....ftypheix`, `....ftypmif1`,
+     * etc. — the ftyp box at offset 4 with a HEIF-family brand. Reading 16
+     * bytes is enough to disambiguate.
+     */
+    private function isHeic(string $file): bool
+    {
+        $head = @file_get_contents($file, false, null, 0, 16);
+        if ($head === false || strlen($head) < 12) return false;
+        if (substr($head, 4, 4) !== 'ftyp') return false;
+        $brand = substr($head, 8, 4);
+        return in_array($brand, ['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'hevm', 'hevs', 'mif1', 'msf1'], true);
+    }
+
+    /**
+     * Shell out to `sips` (macOS) or `heif-convert` (Linux/libheif). Both
+     * produce a JPEG that Intervention can then read normally. Falls back to
+     * ImageMagick `magick` if neither is present.
+     *
+     * Returns the path of the converted JPEG (caller is responsible for
+     * cleanup — it lives in the same temp dir).
+     */
+    private function convertHeicToJpeg(string $heicFile): string
+    {
+        $jpegFile = $heicFile . '.jpg';
+
+        $cmds = [
+            sprintf('sips -s format jpeg %s --out %s', escapeshellarg($heicFile), escapeshellarg($jpegFile)),
+            sprintf('heif-convert %s %s', escapeshellarg($heicFile), escapeshellarg($jpegFile)),
+            sprintf('magick %s %s', escapeshellarg($heicFile), escapeshellarg($jpegFile)),
+        ];
+
+        foreach ($cmds as $cmd) {
+            exec($cmd . ' 2>/dev/null', $_out, $code);
+            if ($code === 0 && file_exists($jpegFile) && filesize($jpegFile) > 0) {
+                return $jpegFile;
+            }
+        }
+
+        throw new \RuntimeException('No HEIC converter available (tried sips, heif-convert, magick).');
     }
 
     /**

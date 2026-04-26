@@ -75,6 +75,7 @@ class AdminPropertyController extends Controller
             'pending' => Property::pending()->count(),
             'approved' => Property::approved()->count(),
             'rejected' => Property::where('approval_status', 'rejected')->count(),
+            'on_hold' => Property::where('approval_status', 'on_hold')->count(),
             'featured' => Property::featured()->count(),
             'showcase' => Property::showcase()->count(),
             'transferred' => Property::transferred()->count(),
@@ -433,6 +434,40 @@ class AdminPropertyController extends Controller
         }
 
         return back()->with('success', 'Property rejected.');
+    }
+
+    /**
+     * Place the property on hold (temporarily hidden from public listings).
+     * Admin can release it later with `release`. Used for moderation pauses
+     * that don't warrant a full rejection.
+     */
+    public function hold(Property $property)
+    {
+        $property->update([
+            'approval_status' => 'on_hold',
+            'is_active' => false,
+        ]);
+
+        ActivityLog::log('property_on_hold', $property, null, null, "Placed property on hold: {$property->property_title}");
+
+        return back()->with('success', 'Property placed on hold.');
+    }
+
+    /**
+     * Release a property from hold and put it back into the approved pool.
+     */
+    public function release(Property $property)
+    {
+        $property->update([
+            'approval_status' => 'approved',
+            'is_active' => true,
+            'approved_at' => $property->approved_at ?? now(),
+            'approved_by' => $property->approved_by ?? auth()->id(),
+        ]);
+
+        ActivityLog::log('property_released', $property, null, null, "Released property from hold: {$property->property_title}");
+
+        return back()->with('success', 'Property released from hold.');
     }
 
     public function requestChanges(Request $request, Property $property)
