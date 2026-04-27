@@ -33,5 +33,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd /home/saveonyourhome/htdocs/saveonyourhome.wpbun.xyz
+          cd /home/saveonyourhome/htdocs/saveonyourhome.com
           ./deploy.sh
