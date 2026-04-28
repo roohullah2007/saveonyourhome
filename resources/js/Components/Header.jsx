@@ -385,7 +385,7 @@ const Header = ({ maxWidth, noPadding }) => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
+        <div className="fixed inset-0 z-[60] lg:hidden">
           {/* Overlay */}
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
@@ -394,7 +394,29 @@ const Header = ({ maxWidth, noPadding }) => {
 
           {/* Menu Panel */}
           <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-screen overflow-y-auto">
-            <nav className="max-w-[1400px] mx-auto px-4 pt-[117px] pb-6 space-y-4">
+            {/* In-panel top bar with logo + close button */}
+            <div className="flex items-center justify-between px-4 h-[65px] border-b border-gray-200">
+              <Link
+                href="/"
+                className="flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <img
+                  src="/images/saveonyourhome-logo.png"
+                  alt="SaveOnYourHome"
+                  className="h-[46px] w-auto"
+                />
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
+                className="p-2 -mr-2 text-[#111] hover:text-[#555] transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <nav className="max-w-[1400px] mx-auto px-4 py-6 space-y-4">
               <Link
                 href="/"
                 className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"
