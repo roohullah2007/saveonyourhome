@@ -65,12 +65,15 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [saveSearchStatus, setSaveSearchStatus] = useState(null); // null | 'saving' | 'saved' | 'error'
   const filterBarRef = useRef(null);
+  const sortDropdownRef = useRef(null);
   const searchParamsRef = useRef(searchParams);
   searchParamsRef.current = searchParams;
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (filterBarRef.current && !filterBarRef.current.contains(e.target)) {
+      const insideFilterBar = filterBarRef.current && filterBarRef.current.contains(e.target);
+      const insideSort = sortDropdownRef.current && sortDropdownRef.current.contains(e.target);
+      if (!insideFilterBar && !insideSort) {
         setOpenDropdown(null);
       }
       if (locationInputRef.current && !locationInputRef.current.contains(e.target)) {
@@ -693,7 +696,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                     <BookmarkPlus className="w-3.5 h-3.5" />
                     Save search
                   </button>
-                  <div className="relative flex items-center gap-1.5">
+                  <div className="relative flex items-center gap-1.5" ref={sortDropdownRef}>
                     <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 500 }}>Sort:</span>
                     <button
                       className="flex items-center gap-1 text-sm"

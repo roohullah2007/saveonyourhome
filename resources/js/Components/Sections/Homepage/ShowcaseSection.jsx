@@ -7,7 +7,7 @@ const ShowcaseSection = () => {
     {
       title: 'CLAIM YOUR FREE FSBO SIGN!',
       description: 'Stand out and attract buyers with a professional "For Sale By Owner" yard sign — we\'ll ship it to you free!',
-      link: '/sellers',
+      link: '/claim-your-free-fsbo-sign',
       linkText: 'Learn More',
       icon: (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +18,7 @@ const ShowcaseSection = () => {
     {
       title: 'REQUEST FREE FSBO GUIDE',
       description: 'Get our step-by-step guide packed with expert tips to help you sell your home confidently without a realtor.',
-      link: '/sellers',
+      link: '/request-free-fsbo-guide',
       linkText: 'Learn More',
       icon: (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -29,7 +29,7 @@ const ShowcaseSection = () => {
     {
       title: 'JOIN THE FSBO WEEKLY CALL',
       description: 'Connect with other homeowners, ask questions, and get real-time advice on selling your home by owner.',
-      link: '/contact',
+      link: '/join-the-fsbo-weekly-call',
       linkText: 'Learn More',
       icon: (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1816" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

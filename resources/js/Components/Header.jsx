@@ -394,7 +394,7 @@ const Header = ({ maxWidth, noPadding }) => {
 
           {/* Menu Panel */}
           <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-300 shadow-xl max-h-screen overflow-y-auto">
-            <nav className="max-w-[1400px] mx-auto px-4 py-6 space-y-4">
+            <nav className="max-w-[1400px] mx-auto px-4 pt-[117px] pb-6 space-y-4">
               <Link
                 href="/"
                 className="block text-[16px] font-semibold text-[#111111] hover:text-[#555] transition-colors py-2"

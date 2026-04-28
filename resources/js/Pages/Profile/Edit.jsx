@@ -1,4 +1,4 @@
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { useState, useRef } from 'react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
 import {
@@ -27,6 +27,43 @@ function Edit({ mustVerifyEmail, status }) {
     const [showDeletePassword, setShowDeletePassword] = useState(false);
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
+    const photoInputRef = useRef();
+    const [photoUploading, setPhotoUploading] = useState(false);
+    const [photoError, setPhotoError] = useState(null);
+
+    const photoUrl = user.profile_photo
+        ? `/storage/${user.profile_photo}`
+        : (user.avatar || null);
+
+    const handlePhotoButtonClick = () => {
+        setPhotoError(null);
+        photoInputRef.current?.click();
+    };
+
+    const handlePhotoChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            setPhotoError('Please select an image file.');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            setPhotoError('Image must be 5 MB or smaller.');
+            return;
+        }
+        setPhotoUploading(true);
+        router.post(route('profile.photo'), { photo: file }, {
+            forceFormData: true,
+            preserveScroll: true,
+            onError: (errors) => {
+                setPhotoError(errors.photo || 'Could not upload photo. Please try again.');
+            },
+            onFinish: () => {
+                setPhotoUploading(false);
+                if (photoInputRef.current) photoInputRef.current.value = '';
+            },
+        });
+    };
 
     // Profile form
     const {
@@ -135,10 +172,31 @@ function Edit({ mustVerifyEmail, status }) {
                             <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
                                 <div className="flex flex-col items-center">
                                     <div className="relative">
-                                        <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-[#1A1816] text-3xl font-bold">
-                                            {user.name.charAt(0).toUpperCase()}
-                                        </div>
-                                        <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-[#555] transition-colors border border-gray-200">
+                                        {photoUrl ? (
+                                            <img
+                                                src={photoUrl}
+                                                alt={user.name}
+                                                className="w-24 h-24 rounded-full object-cover border border-gray-200"
+                                            />
+                                        ) : (
+                                            <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-[#1A1816] text-3xl font-bold">
+                                                {user.name.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
+                                        <input
+                                            ref={photoInputRef}
+                                            type="file"
+                                            accept="image/jpeg,image/png,image/webp,image/gif"
+                                            className="hidden"
+                                            onChange={handlePhotoChange}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handlePhotoButtonClick}
+                                            disabled={photoUploading}
+                                            title={photoUploading ? 'Uploading…' : 'Change photo'}
+                                            className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-[#555] transition-colors border border-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                                        >
                                             <Camera className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -146,6 +204,9 @@ function Edit({ mustVerifyEmail, status }) {
                                         {user.name}
                                     </h2>
                                     <p className="text-sm text-gray-500">{user.email}</p>
+                                    {photoError && (
+                                        <p className="mt-2 text-xs text-red-600 text-center">{photoError}</p>
+                                    )}
                                     {user.role === 'admin' && (
                                         <span className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-[#1A1816]/10 text-[#1A1816] text-xs font-medium rounded-full">
                                             <Shield className="w-3 h-3" />
