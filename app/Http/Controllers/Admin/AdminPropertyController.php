@@ -20,13 +20,15 @@ class AdminPropertyController extends Controller
     {
         $query = Property::with(['user', 'originalOwner']);
 
-        // Search
+        // Search across title, full address (street/city/state/zip), and owner name
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('property_title', 'like', "%{$search}%")
                     ->orWhere('address', 'like', "%{$search}%")
                     ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('state', 'like', "%{$search}%")
+                    ->orWhere('zip_code', 'like', "%{$search}%")
                     ->orWhere('contact_name', 'like', "%{$search}%");
             });
         }

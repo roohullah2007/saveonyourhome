@@ -165,7 +165,7 @@ export default function EbooksIndex({ ebooks = [] }) {
   return (
     <>
       <Head title="eBooks — Admin" />
-      <div className="px-4 sm:px-6 lg:px-8 py-8">
+      <div>
         <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -250,4 +250,4 @@ export default function EbooksIndex({ ebooks = [] }) {
   );
 }
 
-EbooksIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+EbooksIndex.layout = (page) => <AdminLayout title="eBooks">{page}</AdminLayout>;

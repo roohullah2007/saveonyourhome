@@ -10,11 +10,9 @@ use App\Http\Controllers\Admin\AdminInquiryController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminSettingsController;
 use App\Http\Controllers\Admin\AdminActivityController;
-use App\Http\Controllers\Admin\AdminMediaOrderController;
 use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminPartnerController;
 use App\Http\Controllers\Admin\AdminTaxonomyController;
-use App\Http\Controllers\Admin\AdminWordpressImportController;
 use App\Http\Controllers\Admin\AdminImportController;
 use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\BuyerInquiryController;
@@ -513,24 +511,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/partners/{partner}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
     Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
 
-    // WordPress (Houzez) Import
-    Route::get('/wordpress-import', [AdminWordpressImportController::class, 'index'])->name('wordpress-import.index');
-    Route::post('/wordpress-import/run', [AdminWordpressImportController::class, 'run'])->name('wordpress-import.run');
-
-    // Import Batches (WordPress + Zillow + CSV share the same batch view)
+    // Import Batches (Zillow + CSV share the same batch view)
     Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');
     Route::get('/imports/{batch}', [AdminImportController::class, 'show'])->name('imports.show');
     Route::post('/imports/{batch}/extend', [AdminImportController::class, 'extendExpiration'])->name('imports.extend');
     Route::delete('/imports/{batch}', [AdminImportController::class, 'destroy'])->name('imports.destroy');
-
-    // Media Orders Management
-    Route::get('/media-orders', [AdminMediaOrderController::class, 'index'])->name('media-orders.index');
-    Route::get('/media-orders/{mediaOrder}', [AdminMediaOrderController::class, 'show'])->name('media-orders.show');
-    Route::post('/media-orders/{mediaOrder}/status', [AdminMediaOrderController::class, 'updateStatus'])->name('media-orders.status');
-    Route::post('/media-orders/{mediaOrder}/paid', [AdminMediaOrderController::class, 'markPaid'])->name('media-orders.paid');
-    Route::post('/media-orders/{mediaOrder}/notes', [AdminMediaOrderController::class, 'addNotes'])->name('media-orders.notes');
-    Route::post('/media-orders/{mediaOrder}/schedule', [AdminMediaOrderController::class, 'schedule'])->name('media-orders.schedule');
-    Route::delete('/media-orders/{mediaOrder}', [AdminMediaOrderController::class, 'destroy'])->name('media-orders.destroy');
 });
 
 // Short URL: /74 redirects to /properties/74-123-main-street

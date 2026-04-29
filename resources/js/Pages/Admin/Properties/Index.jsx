@@ -26,6 +26,8 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
     const [propertyToDelete, setPropertyToDelete] = useState(null);
     const [propertyToReject, setPropertyToReject] = useState(null);
     const [rejectionReason, setRejectionReason] = useState('');
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -115,6 +117,36 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
     ];
 
     const propertyList = properties.data || properties;
+    const allPageIds = propertyList.map((p) => p.id);
+    const allPageSelected = allPageIds.length > 0 && allPageIds.every((id) => selectedIds.includes(id));
+
+    const toggleSelect = (id) => {
+        setSelectedIds((prev) =>
+            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+        );
+    };
+
+    const toggleSelectAll = () => {
+        if (allPageSelected) {
+            setSelectedIds((prev) => prev.filter((id) => !allPageIds.includes(id)));
+        } else {
+            setSelectedIds((prev) => Array.from(new Set([...prev, ...allPageIds])));
+        }
+    };
+
+    const confirmBulkDelete = () => {
+        router.post(
+            route('admin.properties.bulk-action'),
+            { ids: selectedIds, action: 'delete' },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setShowBulkDeleteModal(false);
+                    setSelectedIds([]);
+                },
+            }
+        );
+    };
 
     return (
         <AdminLayout title="Properties">
@@ -161,7 +193,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search properties..."
+                            placeholder="Search by title, address, city, state, zip, or owner…"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
@@ -176,12 +208,46 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                 </form>
             </div>
 
+            {/* Bulk Actions Bar */}
+            {selectedIds.length > 0 && (
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 bg-white rounded-xl shadow-sm px-4 py-3">
+                    <div className="text-sm text-gray-600">
+                        <strong>{selectedIds.length}</strong> selected
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            onClick={() => setSelectedIds([])}
+                            className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                        >
+                            Clear selection
+                        </button>
+                        <button
+                            onClick={() => setShowBulkDeleteModal(true)}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Delete selected ({selectedIds.length})
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Properties Table */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
+                                <th className="px-6 py-3 text-left w-10">
+                                    <input
+                                        type="checkbox"
+                                        checked={allPageSelected}
+                                        onChange={toggleSelectAll}
+                                        disabled={propertyList.length === 0}
+                                        className="rounded border-gray-300 text-[#3355FF] focus:ring-[#3355FF]"
+                                        title={allPageSelected ? 'Deselect all on page' : 'Select all on page'}
+                                    />
+                                </th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Property</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Price</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
@@ -193,17 +259,25 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                         <tbody className="divide-y divide-gray-200">
                             {propertyList.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                                    <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
                                         No properties found
                                     </td>
                                 </tr>
                             ) : (
                                 propertyList.map((property) => (
-                                    <tr key={property.id} className="hover:bg-gray-50">
+                                    <tr key={property.id} className={`hover:bg-gray-50 ${selectedIds.includes(property.id) ? 'bg-blue-50/50' : ''}`}>
                                         <td className="px-6 py-4">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(property.id)}
+                                                onChange={() => toggleSelect(property.id)}
+                                                className="rounded border-gray-300 text-[#3355FF] focus:ring-[#3355FF]"
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4 max-w-xs">
                                             <div>
-                                                <p className="font-medium text-gray-900">{property.property_title}</p>
-                                                <p className="text-sm text-gray-500">{property.city}, {property.state}</p>
+                                                <p className="font-medium text-gray-900 truncate" title={property.property_title}>{property.property_title}</p>
+                                                <p className="text-sm text-gray-500 truncate">{property.city}, {property.state}</p>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -349,6 +423,26 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                             </button>
                             <button onClick={deleteProperty} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Bulk Delete Modal */}
+            {showBulkDeleteModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete selected properties?</h3>
+                        <p className="text-gray-500 mb-6">
+                            This will permanently delete <strong>{selectedIds.length}</strong> propert{selectedIds.length === 1 ? 'y' : 'ies'}. This action cannot be undone.
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button onClick={() => setShowBulkDeleteModal(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                                Cancel
+                            </button>
+                            <button onClick={confirmBulkDelete} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                Delete {selectedIds.length}
                             </button>
                         </div>
                     </div>

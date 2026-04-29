@@ -55,7 +55,7 @@ export default function AnalyticsIndex({ stats = {}, topEbooks = [], downloadSer
     return (
         <>
             <Head title="Analytics — Admin" />
-            <div className="px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <BarChart3 className="w-6 h-6 text-[#3355FF]" /> Analytics
@@ -157,4 +157,4 @@ export default function AnalyticsIndex({ stats = {}, topEbooks = [], downloadSer
     );
 }
 
-AnalyticsIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+AnalyticsIndex.layout = (page) => <AdminLayout title="Analytics">{page}</AdminLayout>;

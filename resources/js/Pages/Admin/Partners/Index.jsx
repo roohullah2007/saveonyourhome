@@ -135,7 +135,7 @@ export default function PartnersIndex({ partners = [], categories = [], counts =
     return (
         <>
             <Head title="Partners - Admin" />
-            <div className="px-4 sm:px-6 lg:px-8 py-8">
+            <div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">Partners</h1>
@@ -388,4 +388,4 @@ export default function PartnersIndex({ partners = [], categories = [], counts =
     );
 }
 
-PartnersIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+PartnersIndex.layout = (page) => <AdminLayout title="Partners">{page}</AdminLayout>;

@@ -28,7 +28,7 @@ export default function ActivityIndex({ logs = { data: [] }, filters = {}, actio
     return (
         <>
             <Head title="Activity — Admin" />
-            <div className="px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <ActivityIcon className="w-6 h-6 text-[#3355FF]" /> Activity Log
@@ -122,4 +122,4 @@ export default function ActivityIndex({ logs = { data: [] }, filters = {}, actio
     );
 }
 
-ActivityIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+ActivityIndex.layout = (page) => <AdminLayout title="Activity">{page}</AdminLayout>;

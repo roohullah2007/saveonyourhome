@@ -148,7 +148,7 @@ export default function TaxonomiesIndex({ groups = {}, typeMeta = {} }) {
   return (
     <>
       <Head title="Taxonomies — Admin" />
-      <div className="px-4 sm:px-6 lg:px-8 py-8">
+      <div>
         <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -212,4 +212,4 @@ export default function TaxonomiesIndex({ groups = {}, typeMeta = {} }) {
   );
 }
 
-TaxonomiesIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+TaxonomiesIndex.layout = (page) => <AdminLayout title="Taxonomies">{page}</AdminLayout>;

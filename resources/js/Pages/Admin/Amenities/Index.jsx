@@ -253,7 +253,7 @@ export default function AmenitiesIndex({ amenityTree = [] }) {
     return (
         <>
             <Head title="Amenities — Admin" />
-            <div className="px-4 sm:px-6 lg:px-8 py-8">
+            <div>
                 <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -379,4 +379,4 @@ export default function AmenitiesIndex({ amenityTree = [] }) {
     );
 }
 
-AmenitiesIndex.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+AmenitiesIndex.layout = (page) => <AdminLayout title="Amenities">{page}</AdminLayout>;
