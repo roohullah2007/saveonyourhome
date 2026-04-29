@@ -63,9 +63,17 @@ export default function UserDashboardLayout({ children, title }) {
                     {/* User */}
                     <div className="p-5 border-b border-gray-100">
                         <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
-                                {user.name.charAt(0).toUpperCase()}
-                            </div>
+                            {user.profile_photo ? (
+                                <img
+                                    src={`/storage/${user.profile_photo}`}
+                                    alt={user.name}
+                                    className="w-11 h-11 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-11 h-11 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
+                                    {user.name.charAt(0).toUpperCase()}
+                                </div>
+                            )}
                             <div className="flex-1 min-w-0">
                                 <h3 className="font-semibold text-[#111111] truncate text-sm">{user.name}</h3>
                                 <p className="text-xs text-gray-500 truncate">{user.email}</p>

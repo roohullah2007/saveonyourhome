@@ -262,9 +262,17 @@ const Header = ({ maxWidth, noPadding }) => {
                       onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                       className="flex items-center gap-2 p-1.5 rounded-full hover:bg-gray-100 transition-colors"
                     >
-                      <div className="w-9 h-9 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
+                      {user.profile_photo ? (
+                        <img
+                          src={`/storage/${user.profile_photo}`}
+                          alt={user.name}
+                          className="w-9 h-9 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-9 h-9 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                       <ChevronDown className={`w-4 h-4 text-gray-500 hidden md:block transition-transform ${profileMenuOpen ? 'rotate-180' : ''}`} />
                     </button>
 
@@ -279,9 +287,17 @@ const Header = ({ maxWidth, noPadding }) => {
                           {/* User Info */}
                           <div className="px-4 py-3 border-b border-gray-100">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
-                                {user.name.charAt(0).toUpperCase()}
-                              </div>
+                              {user.profile_photo ? (
+                                <img
+                                  src={`/storage/${user.profile_photo}`}
+                                  alt={user.name}
+                                  className="w-10 h-10 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
+                                  {user.name.charAt(0).toUpperCase()}
+                                </div>
+                              )}
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
                                 <p className="text-xs text-gray-500 truncate">{user.email}</p>
@@ -551,9 +567,17 @@ const Header = ({ maxWidth, noPadding }) => {
                   <>
                     {/* Logged in mobile user */}
                     <div className="flex items-center gap-3 py-3">
-                      <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
+                      {user.profile_photo ? (
+                        <img
+                          src={`/storage/${user.profile_photo}`}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                       <div>
                         <p className="font-semibold text-gray-900">{user.name}</p>
                         <p className="text-sm text-gray-500">{user.email}</p>

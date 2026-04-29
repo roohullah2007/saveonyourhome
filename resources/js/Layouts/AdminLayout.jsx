@@ -102,9 +102,17 @@ export default function AdminLayout({ children, title }) {
                     {/* User section */}
                     <div className="p-4 border-t border-gray-800">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
-                                {user.name.charAt(0).toUpperCase()}
-                            </div>
+                            {user.profile_photo ? (
+                                <img
+                                    src={`/storage/${user.profile_photo}`}
+                                    alt={user.name}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-10 h-10 bg-[#1A1816] rounded-full flex items-center justify-center text-white font-semibold">
+                                    {user.name.charAt(0).toUpperCase()}
+                                </div>
+                            )}
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-white truncate">{user.name}</p>
                                 <p className="text-xs text-gray-400 truncate">{user.email}</p>
@@ -165,9 +173,17 @@ export default function AdminLayout({ children, title }) {
                                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                                     className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg"
                                 >
-                                    <div className="w-8 h-8 bg-[#1A1816] rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                                        {user.name.charAt(0).toUpperCase()}
-                                    </div>
+                                    {user.profile_photo ? (
+                                        <img
+                                            src={`/storage/${user.profile_photo}`}
+                                            alt={user.name}
+                                            className="w-8 h-8 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-8 h-8 bg-[#1A1816] rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                                            {user.name.charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
                                     <ChevronDown className="w-4 h-4 text-gray-500" />
                                 </button>
 

@@ -71,7 +71,7 @@ const CTACardsSection = () => {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col p-7 group"
+              className="rounded-2xl border border-gray-200/60 transition-all duration-300 hover:border-gray-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col p-7 group overflow-hidden"
               style={{
                 background: 'rgba(255, 255, 255, 0.65)',
                 backdropFilter: 'blur(16px)',
