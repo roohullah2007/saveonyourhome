@@ -88,11 +88,31 @@ export default function Dashboard({
             pending: 'bg-yellow-100 text-yellow-700',
             approved: 'bg-green-100 text-green-700',
             rejected: 'bg-red-100 text-red-700',
+            on_hold: 'bg-blue-100 text-blue-700',
+            draft: 'bg-gray-200 text-gray-700',
+            changes_requested: 'bg-orange-100 text-orange-700',
             new: 'bg-blue-100 text-blue-700',
-            read: 'bg-gray-100 text-gray-700',
+            read: 'bg-yellow-100 text-yellow-700',
             responded: 'bg-green-100 text-green-700',
+            archived: 'bg-gray-100 text-gray-700',
         };
         return styles[status] || 'bg-gray-100 text-gray-700';
+    };
+
+    const getStatusLabel = (status) => {
+        const labels = {
+            pending: 'Pending',
+            approved: 'Approved',
+            rejected: 'Rejected',
+            on_hold: 'On Hold',
+            draft: 'Draft',
+            changes_requested: 'Changes Requested',
+            new: 'New',
+            read: 'Read',
+            responded: 'Responded',
+            archived: 'Archived',
+        };
+        return labels[status] || (status ? status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : '-');
     };
 
     return (
@@ -158,7 +178,7 @@ export default function Dashboard({
                                                 {property.price}
                                             </span>
                                             <span className={`px-2 py-1 text-xs rounded-full ${getStatusBadge(property.approval_status)}`}>
-                                                {property.approval_status}
+                                                {getStatusLabel(property.approval_status)}
                                             </span>
                                         </div>
                                     </div>
@@ -240,7 +260,7 @@ export default function Dashboard({
                                             </p>
                                         </div>
                                         <span className={`px-2 py-1 text-xs rounded-full ${getStatusBadge(inquiry.status)}`}>
-                                            {inquiry.status}
+                                            {getStatusLabel(inquiry.status)}
                                         </span>
                                     </div>
                                 </div>
