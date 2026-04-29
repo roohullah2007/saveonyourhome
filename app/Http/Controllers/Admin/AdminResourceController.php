@@ -188,4 +188,39 @@ class AdminResourceController extends Controller
         return redirect()->route('admin.resources.index')
             ->with('success', 'Resource deleted successfully.');
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'nullable|array',
+            'ids.*' => 'integer|exists:resources,id',
+            'all' => 'nullable|boolean',
+        ]);
+
+        $query = Resource::query();
+        if (empty($validated['all'])) {
+            if (empty($validated['ids'])) {
+                return redirect()->route('admin.resources.index')
+                    ->with('error', 'No resources selected.');
+            }
+            $query->whereIn('id', $validated['ids']);
+        }
+
+        $resources = $query->get();
+        $count = 0;
+
+        foreach ($resources as $resource) {
+            if ($resource->image && str_starts_with($resource->image, '/storage/')) {
+                $oldPath = str_replace('/storage/', '', $resource->image);
+                Storage::disk('public')->delete($oldPath);
+            }
+            $resource->delete();
+            $count++;
+        }
+
+        ActivityLog::log('resource_bulk_deleted', null, null, ['count' => $count], "Bulk deleted {$count} resource(s)");
+
+        return redirect()->route('admin.resources.index')
+            ->with('success', "Deleted {$count} resource(s) successfully.");
+    }
 }

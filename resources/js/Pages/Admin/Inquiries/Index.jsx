@@ -83,9 +83,21 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
             new: 'bg-blue-100 text-blue-700',
             read: 'bg-yellow-100 text-yellow-700',
             responded: 'bg-green-100 text-green-700',
+            on_hold: 'bg-indigo-100 text-indigo-700',
             archived: 'bg-gray-100 text-gray-700',
         };
         return styles[status] || 'bg-gray-100 text-gray-700';
+    };
+
+    const getStatusLabel = (status) => {
+        const labels = {
+            new: 'New',
+            read: 'Read',
+            responded: 'Responded',
+            on_hold: 'On Hold',
+            archived: 'Archived',
+        };
+        return labels[status] || (status ? status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'New');
     };
 
     const tabs = [
@@ -248,11 +260,16 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 max-w-[16rem]">
                                             {inquiry.property ? (
-                                                <div className="flex items-center gap-2">
-                                                    <Home className="w-4 h-4 text-gray-400" />
-                                                    <span className="text-sm text-gray-900">{inquiry.property.property_title}</span>
+                                                <div className="flex items-start gap-2">
+                                                    <Home className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                                                    <span
+                                                        className="text-sm text-gray-900 line-clamp-2 break-words"
+                                                        title={inquiry.property.property_title}
+                                                    >
+                                                        {inquiry.property.property_title}
+                                                    </span>
                                                 </div>
                                             ) : (
                                                 <span className="text-sm text-gray-400">Property deleted</span>
@@ -265,7 +282,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(inquiry.status)}`}>
-                                                {inquiry.status}
+                                                {getStatusLabel(inquiry.status)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">

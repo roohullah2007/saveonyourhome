@@ -24,6 +24,9 @@ export default function ResourcesIndex({ resources = [] }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [resourceToDelete, setResourceToDelete] = useState(null);
     const [activeCategory, setActiveCategory] = useState('all');
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+    const [bulkDeleteScope, setBulkDeleteScope] = useState('selected');
 
     // Form state
     const [formData, setFormData] = useState({
@@ -170,6 +173,41 @@ export default function ResourcesIndex({ resources = [] }) {
         }
     };
 
+    const toggleSelect = (id) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
+    const allFilteredIds = filteredResources.map(r => r.id);
+    const allFilteredSelected = allFilteredIds.length > 0 && allFilteredIds.every(id => selectedIds.includes(id));
+
+    const toggleSelectAllFiltered = () => {
+        if (allFilteredSelected) {
+            setSelectedIds(prev => prev.filter(id => !allFilteredIds.includes(id)));
+        } else {
+            setSelectedIds(prev => Array.from(new Set([...prev, ...allFilteredIds])));
+        }
+    };
+
+    const openBulkDelete = (scope) => {
+        setBulkDeleteScope(scope);
+        setShowBulkDeleteModal(true);
+    };
+
+    const confirmBulkDelete = () => {
+        const payload = bulkDeleteScope === 'all'
+            ? { all: true }
+            : { ids: selectedIds };
+        router.post(route('admin.resources.bulk-destroy'), payload, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setShowBulkDeleteModal(false);
+                setSelectedIds([]);
+            },
+        });
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '-';
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -229,11 +267,62 @@ export default function ResourcesIndex({ resources = [] }) {
                 ))}
             </div>
 
+            {/* Bulk Actions Bar */}
+            {(selectedIds.length > 0 || resources.length > 0) && (
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 bg-white rounded-xl shadow-sm px-4 py-3">
+                    <div className="text-sm text-gray-600">
+                        {selectedIds.length > 0 ? (
+                            <span><strong>{selectedIds.length}</strong> selected</span>
+                        ) : (
+                            <span>Use the checkboxes to select resources for bulk actions.</span>
+                        )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {selectedIds.length > 0 && (
+                            <>
+                                <button
+                                    onClick={() => setSelectedIds([])}
+                                    className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                                >
+                                    Clear selection
+                                </button>
+                                <button
+                                    onClick={() => openBulkDelete('selected')}
+                                    className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                    Delete selected ({selectedIds.length})
+                                </button>
+                            </>
+                        )}
+                        {resources.length > 0 && (
+                            <button
+                                onClick={() => openBulkDelete('all')}
+                                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                Delete all ({resources.length})
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Resources Table */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 <table className="w-full">
                     <thead className="bg-gray-50 border-b border-gray-200">
                         <tr>
+                            <th className="px-6 py-3 text-left w-10">
+                                <input
+                                    type="checkbox"
+                                    checked={allFilteredSelected}
+                                    onChange={toggleSelectAllFiltered}
+                                    disabled={filteredResources.length === 0}
+                                    className="rounded border-gray-300 text-[#3355FF] focus:ring-[#3355FF]"
+                                    title={allFilteredSelected ? 'Deselect all' : 'Select all'}
+                                />
+                            </th>
                             <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Title</th>
                             <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Category</th>
                             <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
@@ -244,14 +333,22 @@ export default function ResourcesIndex({ resources = [] }) {
                     <tbody className="divide-y divide-gray-200">
                         {filteredResources.length === 0 ? (
                             <tr>
-                                <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                                <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
                                     <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />
                                     No resources found. Click "Add Resource" to create one.
                                 </td>
                             </tr>
                         ) : (
                             filteredResources.map((resource) => (
-                                <tr key={resource.id} className="hover:bg-gray-50">
+                                <tr key={resource.id} className={`hover:bg-gray-50 ${selectedIds.includes(resource.id) ? 'bg-blue-50/50' : ''}`}>
+                                    <td className="px-6 py-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedIds.includes(resource.id)}
+                                            onChange={() => toggleSelect(resource.id)}
+                                            className="rounded border-gray-300 text-[#3355FF] focus:ring-[#3355FF]"
+                                        />
+                                    </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             {resource.image ? (
@@ -500,6 +597,38 @@ export default function ResourcesIndex({ resources = [] }) {
                                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                             >
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Bulk Delete Modal */}
+            {showBulkDeleteModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            {bulkDeleteScope === 'all' ? 'Delete all resources?' : 'Delete selected resources?'}
+                        </h3>
+                        <p className="text-gray-500 mb-6">
+                            {bulkDeleteScope === 'all' ? (
+                                <>This will permanently delete <strong>all {resources.length}</strong> resource(s) and their featured images. This action cannot be undone.</>
+                            ) : (
+                                <>This will permanently delete <strong>{selectedIds.length}</strong> selected resource(s) and their featured images. This action cannot be undone.</>
+                            )}
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setShowBulkDeleteModal(false)}
+                                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmBulkDelete}
+                                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            >
+                                {bulkDeleteScope === 'all' ? 'Delete all' : 'Delete selected'}
                             </button>
                         </div>
                     </div>

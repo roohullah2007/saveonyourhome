@@ -483,6 +483,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/resources/ai-generate', [AdminResourceController::class, 'aiGenerate'])->name('resources.ai-generate');
     Route::post('/resources', [AdminResourceController::class, 'store'])->name('resources.store');
     Route::put('/resources/{resource}', [AdminResourceController::class, 'update'])->name('resources.update');
+    Route::post('/resources/bulk-destroy', [AdminResourceController::class, 'bulkDestroy'])->name('resources.bulk-destroy');
     Route::delete('/resources/{resource}', [AdminResourceController::class, 'destroy'])->name('resources.destroy');
 
     // eBooks library

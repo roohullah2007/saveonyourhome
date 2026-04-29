@@ -94,6 +94,18 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
         return styles[status] || 'bg-gray-100 text-gray-700';
     };
 
+    const getStatusLabel = (status) => {
+        const labels = {
+            pending: 'Pending',
+            approved: 'Approved',
+            rejected: 'Rejected',
+            on_hold: 'On Hold',
+            draft: 'Draft',
+            changes_requested: 'Changes Requested',
+        };
+        return labels[status] || 'Pending';
+    };
+
     const tabs = [
         { key: '', label: 'All', count: counts.all || properties.total || 0 },
         { key: 'pending', label: 'Pending', count: counts.pending || 0 },
@@ -202,7 +214,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full w-fit ${getStatusBadge(property.approval_status || 'pending')}`}>
-                                                    {property.approval_status || 'pending'}
+                                                    {getStatusLabel(property.approval_status || 'pending')}
                                                 </span>
                                                 {property.is_featured && (
                                                     <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-700 w-fit">
