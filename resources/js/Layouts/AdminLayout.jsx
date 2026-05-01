@@ -11,7 +11,6 @@ import {
     Menu,
     X,
     ChevronDown,
-    Bell,
     Shield,
     Tags,
     Layers,
@@ -19,7 +18,6 @@ import {
     BarChart3,
     FileText,
     Handshake,
-    Activity,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -40,7 +38,6 @@ export default function AdminLayout({ children, title }) {
         { name: 'Resources & Blog', href: route('admin.resources.index'), icon: FileText, current: route().current('admin.resources.*') },
         { name: 'eBooks', href: route('admin.ebooks.index'), icon: BookOpen, current: route().current('admin.ebooks.*') },
         { name: 'Partners', href: route('admin.partners.index'), icon: Handshake, current: route().current('admin.partners.*') },
-        { name: 'Activity', href: route('admin.activity.index'), icon: Activity, current: route().current('admin.activity.*') },
         { name: 'Settings', href: route('admin.settings.index'), icon: Settings, current: route().current('admin.settings.*') },
     ];
 
@@ -156,12 +153,6 @@ export default function AdminLayout({ children, title }) {
                                 <Home className="w-4 h-4" />
                                 View Site
                             </Link>
-
-                            {/* Notifications */}
-                            <button className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-[#1A1816] rounded-full" />
-                            </button>
 
                             {/* User dropdown */}
                             <div className="relative">
