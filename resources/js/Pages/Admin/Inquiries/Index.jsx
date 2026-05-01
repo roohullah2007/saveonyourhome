@@ -116,8 +116,6 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
             month: 'short',
             day: 'numeric',
             year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
         });
     };
 
@@ -211,7 +209,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-6 py-3 text-left">
+                                <th className="px-3 py-3 text-left">
                                     <input
                                         type="checkbox"
                                         checked={selectedInquiries.length === inquiryList.length && inquiryList.length > 0}
@@ -219,12 +217,12 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                         className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                     />
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">From</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Property</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Message</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
-                                <th className="sticky right-0 bg-gray-50 px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase shadow-[-4px_0_6px_-4px_rgba(0,0,0,0.08)]">Actions</th>
+                                <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">From</th>
+                                <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Property</th>
+                                <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Message</th>
+                                <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Status</th>
+                                <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Date</th>
+                                <th className="px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -238,7 +236,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                             ) : (
                                 inquiryList.map((inquiry) => (
                                     <tr key={inquiry.id} className={`group hover:bg-gray-50 ${inquiry.status === 'new' ? 'bg-blue-50/30' : ''}`}>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-4">
                                             <input
                                                 type="checkbox"
                                                 checked={selectedInquiries.includes(inquiry.id)}
@@ -246,21 +244,21 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                             />
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-[#1A1816]/10 rounded-full flex items-center justify-center flex-shrink-0">
                                                     <User className="w-5 h-5 text-[#1A1816]" />
                                                 </div>
-                                                <div>
-                                                    <p className="font-medium text-gray-900">{inquiry.name}</p>
-                                                    <p className="text-sm text-gray-500">{inquiry.email}</p>
+                                                <div className="min-w-0">
+                                                    <p className="font-medium text-gray-900 truncate">{inquiry.name}</p>
+                                                    <p className="text-sm text-gray-500 truncate">{inquiry.email}</p>
                                                     {inquiry.phone && (
-                                                        <p className="text-sm text-gray-500">{inquiry.phone}</p>
+                                                        <p className="text-sm text-gray-500 truncate">{inquiry.phone}</p>
                                                     )}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 max-w-[16rem]">
+                                        <td className="px-3 py-4 max-w-[12rem]">
                                             {inquiry.property ? (
                                                 <div className="flex items-start gap-2">
                                                     <Home className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
@@ -275,23 +273,23 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 <span className="text-sm text-gray-400">Property deleted</span>
                                             )}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-sm text-gray-600 truncate max-w-xs" title={inquiry.message}>
+                                        <td className="px-3 py-4 max-w-[14rem]">
+                                            <p className="text-sm text-gray-600 truncate" title={inquiry.message}>
                                                 {inquiry.message}
                                             </p>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-4 whitespace-nowrap">
                                             <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(inquiry.status)}`}>
                                                 {getStatusLabel(inquiry.status)}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-1 text-sm text-gray-500">
-                                                <Clock className="w-4 h-4" />
+                                                <Clock className="w-4 h-4 flex-shrink-0" />
                                                 {formatDate(inquiry.created_at)}
                                             </div>
                                         </td>
-                                        <td className={`sticky right-0 px-4 py-4 shadow-[-4px_0_6px_-4px_rgba(0,0,0,0.08)] ${inquiry.status === 'new' ? 'bg-blue-50/30' : 'bg-white'} group-hover:bg-gray-50`}>
+                                        <td className="px-3 py-4 whitespace-nowrap">
                                             <div className="flex items-center justify-end gap-0.5">
                                                 {inquiry.status === 'new' && (
                                                     <button
