@@ -1,4 +1,4 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import {
@@ -20,6 +20,11 @@ import {
 } from 'lucide-react';
 
 export default function PropertiesIndex({ properties, filters = {}, counts = {} }) {
+    const { taxonomies = {} } = usePage().props;
+    const propertyTypes = taxonomies.property_types || [];
+    const listingStatuses = taxonomies.listing_statuses || [];
+    const transactionTypes = taxonomies.transaction_types || [];
+    const listingLabels = taxonomies.listing_labels || [];
     const [search, setSearch] = useState(filters.search || '');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
@@ -186,10 +191,10 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                 ))}
             </div>
 
-            {/* Search */}
+            {/* Search + Filters */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
-                <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1 relative">
+                <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-3">
+                    <div className="flex-1 relative min-w-[220px]">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                             type="text"
@@ -199,12 +204,69 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                         />
                     </div>
+
+                    <select
+                        value={filters.type || ''}
+                        onChange={(e) => handleFilter('type', e.target.value)}
+                        className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] min-w-[160px]"
+                    >
+                        <option value="">All types</option>
+                        {propertyTypes.map((t) => (
+                            <option key={t.value} value={t.value}>{t.label}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        value={filters.status || ''}
+                        onChange={(e) => handleFilter('status', e.target.value)}
+                        className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] min-w-[160px]"
+                    >
+                        <option value="">All listing statuses</option>
+                        {listingStatuses.map((s) => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        value={filters.transaction_type || ''}
+                        onChange={(e) => handleFilter('transaction_type', e.target.value)}
+                        className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] min-w-[160px]"
+                    >
+                        <option value="">All transactions</option>
+                        {transactionTypes.map((t) => (
+                            <option key={t.value} value={t.value}>{t.label}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        value={filters.listing_label || ''}
+                        onChange={(e) => handleFilter('listing_label', e.target.value)}
+                        className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816] min-w-[160px]"
+                    >
+                        <option value="">All labels</option>
+                        {listingLabels.map((l) => (
+                            <option key={l.value} value={l.value}>{l.label}</option>
+                        ))}
+                    </select>
+
                     <button
                         type="submit"
-                        className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                        className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors whitespace-nowrap"
                     >
                         Search
                     </button>
+                    {(filters.search || filters.type || filters.status || filters.transaction_type || filters.listing_label) && (
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setSearch('');
+                                router.get(route('admin.properties.index'), { approval: filters.approval || '' }, { preserveState: true });
+                            }}
+                            className="px-4 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap text-sm"
+                        >
+                            Reset
+                        </button>
+                    )}
                 </form>
             </div>
 

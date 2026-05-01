@@ -1,5 +1,5 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import {
     Search,
@@ -13,16 +13,63 @@ import {
     MessageCircle,
     Clock,
     User,
-    Send
+    Send,
+    X,
+    AlertCircle
 } from 'lucide-react';
 
 export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
+    const { flash = {} } = usePage().props;
+    const [pageNotice, setPageNotice] = useState(null);
+
+    useEffect(() => {
+        if (flash?.success) {
+            setPageNotice({ type: 'success', text: flash.success });
+            const t = setTimeout(() => setPageNotice(null), 6000);
+            return () => clearTimeout(t);
+        }
+        if (flash?.error) {
+            setPageNotice({ type: 'error', text: flash.error });
+            const t = setTimeout(() => setPageNotice(null), 8000);
+            return () => clearTimeout(t);
+        }
+    }, [flash?.success, flash?.error]);
     const [search, setSearch] = useState(filters.search || '');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [messageToDelete, setMessageToDelete] = useState(null);
     const [selectedMessages, setSelectedMessages] = useState([]);
     const [showViewModal, setShowViewModal] = useState(false);
     const [viewMessage, setViewMessage] = useState(null);
+    const [replyMessage, setReplyMessage] = useState(null);
+
+    const replyForm = useForm({ subject: '', body: '' });
+
+    const openReplyModal = (message) => {
+        setReplyMessage(message);
+        replyForm.setData({
+            subject: 'Re: ' + (message.subject || 'Your message'),
+            body: '',
+        });
+        replyForm.clearErrors();
+    };
+
+    const closeReplyModal = () => {
+        setReplyMessage(null);
+        replyForm.reset();
+        replyForm.clearErrors();
+    };
+
+    const sendReply = (e) => {
+        e.preventDefault();
+        if (!replyMessage) return;
+        replyForm.post(route('admin.messages.reply', replyMessage.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeReplyModal();
+                setShowViewModal(false);
+            },
+        });
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -123,6 +170,28 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
         <AdminLayout title="Messages">
             <Head title="Messages - Admin" />
 
+            {pageNotice && (
+                <div
+                    className={`mb-4 rounded-lg px-4 py-3 flex items-start gap-3 border ${
+                        pageNotice.type === 'success'
+                            ? 'bg-green-50 border-green-200 text-green-800'
+                            : 'bg-red-50 border-red-200 text-red-800'
+                    }`}
+                >
+                    {pageNotice.type === 'success'
+                        ? <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        : <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />}
+                    <p className="flex-1 text-sm">{pageNotice.text}</p>
+                    <button
+                        onClick={() => setPageNotice(null)}
+                        className="opacity-60 hover:opacity-100"
+                        aria-label="Dismiss"
+                    >
+                        <X className="w-4 h-4" />
+                    </button>
+                </div>
+            )}
+
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
@@ -206,10 +275,19 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
             {/* Messages Table */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full table-fixed">
+                        <colgroup>
+                            <col className="w-[44px]" />
+                            <col className="w-[220px]" />
+                            <col className="w-[180px]" />
+                            <col />
+                            <col className="w-[110px]" />
+                            <col className="w-[150px]" />
+                            <col className="w-[200px]" />
+                        </colgroup>
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-6 py-3 text-left">
+                                <th className="px-4 py-3 text-left">
                                     <input
                                         type="checkbox"
                                         checked={selectedMessages.length === messageList.length && messageList.length > 0}
@@ -217,15 +295,15 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                                         className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
                                     />
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">From</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Subject</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Message</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
-                                <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">From</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Subject</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Message</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-gray-100">
                             {messageList.length === 0 ? (
                                 <tr>
                                     <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
@@ -236,48 +314,52 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                             ) : (
                                 messageList.map((message) => (
                                     <tr key={message.id} className={`hover:bg-gray-50 ${message.status === 'new' ? 'bg-blue-50/30' : ''}`}>
-                                        <td className="px-6 py-4">
+                                        <td className="px-4 py-5 align-top">
                                             <input
                                                 type="checkbox"
                                                 checked={selectedMessages.includes(message.id)}
                                                 onChange={() => toggleSelect(message.id)}
-                                                className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816]"
+                                                className="rounded border-gray-300 text-[#1A1816] focus:ring-[#1A1816] mt-1"
                                             />
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-[#1A1816]/10 rounded-full flex items-center justify-center">
-                                                    <User className="w-5 h-5 text-[#1A1816]" />
+                                        <td className="px-4 py-5 align-top">
+                                            <div className="flex items-start gap-3 min-w-0">
+                                                <div className="w-9 h-9 bg-[#1A1816]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                                    <User className="w-4 h-4 text-[#1A1816]" />
                                                 </div>
-                                                <div>
-                                                    <p className="font-medium text-gray-900">{message.name}</p>
-                                                    <p className="text-sm text-gray-500">{message.email}</p>
+                                                <div className="min-w-0 leading-snug">
+                                                    <p className="font-semibold text-gray-900 truncate">{message.name}</p>
+                                                    <p className="text-xs text-gray-500 truncate">{message.email}</p>
                                                     {message.phone && (
-                                                        <p className="text-sm text-gray-500">{message.phone}</p>
+                                                        <p className="text-xs text-gray-500 truncate">{message.phone}</p>
                                                     )}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-sm font-medium text-gray-900">{message.subject || 'No Subject'}</p>
+                                        <td className="px-4 py-5 align-top">
+                                            <p className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug">{message.subject || 'No Subject'}</p>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-sm text-gray-600 truncate max-w-xs cursor-pointer hover:text-[#555]" title="Click to view full message" onClick={() => openViewModal(message)}>
+                                        <td className="px-4 py-5 align-top">
+                                            <p
+                                                className="text-sm text-gray-600 line-clamp-2 leading-snug cursor-pointer hover:text-gray-900"
+                                                title="Click to view full message"
+                                                onClick={() => openViewModal(message)}
+                                            >
                                                 {message.message}
                                             </p>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(message.status)}`}>
+                                        <td className="px-4 py-5 align-top">
+                                            <span className={`inline-block px-2 py-0.5 text-xs font-medium rounded-full capitalize ${getStatusBadge(message.status)}`}>
                                                 {message.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-1 text-sm text-gray-500">
-                                                <Clock className="w-4 h-4" />
-                                                {formatDate(message.created_at)}
+                                        <td className="px-4 py-5 align-top">
+                                            <div className="flex items-start gap-1.5 text-xs text-gray-500 leading-snug">
+                                                <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                                                <span>{formatDate(message.created_at)}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-4 py-5 align-top">
                                             <div className="flex items-center justify-end gap-1">
                                                 <button
                                                     onClick={() => openViewModal(message)}
@@ -307,9 +389,9 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        window.location.href = `mailto:${message.email}?subject=Re: ${encodeURIComponent(message.subject || 'Your Message')}`;
+                                                        openReplyModal(message);
                                                     }}
-                                                    className="p-2 text-[#1A1816] hover:text-[#111111] hover:bg-red-50 rounded-lg"
+                                                    className="p-2 text-[#3355FF] hover:text-[#1D4ED8] hover:bg-blue-50 rounded-lg"
                                                     title="Reply via Email"
                                                 >
                                                     <Send className="w-4 h-4" />
@@ -439,7 +521,7 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        window.location.href = `mailto:${viewMessage.email}?subject=Re: ${encodeURIComponent(viewMessage.subject || 'Your Message')}`;
+                                        openReplyModal(viewMessage);
                                     }}
                                     className="px-4 py-2 text-sm bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] inline-flex items-center gap-2"
                                 >
@@ -454,6 +536,97 @@ export default function MessagesIndex({ messages, filters = {}, counts = {} }) {
                                 Close
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Reply Modal */}
+            {replyMessage && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex items-start justify-between p-5 border-b border-gray-200">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">Reply to {replyMessage.name}</h3>
+                                <p className="text-sm text-gray-500">{replyMessage.email}</p>
+                            </div>
+                            <button onClick={closeReplyModal} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Close">
+                                <X className="w-5 h-5 text-gray-500" />
+                            </button>
+                        </div>
+
+                        <form onSubmit={sendReply} className="p-5 space-y-4">
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">To</label>
+                                <input
+                                    type="text"
+                                    value={replyMessage.email}
+                                    disabled
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Subject</label>
+                                <input
+                                    type="text"
+                                    value={replyForm.data.subject}
+                                    onChange={(e) => replyForm.setData('subject', e.target.value)}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3355FF]/20 focus:border-[#3355FF]"
+                                    required
+                                />
+                                {replyForm.errors.subject && (
+                                    <p className="mt-1 text-xs text-red-600">{replyForm.errors.subject}</p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Message</label>
+                                <textarea
+                                    rows={9}
+                                    value={replyForm.data.body}
+                                    onChange={(e) => replyForm.setData('body', e.target.value)}
+                                    placeholder={`Type your reply to ${replyMessage.name}…`}
+                                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3355FF]/20 focus:border-[#3355FF] resize-y"
+                                    required
+                                />
+                                {replyForm.errors.body && (
+                                    <p className="mt-1 text-xs text-red-600">{replyForm.errors.body}</p>
+                                )}
+                            </div>
+
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Original message</p>
+                                <p className="text-sm text-gray-700 whitespace-pre-wrap">{replyMessage.message}</p>
+                            </div>
+
+                            {(replyForm.errors.body || replyForm.errors.subject) && (
+                                <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 flex items-start gap-2">
+                                    <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                                    <div className="text-xs text-red-700 space-y-0.5">
+                                        {replyForm.errors.subject && <p>{replyForm.errors.subject}</p>}
+                                        {replyForm.errors.body && <p>{replyForm.errors.body}</p>}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end gap-3 pt-2">
+                                <button
+                                    type="button"
+                                    onClick={closeReplyModal}
+                                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={replyForm.processing}
+                                    className="px-5 py-2 text-sm bg-[#3355FF] text-white rounded-lg hover:bg-[#1D4ED8] disabled:opacity-50 inline-flex items-center gap-2"
+                                >
+                                    <Send className="w-4 h-4" />
+                                    {replyForm.processing ? 'Sending…' : 'Send reply'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

@@ -103,11 +103,12 @@ function getPriceForSqft(pricingArray, sqftValue) {
 }
 
 function Packages({ userListings = [] }) {
-  const { auth } = usePage().props;
+  const { auth, flash } = usePage().props;
 
   // State for the booking form
   const [currentStep, setCurrentStep] = useState(0); // 0 = overview, 1-4 = form steps
   const [selectedListing, setSelectedListing] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   // Helper to get sqft range value from actual sqft number
   const getSqftRangeValue = (sqft) => {
@@ -522,7 +523,10 @@ function Packages({ userListings = [] }) {
     router.post('/media-order', submitData, {
       onSuccess: () => {
         setIsSubmitting(false);
-        // Reset form or redirect
+        setSubmitted(true);
+        setCurrentStep(0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => setSubmitted(false), 8000);
       },
       onError: (errors) => {
         setIsSubmitting(false);
@@ -2239,6 +2243,23 @@ function Packages({ userListings = [] }) {
         description="Professional real estate photography, virtual tours, drone photography, and more. Affordable packages to help sell your FSBO home faster."
         keywords="real estate photography, virtual tour, drone photography, home selling packages, FSBO services, professional home photos"
       />
+
+      {(submitted || flash?.success) && (
+        <div className="fixed top-[90px] left-1/2 -translate-x-1/2 z-[60] w-[min(680px,calc(100vw-32px))]">
+          <div className="rounded-xl px-5 py-4 flex items-start gap-3 shadow-lg" style={{ backgroundColor: 'rgb(240,253,244)', border: '1px solid rgb(187,247,208)' }}>
+            <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'rgb(22,163,74)' }} />
+            <div className="flex-1">
+              <p style={{ fontSize: '15px', fontWeight: 600, color: 'rgb(22,101,52)' }}>Order submitted</p>
+              <p style={{ fontSize: '14px', color: 'rgb(22,101,52)' }} className="mt-0.5">
+                {flash?.success || "We'll contact you within 24 hours to confirm your appointment."}
+              </p>
+            </div>
+            <button onClick={() => setSubmitted(false)} className="flex-shrink-0 text-[rgb(22,101,52)] hover:opacity-70" aria-label="Dismiss">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Service Area Modal */}
       {showServiceAreaModal && <ServiceAreaModal />}

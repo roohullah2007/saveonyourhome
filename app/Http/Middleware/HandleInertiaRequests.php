@@ -82,6 +82,10 @@ class HandleInertiaRequests extends Middleware
                 'listing_statuses' => TaxonomyTerm::activeByType(TaxonomyTerm::TYPE_LISTING_STATUS),
                 'amenity_groups' => TaxonomyTerm::amenityTree(),
             ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
         ];
     }
 }

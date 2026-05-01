@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Mail\InquiryConfirmation;
 use App\Mail\NewInquiryNotification;
-use App\Mail\NewInquiryToAdmin;
 use App\Models\Inquiry;
 use App\Models\Property;
-use App\Models\Setting;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
 {
@@ -45,20 +42,14 @@ class InquiryController extends Controller
             'status' => 'new',
         ]);
 
-        // Send emails with delays to avoid Resend API issues
+        // Property-detail inquiries route to the seller, not to admin.
         if (EmailService::isEnabled()) {
-            // 1. Send confirmation email to the inquirer
             EmailService::sendToUser($inquiry->email, new InquiryConfirmation($inquiry, $property));
 
-            // 2. Send notification to property owner (with delay)
             sleep(2);
             if ($property->contact_email) {
                 EmailService::sendToUser($property->contact_email, new NewInquiryNotification($inquiry, $property));
             }
-
-            // 3. Send notification to admin (with delay)
-            sleep(2);
-            EmailService::sendToAdmin(new NewInquiryToAdmin($inquiry, $property));
         }
 
         return redirect()->back()->with('success', 'Your message has been sent! The seller will contact you soon.');

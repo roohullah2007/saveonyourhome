@@ -48,6 +48,16 @@ class AdminPropertyController extends Controller
             $query->where('property_type', $request->type);
         }
 
+        // Filter by transaction type (for sale / for rent / both)
+        if ($request->filled('transaction_type')) {
+            $query->where('transaction_type', $request->transaction_type);
+        }
+
+        // Filter by listing label (new_listing, open_house, motivated_seller, etc.)
+        if ($request->filled('listing_label')) {
+            $query->where('listing_label', $request->listing_label);
+        }
+
         // Filter by featured
         if ($request->filled('featured')) {
             $query->where('is_featured', $request->featured === 'yes');
@@ -86,7 +96,7 @@ class AdminPropertyController extends Controller
 
         return Inertia::render('Admin/Properties/Index', [
             'properties' => $properties,
-            'filters' => $request->only(['search', 'status', 'approval', 'type', 'featured', 'showcase', 'transferred']),
+            'filters' => $request->only(['search', 'status', 'approval', 'type', 'transaction_type', 'listing_label', 'featured', 'showcase', 'transferred']),
             'counts' => $counts,
         ]);
     }

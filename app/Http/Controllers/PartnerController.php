@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewContactMessageToAdmin;
 use App\Models\ContactMessage;
 use App\Models\Partner;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +57,7 @@ class PartnerController extends Controller
             $logoPath = $request->file('logo')->store('partner-logos', 'public');
         }
 
-        Partner::create([
+        $partner = Partner::create([
             'user_id' => $request->user()?->id,
             'name' => $validated['name'],
             'slug' => Partner::generateUniqueSlug($validated['name']),
@@ -71,6 +73,32 @@ class PartnerController extends Controller
             'is_active' => false,
             'approval_status' => 'pending',
         ]);
+
+        if (EmailService::isEnabled()) {
+            $body = sprintf(
+                "New partner application submitted on SaveOnYourHome.\n\n" .
+                "Business: %s\nCategory: %s\nContact: %s\nEmail: %s\nPhone: %s\nWebsite: %s\nAddress: %s\n\nDescription:\n%s\n\nReview at: %s",
+                $partner->name,
+                $partner->category,
+                $partner->contact_name ?? '—',
+                $partner->email,
+                $partner->phone ?? '—',
+                $partner->website ?? '—',
+                $partner->address ?? '—',
+                $partner->description,
+                url('/admin/partners')
+            );
+
+            try {
+                Mail::raw($body, function ($m) use ($partner) {
+                    $m->to(EmailService::getAdminEmail())
+                        ->subject('New Partner Application: ' . $partner->name)
+                        ->replyTo($partner->email, $partner->contact_name ?? $partner->name);
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
 
         return back()->with('success', 'Thanks! Your partner application has been submitted. Our team will review and contact you within 2 business days.');
     }
@@ -90,7 +118,7 @@ class PartnerController extends Controller
         // Guard: the UI hides the form when a partner has no email, but enforce on the backend too.
         abort_unless($partner->email, 404, 'This partner does not accept inquiries.');
 
-        ContactMessage::create([
+        $contactMessage = ContactMessage::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
@@ -104,6 +132,8 @@ class PartnerController extends Controller
             ),
             'status' => 'new',
         ]);
+
+        EmailService::sendToAdmin(new NewContactMessageToAdmin($contactMessage));
 
         $body = sprintf(
             "You've received a new inquiry from SaveOnYourHome for %s.\n\n" .

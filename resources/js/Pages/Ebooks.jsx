@@ -17,31 +17,31 @@ function humanSize(bytes) {
 
 function EbookCard({ ebook, onDownload, downloading }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
-      <div className="aspect-[3/4] bg-gradient-to-br from-[#E5E1DC] to-[#D0CCC7] flex items-center justify-center">
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col w-full max-w-[300px] mx-auto shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)]">
+      <div className="h-40 bg-gradient-to-br from-[#E5E1DC] to-[#D0CCC7] flex items-center justify-center">
         {ebook.cover_url ? (
           <img src={ebook.cover_url} alt={ebook.title} className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
         ) : (
-          <BookOpen className="w-14 h-14 text-[#3D3D3D]" />
+          <BookOpen className="w-10 h-10 text-[#3D3D3D]" />
         )}
       </div>
-      <div className="p-5 flex-1 flex flex-col">
-        <h3 className="text-lg font-semibold text-[#0F172A] mb-2 leading-snug">{ebook.title}</h3>
+      <div className="p-4 flex-1 flex flex-col">
+        <h3 className="text-base font-semibold text-[#0F172A] mb-1.5 leading-snug line-clamp-2">{ebook.title}</h3>
         {ebook.description && (
-          <p className="text-sm text-[#6B7280] mb-4 line-clamp-4 whitespace-pre-line">{ebook.description}</p>
+          <p className="text-sm text-[#6B7280] mb-3 line-clamp-2 whitespace-pre-line leading-snug">{ebook.description}</p>
         )}
-        <div className="mt-auto flex items-center justify-between gap-3">
-          <span className="text-xs text-[#9CA3AF]">
+        <div className="mt-auto flex items-center justify-between gap-2">
+          <span className="text-xs text-[#9CA3AF] truncate">
             {ebook.file_size_human || humanSize(ebook.file_size)}
             {ebook.download_count > 0 && (
-              <span className="ml-2">· {ebook.download_count.toLocaleString()} downloads</span>
+              <span className="ml-1.5">· {ebook.download_count.toLocaleString()}</span>
             )}
           </span>
           <button
             type="button"
             onClick={onDownload}
             disabled={downloading}
-            className="inline-flex items-center gap-2 rounded-lg bg-[#1A1816] text-white px-4 py-2 text-sm font-semibold hover:bg-[#3355FF] transition-colors disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#1A1816] text-white px-3 py-1.5 text-sm font-semibold hover:bg-[#3355FF] transition-colors disabled:opacity-60 flex-shrink-0"
           >
             {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             Download
@@ -119,7 +119,7 @@ function Ebooks({ ebooks = [] }) {
               <p className="text-sm text-[#6B7280] mt-1">Check back soon &mdash; we publish new guides regularly.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid gap-6 justify-items-center sm:justify-items-stretch grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
               {ebooks.map((eb) => (
                 <EbookCard
                   key={eb.id}

@@ -6,7 +6,7 @@ import MainLayout from '@/Layouts/MainLayout';
 
 function Contact() {
   const { flash } = usePage().props;
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, post, processing, errors, reset, transform } = useForm({
     first_name: '',
     last_name: '',
     email: '',
@@ -15,16 +15,17 @@ function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
 
+  transform((d) => ({
+    name: `${d.first_name} ${d.last_name}`.trim(),
+    email: d.email,
+    phone: d.phone,
+    subject: 'Contact Form Inquiry',
+    message: d.message,
+  }));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     post(route('contact.store'), {
-      data: {
-        name: `${data.first_name} ${data.last_name}`.trim(),
-        email: data.email,
-        phone: data.phone,
-        message: data.message,
-        subject: 'Contact Form Inquiry',
-      },
       onSuccess: () => {
         reset();
         setSubmitted(true);

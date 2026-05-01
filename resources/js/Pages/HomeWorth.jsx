@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, usePage, Link } from '@inertiajs/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
 import HeroBadge from '@/Components/HeroBadge';
 import MainLayout from '@/Layouts/MainLayout';
 
+const HOMEBOT_WIDGET_ID = 'a508f8e866719096643708d4c7e9877465d7eb7250768ae5';
+const HOMEBOT_SCRIPT_SRC = 'https://embed.homebotapp.com/lgw/v1/widget.js';
+
 function HomeWorth() {
   const { flash } = usePage().props;
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__hb_namespace = 'Homebot';
+    window.Homebot = window.Homebot || function () {
+      (window.Homebot.q = window.Homebot.q || []).push(arguments);
+    };
+    window.Homebot('#homebot_homeowner', HOMEBOT_WIDGET_ID);
+    if (!document.querySelector('script[data-homebot]')) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = HOMEBOT_SCRIPT_SRC;
+      s.dataset.homebot = '1';
+      document.head.appendChild(s);
+    }
+  }, []);
 
   const { data, setData, post, processing, errors, reset, transform } = useForm({
     first_name: '',
@@ -104,28 +123,9 @@ function HomeWorth() {
               </p>
             </div>
 
-            {/* Right - Valuation Card */}
-            <div className="rounded-2xl border border-gray-200/60 p-8" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
-              <h3 className="text-[24px] sm:text-[28px] mb-6" style={{ fontWeight: 700, color: 'rgb(26,24,22)' }}>
-                What's your home worth?
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>Property Address</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your property address"
-                    className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500"
-                    style={{ height: '52px', fontSize: '17px', color: 'rgb(26,24,22)' }}
-                  />
-                </div>
-                <button className="inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90 w-full" style={{ backgroundColor: '#3355FF', height: '46px', fontSize: '14px', fontWeight: 600 }}>
-                  Check <ArrowRight style={{ width: '16px', height: '16px' }} />
-                </button>
-              </div>
-              <p className="mt-4 text-center" style={{ fontSize: '14px', color: 'rgb(156,163,175)' }}>
-                Powered by Homebot
-              </p>
+            {/* Right - Homebot Valuation Widget */}
+            <div className="rounded-2xl border border-gray-200/60 p-2 sm:p-4" style={{ background: 'rgba(255,255,255,0.65)', backdropFilter: 'blur(16px)', boxShadow: 'rgba(0,0,0,0.06) 0px 4px 24px, rgba(255,255,255,0.8) 0px 1px 0px inset' }}>
+              <div id="homebot_homeowner" />
             </div>
           </div>
         </div>

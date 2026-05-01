@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MediaOrder;
 use App\Models\User;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -169,17 +170,60 @@ class MediaOrderController extends Controller
             'status' => 'pending',
         ]);
 
-        // TODO: Send confirmation email to customer
-        // TODO: Send notification to admin
+        if (EmailService::isEnabled()) {
+            $addons = collect($additionalMedia)
+                ->filter(fn ($v) => $v)
+                ->keys()
+                ->implode(', ');
 
-        // Redirect to success page or dashboard
-        if ($user) {
-            return redirect()->route('dashboard.media-orders')
-                ->with('success', 'Your media order has been submitted successfully! We will contact you within 24 hours to confirm your appointment.');
+            $body = sprintf(
+                "New media order on SaveOnYourHome.\n\n" .
+                "Customer: %s\nEmail: %s\nPhone: %s\n\n" .
+                "Property: %s, %s, %s %s\nType: %s | Sqft: %s\n\n" .
+                "Photo package: %s ($%.2f)\nAdditional media: %s ($%.2f)\n" .
+                "Virtual twilight: %d ($%.2f)\nMLS package: %s ($%.2f)\n\n" .
+                "Preferred date 1: %s %s\nPreferred date 2: %s %s\n\n" .
+                "Special instructions: %s\n\nTotal: $%.2f\n\nOrder ID: #%d",
+                trim(($mediaOrder->first_name ?? '') . ' ' . ($mediaOrder->last_name ?? '')),
+                $mediaOrder->email ?? '—',
+                $mediaOrder->phone ?? '—',
+                $mediaOrder->address,
+                $mediaOrder->city,
+                $mediaOrder->state,
+                $mediaOrder->zip_code,
+                $mediaOrder->property_type,
+                $mediaOrder->sqft_range,
+                $mediaOrder->photo_package,
+                (float) $mediaOrder->photo_price,
+                $addons ?: '—',
+                (float) $mediaOrder->additional_media_price,
+                (int) $mediaOrder->virtual_twilight_count,
+                (float) $mediaOrder->virtual_twilight_price,
+                $mediaOrder->mls_package ?? '—',
+                (float) $mediaOrder->mls_price,
+                $mediaOrder->preferred_date_1 ?? '—',
+                $mediaOrder->preferred_time_1 ?? '',
+                $mediaOrder->preferred_date_2 ?? '—',
+                $mediaOrder->preferred_time_2 ?? '',
+                $mediaOrder->special_instructions ?? '—',
+                (float) $mediaOrder->total_price,
+                $mediaOrder->id
+            );
+
+            try {
+                Mail::raw($body, function ($m) use ($mediaOrder) {
+                    $msg = $m->to(EmailService::getAdminEmail())
+                        ->subject('New Media Order #' . $mediaOrder->id . ' — ' . $mediaOrder->address);
+                    if ($mediaOrder->email) {
+                        $msg->replyTo($mediaOrder->email, trim(($mediaOrder->first_name ?? '') . ' ' . ($mediaOrder->last_name ?? '')));
+                    }
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
-        return redirect()->route('home')
-            ->with('success', 'Your media order has been submitted successfully! Check your email for confirmation and next steps.');
+        return back()->with('success', 'Your media order has been submitted successfully! We will contact you within 24 hours to confirm your appointment.');
     }
 
     /**

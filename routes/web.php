@@ -462,6 +462,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/messages/{message}/mark-read', [AdminContactController::class, 'markAsRead'])->name('messages.mark-read');
     Route::post('/messages/{message}/mark-responded', [AdminContactController::class, 'markAsResponded'])->name('messages.mark-responded');
     Route::post('/messages/{message}/archive', [AdminContactController::class, 'archive'])->name('messages.archive');
+    Route::post('/messages/{message}/reply', [AdminContactController::class, 'reply'])->name('messages.reply');
     Route::post('/messages/bulk-action', [AdminContactController::class, 'bulkAction'])->name('messages.bulk-action');
 
     // Activity Logs

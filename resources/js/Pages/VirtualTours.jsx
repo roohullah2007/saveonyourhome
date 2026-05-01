@@ -57,7 +57,7 @@ function VirtualTours() {
   ];
 
   const faqs = [
-    { q: 'Do I have to pay for a virtual tour?', a: 'No. You can DIY a virtual tour for free using apps like Zillow 3D, Asteroom, or Kuula. SaveOnYourHome lets you embed any provider — paid or free. Prefer professionals? Our Media Packages include a professional 360 shoot.' },
+    { q: 'Do I have to pay for a virtual tour?', a: 'No. You can DIY a virtual tour for free using apps like Zillow 3D, Asteroom, or Kuula. SaveOnYourHome lets you embed any provider — paid or free. Prefer professionals? Contact us and we\'ll connect you with a vetted photographer.' },
     { q: 'What equipment do I need for a DIY tour?', a: 'An iPhone or Android phone is enough for apps like Zillow 3D or Asteroom. For higher quality, a $200–$400 360 camera (Ricoh Theta, Insta360) and a tripod work great.' },
     { q: 'How long does a shoot take?', a: 'A typical 3-bedroom home takes 1–2 hours to capture with a professional crew and around 24 hours to process. DIY apps can publish immediately.' },
     { q: 'Can I embed a YouTube video tour instead?', a: 'Yes — SaveOnYourHome supports standard video URLs (YouTube, Vimeo) in the Video Tour field separately from the 360 Virtual Tour embed.' },
@@ -93,7 +93,7 @@ function VirtualTours() {
                 <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#3355FF] px-6 py-3 text-sm font-bold text-white hover:opacity-90">
                   Add a tour to my listing <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link href="/our-packages" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
                   Order a pro shoot
                 </Link>
               </div>
@@ -315,17 +315,17 @@ function VirtualTours() {
               </div>
               <h3 className="text-2xl font-bold text-[#1a1816] mb-3">Let our partners handle it</h3>
               <p className="text-gray-600 mb-5 leading-7">
-                Our vetted photographers bring pro 360 cameras and deliver a polished, Matterport-quality tour you can embed the same week. Bundle it with photos and video in a Media Package.
+                Our vetted photographers bring pro 360 cameras and deliver a polished, Matterport-quality tour you can embed the same week. Reach out and we'll set you up with a local pro.
               </p>
               <ul className="space-y-2 mb-6">
-                {['Pro 360 camera + tripod', 'Editing & stitching included', 'Delivered within 48 hours', 'Bundled pricing available'].map((t) => (
+                {['Pro 360 camera + tripod', 'Editing & stitching included', 'Delivered within 48 hours', 'Personalized pricing'].map((t) => (
                   <li key={t} className="flex items-center gap-2 text-sm text-gray-700">
                     <CheckCircle2 className="w-4 h-4" style={{ color: '#3355FF' }} /> {t}
                   </li>
                 ))}
               </ul>
-              <Link href="/our-packages" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white" style={{ backgroundColor: '#3355FF' }}>
-                View media packages <ArrowRight className="w-4 h-4" />
+              <Link href="/contact" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white" style={{ backgroundColor: '#3355FF' }}>
+                Contact us <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -374,7 +374,7 @@ function VirtualTours() {
             <Link href="/list-property" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#3355FF] px-7 py-3.5 text-sm font-bold text-white hover:opacity-90">
               List my home free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/our-packages" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10">
+            <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10">
               Order a pro tour
             </Link>
           </div>

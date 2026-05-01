@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\ActivityLog;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class AdminContactController extends Controller
@@ -113,6 +115,51 @@ class AdminContactController extends Controller
         $message->update(['status' => 'archived']);
 
         return back()->with('success', 'Message archived.');
+    }
+
+    public function reply(Request $request, ContactMessage $message)
+    {
+        $validated = $request->validate([
+            'subject' => 'required|string|max:255',
+            'body' => 'required|string|max:10000',
+        ]);
+
+        if (!EmailService::isEnabled()) {
+            return back()->withErrors(['body' => 'Email notifications are disabled under Admin → Settings.']);
+        }
+
+        $adminEmail = EmailService::getAdminEmail();
+
+        try {
+            // Send from the configured MAIL_FROM_ADDRESS (DKIM-verified domain) — overriding
+            // it with an arbitrary admin_email (often a Gmail address) trips SPF/DKIM and
+            // the provider drops the message. Put the admin email on Reply-To so when the
+            // recipient hits Reply, it lands in the admin's inbox.
+            Mail::raw($validated['body'], function ($m) use ($message, $validated, $adminEmail) {
+                $m->to($message->email, $message->name)
+                    ->subject($validated['subject'])
+                    ->replyTo($adminEmail, config('app.name'));
+            });
+        } catch (\Throwable $e) {
+            \Log::error('Admin reply send failed', [
+                'message_id' => $message->id,
+                'recipient' => $message->email,
+                'error' => $e->getMessage(),
+            ]);
+            return back()->withErrors(['body' => 'Could not send the reply: ' . $e->getMessage()]);
+        }
+
+        $message->markAsResponded();
+
+        ActivityLog::log(
+            'message_replied',
+            $message,
+            null,
+            ['subject' => $validated['subject']],
+            "Replied via email to {$message->name} ({$message->email})"
+        );
+
+        return back()->with('success', 'Reply sent to ' . $message->email);
     }
 
     public function bulkAction(Request $request)
