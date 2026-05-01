@@ -224,7 +224,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Message</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
-                                <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                                <th className="sticky right-0 bg-gray-50 px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase shadow-[-4px_0_6px_-4px_rgba(0,0,0,0.08)]">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -237,7 +237,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                 </tr>
                             ) : (
                                 inquiryList.map((inquiry) => (
-                                    <tr key={inquiry.id} className={`hover:bg-gray-50 ${inquiry.status === 'new' ? 'bg-blue-50/30' : ''}`}>
+                                    <tr key={inquiry.id} className={`group hover:bg-gray-50 ${inquiry.status === 'new' ? 'bg-blue-50/30' : ''}`}>
                                         <td className="px-6 py-4">
                                             <input
                                                 type="checkbox"
@@ -291,12 +291,12 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 {formatDate(inquiry.created_at)}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center justify-end gap-1">
+                                        <td className={`sticky right-0 px-4 py-4 shadow-[-4px_0_6px_-4px_rgba(0,0,0,0.08)] ${inquiry.status === 'new' ? 'bg-blue-50/30' : 'bg-white'} group-hover:bg-gray-50`}>
+                                            <div className="flex items-center justify-end gap-0.5">
                                                 {inquiry.status === 'new' && (
                                                     <button
                                                         onClick={() => markAsRead(inquiry)}
-                                                        className="p-2 text-yellow-500 hover:text-yellow-700 hover:bg-yellow-50 rounded-lg"
+                                                        className="p-1.5 text-yellow-500 hover:text-yellow-700 hover:bg-yellow-50 rounded-lg"
                                                         title="Mark as Read"
                                                     >
                                                         <Eye className="w-4 h-4" />
@@ -305,7 +305,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 {inquiry.status !== 'responded' && inquiry.status !== 'archived' && (
                                                     <button
                                                         onClick={() => markAsResponded(inquiry)}
-                                                        className="p-2 text-green-500 hover:text-green-700 hover:bg-green-50 rounded-lg"
+                                                        className="p-1.5 text-green-500 hover:text-green-700 hover:bg-green-50 rounded-lg"
                                                         title="Mark as Responded"
                                                     >
                                                         <CheckCircle className="w-4 h-4" />
@@ -314,7 +314,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 {inquiry.status !== 'archived' && (
                                                     <button
                                                         onClick={() => archiveInquiry(inquiry)}
-                                                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
+                                                        className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
                                                         title="Archive"
                                                     >
                                                         <Archive className="w-4 h-4" />
@@ -322,7 +322,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                 )}
                                                 <a
                                                     href={`mailto:${inquiry.email}`}
-                                                    className="p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg"
+                                                    className="p-1.5 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg"
                                                     title="Reply via Email"
                                                 >
                                                     <Mail className="w-4 h-4" />
@@ -332,7 +332,7 @@ export default function InquiriesIndex({ inquiries, filters = {}, counts = {} })
                                                         setInquiryToDelete(inquiry);
                                                         setShowDeleteModal(true);
                                                     }}
-                                                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg"
+                                                    className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
