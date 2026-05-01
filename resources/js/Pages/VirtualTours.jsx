@@ -94,7 +94,7 @@ function VirtualTours() {
                   Add a tour to my listing <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
-                  Order a pro shoot
+                  Contact us
                 </Link>
               </div>
             </div>
@@ -375,7 +375,7 @@ function VirtualTours() {
               List my home free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10">
-              Order a pro tour
+              Contact us
             </Link>
           </div>
         </div>
