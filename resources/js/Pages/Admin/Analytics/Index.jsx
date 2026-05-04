@@ -16,29 +16,48 @@ function StatCard({ label, value, sub, icon: Icon, accent = 'bg-blue-50 text-blu
     );
 }
 
-// Tiny inline sparkline — accepts [{date, count}] and renders an SVG polyline.
-function Sparkline({ series = [], height = 60 }) {
-    const { points, max, count } = useMemo(() => {
-        const c = series.length || 1;
+// Bar chart for the daily download series. A polyline collapses to an
+// invisible point when there's only one data point, so we render real
+// rects with a small minimum height so any non-zero day is always visible.
+function DownloadsBarChart({ series = [], height = 180 }) {
+    const { max, total } = useMemo(() => {
         const m = series.reduce((acc, s) => Math.max(acc, s.count), 0) || 1;
-        const step = 100 / Math.max(c - 1, 1);
-        const pts = series.map((s, i) => `${(i * step).toFixed(2)},${(100 - (s.count / m) * 100).toFixed(2)}`).join(' ');
-        return { points: pts, max: m, count: c };
+        const t = series.reduce((acc, s) => acc + (s.count || 0), 0);
+        return { max: m, total: t };
     }, [series]);
 
     if (!series.length) {
-        return <div className="text-xs text-gray-400 italic">No downloads yet</div>;
+        return <div className="text-xs text-gray-400 italic h-[60px] flex items-center">No downloads yet</div>;
     }
 
     return (
-        <div className="w-full" style={{ height }}>
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
-                <polyline fill="none" stroke="#3355FF" strokeWidth="2" vectorEffect="non-scaling-stroke" points={points} />
-            </svg>
-            <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+        <div className="w-full">
+            <div
+                className="w-full flex items-end gap-[2px] border-b border-gray-100"
+                style={{ height }}
+            >
+                {series.map((s, i) => {
+                    const ratio = s.count > 0 ? Math.max((s.count / max), 0.04) : 0;
+                    const pct = (ratio * 100).toFixed(2);
+                    return (
+                        <div
+                            key={s.date || i}
+                            className="flex-1 relative group"
+                            style={{ height: '100%' }}
+                            title={`${s.date}: ${s.count}`}
+                        >
+                            <div
+                                className={s.count > 0 ? 'absolute bottom-0 left-0 right-0 rounded-t-sm bg-[#3355FF]' : 'absolute bottom-0 left-0 right-0 rounded-t-sm bg-gray-100'}
+                                style={{ height: `${pct}%`, minHeight: s.count > 0 ? 2 : 0 }}
+                            />
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="flex justify-between text-[10px] text-gray-400 mt-2">
                 <span>{series[0].date}</span>
-                <span>peak: {max}</span>
-                <span>{series[count - 1].date}</span>
+                <span>peak: {max} · total: {total}</span>
+                <span>{series[series.length - 1].date}</span>
             </div>
         </div>
     );
@@ -64,10 +83,8 @@ export default function AnalyticsIndex({ stats = {}, topEbooks = [], downloadSer
                 </div>
 
                 {/* Stat cards */}
-                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4">
                     <StatCard label="Downloads (total)" value={stats.total_downloads} sub={`${stats.total_ebooks || 0} eBooks · ${stats.active_ebooks || 0} active`} icon={Download} accent="bg-indigo-50 text-indigo-700" />
-                    <StatCard label="Downloads · 7d" value={stats.downloads_7d} icon={Download} accent="bg-blue-50 text-blue-700" />
-                    <StatCard label="Downloads · 30d" value={stats.downloads_30d} sub={`${stats.unique_downloaders_30d || 0} unique users`} icon={Download} accent="bg-blue-50 text-blue-700" />
                     <StatCard label="Users (total)" value={stats.total_users} sub={`${stats.new_users_7d || 0} new this week`} icon={Users} accent="bg-green-50 text-green-700" />
                     <StatCard label="Listings · approved" value={stats.approved_properties} sub={`${stats.total_properties || 0} total · ${stats.new_listings_7d || 0} this week`} icon={HomeIcon} accent="bg-orange-50 text-orange-700" />
                     <StatCard label="Inquiries · 7d" value={stats.new_inquiries_7d} icon={MessageSquare} accent="bg-purple-50 text-purple-700" />
@@ -77,7 +94,7 @@ export default function AnalyticsIndex({ stats = {}, topEbooks = [], downloadSer
                     {/* Sparkline + top ebooks */}
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm lg:col-span-2">
                         <h2 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2"><Download className="w-4 h-4 text-[#3355FF]" /> Downloads · last 30 days</h2>
-                        <Sparkline series={downloadSeries} />
+                        <DownloadsBarChart series={downloadSeries} />
                     </div>
 
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
