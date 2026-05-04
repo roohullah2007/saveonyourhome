@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'phone' => 'nullable|string|max:50',
+            'phone' => 'required|string|max:50|min:7',
             'sms_consent' => 'nullable|boolean',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'user_type' => 'required|in:buyer,seller',

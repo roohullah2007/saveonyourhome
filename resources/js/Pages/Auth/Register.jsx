@@ -199,7 +199,7 @@ function Register() {
                             {/* Phone Field */}
                             <div>
                                 <label htmlFor="phone" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'rgb(107,114,128)', marginBottom: '6px' }}>
-                                    Phone <span className="text-gray-400 font-normal">(optional)</span>
+                                    Phone <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     id="phone"
@@ -209,6 +209,7 @@ function Register() {
                                     className="w-full rounded-xl border border-gray-300 px-4 outline-none transition-colors focus:border-gray-500 bg-white" style={{ height: '48px', fontSize: '15px', color: 'rgb(26,24,22)' }}
                                     placeholder="(918) 555-0123"
                                     autoComplete="tel"
+                                    required
                                     onChange={(e) => setData('phone', e.target.value)}
                                 />
                                 <label className="flex items-start gap-2 mt-2 cursor-pointer">

@@ -235,10 +235,12 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
             className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 text-white font-semibold px-4 py-3 rounded-md transition-colors">
             {processing ? 'Sending…' : 'Send Message'}
           </button>
-          <a href={`tel:${property.contact_phone}`}
-            className="flex-1 text-center border border-[#2563EB] text-[#2563EB] font-semibold px-4 py-3 rounded-md hover:bg-[#2563EB]/5 transition-colors">
-            Call
-          </a>
+          {property.contact_phone && (
+            <a href={`tel:${property.contact_phone}`}
+              className="flex-1 text-center border border-[#2563EB] text-[#2563EB] font-semibold px-4 py-3 rounded-md hover:bg-[#2563EB]/5 transition-colors">
+              Call
+            </a>
+          )}
         </div>
       )}
     </form>
@@ -1212,12 +1214,14 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
       {/* Mobile sticky CTA */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg p-4 z-40">
         <div className="flex gap-3">
-          <a href={`tel:${property.contact_phone}`}
-             className="flex-1 flex items-center justify-center gap-2 bg-[#2563EB] text-white py-3 px-4 rounded-md font-semibold">
-            <Phone className="w-5 h-5" /> Call
-          </a>
+          {property.contact_phone && (
+            <a href={`tel:${property.contact_phone}`}
+               className="flex-1 flex items-center justify-center gap-2 bg-[#2563EB] text-white py-3 px-4 rounded-md font-semibold">
+              <Phone className="w-5 h-5" /> Call
+            </a>
+          )}
           <a href={`mailto:${property.contact_email || ''}?subject=${encodeURIComponent('Interested in: ' + property.property_title)}`}
-             className="flex-1 flex items-center justify-center gap-2 border-2 border-[#2563EB] text-[#2563EB] py-3 px-4 rounded-md font-semibold">
+             className={`${property.contact_phone ? 'flex-1' : 'w-full'} flex items-center justify-center gap-2 border-2 border-[#2563EB] text-[#2563EB] py-3 px-4 rounded-md font-semibold`}>
             <Mail className="w-5 h-5" /> Message
           </a>
         </div>
