@@ -520,13 +520,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Amenities (dedicated page — shares store / update / destroy / reorder with taxonomies)
     Route::get('/amenities', [AdminTaxonomyController::class, 'amenities'])->name('amenities.index');
 
-    // Partners Management
+    // Partners Management — bind by id explicitly because the Partner
+    // model's getRouteKeyName() returns "slug" (used by the public
+    // /partners/{slug} page). Admin always passes ids, so override here.
     Route::get('/partners', [AdminPartnerController::class, 'index'])->name('partners.index');
     Route::post('/partners', [AdminPartnerController::class, 'store'])->name('partners.store');
-    Route::match(['put', 'post'], '/partners/{partner}', [AdminPartnerController::class, 'update'])->name('partners.update');
-    Route::post('/partners/{partner}/approve', [AdminPartnerController::class, 'approve'])->name('partners.approve');
-    Route::post('/partners/{partner}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
-    Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
+    Route::match(['put', 'post'], '/partners/{partner:id}', [AdminPartnerController::class, 'update'])->name('partners.update');
+    Route::post('/partners/{partner:id}/approve', [AdminPartnerController::class, 'approve'])->name('partners.approve');
+    Route::post('/partners/{partner:id}/reject', [AdminPartnerController::class, 'reject'])->name('partners.reject');
+    Route::delete('/partners/{partner:id}', [AdminPartnerController::class, 'destroy'])->name('partners.destroy');
 
     // Import Batches (Zillow + CSV share the same batch view)
     Route::get('/imports', [AdminImportController::class, 'index'])->name('imports.index');
