@@ -43,6 +43,9 @@ Route::get('/calendar-feeds/{token}.ics', [CalendarFeedController::class, 'show'
 // QR Code Short URL Redirect (public, no auth required)
 Route::get('/p/{code}', [QrCodeController::class, 'handleScan'])->name('qr.scan');
 
+// Public QR image (for partner yard-sign printer that embeds by URL)
+Route::get('/qr.png', [QrCodeController::class, 'publicQr'])->name('qr.public');
+
 /*
 |--------------------------------------------------------------------------
 | 301 Redirects — legacy (WordPress/Houzez) URLs → new Laravel routes

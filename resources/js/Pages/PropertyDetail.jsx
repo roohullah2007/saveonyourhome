@@ -3,7 +3,7 @@ import { Link, useForm } from '@inertiajs/react';
 import {
   MapPin, BedDouble, Bath, Maximize2, Calendar, Home, Heart, Share2,
   Phone, Mail, CheckCircle2, ChevronLeft, ChevronRight,
-  Printer, Video, X, Images, Car, User, MapPinned, Check, Tag, Package,
+  Printer, Video, X, Images, Car, User, MapPinned, Check,
   CalendarClock,
 } from 'lucide-react';
 import axios from 'axios';
@@ -11,7 +11,6 @@ import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
-import OrderYardSignModal from '@/Components/OrderYardSignModal';
 import NearbySection from '@/Components/Properties/NearbySection';
 import NearbySchools from '@/Components/Properties/NearbySchools';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
@@ -271,7 +270,6 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
   const [authModalTab, setAuthModalTab] = useState('register');
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [showYardSignModal, setShowYardSignModal] = useState(false);
   const shareRef = useRef(null);
   const isOwner = !!(auth?.user && property?.user_id && auth.user.id === property.user_id);
 
@@ -564,34 +562,9 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
             </div>
           </div>
 
-          {/* Owner: action banners (yard sign + showing availability) */}
+          {/* Owner: showing availability banner */}
           {isOwner && (
-            <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-4 md:p-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-11 h-11 bg-white rounded-xl border border-emerald-200 flex items-center justify-center flex-shrink-0">
-                    <Tag className="w-5 h-5 text-emerald-600" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-[15px] font-semibold text-[#0F172A]">
-                      Order your FREE custom yard sign
-                    </h3>
-                    <p className="text-[13.5px] text-[#4B5563] mt-1">
-                      Custom "For Sale By Owner" sign with a QR code that links straight to this listing — shipped free.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setShowYardSignModal(true)}
-                      className="mt-3 inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
-                      style={{ height: '38px', paddingLeft: '18px', paddingRight: '18px', fontSize: '13px', fontWeight: 600, backgroundColor: '#3355FF' }}
-                    >
-                      <Package className="w-4 h-4" />
-                      Order Yard Sign
-                    </button>
-                  </div>
-                </div>
-              </div>
-
+            <div className="mt-5">
               <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 md:p-5">
                 <div className="flex items-start gap-3">
                   <div className="w-11 h-11 bg-white rounded-xl border border-blue-200 flex items-center justify-center flex-shrink-0">
@@ -1268,16 +1241,6 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
         intent="favorites"
         initialTab={authModalTab}
       />
-
-      {/* Owner-only: Order Free Yard Sign modal */}
-      {isOwner && (
-        <OrderYardSignModal
-          isOpen={showYardSignModal}
-          onClose={() => setShowYardSignModal(false)}
-          listing={property}
-          authUser={auth?.user}
-        />
-      )}
 
       {/* Gallery modal */}
       {showGalleryModal && (

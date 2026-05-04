@@ -139,6 +139,38 @@ class QrCodeController extends Controller
     }
 
     /**
+     * Public QR PNG generator. Accepts ?data=<url> and returns a PNG image.
+     * Used by partner sites (yard sign printer) that embed the QR by URL,
+     * so we can stop hot-linking api.qrserver.com.
+     */
+    public function publicQr(Request $request)
+    {
+        $data = trim((string) $request->query('data', ''));
+        if ($data === '' || strlen($data) > 2048) {
+            abort(400, 'Missing or invalid data parameter');
+        }
+
+        $size = (int) $request->query('size', 500);
+        $size = max(100, min(1000, $size));
+        $scale = max(2, (int) round($size / 25));
+
+        $options = new QROptions([
+            'outputType' => ChillerlanQRCode::OUTPUT_IMAGE_PNG,
+            'scale' => $scale,
+            'outputBase64' => false,
+            'eccLevel' => ChillerlanQRCode::ECC_M,
+            'imageTransparent' => false,
+            'quietzoneSize' => 1,
+        ]);
+
+        $png = (new ChillerlanQRCode($options))->render($data);
+
+        return response($png)
+            ->header('Content-Type', 'image/png')
+            ->header('Cache-Control', 'public, max-age=86400, immutable');
+    }
+
+    /**
      * Handle QR code scan redirect
      */
     public function handleScan(Request $request, string $code)
