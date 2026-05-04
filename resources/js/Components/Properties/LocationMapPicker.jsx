@@ -18,6 +18,35 @@ const isValidCoord = (val) => val !== null && val !== undefined && val !== '' &&
 
 // Load Google Maps script once globally
 let googleMapsLoadPromise = null;
+// Maximum total wait for the Maps SDK + Places library to become usable
+// after the script tag fires `onload`. With `loading=async`, the bootstrap
+// script returns immediately and fetches the library modules in the
+// background, so we have to poll for `places` to actually be available.
+const GMAPS_READY_TIMEOUT_MS = 15000;
+
+function waitForMaps(timeoutMs = GMAPS_READY_TIMEOUT_MS) {
+    return new Promise((resolve, reject) => {
+        if (window.google?.maps?.places) return resolve();
+        const start = Date.now();
+        const check = setInterval(() => {
+            if (mapsAuthFailed) {
+                clearInterval(check);
+                reject(new Error('Google Maps key was rejected (gm_authFailure). Check the API key, billing, and HTTP referer restrictions in the Google Cloud Console.'));
+                return;
+            }
+            if (window.google?.maps?.places) {
+                clearInterval(check);
+                resolve();
+                return;
+            }
+            if (Date.now() - start > timeoutMs) {
+                clearInterval(check);
+                reject(new Error('Google Maps SDK did not finish initializing within ' + (timeoutMs / 1000) + 's. The script loaded but `google.maps.places` is still undefined — usually an ad blocker, a referer/domain restriction on the API key, or the Places API is not enabled on the GCP project.'));
+            }
+        }, 120);
+    });
+}
+
 // Load the Maps JS SDK with the `places` library — needed for the Street
 // Address autocomplete on ListProperty.jsx as well as the map picker.
 function loadGoogleMaps(apiKey) {
@@ -28,12 +57,10 @@ function loadGoogleMaps(apiKey) {
         // Check if script tag already exists but hasn't loaded yet
         const existing = document.querySelector('script[src*="maps.googleapis.com"]');
         if (existing) {
-            const check = setInterval(() => {
-                if (window.google?.maps?.places) {
-                    clearInterval(check);
-                    resolve();
-                }
-            }, 100);
+            waitForMaps().then(resolve, (err) => {
+                googleMapsLoadPromise = null;
+                reject(err);
+            });
             return;
         }
 
@@ -41,13 +68,21 @@ function loadGoogleMaps(apiKey) {
         // loading=async is the Google-recommended pattern; avoids the
         // "loaded directly without loading=async" console warning and
         // unlocks best-practice perf for the Maps JS SDK.
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async&v=weekly`;
         script.async = true;
         script.defer = true;
-        script.onload = () => resolve();
+        script.onload = () => {
+            // The bootstrap script has parsed but with `loading=async` the
+            // library files (incl. places) are still being fetched. Poll
+            // until they're actually usable before resolving.
+            waitForMaps().then(resolve, (err) => {
+                googleMapsLoadPromise = null;
+                reject(err);
+            });
+        };
         script.onerror = () => {
             googleMapsLoadPromise = null;
-            reject(new Error('Failed to load Google Maps'));
+            reject(new Error('Failed to load the Google Maps script (network or DNS error). Check your connection and any ad blockers.'));
         };
         document.head.appendChild(script);
     });
@@ -213,6 +248,14 @@ const LocationMapPicker = ({
 
         let cancelled = false;
 
+        // If the Maps SDK has already flagged an auth failure (e.g. key
+        // rejected), surface a useful banner immediately instead of leaving
+        // the user staring at a perma-spinner.
+        const unsubAuth = onMapsAuthFailure(() => {
+            if (cancelled) return;
+            setGeocodeError('Google Maps key was rejected. Check the API key, billing, and HTTP referer restrictions in the Google Cloud Console.');
+        });
+
         loadGoogleMaps(googleMapsApiKey)
             .then(() => {
                 if (cancelled || !mapContainerRef.current) return;
@@ -325,14 +368,20 @@ const LocationMapPicker = ({
 
                 setIsMapLoaded(true);
             })
-            .catch(() => {
+            .catch((err) => {
                 if (!cancelled) {
-                    setGeocodeError('Failed to load Google Maps. Please refresh the page.');
+                    const msg = err && err.message ? err.message : 'Failed to load Google Maps.';
+                    // Log the precise failure to the console so we can debug
+                    // on the user's device; show a concise message in the UI.
+                    // eslint-disable-next-line no-console
+                    console.error('[LocationMapPicker] Google Maps load failed:', err);
+                    setGeocodeError(msg);
                 }
             });
 
         return () => {
             cancelled = true;
+            unsubAuth?.();
             if (markerRef.current) {
                 markerRef.current.setMap(null);
                 markerRef.current = null;
