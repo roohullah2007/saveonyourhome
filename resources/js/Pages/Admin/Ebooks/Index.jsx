@@ -46,7 +46,7 @@ function EbookModal({ open, ebook, onClose }) {
       onSuccess: onClose,
     };
     if (editing) {
-      form.post(route('admin.ebooks.update', ebook.id), opts);
+      form.post(route('admin.ebooks.update', ebook.slug || ebook.id), opts);
     } else {
       form.post(route('admin.ebooks.store'), opts);
     }
@@ -154,12 +154,12 @@ export default function EbooksIndex({ ebooks = [] }) {
     fd.append('title', ebook.title);
     fd.append('description', ebook.description || '');
     fd.append('is_active', ebook.is_active ? '0' : '1');
-    router.post(route('admin.ebooks.update', ebook.id), fd, { preserveScroll: true });
+    router.post(route('admin.ebooks.update', ebook.slug || ebook.id), fd, { preserveScroll: true });
   };
 
   const destroy = (ebook) => {
     if (!confirm(`Delete "${ebook.title}"? This cannot be undone.`)) return;
-    router.delete(route('admin.ebooks.destroy', ebook.id), { preserveScroll: true });
+    router.delete(route('admin.ebooks.destroy', ebook.slug || ebook.id), { preserveScroll: true });
   };
 
   return (
