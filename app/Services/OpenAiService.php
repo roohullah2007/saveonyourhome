@@ -22,7 +22,21 @@ class OpenAiService
 
     public function isConfigured(): bool
     {
-        return filled(config('services.openai.key'));
+        return filled($this->key());
+    }
+
+    /**
+     * Read the configured key and strip any whitespace (CR, LF, tabs,
+     * leading/trailing spaces). Pastes from the OpenAI dashboard often
+     * wrap, and PHP's HTTP client throws "is not valid header value"
+     * on any embedded newline — the trim makes that resilient.
+     */
+    private function key(): ?string
+    {
+        $raw = config('services.openai.key');
+        if (!is_string($raw)) return null;
+        $clean = preg_replace('/\s+/', '', $raw);
+        return $clean !== '' ? $clean : null;
     }
 
     public function lastError(): ?string
@@ -50,7 +64,7 @@ class OpenAiService
         ], $options);
 
         try {
-            $response = Http::withToken(config('services.openai.key'))
+            $response = Http::withToken($this->key())
                 ->timeout(60)
                 ->post('https://api.openai.com/v1/chat/completions', $payload);
 
@@ -78,7 +92,10 @@ class OpenAiService
             return $response->json('choices.0.message.content');
         } catch (\Throwable $e) {
             Log::warning('OpenAI request threw', ['error' => $e->getMessage()]);
-            $this->lastError = 'Could not reach OpenAI: ' . $e->getMessage();
+            // Strip API keys so they don't leak into the admin UI when
+            // the underlying client error includes the Authorization header.
+            $msg = preg_replace('/sk-[A-Za-z0-9_\-]{20,}/', 'sk-***', $e->getMessage());
+            $this->lastError = 'Could not reach OpenAI: ' . $msg;
             return null;
         }
     }
