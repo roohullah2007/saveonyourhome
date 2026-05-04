@@ -575,11 +575,18 @@ class Property extends Model
     }
 
     /**
-     * Resolve route binding with slug support
+     * Resolve route binding with slug support.
+     *
+     * Tries the stored `slug` column first so Houzez-imported listings
+     * (whose slugs don't follow the "{id}-{address}" format) resolve
+     * correctly. Falls back to extracting a leading id from the slug,
+     * then to a bare id lookup.
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        // Extract ID from slug (e.g., "2-123-main-street" -> 2)
+        $bySlug = $this->where('slug', $value)->first();
+        if ($bySlug) return $bySlug;
+
         if (preg_match('/^(\d+)/', $value, $matches)) {
             return $this->where('id', $matches[1])->firstOrFail();
         }

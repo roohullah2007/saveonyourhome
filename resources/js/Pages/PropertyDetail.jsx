@@ -13,6 +13,7 @@ import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
 import NearbySection from '@/Components/Properties/NearbySection';
 import NearbySchools from '@/Components/Properties/NearbySchools';
+import PropertyCard from '@/Components/PropertyCard';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
@@ -923,12 +924,20 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                 </div>
               )}
 
-              {/* Floor Plans */}
-              {Array.isArray(property.floor_plans) && property.floor_plans.length > 0 && (
+              {/* Floor Plans — drop entries where every field is empty (Houzez
+                  imports often seed empty placeholder rows). */}
+              {(() => {
+                const visibleFloorPlans = (Array.isArray(property.floor_plans) ? property.floor_plans : [])
+                  .filter((fp) => {
+                    if (typeof fp === 'string') return fp.trim() !== '';
+                    if (!fp || typeof fp !== 'object') return false;
+                    return !!(fp.image || fp.image_url || fp.title || fp.description);
+                  });
+                return visibleFloorPlans.length > 0 && (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-5">Floor Plans</h2>
                   <div className="space-y-6">
-                    {property.floor_plans.map((fp, i) => {
+                    {visibleFloorPlans.map((fp, i) => {
                       // Legacy string entries (older listings) — render as image only.
                       if (typeof fp === 'string') {
                         return (
@@ -938,15 +947,20 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                         );
                       }
                       const metaBits = [];
-                      if (fp.bedrooms != null && fp.bedrooms !== '') metaBits.push(`${fp.bedrooms} BR`);
+                      const fpBeds = fp.bedrooms ?? fp.rooms;
+                      if (fpBeds != null && fpBeds !== '') metaBits.push(`${fpBeds} BR`);
                       if (fp.bathrooms != null && fp.bathrooms !== '') metaBits.push(`${fp.bathrooms} Bath`);
                       if (fp.size) metaBits.push(fp.size);
+                      // Local listings store the image under `image`; Houzez
+                      // imports use `image_url`. Read whichever is present so
+                      // both render the same on the details page.
+                      const fpImage = fp.image || fp.image_url;
                       return (
                         <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-5 items-start">
                           <div className="md:col-span-2">
-                            {fp.image ? (
-                              <a href={resolvePhotoUrl(fp.image)} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3]">
-                                <img src={resolvePhotoUrl(fp.image)} alt={fp.title || `Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
+                            {fpImage ? (
+                              <a href={resolvePhotoUrl(fpImage)} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-gray-100 bg-gray-50 aspect-[4/3]">
+                                <img src={resolvePhotoUrl(fpImage)} alt={fp.title || `Floor plan ${i + 1}`} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }} />
                               </a>
                             ) : (
                               <div className="rounded-xl bg-gray-50 border border-dashed border-gray-200 aspect-[4/3] flex items-center justify-center text-sm text-gray-400">No image</div>
@@ -966,7 +980,8 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                     })}
                   </div>
                 </div>
-              )}
+                );
+              })()}
 
               {/* Schools nearby (Google Places, 10 km) */}
               {property.latitude && property.longitude && (
@@ -1049,9 +1064,9 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
               {similarListings.length > 0 && (
                 <div>
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-5">Similar Listings</h2>
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {similarListings.map((sp) => (
-                      <SimilarListingRow key={sp.id} property={sp} />
+                      <PropertyCard key={sp.id} property={sp} onAuthRequired={() => setAuthModalOpen(true)} />
                     ))}
                   </div>
                 </div>
@@ -1347,58 +1362,6 @@ function CalcInput({ label, prefix, value, onChange }) {
         />
       </div>
     </div>
-  );
-}
-
-function SimilarListingRow({ property }) {
-  const mainPhoto = property.photos && property.photos.length > 0 ? resolvePhotoUrl(property.photos[0]) : '/images/property-placeholder.svg';
-  return (
-    <Link href={`/properties/${property.slug || property.id}`}
-      className="group flex flex-col md:flex-row bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div className="relative md:w-[340px] h-[220px] md:h-auto flex-shrink-0">
-        <img src={mainPhoto} alt={property.property_title}
-          className="w-full h-full object-cover"
-          onError={(e) => e.target.src = '/images/property-placeholder.svg'} />
-        <span className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide px-3 py-1.5 bg-[#8BC540] text-white rounded-sm">
-          Featured
-        </span>
-      </div>
-      <div className="flex-1 p-5 flex flex-col justify-between">
-        <div>
-          <div className="flex flex-wrap gap-2 mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#5A5A5A] text-white rounded-sm">
-              For Sale By Owner
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#5A5A5A] text-white rounded-sm">
-              New Listing
-            </span>
-          </div>
-          <div className="flex items-start justify-between gap-4">
-            <h3 className="text-xl font-semibold text-[#111] group-hover:text-[#2563EB] transition-colors">
-              {property.property_title}
-            </h3>
-            <p className="text-xl font-bold text-[#111] whitespace-nowrap">{formatPriceShort(property.price)}</p>
-          </div>
-          <p className="text-sm text-[#6B7280] mt-1">{property.address}</p>
-          <div className="flex flex-wrap gap-5 mt-4 text-[14px] text-[#111]">
-            <span className="flex items-center gap-1.5"><BedDouble className="w-4 h-4 text-[#6B7280]" /> {property.bedrooms}</span>
-            <span className="flex items-center gap-1.5"><Bath className="w-4 h-4 text-[#6B7280]" /> {property.full_bathrooms || property.bathrooms || 0}</span>
-            <span className="flex items-center gap-1.5"><Maximize2 className="w-4 h-4 text-[#6B7280]" /> {property.sqft ? Number(property.sqft).toLocaleString() : '—'}</span>
-          </div>
-          <p className="text-[11px] font-semibold tracking-wider uppercase text-[#6B7280] mt-3">
-            {propertyTypeLabels[property.property_type] || property.property_type}
-          </p>
-        </div>
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-          <div className="flex items-center gap-2 text-sm text-[#6B7280]">
-            <User className="w-4 h-4" /> {property.contact_name}
-          </div>
-          <span className="inline-flex items-center gap-1.5 bg-[#4461FF] hover:bg-[#3548C8] text-white text-sm font-medium px-4 py-2 rounded-md">
-            Details
-          </span>
-        </div>
-      </div>
-    </Link>
   );
 }
 
