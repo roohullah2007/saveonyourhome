@@ -526,31 +526,6 @@ export default function Messages({ messages, filters = {}, counts = {}, sentCoun
                                             <Reply className="w-4 h-4" />
                                             {selectedMessage.seller_reply ? 'Reply Again' : 'Reply in Platform'}
                                         </button>
-                                        {contactEmailOf(selectedMessage) && (
-                                            <a
-                                                href={`mailto:${contactEmailOf(selectedMessage)}?subject=Re: ${selectedMessage.property?.property_title || 'Your Inquiry'}`}
-                                                onClick={() => {
-                                                    if (!isBuyerView(selectedMessage) && selectedMessage.status !== 'responded') {
-                                                        handleMarkResponded(selectedMessage);
-                                                    }
-                                                }}
-                                                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
-                                                style={{ height: '44px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
-                                            >
-                                                <Mail className="w-4 h-4" />
-                                                Reply via Email
-                                            </a>
-                                        )}
-                                        {contactPhoneOf(selectedMessage) && (
-                                            <a
-                                                href={`tel:${contactPhoneOf(selectedMessage)}`}
-                                                className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white transition-colors hover:bg-gray-50"
-                                                style={{ height: '44px', paddingLeft: '20px', paddingRight: '20px', fontSize: '14px', fontWeight: 600, color: 'rgb(26,24,22)' }}
-                                            >
-                                                <Phone className="w-4 h-4" />
-                                                Call
-                                            </a>
-                                        )}
                                     </div>
                                 )}
                             </div>
