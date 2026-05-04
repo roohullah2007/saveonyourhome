@@ -7,6 +7,7 @@ import MainLayout from '@/Layouts/MainLayout';
 import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import HomeValuationModal from '@/Components/HomeValuationModal';
+import PropertySeoFields from '@/Components/PropertySeoFields';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
 // US state name → 2-letter abbreviation, used to normalize Nominatim results
@@ -261,6 +262,11 @@ function ListProperty() {
 
     // Description
     description: '',
+
+    // SEO & social sharing (optional)
+    seo_title: '',
+    seo_description: '',
+    og_image: '',
 
     // Features
     features: [],
@@ -1042,6 +1048,9 @@ function ListProperty() {
       transactionType: data.transactionType || 'for_sale',
       listingLabel: data.listingLabel || null,
       description: data.description,
+      seoTitle: data.seo_title || null,
+      seoDescription: data.seo_description || null,
+      ogImage: data.og_image || null,
       contactName: data.contactName,
       contactEmail: data.contactEmail,
       contactPhone: data.contactPhone,
@@ -2038,6 +2047,24 @@ function ListProperty() {
                 <p className="text-xs text-[#666] mt-1.5">Tip: pick your amenities above first, then click Generate with AI — the draft will weave in your selected features for a richer description.</p>
               </div>
             </div>
+
+            {/* SEO & social sharing */}
+            <PropertySeoFields
+              values={{
+                seo_title: data.seo_title,
+                seo_description: data.seo_description,
+                og_image: data.og_image,
+              }}
+              errors={{
+                seo_title: errors.seoTitle,
+                seo_description: errors.seoDescription,
+                og_image: errors.ogImage,
+              }}
+              onChange={(k, v) => handleInputChange(k, v)}
+              fallbackTitle={data.propertyTitle ? `${data.propertyTitle}${data.city ? ` — ${data.city}${data.state ? ', ' + data.state : ''}` : ''}` : ''}
+              fallbackDescription={data.description}
+              fallbackImage={photoPreviews?.[0]?.url || photoPreviews?.[0] || ''}
+            />
 
             {/* Photos */}
             <div className="bg-white rounded-xl p-6 md:p-8">

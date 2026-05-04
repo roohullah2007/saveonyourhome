@@ -258,7 +258,7 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
 }
 
 /* ---------- Main page ---------- */
-function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {}, auth = {}, isFavorited = false }) {
+function PropertyDetail({ property, openHouses = [], similarListings = [], taxonomies = {}, auth = {}, isFavorited = false, mortgageDefaults = {} }) {
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -344,15 +344,24 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
   const handlePrint = () => window.print();
 
   /* ---------- Mortgage Calculator state (strings for free-form typing) ---------- */
+  // Site-wide defaults configured in Admin → Settings → Mortgage; the
+  // `mortgageDefaults` shared prop is always present (with fallbacks) so
+  // a missing piece is OK.
+  const md = mortgageDefaults || {};
+  const purchasePriceNum = Math.round(Number(property.price) || 0);
+  const propertyTaxRatePct = Number(md.property_tax_rate_pct) || 0;
+  const fallbackAnnualTax = Math.round(purchasePriceNum * (propertyTaxRatePct / 100));
   const [mortgage, setMortgage] = useState({
-    purchasePrice: String(Math.round(Number(property.price) || 0)),
-    downPaymentPct: '20',
-    interestRate: '7.0',
-    loanYears: '30',
-    annualTax: property.annual_property_tax != null ? String(Number(property.annual_property_tax)) : '4080',
-    annualInsurance: '1000',
+    purchasePrice: String(purchasePriceNum),
+    downPaymentPct: String(md.down_payment_pct ?? '20'),
+    interestRate: String(md.interest_rate ?? '7.0'),
+    loanYears: String(md.loan_term_years ?? '30'),
+    annualTax: property.annual_property_tax != null
+      ? String(Number(property.annual_property_tax))
+      : String(fallbackAnnualTax || 4080),
+    annualInsurance: String(md.annual_home_insurance ?? '1000'),
     hoaMonthly: property.hoa_fee != null ? String(Number(property.hoa_fee)) : '0',
-    pmi: '0',
+    pmi: String(md.pmi_pct ?? '0'),
   });
 
   const calc = useMemo(() => {

@@ -11,6 +11,7 @@ import {
     Home,
     Mail,
     Search as SearchIcon,
+    Calculator,
     X,
     AlertCircle,
     CheckCircle
@@ -31,6 +32,7 @@ export default function SettingsIndex({ settings = {} }) {
         { key: 'property', label: 'Property', icon: Home },
         { key: 'email', label: 'Email', icon: Mail },
         { key: 'seo', label: 'SEO', icon: SearchIcon },
+        { key: 'mortgage', label: 'Mortgage', icon: Calculator },
     ];
 
     // Initialize local settings from props
@@ -169,6 +171,19 @@ export default function SettingsIndex({ settings = {} }) {
                         />
                     );
                 }
+                if (setting.key.endsWith('_email') || setting.key === 'contact_email') {
+                    return (
+                        <input
+                            type="email"
+                            inputMode="email"
+                            autoComplete="email"
+                            value={value}
+                            onChange={(e) => handleSettingChange(setting.key, e.target.value)}
+                            placeholder="you@example.com"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                        />
+                    );
+                }
                 return (
                     <input
                         type="text"
@@ -178,6 +193,37 @@ export default function SettingsIndex({ settings = {} }) {
                     />
                 );
         }
+    };
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [sendingTest, setSendingTest] = useState(false);
+
+    const sendTestEmail = () => {
+        if (hasChanges) {
+            if (!window.confirm('You have unsaved changes. Save them first, then send the test? Click Cancel to send using the currently saved address.')) return;
+        }
+        setSendingTest(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+        router.post(route('admin.settings.test-email'), {}, {
+            preserveScroll: true,
+            onFinish: () => setSendingTest(false),
+            onSuccess: (page) => {
+                const flash = page?.props?.flash || {};
+                if (flash.success) {
+                    setSuccessMessage(flash.success);
+                    setTimeout(() => setSuccessMessage(''), 6000);
+                }
+                if (flash.error) {
+                    setErrorMessage(flash.error);
+                    setTimeout(() => setErrorMessage(''), 8000);
+                }
+            },
+            onError: () => {
+                setErrorMessage('Could not send test email. Check the server log.');
+                setTimeout(() => setErrorMessage(''), 8000);
+            },
+        });
     };
 
     const currentSettings = getSettingsByGroup(activeTab);
@@ -218,6 +264,12 @@ export default function SettingsIndex({ settings = {} }) {
                 <div className="mb-6 flex items-center gap-2 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
                     <CheckCircle className="w-5 h-5" />
                     {successMessage}
+                </div>
+            )}
+            {errorMessage && (
+                <div className="mb-6 flex items-start gap-2 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                    <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                    <span>{errorMessage}</span>
                 </div>
             )}
 
@@ -295,20 +347,33 @@ export default function SettingsIndex({ settings = {} }) {
                                             )}
                                             <p className="text-xs text-gray-400 font-mono">Key: {setting.key}</p>
                                         </div>
-                                        <div className="sm:w-1/2 flex items-start gap-2">
-                                            <div className="flex-1">
-                                                {renderSettingInput(setting)}
+                                        <div className="sm:w-1/2 flex flex-col gap-2">
+                                            <div className="flex items-start gap-2">
+                                                <div className="flex-1">
+                                                    {renderSettingInput(setting)}
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        setSettingToDelete(setting);
+                                                        setShowDeleteModal(true);
+                                                    }}
+                                                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg flex-shrink-0"
+                                                    title="Delete Setting"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
                                             </div>
-                                            <button
-                                                onClick={() => {
-                                                    setSettingToDelete(setting);
-                                                    setShowDeleteModal(true);
-                                                }}
-                                                className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg flex-shrink-0"
-                                                title="Delete Setting"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
+                                            {setting.key === 'admin_email' && (
+                                                <button
+                                                    type="button"
+                                                    onClick={sendTestEmail}
+                                                    disabled={sendingTest}
+                                                    className="self-start inline-flex items-center gap-2 text-xs font-semibold text-[#3355FF] hover:text-[#1D4ED8] underline-offset-2 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                                                >
+                                                    <Mail className="w-3.5 h-3.5" />
+                                                    {sendingTest ? 'Sending…' : 'Send test email to this address'}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 ))}

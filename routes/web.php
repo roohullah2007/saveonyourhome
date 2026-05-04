@@ -484,6 +484,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/settings/store', [AdminSettingsController::class, 'store'])->name('settings.store');
     Route::delete('/settings/{setting}', [AdminSettingsController::class, 'destroy'])->name('settings.destroy');
     Route::post('/settings/initialize', [AdminSettingsController::class, 'initializeDefaults'])->name('settings.initialize');
+    Route::post('/settings/test-email', [AdminSettingsController::class, 'sendTestEmail'])->name('settings.test-email');
 
     // Resources Management
     Route::get('/resources', [AdminResourceController::class, 'index'])->name('resources.index');

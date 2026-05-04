@@ -240,6 +240,9 @@ class UserDashboardController extends Controller
             'requires_pre_approval' => 'nullable|boolean',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:320',
+            'og_image' => 'nullable|string|max:2048',
         ]));
 
         // Sync the old status field based on listing_status

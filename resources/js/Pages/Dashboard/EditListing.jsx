@@ -6,6 +6,7 @@ import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import OpenHouseManager from '@/Components/OpenHouseManager';
 import RichTextEditor from '@/Components/RichTextEditor';
 import HomeValuationModal from '@/Components/HomeValuationModal';
+import PropertySeoFields from '@/Components/PropertySeoFields';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 import {
     ArrowLeft,
@@ -168,6 +169,9 @@ export default function EditListing({ property }) {
         year_built: property.year_built ?? '',
         garage: property.garage ?? '',
         description: property.description || '',
+        seo_title: property.seo_title || '',
+        seo_description: property.seo_description || '',
+        og_image: property.og_image || '',
         features: Array.isArray(property.features) ? property.features : [],
         contact_name: property.contact_name || '',
         contact_email: property.contact_email || '',
@@ -1156,6 +1160,24 @@ export default function EditListing({ property }) {
                         <p className="text-xs text-gray-500 mt-1.5">Bold, italic, and lists are supported. Click Generate with AI to start from a quick draft.</p>
                     </div>
                 </div>
+
+                {/* SEO & social sharing */}
+                <PropertySeoFields
+                    values={{
+                        seo_title: data.seo_title,
+                        seo_description: data.seo_description,
+                        og_image: data.og_image,
+                    }}
+                    errors={{
+                        seo_title: errors.seo_title,
+                        seo_description: errors.seo_description,
+                        og_image: errors.og_image,
+                    }}
+                    onChange={(k, v) => setData(k, v)}
+                    fallbackTitle={data.property_title ? `${data.property_title}${data.city ? ` — ${data.city}${data.state ? ', ' + data.state : ''}` : ''}` : ''}
+                    fallbackDescription={(data.description || '').replace(/<[^>]*>/g, '').slice(0, 200)}
+                    fallbackImage={Array.isArray(property.photos) && property.photos[0] ? (property.photos[0].startsWith('http') || property.photos[0].startsWith('/') ? property.photos[0] : `/storage/${property.photos[0]}`) : ''}
+                />
 
                 {/* Features */}
                 <div className="bg-white rounded-2xl shadow-sm p-6">

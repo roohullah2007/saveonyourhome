@@ -131,6 +131,9 @@ class PropertyController extends Controller
             'virtualTourEmbed' => 'nullable|string|max:20000',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
+            'seoTitle' => 'nullable|string|max:255',
+            'seoDescription' => 'nullable|string|max:320',
+            'ogImage' => 'nullable|string|max:2048',
         ]));
 
         // Parse features - handle both JSON string and array formats
@@ -210,6 +213,9 @@ class PropertyController extends Controller
             'open_to_realtors' => $validated['openToRealtors'] ?? true,
             'requires_pre_approval' => $validated['requiresPreApproval'] ?? false,
             'description' => $validated['description'] ?? '',
+            'seo_title' => $validated['seoTitle'] ?? null,
+            'seo_description' => $validated['seoDescription'] ?? null,
+            'og_image' => $validated['ogImage'] ?? null,
             'features' => $features,
             'photos' => $photoPaths,
             'floor_plans' => collect($validated['floorPlans'] ?? [])
@@ -331,7 +337,7 @@ class PropertyController extends Controller
             ? '$' . number_format((float) $property->price)
             : null;
 
-        $title = trim(($property->property_title ?: 'Home for sale by owner')
+        $autoTitle = trim(($property->property_title ?: 'Home for sale by owner')
             . ' — ' . trim(($property->city ?: '') . ($property->state ? ', ' . $property->state : ''), ', '));
 
         $facts = array_filter([
@@ -340,12 +346,24 @@ class PropertyController extends Controller
             $sqft,
             $price ? "Listed at {$price}" : null,
         ]);
-        $description = ($property->description
+        $autoDescription = ($property->description
                 ? \Illuminate\Support\Str::limit(strip_tags($property->description), 180)
                 : implode(' · ', $facts) . '. For sale by owner on SaveOnYourHome.');
 
-        $photo = is_array($property->photos) ? ($property->photos[0] ?? null) : null;
-        $imageUrl = $this->absolutizePhotoUrl($photo);
+        // Prefer the seller/admin-curated SEO fields when present, otherwise
+        // use the auto-generated values from the property facts.
+        $title = trim($property->seo_title ?? '') !== ''
+            ? trim($property->seo_title)
+            : $autoTitle;
+        $description = trim($property->seo_description ?? '') !== ''
+            ? trim($property->seo_description)
+            : $autoDescription;
+
+        // OG image priority: explicit og_image → first photo.
+        $ogImagePath = trim($property->og_image ?? '') !== ''
+            ? trim($property->og_image)
+            : (is_array($property->photos) ? ($property->photos[0] ?? null) : null);
+        $imageUrl = $this->absolutizePhotoUrl($ogImagePath);
 
         return [
             'title'       => $title,
@@ -403,6 +421,9 @@ class PropertyController extends Controller
             'lot_size' => 'nullable|integer|min:0',
             'year_built' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
             'description' => 'required|string',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:320',
+            'og_image' => 'nullable|string|max:2048',
             'features' => 'nullable|array',
             'contact_name' => 'required|string',
             'contact_email' => 'required|email',

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\CompanyLogo;
 use App\Models\Inquiry;
+use App\Models\Setting;
 use App\Models\TaxonomyTerm;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -85,6 +86,17 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
+            ],
+            // Mortgage calculator defaults — admin-configurable from
+            // Admin → Settings → Mortgage. Read with sensible fallbacks
+            // so the calculator works even before defaults are seeded.
+            'mortgageDefaults' => fn () => [
+                'down_payment_pct'      => Setting::get('mortgage_default_down_payment_pct', '20'),
+                'interest_rate'         => Setting::get('mortgage_default_interest_rate', '7.0'),
+                'loan_term_years'       => Setting::get('mortgage_default_loan_term_years', '30'),
+                'property_tax_rate_pct' => Setting::get('mortgage_default_property_tax_rate_pct', '1.2'),
+                'annual_home_insurance' => Setting::get('mortgage_default_annual_home_insurance', '1000'),
+                'pmi_pct'               => Setting::get('mortgage_default_pmi_pct', '0'),
             ],
         ];
     }
