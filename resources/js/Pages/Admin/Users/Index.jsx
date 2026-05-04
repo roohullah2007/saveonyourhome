@@ -104,7 +104,7 @@ export default function UsersIndex({ users, filters }) {
                             setSelectedRole(e.target.value);
                             handleFilter('role', e.target.value);
                         }}
-                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                        className="pl-4 pr-10 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     >
                         <option value="">All Roles</option>
                         <option value="admin">Admin</option>
@@ -118,7 +118,7 @@ export default function UsersIndex({ users, filters }) {
                             setSelectedStatus(e.target.value);
                             handleFilter('status', e.target.value);
                         }}
-                        className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                        className="pl-4 pr-10 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                     >
                         <option value="">All Status</option>
                         <option value="active">Active</option>
