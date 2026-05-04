@@ -305,6 +305,10 @@ class PropertyController extends Controller
             ->take(3)
             ->get();
 
+        // Server-side Open Graph metadata so Facebook / LinkedIn / iMessage
+        // crawlers (which don't execute JS) can build a rich link preview.
+        view()->share('seoMeta', $this->buildPropertyOgMeta($property));
+
         return Inertia::render('PropertyDetail', [
             'property' => $property,
             'openHouses' => $property->upcomingOpenHouses()->get(),
@@ -313,6 +317,61 @@ class PropertyController extends Controller
                 ? auth()->user()->favorites()->where('properties.id', $property->id)->exists()
                 : false,
         ]);
+    }
+
+    /**
+     * Build the OG/Twitter metadata array for a single property.
+     */
+    protected function buildPropertyOgMeta(Property $property): array
+    {
+        $beds = (int) ($property->bedrooms ?? 0);
+        $baths = (int) ($property->full_bathrooms ?? $property->bathrooms ?? 0);
+        $sqft = $property->sqft ? number_format((int) $property->sqft) . ' sqft' : null;
+        $price = $property->price
+            ? '$' . number_format((float) $property->price)
+            : null;
+
+        $title = trim(($property->property_title ?: 'Home for sale by owner')
+            . ' — ' . trim(($property->city ?: '') . ($property->state ? ', ' . $property->state : ''), ', '));
+
+        $facts = array_filter([
+            $beds ? "{$beds} bed" : null,
+            $baths ? "{$baths} bath" : null,
+            $sqft,
+            $price ? "Listed at {$price}" : null,
+        ]);
+        $description = ($property->description
+                ? \Illuminate\Support\Str::limit(strip_tags($property->description), 180)
+                : implode(' · ', $facts) . '. For sale by owner on SaveOnYourHome.');
+
+        $photo = is_array($property->photos) ? ($property->photos[0] ?? null) : null;
+        $imageUrl = $this->absolutizePhotoUrl($photo);
+
+        return [
+            'title'       => $title,
+            'description' => $description,
+            'image'       => $imageUrl,
+            'url'         => route('properties.show', $property->slug ?: $property->id),
+            'type'        => 'website',
+        ];
+    }
+
+    /**
+     * Convert a stored photo path (relative, /storage/…, or absolute URL)
+     * into an absolute URL suitable for OG image tags.
+     */
+    protected function absolutizePhotoUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+        if (preg_match('#^https?://#i', $path)) {
+            return $path;
+        }
+        if (str_starts_with($path, '/')) {
+            return url($path);
+        }
+        return url('/storage/' . ltrim($path, '/'));
     }
 
     /**
