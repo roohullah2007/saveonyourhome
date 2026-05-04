@@ -31,11 +31,12 @@ import {
     Camera,
     Globe,
     PauseCircle,
-    PlayCircle
+    PlayCircle,
+    CalendarClock
 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Listings({ listings, filters = {}, counts = {} }) {
+export default function Listings({ listings, filters = {}, counts = {}, hasAvailability = false }) {
     const [search, setSearch] = useState(filters.search || '');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [listingToDelete, setListingToDelete] = useState(null);
@@ -183,13 +184,55 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                     </h1>
                     <p className="text-gray-500">Manage your property listings</p>
                 </div>
-                <Link
-                    href="/list-property"
-                    className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
-                >
-                    <Plus className="w-5 h-5" />
-                    List your property
-                </Link>
+                <div className="flex flex-wrap items-center gap-2">
+                    {/* Order yard sign — for the seller's first listing if they
+                        have one, otherwise nudge them to create one first. */}
+                    {(() => {
+                        const firstListing = listingData?.[0];
+                        if (firstListing) {
+                            return (
+                                <button
+                                    type="button"
+                                    onClick={() => openOrderModal(firstListing, 'yard_sign')}
+                                    className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-emerald-100 transition-colors"
+                                >
+                                    <Package className="w-4 h-4" />
+                                    Order Yard Sign
+                                </button>
+                            );
+                        }
+                        return (
+                            <button
+                                type="button"
+                                onClick={() => alert('Add a listing first so we can ship the yard sign with the right address and QR code.')}
+                                className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-emerald-100 transition-colors"
+                                title="Add a listing first"
+                            >
+                                <Package className="w-4 h-4" />
+                                Order Yard Sign
+                            </button>
+                        );
+                    })()}
+
+                    {/* Manage availability — only show until it's set up. */}
+                    {!hasAvailability && (
+                        <Link
+                            href={route('dashboard.availability')}
+                            className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-amber-100 transition-colors"
+                        >
+                            <CalendarClock className="w-4 h-4" />
+                            Manage availability
+                        </Link>
+                    )}
+
+                    <Link
+                        href="/list-property"
+                        className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
+                    >
+                        <Plus className="w-5 h-5" />
+                        List your property
+                    </Link>
+                </div>
             </div>
 
             {/* Tabs */}

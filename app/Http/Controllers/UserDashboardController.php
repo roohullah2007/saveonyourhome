@@ -106,10 +106,15 @@ class UserDashboardController extends Controller
             'sold' => $user->properties()->where('listing_status', 'sold')->count(),
         ];
 
+        // Has the seller already configured their availability rules?
+        // Used to hide the "Manage availability" CTA once it's set up.
+        $hasAvailability = \App\Models\SellerAvailabilityRule::where('user_id', $user->id)->exists();
+
         return Inertia::render('Dashboard/Listings', [
             'listings' => $listings,
             'filters' => $request->only(['search', 'status']),
             'counts' => $counts,
+            'hasAvailability' => $hasAvailability,
         ]);
     }
 
