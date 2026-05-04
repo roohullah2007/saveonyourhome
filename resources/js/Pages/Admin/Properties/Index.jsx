@@ -16,8 +16,10 @@ import {
     ToggleLeft,
     ToggleRight,
     PauseCircle,
-    PlayCircle
+    PlayCircle,
+    Package,
 } from 'lucide-react';
+import OrderYardSignLinkModal from '@/Components/OrderYardSignLinkModal';
 
 export default function PropertiesIndex({ properties, filters = {}, counts = {} }) {
     const { taxonomies = {} } = usePage().props;
@@ -33,6 +35,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
     const [rejectionReason, setRejectionReason] = useState('');
     const [selectedIds, setSelectedIds] = useState([]);
     const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+    const [yardSignProperty, setYardSignProperty] = useState(null);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -420,6 +423,13 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                                 >
                                                     {property.is_featured ? <Star className="w-4 h-4 fill-current" /> : <StarOff className="w-4 h-4" />}
                                                 </button>
+                                                <button
+                                                    onClick={() => setYardSignProperty(property)}
+                                                    className="p-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"
+                                                    title="Order yard sign on behalf of seller"
+                                                >
+                                                    <Package className="w-4 h-4" />
+                                                </button>
                                                 <Link
                                                     href={route('admin.properties.show', property.id)}
                                                     className="p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg"
@@ -540,6 +550,15 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                     </div>
                 </div>
             )}
+
+            {/* Order Yard Sign on Behalf — link-style modal mounted once,
+                opened from the per-row Package icon */}
+            <OrderYardSignLinkModal
+                isOpen={!!yardSignProperty}
+                onClose={() => setYardSignProperty(null)}
+                listings={yardSignProperty ? [yardSignProperty] : []}
+                defaultListingId={yardSignProperty?.id || null}
+            />
         </AdminLayout>
     );
 }
