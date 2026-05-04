@@ -8,6 +8,7 @@ import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import HomeValuationModal from '@/Components/HomeValuationModal';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 
 // US state name → 2-letter abbreviation, used to normalize Nominatim results
 // (which return full state names) into our form fields (which expect abbrs).
@@ -57,7 +58,10 @@ function YesNoField({ label, value, onChange }) {
 // component identity stays stable between parent renders and inputs don't lose focus.
 function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
   const fileRef = useRef(null);
-  const previewUrl = plan.image ? `/storage/${plan.image}` : '';
+  // The upload endpoint may return either a full "/storage/foo.webp"
+  // (current Laravel default) or a bare "foo.webp" key (CDN/legacy
+  // setups). Routing through resolvePhotoUrl handles both.
+  const previewUrl = plan.image ? resolvePhotoUrl(plan.image) : '';
   return (
     <div className="border border-[#E5E1DC] rounded-2xl p-5 md:p-6 relative bg-white">
       <div className="absolute top-4 right-4">
@@ -344,37 +348,17 @@ function ListProperty() {
     setData(field, value);
   };
 
-  // Hydrate the form from localStorage on first mount so an accidental
-  // refresh (or Maps SDK crash) doesn't blow away what the seller typed.
+  // Always start the create form with empty defaults. Sellers have an
+  // explicit "Save as draft" button that persists to the DB, so we don't
+  // need (or want) localStorage silently replaying the previous session
+  // every time someone clicks "List your property".
   useEffect(() => {
     if (draftHydratedRef.current) return;
     draftHydratedRef.current = true;
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (!raw) return;
-      const saved = JSON.parse(raw);
-      if (saved && typeof saved === 'object') {
-        setData((prev) => ({ ...prev, ...saved }));
-        setDraftRestored(true);
-        // Auto-dismiss the "draft restored" notice after 6s.
-        setTimeout(() => setDraftRestored(false), 6000);
-      }
-    } catch (_) { /* ignore */ }
+    // Drop any stale draft left over from previous code paths.
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) { /* ignore */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Persist the form (debounced) so refresh/crash recovery just works.
-  // Photos themselves aren't persisted — only the typed/selected fields.
-  useEffect(() => {
-    if (!draftHydratedRef.current) return;
-    const t = setTimeout(() => {
-      try {
-        const { ...persisted } = data;
-        localStorage.setItem(DRAFT_KEY, JSON.stringify(persisted));
-      } catch (_) { /* quota or disabled — ignore */ }
-    }, 500);
-    return () => clearTimeout(t);
-  }, [data]);
 
   const clearDraft = () => {
     try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
