@@ -424,9 +424,11 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                                     {property.is_featured ? <Star className="w-4 h-4 fill-current" /> : <StarOff className="w-4 h-4" />}
                                                 </button>
                                                 <button
+                                                    type="button"
                                                     onClick={() => setYardSignProperty(property)}
-                                                    className="p-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"
+                                                    className="p-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border border-emerald-200 rounded-lg"
                                                     title="Order yard sign on behalf of seller"
+                                                    aria-label="Order yard sign on behalf of seller"
                                                 >
                                                     <Package className="w-4 h-4" />
                                                 </button>
