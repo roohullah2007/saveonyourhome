@@ -7,7 +7,9 @@ function buildPartnerUrl(listing) {
     if (!listing) return null;
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     const listingUrl = `${origin}/properties/${listing.slug || listing.id}`;
-    const qrImageUrl = `${origin}/qr.png?size=500&data=${encodeURIComponent(listingUrl)}`;
+    // No .png extension — nginx intercepts /*.png as a static file in
+    // production and 404s before Laravel runs.
+    const qrImageUrl = `${origin}/qr?size=500&data=${encodeURIComponent(listingUrl)}`;
     return `${PARTNER_BASE}?qrcode=${encodeURIComponent(qrImageUrl)}`;
 }
 
@@ -66,6 +68,23 @@ export default function OrderYardSignLinkModal({ isOpen, onClose, listings = [],
                         <p className="text-sm text-gray-600">
                             You don't have an active listing yet. Add a listing first so we can generate the QR code for your yard sign.
                         </p>
+                    ) : (defaultListingId || eligible.length === 1) && selected ? (
+                        <div>
+                            <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-1">Ordering for</p>
+                            <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
+                                <p className="text-sm font-semibold text-gray-900">
+                                    {selected.property_title || `Listing #${selected.id}`}
+                                </p>
+                                {(selected.address || selected.city || selected.state) && (
+                                    <p className="text-sm text-gray-600 mt-0.5">
+                                        {[selected.address, selected.city, selected.state].filter(Boolean).join(', ')}
+                                    </p>
+                                )}
+                            </div>
+                            <p className="text-[11px] text-gray-500 mt-2">
+                                The QR on the printed sign will scan straight to this listing's page.
+                            </p>
+                        </div>
                     ) : (
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Choose a listing</label>

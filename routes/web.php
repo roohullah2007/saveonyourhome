@@ -43,8 +43,10 @@ Route::get('/calendar-feeds/{token}.ics', [CalendarFeedController::class, 'show'
 // QR Code Short URL Redirect (public, no auth required)
 Route::get('/p/{code}', [QrCodeController::class, 'handleScan'])->name('qr.scan');
 
-// Public QR image (for partner yard-sign printer that embeds by URL)
-Route::get('/qr.png', [QrCodeController::class, 'publicQr'])->name('qr.public');
+// Public QR image (for partner yard-sign printer that embeds by URL).
+// Path has no .png extension: nginx intercepts /*.png as a static file
+// and 404s before Laravel can run, so we serve it under /qr instead.
+Route::get('/qr', [QrCodeController::class, 'publicQr'])->name('qr.public');
 
 /*
 |--------------------------------------------------------------------------
