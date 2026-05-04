@@ -3,6 +3,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X, BookmarkPlus } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
 import AuthModal from '@/Components/AuthModal';
@@ -824,7 +825,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
                 <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2'}`}>
                   {propertyList.map((property) => {
                     const propertyImage = property.photos && property.photos.length > 0
-                      ? property.photos[0]
+                      ? resolvePhotoUrl(property.photos[0])
                       : '/images/property-placeholder.svg';
 
                     const baths = (property.full_bathrooms || 0) + (property.half_bathrooms ? property.half_bathrooms * 0.5 : 0);

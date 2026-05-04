@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Navigation, ZoomIn, ZoomOut, X, ChevronUp, BedDouble, Bath, Maximize2, Layers } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
 import { onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 
 const PropertyMap = ({ properties = [], onPropertyClick }) => {
   const { googleMapsApiKey } = usePage().props;
@@ -175,7 +176,7 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
       overlaysRef.current.push(overlay);
 
       const photo = property.photos && property.photos.length > 0
-        ? property.photos[0]
+        ? resolvePhotoUrl(property.photos[0])
         : '/images/property-placeholder.svg';
 
       const baths = (property.full_bathrooms || 0) + (property.half_bathrooms ? property.half_bathrooms * 0.5 : 0);

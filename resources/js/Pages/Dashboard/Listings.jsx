@@ -1,5 +1,6 @@
 import { Head, Link, router, usePage, useForm } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
     Plus,
     Search,
@@ -262,7 +263,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                 {/* Image - Smaller */}
                                 <div className="w-28 sm:w-36 h-28 sm:h-32 bg-gray-200 flex-shrink-0">
                                     <img
-                                        src={listing.photos?.[0] || '/images/property-placeholder.jpg'}
+                                        src={resolvePhotoUrl(listing.photos?.[0], '/images/property-placeholder.jpg')}
                                         alt={listing.property_title}
                                         className="w-full h-full object-cover object-center"
                                         onError={(e) => e.target.src = '/images/property-placeholder.jpg'}

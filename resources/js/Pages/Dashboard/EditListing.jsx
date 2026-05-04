@@ -7,6 +7,7 @@ import OpenHouseManager from '@/Components/OpenHouseManager';
 import RichTextEditor from '@/Components/RichTextEditor';
 import HomeValuationModal from '@/Components/HomeValuationModal';
 import PropertySeoFields from '@/Components/PropertySeoFields';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 import {
     ArrowLeft,
@@ -1775,7 +1776,7 @@ export default function EditListing({ property }) {
                                 {photos.map((photo, index) => (
                                     <div key={index} className="relative aspect-video rounded-xl overflow-hidden bg-gray-100 group">
                                         <img
-                                            src={photo}
+                                            src={resolvePhotoUrl(photo)}
                                             alt={`Property photo ${index + 1}`}
                                             className="w-full h-full object-cover object-center"
                                             onError={(e) => e.target.src = '/images/property-placeholder.svg'}
@@ -1900,7 +1901,7 @@ export default function EditListing({ property }) {
                         {photoToDelete !== null && photos[photoToDelete] && (
                             <div className="mb-6 rounded-lg overflow-hidden">
                                 <img
-                                    src={photos[photoToDelete]}
+                                    src={resolvePhotoUrl(photos[photoToDelete])}
                                     alt="Photo to delete"
                                     className="w-full h-40 object-cover object-center"
                                 />

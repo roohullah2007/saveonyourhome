@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Head, useForm, Link } from '@inertiajs/react';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import { MapPin, BedDouble, Bath, Maximize2, Calendar, Home, CheckCircle2, ChevronLeft, ChevronRight, X, Shield, QrCode, DollarSign, Mail, BadgeCheck, Share2, Camera, BarChart3, FileText } from 'lucide-react';
 import SinglePropertyMap from '@/Components/Properties/SinglePropertyMap';
 
@@ -29,7 +30,7 @@ export default function ClaimShow({ property, token, isAuthenticated, user }) {
     };
 
     const photos = property.photos && property.photos.length > 0
-        ? property.photos
+        ? property.photos.map((p) => resolvePhotoUrl(p))
         : ['/images/property-placeholder.svg'];
 
     const openGallery = (index) => {

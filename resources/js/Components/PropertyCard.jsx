@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
   Maximize2, Heart, Info, Video, Box, Calendar, X,
   MapPin, BedDouble, Bath, ArrowRight,
@@ -21,9 +22,12 @@ const PropertyCard = ({ property, onAuthRequired }) => {
   const [favoritePending, setFavoritePending] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
-  // Get the first photo or use placeholder
+  // Get the first photo or use placeholder. Storage paths must go
+  // through resolvePhotoUrl so bare keys like "properties/abc.webp"
+  // become "/storage/properties/abc.webp" instead of resolving relative
+  // to the current page URL.
   const propertyImage = property.photos && property.photos.length > 0
-    ? property.photos[0]
+    ? resolvePhotoUrl(property.photos[0])
     : '/images/property-placeholder.svg';
 
   const hasVideo = property.video_tour_url || property.video_url || property.has_video;
@@ -257,7 +261,9 @@ const PropertyCard = ({ property, onAuthRequired }) => {
 
 /* ---------- Quick Preview Modal ---------- */
 function QuickPreviewModal({ property, onClose, isNewListing, specialNoticeText, listingStatusLabel, detailUrl, formatPrice }) {
-  const photos = property.photos && property.photos.length > 0 ? property.photos : ['/images/property-placeholder.svg'];
+  const photos = property.photos && property.photos.length > 0
+    ? property.photos.map((p) => resolvePhotoUrl(p))
+    : ['/images/property-placeholder.svg'];
   const [activeIdx, setActiveIdx] = useState(0);
 
   const stop = (e) => e.stopPropagation();

@@ -1,5 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
     Home,
     MessageSquare,
@@ -132,7 +133,7 @@ function Dashboard({ properties = [], stats = {}, recentInquiries = [] }) {
                                     <div className="flex gap-4">
                                         <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
                                             <img
-                                                src={listing.photos?.[0] || '/images/property-placeholder.jpg'}
+                                                src={resolvePhotoUrl(listing.photos?.[0], '/images/property-placeholder.jpg')}
                                                 alt={listing.property_title}
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => { e.target.src = '/images/property-placeholder.jpg'; }}

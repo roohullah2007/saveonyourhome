@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 import AuthModal from '@/Components/AuthModal';
 import HeroBadge from '@/Components/HeroBadge';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 
 const HeroSection = ({ featuredProperties = [] }) => {
   const { auth } = usePage().props;
@@ -202,7 +203,7 @@ const HeroSection = ({ featuredProperties = [] }) => {
                           >
                             <div className="overflow-hidden rounded-xl" style={{ height: '220px' }}>
                               <img
-                                src={property.photos?.[0] || '/images/property-placeholder.svg'}
+                                src={resolvePhotoUrl(property.photos?.[0])}
                                 alt={`${property.address}, ${property.city}`}
                                 className="h-full w-full object-cover"
                               />

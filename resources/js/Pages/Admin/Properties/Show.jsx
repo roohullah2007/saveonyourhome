@@ -1,5 +1,6 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
     ArrowLeft,
     MapPin,
@@ -124,7 +125,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
     };
 
     const photos = property.photos && property.photos.length > 0
-        ? property.photos
+        ? property.photos.map((p) => resolvePhotoUrl(p))
         : ['/images/property-placeholder.svg'];
 
     const hasRealPhotos = property.photos && property.photos.length > 0;
@@ -1095,7 +1096,7 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                         {photoToDelete !== null && property.photos && property.photos[photoToDelete] && (
                             <div className="mb-6 rounded-lg overflow-hidden">
                                 <img
-                                    src={property.photos[photoToDelete]}
+                                    src={resolvePhotoUrl(property.photos[photoToDelete])}
                                     alt="Photo to delete"
                                     className="w-full h-40 object-cover"
                                 />

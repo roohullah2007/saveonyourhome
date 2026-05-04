@@ -13,6 +13,7 @@ import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
 import OrderYardSignModal from '@/Components/OrderYardSignModal';
 import NearbySection from '@/Components/Properties/NearbySection';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
@@ -280,7 +281,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
   }, []);
 
   const photos = property.photos && property.photos.length > 0
-    ? property.photos
+    ? property.photos.map((p) => resolvePhotoUrl(p))
     : ['/images/property-placeholder.svg'];
 
   const openGallery = (idx) => { setGalleryIndex(idx); setShowGalleryModal(true); };
@@ -453,15 +454,6 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
     return 'For Sale By Owner';
   })();
 
-  // Photo paths in the DB may already include "/storage/" (older uploads) or
-  // start with an http(s) URL for CDN-hosted images — only prepend when
-  // neither is the case so we don't produce "/storage//storage/…" URLs.
-  const resolvePhotoUrl = (p) => {
-    if (!p) return undefined;
-    if (/^https?:\/\//i.test(p)) return p;
-    if (p.startsWith('/')) return p;
-    return `/storage/${p}`;
-  };
   const listingImage = property.photos?.[0] ? resolvePhotoUrl(property.photos[0]) : undefined;
   const listingDescription = `${property.property_title} - ${property.bedrooms || 0} bed, ${property.full_bathrooms || property.bathrooms || 0} bath${property.sqft ? `, ${Number(property.sqft).toLocaleString()} sqft` : ''} home for sale by owner in ${property.city}, ${property.state}. Listed at ${formatPriceShort(property.price)}.`;
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
@@ -1390,7 +1382,7 @@ function CalcInput({ label, prefix, value, onChange }) {
 }
 
 function SimilarListingRow({ property }) {
-  const mainPhoto = property.photos && property.photos.length > 0 ? property.photos[0] : '/images/property-placeholder.svg';
+  const mainPhoto = property.photos && property.photos.length > 0 ? resolvePhotoUrl(property.photos[0]) : '/images/property-placeholder.svg';
   return (
     <Link href={`/properties/${property.slug || property.id}`}
       className="group flex flex-col md:flex-row bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-shadow">

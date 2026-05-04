@@ -1,5 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import UserDashboardLayout from '@/Layouts/UserDashboardLayout';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
     Search,
     Heart,
@@ -141,7 +142,7 @@ export default function Favorites({ favorites, filters = {} }) {
                             {/* Image */}
                             <div className="relative h-48">
                                 <img
-                                    src={property.photos?.[0] || property.images?.[0]?.url || '/images/property-placeholder.jpg'}
+                                    src={resolvePhotoUrl(property.photos?.[0] || property.images?.[0]?.url, '/images/property-placeholder.jpg')}
                                     alt={property.property_title}
                                     className="w-full h-full object-cover object-center"
                                     onError={(e) => e.target.src = '/images/property-placeholder.jpg'}
@@ -215,7 +216,7 @@ export default function Favorites({ favorites, filters = {} }) {
                                 {/* Image */}
                                 <div className="relative sm:w-48 md:w-64 h-48 sm:h-auto flex-shrink-0">
                                     <img
-                                        src={property.photos?.[0] || property.images?.[0]?.url || '/images/property-placeholder.jpg'}
+                                        src={resolvePhotoUrl(property.photos?.[0] || property.images?.[0]?.url, '/images/property-placeholder.jpg')}
                                         alt={property.property_title}
                                         className="w-full h-full object-cover object-center"
                                         onError={(e) => e.target.src = '/images/property-placeholder.jpg'}

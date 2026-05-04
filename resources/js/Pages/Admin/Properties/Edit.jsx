@@ -5,6 +5,7 @@ import axios from 'axios';
 import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import OpenHouseManager from '@/Components/OpenHouseManager';
 import PropertySeoFields from '@/Components/PropertySeoFields';
+import { resolvePhotoUrl } from '@/utils/photoUrl';
 import {
     ArrowLeft,
     Save,
@@ -1000,7 +1001,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                             const isMain = mainPhotoSource === 'existing' && index === mainPhotoIndex;
                             return (
                             <div key={`existing-${index}`} className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${isMain ? 'ring-2 ring-[#1A1816]' : ''}`}>
-                                <img src={photo} alt={`Photo ${index + 1}`} className="w-full h-full object-cover object-center" />
+                                <img src={resolvePhotoUrl(photo)} alt={`Photo ${index + 1}`} className="w-full h-full object-cover object-center" />
                                 <button
                                     type="button"
                                     onClick={() => handleDeleteExistingPhoto(index)}
@@ -1226,7 +1227,7 @@ export default function EditProperty({ property, users = [], listingStatuses = {
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Photo</h3>
                         <p className="text-gray-600 mb-4">Are you sure you want to delete this photo?</p>
                         {photoToDelete !== null && photos[photoToDelete] && (
-                            <img src={photos[photoToDelete]} alt="Photo to delete" className="w-full h-32 object-cover object-center rounded-lg mb-4" />
+                            <img src={resolvePhotoUrl(photos[photoToDelete])} alt="Photo to delete" className="w-full h-32 object-cover object-center rounded-lg mb-4" />
                         )}
                         <div className="flex justify-end gap-3">
                             <button
