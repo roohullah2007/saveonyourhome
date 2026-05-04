@@ -518,6 +518,35 @@ class Property extends Model
         return $slug !== '' ? $prefix . $slug : rtrim($prefix, '-');
     }
 
+    /**
+     * Remove every photo / floor-plan image owned by this property from
+     * the storage disk. Idempotent — silently ignores already-missing
+     * files. Call this immediately before forceDelete() so a hard delete
+     * doesn't leave orphaned files behind.
+     */
+    public function deletePhysicalFiles(): void
+    {
+        $paths = [];
+
+        if (is_array($this->photos)) {
+            foreach ($this->photos as $p) {
+                if (is_string($p) && $p !== '') $paths[] = $p;
+            }
+        }
+
+        if (is_array($this->floor_plans)) {
+            foreach ($this->floor_plans as $fp) {
+                if (is_array($fp) && !empty($fp['image']) && is_string($fp['image'])) {
+                    $paths[] = $fp['image'];
+                }
+            }
+        }
+
+        if (empty($paths)) return;
+
+        \App\Services\ImageService::deleteMultiple($paths);
+    }
+
     protected static function booted(): void
     {
         // Populate the slug once the property's id is assigned.

@@ -409,7 +409,13 @@ class UserDashboardController extends Controller
     }
 
     /**
-     * Delete a listing
+     * Delete a listing.
+     *
+     * This is a HARD delete: the row is force-deleted (so DB cascades
+     * fire and inquiries / favorites / qr_scans / open_houses /
+     * service_requests / showings are removed) and every photo file
+     * the listing owned is wiped from the storage disk first. Sellers
+     * expect "delete" to mean gone — not soft-archived.
      */
     public function destroyListing(Property $property)
     {
@@ -418,14 +424,23 @@ class UserDashboardController extends Controller
             abort(403, 'You do not own this property.');
         }
 
-        // Delete related records
-        $property->images()->delete();
-        $property->inquiries()->delete();
-        Favorite::where('property_id', $property->id)->delete();
+        \DB::transaction(function () use ($property) {
+            // Files first — if forceDelete fails for any reason we don't
+            // want to have already wiped DB rows but kept orphaned files.
+            $property->deletePhysicalFiles();
 
-        $property->delete();
+            // Anything that relies on a soft-related row staying around
+            // (e.g. PropertyImage rows that don't have a FK cascade).
+            $property->images()->delete();
 
-        return redirect()->route('dashboard.listings')->with('success', 'Property deleted successfully!');
+            // Hard delete the row. FKs declared with cascadeOnDelete on
+            // related tables (favorites, inquiries, qr_scans, open_houses,
+            // service_requests, property_showings, etc.) clean themselves
+            // up automatically.
+            $property->forceDelete();
+        });
+
+        return redirect()->route('dashboard.listings')->with('success', 'Property deleted. Photos and related records were removed.');
     }
 
     /**
