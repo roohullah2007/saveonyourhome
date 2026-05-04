@@ -956,7 +956,13 @@ function ListProperty() {
         handleInputChange('description', plain);
       }
     } catch (err) {
-      alert('Could not generate a description right now. Please try again.');
+      const status = err?.response?.status;
+      if (status === 401 || status === 419) {
+        alert('Your session has expired. Please refresh the page and sign in again.');
+      } else {
+        const detail = err?.response?.data?.message || err?.message || '';
+        alert('Could not generate a description right now. ' + (detail ? `(${detail})` : 'Please try again in a moment.'));
+      }
     } finally {
       setGeneratingDescription(false);
     }

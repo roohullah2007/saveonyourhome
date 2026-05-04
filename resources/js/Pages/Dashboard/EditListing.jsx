@@ -1144,7 +1144,15 @@ export default function EditListing({ property }) {
                                         const res = await axios.post(route('dashboard.listings.generate-description', property.id));
                                         if (res.data?.description) setData('description', res.data.description);
                                     } catch (e) {
-                                        alert('Could not generate a description right now. Please try again.');
+                                        const status = e?.response?.status;
+                                        if (status === 401 || status === 419) {
+                                            alert('Your session has expired. Please refresh the page and try again.');
+                                        } else if (status === 403) {
+                                            alert('You don\'t have permission to generate a description for this listing.');
+                                        } else {
+                                            const detail = e?.response?.data?.message || e?.message || '';
+                                            alert('Could not generate a description right now. ' + (detail ? `(${detail})` : 'Please try again in a moment.'));
+                                        }
                                     }
                                 }}
                                 className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3355FF] to-[#7c3aed] text-white px-3 py-1 text-xs font-semibold hover:opacity-90"

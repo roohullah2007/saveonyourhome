@@ -21,46 +21,111 @@ class PropertyDescriptionController extends Controller
     {
         abort_unless($property->user_id === $request->user()->id, 403);
 
-        $html = $this->aiOrTemplate($property);
-
-        return response()->json(['description' => $html]);
+        try {
+            return response()->json(['description' => $this->aiOrTemplate($property)]);
+        } catch (\Throwable $e) {
+            \Log::warning('generate description failed', ['property' => $property->id, 'error' => $e->getMessage()]);
+            // Fall back to template directly — never 500 on this user-facing path.
+            try {
+                return response()->json(['description' => $this->buildDescription($property)]);
+            } catch (\Throwable $inner) {
+                return response()->json(['description' => '<p>Add a few words about what makes your home special — the layout, recent updates, the neighborhood, and how it lives day-to-day.</p>']);
+            }
+        }
     }
 
     /**
      * Generate a description from an unsaved (draft) form payload. Used by the
      * Create Listing page where no Property row exists yet.
+     *
+     * This endpoint is best-effort: validation failures, malformed input,
+     * and OpenAI outages all fall back to the local template so the seller
+     * always gets *something* useful when they click "Generate with AI".
      */
     public function generateDraft(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'property_type' => 'nullable|string|max:60',
-            'bedrooms' => 'nullable|integer|min:0',
-            'full_bathrooms' => 'nullable|integer|min:0',
-            'half_bathrooms' => 'nullable|integer|min:0',
-            'sqft' => 'nullable|integer|min:0',
-            'year_built' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
-            'price' => 'nullable|numeric|min:0',
-            'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:120',
-            'state' => 'nullable|string|max:50',
-            'school_district' => 'nullable|string|max:255',
-            'grade_school' => 'nullable|string|max:255',
-            'middle_school' => 'nullable|string|max:255',
-            'high_school' => 'nullable|string|max:255',
-            'has_hoa' => 'nullable|boolean',
-            'hoa_fee' => 'nullable|numeric|min:0',
-            'annual_property_tax' => 'nullable|numeric|min:0',
-            'features' => 'nullable|array',
-            'features.*' => 'string',
-        ]);
+        try {
+            $intOrNull = function ($v) {
+                if ($v === null || $v === '') return null;
+                if (is_numeric($v)) return (int) $v;
+                return null;
+            };
+            $floatOrNull = function ($v) {
+                if ($v === null || $v === '') return null;
+                if (is_numeric($v)) return (float) $v;
+                return null;
+            };
+            $strOrNull = function ($v, $max = 255) {
+                if ($v === null) return null;
+                $v = is_string($v) ? trim($v) : (string) $v;
+                if ($v === '') return null;
+                return mb_substr($v, 0, $max);
+            };
 
-        $p = new Property($validated);
-        // Features is cast to array on the model, but for an unsaved instance we set it directly.
-        $p->features = $validated['features'] ?? [];
+            // Features may arrive as either an array (JS) or a JSON string
+            // (older form submissions). Normalise to an array of strings.
+            $featuresIn = $request->input('features', []);
+            if (is_string($featuresIn)) {
+                $decoded = json_decode($featuresIn, true);
+                $featuresIn = is_array($decoded) ? $decoded : [];
+            }
+            if (!is_array($featuresIn)) {
+                $featuresIn = [];
+            }
+            $features = array_values(array_filter(
+                array_map(fn ($x) => is_string($x) ? trim($x) : null, $featuresIn),
+                fn ($x) => $x !== null && $x !== ''
+            ));
 
-        return response()->json([
-            'description' => $this->aiOrTemplate($p),
-        ]);
+            $payload = [
+                'property_type' => $strOrNull($request->input('property_type'), 60),
+                'bedrooms' => $intOrNull($request->input('bedrooms')),
+                'full_bathrooms' => $intOrNull($request->input('full_bathrooms')),
+                'half_bathrooms' => $intOrNull($request->input('half_bathrooms')),
+                'sqft' => $intOrNull($request->input('sqft')),
+                'year_built' => $intOrNull($request->input('year_built')),
+                'price' => $floatOrNull($request->input('price')),
+                'address' => $strOrNull($request->input('address')),
+                'city' => $strOrNull($request->input('city'), 120),
+                'state' => $strOrNull($request->input('state'), 50),
+                'school_district' => $strOrNull($request->input('school_district')),
+                'grade_school' => $strOrNull($request->input('grade_school')),
+                'middle_school' => $strOrNull($request->input('middle_school')),
+                'high_school' => $strOrNull($request->input('high_school')),
+                'has_hoa' => $request->boolean('has_hoa'),
+                'hoa_fee' => $floatOrNull($request->input('hoa_fee')),
+                'annual_property_tax' => $floatOrNull($request->input('annual_property_tax')),
+            ];
+
+            $p = new Property($payload);
+            $p->features = $features;
+
+            return response()->json([
+                'description' => $this->aiOrTemplate($p),
+            ]);
+        } catch (\Throwable $e) {
+            \Log::warning('generateDraft failed, returning empty fallback', [
+                'error' => $e->getMessage(),
+            ]);
+            // Last-resort template with whatever raw input we have so the
+            // user still gets a useful starting draft.
+            try {
+                $p = new Property([
+                    'property_type' => (string) $request->input('property_type', ''),
+                    'address' => (string) $request->input('address', ''),
+                    'city' => (string) $request->input('city', ''),
+                    'state' => (string) $request->input('state', ''),
+                ]);
+                $p->features = is_array($request->input('features')) ? $request->input('features') : [];
+                return response()->json([
+                    'description' => $this->buildDescription($p),
+                ]);
+            } catch (\Throwable $inner) {
+                return response()->json([
+                    'description' => '<p>Add a few words about what makes your home special — the layout, recent updates, the neighborhood, and how it lives day-to-day.</p>',
+                ]);
+            }
+        }
     }
 
     protected function aiOrTemplate(Property $p): string
