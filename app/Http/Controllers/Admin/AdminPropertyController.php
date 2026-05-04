@@ -88,6 +88,7 @@ class AdminPropertyController extends Controller
             'approved' => Property::approved()->count(),
             'rejected' => Property::where('approval_status', 'rejected')->count(),
             'on_hold' => Property::where('approval_status', 'on_hold')->count(),
+            'draft' => Property::where('approval_status', 'draft')->count(),
             'featured' => Property::featured()->count(),
             'showcase' => Property::showcase()->count(),
             'transferred' => Property::transferred()->count(),

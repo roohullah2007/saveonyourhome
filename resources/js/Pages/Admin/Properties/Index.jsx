@@ -119,6 +119,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
         { key: 'approved', label: 'Approved', count: counts.approved || 0 },
         { key: 'on_hold', label: 'On Hold', count: counts.on_hold || 0 },
         { key: 'rejected', label: 'Rejected', count: counts.rejected || 0 },
+        { key: 'draft', label: 'Draft', count: counts.draft || 0 },
     ];
 
     const propertyList = properties.data || properties;
@@ -327,8 +328,12 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                 </tr>
                             ) : (
                                 propertyList.map((property) => (
-                                    <tr key={property.id} className={`hover:bg-gray-50 ${selectedIds.includes(property.id) ? 'bg-blue-50/50' : ''}`}>
-                                        <td className="px-6 py-4">
+                                    <tr
+                                        key={property.id}
+                                        onClick={() => router.visit(route('admin.properties.show', property.id))}
+                                        className={`hover:bg-gray-50 cursor-pointer ${selectedIds.includes(property.id) ? 'bg-blue-50/50' : ''}`}
+                                    >
+                                        <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedIds.includes(property.id)}
@@ -338,7 +343,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                         </td>
                                         <td className="px-6 py-4 max-w-xs">
                                             <div>
-                                                <p className="font-medium text-gray-900 truncate" title={property.property_title}>{property.property_title}</p>
+                                                <p className="font-medium text-gray-900 hover:text-[#3355FF] truncate" title={property.property_title}>{property.property_title}</p>
                                                 <p className="text-sm text-gray-500 truncate">{property.city}, {property.state}</p>
                                             </div>
                                         </td>
@@ -363,7 +368,7 @@ export default function PropertiesIndex({ properties, filters = {}, counts = {} 
                                             {property.user?.name || property.contact_name}
                                         </td>
                                         <td className="px-6 py-4 text-gray-500">{property.views}</td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
                                             <div className="flex items-center justify-end gap-1">
                                                 {(property.approval_status === 'pending' || !property.approval_status) && (
                                                     <>

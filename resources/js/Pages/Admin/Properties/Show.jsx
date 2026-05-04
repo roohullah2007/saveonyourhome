@@ -15,8 +15,6 @@ import {
     CheckCircle,
     XCircle,
     Clock,
-    Star,
-    StarOff,
     Eye,
     ChevronLeft,
     ChevronRight,
@@ -33,7 +31,6 @@ import {
     MessageSquare,
     RefreshCw,
     Pencil,
-    ExternalLink,
     Package,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
@@ -183,12 +180,6 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
         });
     };
 
-    const handleToggleFeatured = () => {
-        router.post(route('admin.properties.toggle-featured', property.id), {}, {
-            preserveScroll: true,
-        });
-    };
-
     const handleDownloadPhotos = () => {
         if (!hasRealPhotos) return;
         setDownloadingZip(true);
@@ -307,24 +298,6 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                         Edit Property
                     </Link>
 
-                    <a
-                        href={`/properties/${property.slug || property.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-                    >
-                        <ExternalLink className="w-4 h-4" />
-                        View Public Page
-                    </a>
-
-                    <a
-                        href={route('admin.properties.download-qr', property.id)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-                    >
-                        <Download className="w-4 h-4" />
-                        Download QR Code
-                    </a>
-
                     <button
                         type="button"
                         onClick={() => setShowAdminYardSignModal(true)}
@@ -332,27 +305,6 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                     >
                         <Package className="w-4 h-4" />
                         Order Yard Sign on Behalf
-                    </button>
-
-                    <button
-                        onClick={handleToggleFeatured}
-                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                            property.is_featured
-                                ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                        {property.is_featured ? (
-                            <>
-                                <Star className="w-4 h-4 fill-yellow-500" />
-                                Featured
-                            </>
-                        ) : (
-                            <>
-                                <StarOff className="w-4 h-4" />
-                                Make Featured
-                            </>
-                        )}
                     </button>
 
                     {property.approval_status === 'pending' && (
