@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use App\Models\PropertyShowing;
+use App\Services\EmailService;
 use App\Services\IcsGenerator;
 use App\Services\ShowingSlotService;
 use Illuminate\Http\JsonResponse;
@@ -175,6 +176,26 @@ class PropertyShowingController extends Controller
                 report($e);
             }
         }
+
+        // Admin — visibility into every booked showing.
+        $adminEmail = EmailService::getAdminEmail();
+        if ($adminEmail) {
+            try {
+                Mail::send([], [], function ($m) use ($adminEmail, $showing, $when, $typeLabel, $propertyTitle, $propertyAddress) {
+                    $body = view('emails.showing-received-seller', [
+                        'showing' => $showing,
+                        'when' => $when,
+                        'typeLabel' => $typeLabel,
+                        'propertyTitle' => $propertyTitle,
+                    ])->render();
+                    $m->to($adminEmail)
+                        ->subject("[Admin] New viewing booked — {$propertyTitle} ({$propertyAddress})")
+                        ->html($body);
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
     }
 
     protected function sendCancellationEmails(PropertyShowing $showing, string $cancelledBy): void
@@ -211,6 +232,27 @@ class PropertyShowingController extends Controller
                     ])->render();
                     $m->to($showing->seller->email, $showing->seller->name)
                         ->subject("Viewing cancelled — {$propertyTitle}")
+                        ->html($body);
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
+        // Admin — also notified on cancellations.
+        $adminEmail = EmailService::getAdminEmail();
+        if ($adminEmail) {
+            try {
+                Mail::send([], [], function ($m) use ($adminEmail, $showing, $when, $propertyTitle, $cancelledBy) {
+                    $body = view('emails.showing-cancelled', [
+                        'showing' => $showing,
+                        'when' => $when,
+                        'propertyTitle' => $propertyTitle,
+                        'cancelledBy' => $cancelledBy,
+                        'audience' => 'seller',
+                    ])->render();
+                    $m->to($adminEmail)
+                        ->subject("[Admin] Viewing cancelled — {$propertyTitle}")
                         ->html($body);
                 });
             } catch (\Throwable $e) {

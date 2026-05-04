@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminResourceController;
 use App\Http\Controllers\Admin\AdminPartnerController;
 use App\Http\Controllers\Admin\AdminTaxonomyController;
 use App\Http\Controllers\Admin\AdminImportController;
+use App\Http\Controllers\Admin\AdminServiceRequestController;
 use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\BuyerInquiryController;
 use App\Http\Controllers\ContactController;
@@ -464,6 +465,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/messages/{message}/archive', [AdminContactController::class, 'archive'])->name('messages.archive');
     Route::post('/messages/{message}/reply', [AdminContactController::class, 'reply'])->name('messages.reply');
     Route::post('/messages/bulk-action', [AdminContactController::class, 'bulkAction'])->name('messages.bulk-action');
+
+    // Service Requests (yard signs, QR stickers, photos, etc.)
+    Route::get('/service-requests', [AdminServiceRequestController::class, 'index'])->name('service-requests.index');
+    Route::post('/service-requests/{serviceRequest}/status', [AdminServiceRequestController::class, 'updateStatus'])->name('service-requests.update-status');
+    Route::post('/service-requests/{serviceRequest}/note', [AdminServiceRequestController::class, 'addNote'])->name('service-requests.add-note');
+    // Admin places an order on behalf of a seller (yard sign / stickers).
+    Route::post('/properties/{property}/order-on-behalf', [AdminServiceRequestController::class, 'storeOnBehalf'])->name('properties.order-on-behalf');
 
     // Activity Logs
     Route::get('/activity', [AdminActivityController::class, 'index'])->name('activity.index');

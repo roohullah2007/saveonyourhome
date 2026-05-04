@@ -336,12 +336,10 @@ class UserDashboardController extends Controller
 
         if ($publishingFromDraft) {
             try {
-                $adminEmail = \App\Models\Setting::get('admin_email');
-                if ($adminEmail) {
-                    EmailService::sendToUser($adminEmail, new \App\Mail\PropertySubmittedToAdmin($property));
-                }
-                if ($property->contact_email) {
-                    EmailService::sendToUser($property->contact_email, new \App\Mail\PropertySubmittedToOwner($property));
+                EmailService::sendToAdmin(new \App\Mail\PropertySubmittedToAdmin($property));
+                $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+                if ($sellerEmail) {
+                    EmailService::sendToUser($sellerEmail, new \App\Mail\PropertySubmittedToOwner($property));
                 }
             } catch (\Throwable $e) {
                 \Log::error('Publish-from-draft email failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
@@ -355,8 +353,11 @@ class UserDashboardController extends Controller
             return redirect()->route('dashboard.listings')->with('success', 'Draft saved.');
         }
 
-        if ($property->contact_email) {
-            EmailService::sendToUser($property->contact_email, new PropertyUpdatedNotification($property));
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
+            EmailService::sendToUser($sellerEmail, new PropertyUpdatedNotification($property));
+            sleep(2);
+            EmailService::sendToAdmin(new PropertyUpdatedNotification($property));
         }
 
         return redirect()->route('dashboard.listings')->with('success', 'Property updated successfully!');
@@ -661,27 +662,45 @@ class UserDashboardController extends Controller
             $property = $inquiry->property;
 
             if ($isPropertyOwner && $inquiry->email) {
-                // Seller replying → email the buyer
+                // Seller replying → email the buyer (and BCC admin for visibility).
                 $sellerName = $property->contact_name ?? $user->name;
                 try {
                     EmailService::sendToUser(
                         $inquiry->email,
                         new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
                     );
+                    sleep(2);
+                    EmailService::sendToAdmin(
+                        new \App\Mail\SellerReplyNotification($inquiry, $property, $validated['reply'], $sellerName)
+                    );
                 } catch (\Throwable $e) {
                     \Log::error('Seller→buyer reply email failed', ['inquiry_id' => $inquiry->id, 'error' => $e->getMessage()]);
                 }
-            } elseif ($isInquirySender && $property->contact_email) {
-                // Buyer replying → email the seller
-                $buyerName = $inquiry->name ?? $user->name;
-                $buyerEmail = $user->email ?? $inquiry->email;
-                try {
-                    EmailService::sendToUser(
-                        $property->contact_email,
-                        new \App\Mail\BuyerReplyNotification($inquiry, $property, $validated['reply'], $buyerName, $buyerEmail)
-                    );
-                } catch (\Throwable $e) {
-                    \Log::error('Buyer→seller reply email failed', ['inquiry_id' => $inquiry->id, 'error' => $e->getMessage()]);
+            } elseif ($isInquirySender) {
+                // Buyer replying → email the seller. Prefer contact_email, fall
+                // back to the property owner's account email so the seller
+                // still gets notified when contact_email isn't filled in.
+                $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+                if ($sellerEmail) {
+                    $buyerName = $inquiry->name ?? $user->name;
+                    $buyerEmail = $user->email ?? $inquiry->email;
+                    try {
+                        EmailService::sendToUser(
+                            $sellerEmail,
+                            new \App\Mail\BuyerReplyNotification($inquiry, $property, $validated['reply'], $buyerName, $buyerEmail)
+                        );
+                        sleep(2);
+                        EmailService::sendToAdmin(
+                            new \App\Mail\BuyerReplyNotification($inquiry, $property, $validated['reply'], $buyerName, $buyerEmail)
+                        );
+                    } catch (\Throwable $e) {
+                        \Log::error('Buyer→seller reply email failed', ['inquiry_id' => $inquiry->id, 'error' => $e->getMessage()]);
+                    }
+                } else {
+                    \Log::warning('Buyer reply: no seller email reachable', [
+                        'inquiry_id' => $inquiry->id,
+                        'property_id' => $property->id,
+                    ]);
                 }
             }
         }
@@ -953,8 +972,19 @@ class UserDashboardController extends Controller
             $shippingInfo .= "\nQuantity: " . ($validated['quantity'] ?? 2) . " stickers";
         }
 
+        // For yard signs, embed the listing URL + a public QR code image URL so
+        // admin can forward straight to the print partner without manual lookup.
+        if ($validated['service_type'] === 'yard_sign') {
+            $listingUrl = url('/properties/' . ($property->slug ?: $property->id));
+            $qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=' . urlencode($listingUrl);
+            $shippingInfo .= "\n\n— Print details —" .
+                "\nProperty address: " . trim($property->address . ', ' . $property->city . ', ' . $property->state . ' ' . $property->zip_code, ', ') .
+                "\nListing URL: " . $listingUrl .
+                "\nQR code (500×500 PNG): " . $qrImageUrl;
+        }
+
         if (!empty($validated['notes'])) {
-            $shippingInfo .= "\n\nNotes: " . $validated['notes'];
+            $shippingInfo .= "\n\nSeller notes: " . $validated['notes'];
         }
 
         // Create the service request

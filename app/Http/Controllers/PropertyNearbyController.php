@@ -41,8 +41,14 @@ class PropertyNearbyController extends Controller
         }
 
         $apiKey = config('services.yelp.api_key');
+
+        // No Yelp key configured? Fall back to OpenStreetMap Overpass so the
+        // "What's Nearby" card still populates instead of disappearing.
         if (empty($apiKey)) {
-            return response()->json(['error' => 'Yelp API key not configured'], 503);
+            $osm = Cache::remember("nearby:osm:{$property->id}", self::CACHE_TTL, function () use ($property) {
+                return $this->osmNearby((float) $property->latitude, (float) $property->longitude);
+            });
+            return response()->json(['categories' => $osm, 'source' => 'osm']);
         }
 
         $data = Cache::remember("nearby:prop:{$property->id}", self::CACHE_TTL, function () use ($property, $apiKey) {
@@ -87,7 +93,68 @@ class PropertyNearbyController extends Controller
             return $result;
         });
 
-        return response()->json(['categories' => $data]);
+        return response()->json(['categories' => $data, 'source' => 'yelp']);
+    }
+
+    /**
+     * OSM Overpass fallback for nearby businesses when no Yelp key is set.
+     * Returns the same {label, icon, items[]} shape so the UI doesn't care
+     * which provider answered.
+     */
+    private function osmNearby(float $lat, float $lng): array
+    {
+        $r = 1600; // ~1 mile, matches Yelp default
+        $defs = [
+            'education'   => ['Education',       'graduation-cap',     '"amenity"~"school|university|college|library|kindergarten"'],
+            'health'      => ['Health & Medical', 'briefcase-medical', '"amenity"~"hospital|clinic|doctors|pharmacy|dentist"'],
+            'restaurants' => ['Restaurants',      'utensils',          '"amenity"~"restaurant|cafe|fast_food|bar|pub"'],
+            'grocery'     => ['Grocery',          'shopping-basket',   '"shop"~"supermarket|convenience|greengrocer|butcher|bakery"'],
+            'shopping'    => ['Shopping',         'shopping-bag',      '"shop"~"mall|department_store|clothes|electronics|hardware"'],
+            'active'      => ['Active Life',      'tree',              '"leisure"~"park|fitness_centre|sports_centre|swimming_pool|playground"'],
+        ];
+
+        $result = [];
+        foreach ($defs as $key => [$label, $icon, $filter]) {
+            $query = "[out:json][timeout:10];(node[{$filter}](around:{$r},{$lat},{$lng}););out tags center 8;";
+            try {
+                $resp = Http::asForm()->timeout(12)->post('https://overpass-api.de/api/interpreter', ['data' => $query]);
+                if (!$resp->successful()) {
+                    Log::info('Overpass nearby non-200', ['status' => $resp->status(), 'cat' => $key]);
+                    $result[$key] = ['label' => $label, 'icon' => $icon, 'items' => []];
+                    continue;
+                }
+                $items = collect($resp->json('elements') ?? [])
+                    ->filter(fn ($el) => !empty($el['tags']['name']))
+                    ->map(function ($el) use ($lat, $lng) {
+                        $elat = $el['lat'] ?? ($el['center']['lat'] ?? null);
+                        $elng = $el['lon'] ?? ($el['center']['lon'] ?? null);
+                        $miles = null;
+                        if ($elat !== null && $elng !== null) {
+                            // Equirectangular approximation — plenty accurate for ~1 mile.
+                            $dx = ($elng - $lng) * cos(deg2rad($lat)) * 69;
+                            $dy = ($elat - $lat) * 69;
+                            $miles = round(sqrt($dx * $dx + $dy * $dy), 2);
+                        }
+                        return [
+                            'id' => $el['id'] ?? null,
+                            'name' => $el['tags']['name'],
+                            'rating' => null,
+                            'review_count' => 0,
+                            'url' => null,
+                            'miles' => $miles,
+                        ];
+                    })
+                    ->sortBy(fn ($i) => $i['miles'] ?? PHP_INT_MAX)
+                    ->take(5)
+                    ->values()
+                    ->all();
+                $result[$key] = ['label' => $label, 'icon' => $icon, 'items' => $items];
+            } catch (\Throwable $e) {
+                Log::warning('Overpass nearby threw', ['err' => $e->getMessage(), 'cat' => $key]);
+                $result[$key] = ['label' => $label, 'icon' => $icon, 'items' => []];
+            }
+        }
+        return $result;
     }
 
     public function walkscore(Property $property): JsonResponse

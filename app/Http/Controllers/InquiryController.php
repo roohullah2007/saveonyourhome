@@ -47,8 +47,22 @@ class InquiryController extends Controller
             EmailService::sendToUser($inquiry->email, new InquiryConfirmation($inquiry, $property));
 
             sleep(2);
-            if ($property->contact_email) {
-                EmailService::sendToUser($property->contact_email, new NewInquiryNotification($inquiry, $property));
+
+            // Prefer the property's contact_email but fall back to the owner's
+            // account email so a missing contact field doesn't silently drop
+            // the seller notification.
+            $sellerEmail = $property->contact_email
+                ?: optional($property->user)->email;
+
+            if ($sellerEmail) {
+                EmailService::sendToUser($sellerEmail, new NewInquiryNotification($inquiry, $property));
+            } else {
+                \Log::warning('Inquiry created with no seller email reachable', [
+                    'inquiry_id' => $inquiry->id,
+                    'property_id' => $property->id,
+                ]);
+                // Safety net: copy admin so the lead isn't lost.
+                EmailService::sendToAdmin(new NewInquiryNotification($inquiry, $property));
             }
         }
 

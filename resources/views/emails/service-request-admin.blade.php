@@ -76,6 +76,32 @@
         </table>
     </div>
 
+    @if($serviceRequest->service_type === 'yard_sign' && !empty($qrImageUrl) && !empty($listingUrl))
+    <div class="property-details" style="border:1px solid #A7F3D0; background:#F0FDF4;">
+        <h3 style="color:#065F46;">Print Kit — ready to forward to printer</h3>
+        <table>
+            <tr>
+                <td style="vertical-align:top; width:140px;">
+                    <a href="{{ $qrImageUrl }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ $qrImageUrl }}" alt="Listing QR code" width="120" height="120" style="display:block; border:1px solid #A7F3D0; border-radius:8px; background:#FFFFFF;" />
+                    </a>
+                </td>
+                <td style="vertical-align:top; padding-left:12px;">
+                    <p style="margin:0 0 8px 0;"><strong>Listing URL</strong><br />
+                        <a href="{{ $listingUrl }}" target="_blank" rel="noopener noreferrer" style="word-break:break-all;">{{ $listingUrl }}</a>
+                    </p>
+                    <p style="margin:0 0 8px 0;"><strong>QR PNG (500×500)</strong><br />
+                        <a href="{{ $qrImageUrl }}" target="_blank" rel="noopener noreferrer" style="word-break:break-all;">{{ $qrImageUrl }}</a>
+                    </p>
+                    <p style="margin:0;">
+                        <a href="{{ $qrImageUrl }}" download="yard-sign-qr-{{ $property->id }}.png">Download QR (PNG)</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    @endif
+
     @if($serviceRequest->notes)
     <div class="property-details">
         <h3>Customer Notes</h3>

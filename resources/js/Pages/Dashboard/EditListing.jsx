@@ -141,7 +141,6 @@ export default function EditListing({ property }) {
     const { data, setData, put, processing, errors } = useForm({
         property_title: property.property_title || '',
         listing_headline: property.listing_headline || '',
-        developer: property.developer || '',
         property_type: property.property_type || 'single-family-home',
         status: property.status || 'for-sale',
         listing_status: property.listing_status || 'for_sale',
@@ -718,17 +717,6 @@ export default function EditListing({ property }) {
                                 onChange={(e) => setData('listing_headline', e.target.value)}
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                 placeholder="Short tagline (80 chars max)"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Developer / Builder</label>
-                            <input
-                                type="text"
-                                value={data.developer}
-                                onChange={(e) => setData('developer', e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
-                                placeholder="Optional"
                             />
                         </div>
 

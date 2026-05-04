@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PropertyShowing;
+use App\Services\EmailService;
 use App\Services\IcsGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -129,6 +130,27 @@ class SellerShowingsController extends Controller
                     ])->render();
                     $m->to($showing->seller->email, $showing->seller->name)
                         ->subject("Viewing cancelled — {$propertyTitle}")
+                        ->html($body);
+                });
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
+        // Admin — get a copy of every showing cancellation regardless of who cancelled.
+        $adminEmail = EmailService::getAdminEmail();
+        if ($adminEmail) {
+            try {
+                Mail::send([], [], function ($m) use ($adminEmail, $showing, $when, $propertyTitle, $cancelledBy) {
+                    $body = view('emails.showing-cancelled', [
+                        'showing' => $showing,
+                        'when' => $when,
+                        'propertyTitle' => $propertyTitle,
+                        'cancelledBy' => $cancelledBy,
+                        'audience' => 'seller',
+                    ])->render();
+                    $m->to($adminEmail)
+                        ->subject("[Admin] Viewing cancelled — {$propertyTitle}")
                         ->html($body);
                 });
             } catch (\Throwable $e) {

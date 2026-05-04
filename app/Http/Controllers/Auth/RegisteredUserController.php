@@ -66,6 +66,17 @@ class RegisteredUserController extends Controller
             \Log::error('Failed to send verification code email: ' . $e->getMessage());
         }
 
+        // Send the welcome email immediately on signup so users always get it,
+        // even if they never verify their email later.
+        try {
+            $emailNotificationsEnabled = Setting::get('email_notifications', '1') === '1';
+            if ($emailNotificationsEnabled) {
+                Mail::to($user->email)->send(new WelcomeEmail($user));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to send welcome email on signup: ' . $e->getMessage());
+        }
+
         // Send notification to admin about new user registration (with delay)
         sleep(2);
         EmailService::sendToAdmin(new NewUserRegisteredToAdmin($user));
@@ -119,18 +130,8 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        // Mark email as verified
+        // Mark email as verified (welcome email already sent on signup).
         $user->markEmailAsVerified();
-
-        // Send welcome email after verification
-        try {
-            $emailNotificationsEnabled = Setting::get('email_notifications', '1') === '1';
-            if ($emailNotificationsEnabled) {
-                Mail::to($user->email)->send(new WelcomeEmail($user));
-            }
-        } catch (\Exception $e) {
-            \Log::error('Failed to send welcome email: ' . $e->getMessage());
-        }
 
         return redirect()->route('dashboard')->with('success', 'Email verified successfully! Welcome to SaveOnYourHome.');
     }

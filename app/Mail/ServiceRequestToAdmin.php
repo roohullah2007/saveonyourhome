@@ -36,13 +36,23 @@ class ServiceRequestToAdmin extends Mailable
      */
     public function content(): Content
     {
+        $property = $this->serviceRequest->property;
+        $listingUrl = $property
+            ? url('/properties/' . ($property->slug ?: $property->id))
+            : null;
+        $qrImageUrl = $listingUrl
+            ? 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=' . urlencode($listingUrl)
+            : null;
+
         return new Content(
             view: 'emails.service-request-admin',
             with: [
                 'serviceRequest' => $this->serviceRequest,
-                'property' => $this->serviceRequest->property,
+                'property' => $property,
                 'user' => $this->serviceRequest->user,
                 'adminUrl' => url('/admin/service-requests'),
+                'listingUrl' => $listingUrl,
+                'qrImageUrl' => $qrImageUrl,
             ],
         );
     }

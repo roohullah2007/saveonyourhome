@@ -405,9 +405,17 @@ class AdminPropertyController extends Controller
 
         ActivityLog::log('property_approved', $property, null, null, "Approved property: {$property->property_title}");
 
-        // Send approval email to property owner
-        if ($property->contact_email) {
-            EmailService::sendToUser($property->contact_email, new PropertyApproved($property));
+        // Send approval email to the property owner. Prefer contact_email, fall
+        // back to the seller's account email so a missing contact field doesn't
+        // silently drop the notification. Also CC admin for visibility.
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
+            EmailService::sendToUser($sellerEmail, new PropertyApproved($property));
+            sleep(2);
+            EmailService::sendToAdmin(new PropertyApproved($property));
+        } else {
+            \Log::warning('Property approved but no seller email reachable', ['property_id' => $property->id]);
+            EmailService::sendToAdmin(new PropertyApproved($property));
         }
 
         // Fire saved-search alerts. Runs synchronously but is deliberately
@@ -440,9 +448,16 @@ class AdminPropertyController extends Controller
 
         ActivityLog::log('property_rejected', $property, null, ['reason' => $request->rejection_reason], "Rejected property: {$property->property_title}");
 
-        // Send rejection email to property owner
-        if ($property->contact_email) {
-            EmailService::sendToUser($property->contact_email, new PropertyRejected($property, $request->rejection_reason));
+        // Send rejection email to the property owner with the same fallback +
+        // admin copy as the approval flow.
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
+            EmailService::sendToUser($sellerEmail, new PropertyRejected($property, $request->rejection_reason));
+            sleep(2);
+            EmailService::sendToAdmin(new PropertyRejected($property, $request->rejection_reason));
+        } else {
+            \Log::warning('Property rejected but no seller email reachable', ['property_id' => $property->id]);
+            EmailService::sendToAdmin(new PropertyRejected($property, $request->rejection_reason));
         }
 
         return back()->with('success', 'Property rejected.');
@@ -500,15 +515,21 @@ class AdminPropertyController extends Controller
 
         ActivityLog::log('property_changes_requested', $property, null, ['feedback' => $validated['admin_feedback']], "Requested changes on property: {$property->property_title}");
 
-        if ($property->contact_email) {
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
             try {
                 EmailService::sendToUser(
-                    $property->contact_email,
+                    $sellerEmail,
                     new \App\Mail\PropertyChangesRequested($property, $validated['admin_feedback'])
                 );
+                sleep(2);
+                EmailService::sendToAdmin(new \App\Mail\PropertyChangesRequested($property, $validated['admin_feedback']));
             } catch (\Throwable $e) {
                 \Log::error('Request-changes email failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
             }
+        } else {
+            \Log::warning('Changes requested but no seller email reachable', ['property_id' => $property->id]);
+            EmailService::sendToAdmin(new \App\Mail\PropertyChangesRequested($property, $validated['admin_feedback']));
         }
 
         return back()->with('success', 'Changes requested. The seller has been notified.');

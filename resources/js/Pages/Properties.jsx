@@ -84,18 +84,23 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Build unique city/state suggestions from the map-wide property set
+  // Build unique city + county suggestions from the map-wide property set so
+  // buyers can search either way (e.g. "Hillsborough County" or "Tampa, FL").
   const locationSuggestions = React.useMemo(() => {
     const query = (searchParams.location || '').trim().toLowerCase();
     const counts = new Map();
+    const bump = (label, value) => {
+      const prev = counts.get(label);
+      counts.set(label, { label, value, count: (prev?.count || 0) + 1 });
+    };
     (allPropertiesForMap || []).forEach((p) => {
-      if (!p.city) return;
-      const label = p.state ? `${p.city}, ${p.state}` : p.city;
-      counts.set(label, {
-        label,
-        value: p.city,
-        count: (counts.get(label)?.count || 0) + 1,
-      });
+      if (p.city) {
+        bump(p.state ? `${p.city}, ${p.state}` : p.city, p.city);
+      }
+      if (p.county) {
+        const countyName = /county$/i.test(p.county) ? p.county : `${p.county} County`;
+        bump(p.state ? `${countyName}, ${p.state}` : countyName, countyName);
+      }
     });
     let list = Array.from(counts.values());
     if (query) {

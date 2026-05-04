@@ -32,14 +32,17 @@ import {
     MessageSquare,
     RefreshCw,
     Pencil,
-    ExternalLink
+    ExternalLink,
+    Package,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
+import OrderYardSignModal from '@/Components/OrderYardSignModal';
 
 export default function PropertiesShow({ property, listingStatuses = {} }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showApproveModal, setShowApproveModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showAdminYardSignModal, setShowAdminYardSignModal] = useState(false);
     const [showChangesModal, setShowChangesModal] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showDeletePhotoModal, setShowDeletePhotoModal] = useState(false);
@@ -320,6 +323,15 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                         <Download className="w-4 h-4" />
                         Download QR Code
                     </a>
+
+                    <button
+                        type="button"
+                        onClick={() => setShowAdminYardSignModal(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg font-medium hover:bg-emerald-200 transition-colors"
+                    >
+                        <Package className="w-4 h-4" />
+                        Order Yard Sign on Behalf
+                    </button>
 
                     <button
                         onClick={handleToggleFeatured}
@@ -1170,6 +1182,16 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                     </div>
                 </div>
             )}
+
+            <OrderYardSignModal
+                isOpen={showAdminYardSignModal}
+                onClose={() => setShowAdminYardSignModal(false)}
+                listing={property}
+                authUser={property.user}
+                submitRouteName="admin.properties.order-on-behalf"
+                title="Order Yard Sign on Behalf of Seller"
+                successText="The seller will be emailed a confirmation. The order is now visible in Service Requests with status 'Pending'."
+            />
         </AdminLayout>
     );
 }

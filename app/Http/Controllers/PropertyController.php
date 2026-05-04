@@ -13,6 +13,7 @@ use App\Services\EmailService;
 use App\Services\GeocodingService;
 use App\Services\ImageService;
 use App\Services\RentCastService;
+use App\Services\SchoolLookupService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -483,11 +484,14 @@ class PropertyController extends Controller
             });
         }
 
-        // Filter by location
+        // Filter by location — match against city, county, state, or ZIP so a
+        // single search box covers every way buyers describe an area.
         if ($request->location) {
             $location = $request->location;
             $query->where(function ($q) use ($location) {
                 $q->where('city', 'like', "%{$location}%")
+                    ->orWhere('county', 'like', "%{$location}%")
+                    ->orWhere('state', 'like', "%{$location}%")
                     ->orWhere('zip_code', 'like', "%{$location}%");
             });
         }
@@ -664,7 +668,7 @@ class PropertyController extends Controller
      * Look up a property record via RentCast and return normalized fields
      * the ListProperty.jsx form can auto-fill.
      */
-    public function rentcastLookup(Request $request, RentCastService $rentcast)
+    public function rentcastLookup(Request $request, RentCastService $rentcast, SchoolLookupService $schools)
     {
         $validated = $request->validate([
             'address' => 'required|string|min:5|max:255',
@@ -684,6 +688,14 @@ class PropertyController extends Controller
                 'success' => false,
                 'message' => "We couldn't find a record for that address. Try a more specific address or enter the details manually.",
             ], 404);
+        }
+
+        // Best-effort: layer on nearby schools (free Overpass / OSM lookup).
+        $lat = $record['latitude'] ?? null;
+        $lng = $record['longitude'] ?? null;
+        if ($lat !== null && $lng !== null) {
+            $schoolData = $schools->lookup((float) $lat, (float) $lng);
+            $record = array_merge($record, $schoolData);
         }
 
         return response()->json([
@@ -831,15 +843,17 @@ class PropertyController extends Controller
             return;
         }
 
-        // Send to user and admin with delay between them
-        if ($property->contact_email) {
+        // Prefer the listing's contact_email, but fall back to the seller's
+        // account email so a missing contact field doesn't drop the
+        // confirmation. Admin always gets a copy.
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
             EmailService::sendToUserAndAdmin(
-                $property->contact_email,
+                $sellerEmail,
                 new PropertySubmittedToOwner($property),
                 new PropertySubmittedToAdmin($property)
             );
         } else {
-            // No user email, just send to admin
             EmailService::sendToAdmin(new PropertySubmittedToAdmin($property));
         }
     }
@@ -853,9 +867,11 @@ class PropertyController extends Controller
             return;
         }
 
-        // Send update notification to property owner
-        if ($property->contact_email) {
-            EmailService::sendToUser($property->contact_email, new PropertyUpdatedNotification($property));
+        $sellerEmail = $property->contact_email ?: optional($property->user)->email;
+        if ($sellerEmail) {
+            EmailService::sendToUser($sellerEmail, new PropertyUpdatedNotification($property));
+            sleep(2);
+            EmailService::sendToAdmin(new PropertyUpdatedNotification($property));
         }
     }
 }

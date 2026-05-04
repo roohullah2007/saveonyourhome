@@ -44,7 +44,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
 
     // Order modals
     const [showOrderModal, setShowOrderModal] = useState(false);
-    const [orderType, setOrderType] = useState(null); // 'stickers' only now
+    const [orderType, setOrderType] = useState(null); // 'yard_sign' or 'qr_stickers'
     const [orderListing, setOrderListing] = useState(null);
     const [orderSuccess, setOrderSuccess] = useState(false);
 
@@ -72,7 +72,18 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
         setOrderType(type);
         setOrderSuccess(false);
         orderForm.reset();
-        orderForm.setData('service_type', type);
+        orderForm.clearErrors();
+        orderForm.setData({
+            service_type: type,
+            shipping_name: '',
+            shipping_address: listing?.address || '',
+            shipping_city: listing?.city || '',
+            shipping_state: listing?.state || '',
+            shipping_zip: listing?.zip_code || '',
+            shipping_phone: '',
+            quantity: 2,
+            notes: '',
+        });
         setShowOrderModal(true);
     };
 
@@ -378,33 +389,26 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                 <QrCode className="w-3.5 h-3.5" />
                                                 QR Code
                                             </button>
-                                            {listing.is_active && listing.approval_status === 'approved' && (listing.transaction_type === 'for_sale' || !listing.transaction_type) && (() => {
-                                                const origin = typeof window !== 'undefined' ? window.location.origin : '';
-                                                const listingUrl = `${origin}/properties/${listing.slug || listing.id}`;
-                                                const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(listingUrl)}`;
-                                                const partnerUrl = `https://humanitysource.org/product/dave-on-your-house-yard-sign-24-x-18-inch-double-sided-print-h-stake-included/?qrcode=${encodeURIComponent(qrImageUrl)}`;
-                                                return (
-                                                    <>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setShowYardSignSample(true)}
-                                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-200 hover:bg-emerald-50 rounded-lg transition-colors"
-                                                        >
-                                                            <Eye className="w-3.5 h-3.5" />
-                                                            See sample
-                                                        </button>
-                                                        <a
-                                                            href={partnerUrl}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-                                                        >
-                                                            <Package className="w-3.5 h-3.5" />
-                                                            Order Yard Sign
-                                                        </a>
-                                                    </>
-                                                );
-                                            })()}
+                                            {listing.is_active && listing.approval_status === 'approved' && (listing.transaction_type === 'for_sale' || !listing.transaction_type) && (
+                                                <>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowYardSignSample(true)}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-200 hover:bg-emerald-50 rounded-lg transition-colors"
+                                                    >
+                                                        <Eye className="w-3.5 h-3.5" />
+                                                        See sample
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => openOrderModal(listing, 'yard_sign')}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                                                    >
+                                                        <Package className="w-3.5 h-3.5" />
+                                                        Order Yard Sign
+                                                    </button>
+                                                </>
+                                            )}
                                             <Link
                                                 href={route('dashboard.listings.edit', listing.id)}
                                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
@@ -602,7 +606,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                 </div>
                             )}
 
-                            <div className="bg-blue-50 rounded-xl p-4 mb-6 text-left">
+                            <div className="bg-blue-50 rounded-xl p-4 mb-4 text-left">
                                 <h5 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
                                     <QrCode className="w-4 h-4" />
                                     Print-Ready QR Sticker
@@ -613,6 +617,13 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                     <li>• Includes "Scan to View Listing" text</li>
                                     <li>• All scans are tracked in your dashboard</li>
                                 </ul>
+                            </div>
+
+                            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 text-left">
+                                <p className="text-sm text-emerald-900 font-medium mb-1">Use this QR in your marketing!</p>
+                                <p className="text-xs text-emerald-800">
+                                    Download the PNG and drop it on flyers, social posts, open-house handouts, business cards, postcards, or anywhere buyers might see it. Every scan routes them straight to this listing — and we track the scans for you.
+                                </p>
                             </div>
 
                             <a
@@ -692,30 +703,45 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                     <li>• H-stakes included for easy installation</li>
                                                 </ul>
                                             </div>
-                                            {/* Yard sign preview */}
-                                            <div className="rounded-xl p-4 mb-6 border border-emerald-200 bg-white">
-                                                <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Sign preview</p>
-                                                <div className="mx-auto max-w-xs rounded-md border-2 border-[#A41E34] bg-white p-4 text-center">
-                                                    <div className="bg-[#A41E34] text-white font-black text-sm py-2 rounded-t -mx-4 -mt-4 mb-3">
-                                                        FOR SALE BY OWNER
+                                            {/* Yard sign preview with the actual QR for this listing */}
+                                            {(() => {
+                                                const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                                                const listingUrl = `${origin}/properties/${orderListing.slug || orderListing.id}`;
+                                                const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&data=${encodeURIComponent(listingUrl)}`;
+                                                return (
+                                                    <div className="rounded-xl p-4 mb-6 border border-emerald-200 bg-white">
+                                                        <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Sign preview</p>
+                                                        <div className="mx-auto max-w-xs rounded-md border-2 border-[#A41E34] bg-white p-4 text-center">
+                                                            <div className="bg-[#A41E34] text-white font-black text-sm py-2 rounded-t -mx-4 -mt-4 mb-3">
+                                                                FOR SALE BY OWNER
+                                                            </div>
+                                                            <div className="text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-1">
+                                                                SaveOnYourHome.com
+                                                            </div>
+                                                            <div className="my-3 mx-auto h-24 w-24 rounded-md border border-gray-300 bg-white p-1 flex items-center justify-center overflow-hidden">
+                                                                <img
+                                                                    src={qrImageUrl}
+                                                                    alt="QR code linking to this listing"
+                                                                    className="w-full h-full object-contain"
+                                                                    loading="lazy"
+                                                                />
+                                                            </div>
+                                                            <div className="text-[11px] font-bold text-[#1a1816] leading-tight">
+                                                                {orderListing.address}
+                                                            </div>
+                                                            <div className="text-[10px] text-gray-600">
+                                                                {orderListing.city}, {orderListing.state}
+                                                            </div>
+                                                            <div className="mt-2 text-[9px] font-semibold uppercase tracking-wider text-[#A41E34]">
+                                                                Scan QR to view listing
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-[11px] text-gray-500 text-center mt-2">
+                                                            The QR auto-routes scans to <span className="font-medium text-gray-700 break-all">{listingUrl}</span>
+                                                        </p>
                                                     </div>
-                                                    <div className="text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-1">
-                                                        SaveOnYourHome.com
-                                                    </div>
-                                                    <div className="my-3 mx-auto flex h-20 w-20 items-center justify-center rounded-md bg-gray-100 border border-gray-300">
-                                                        <QrCode className="w-10 h-10 text-gray-400" />
-                                                    </div>
-                                                    <div className="text-[11px] font-bold text-[#1a1816] leading-tight">
-                                                        {orderListing.address}
-                                                    </div>
-                                                    <div className="text-[10px] text-gray-600">
-                                                        {orderListing.city}, {orderListing.state}
-                                                    </div>
-                                                    <div className="mt-2 text-[9px] font-semibold uppercase tracking-wider text-[#A41E34]">
-                                                        Scan QR to view listing
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                );
+                                            })()}
                                         </>
                                     ) : (
                                         <div className="rounded-xl p-4 mb-6 bg-orange-50">
@@ -766,7 +792,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                             )}
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-3 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                                     City *
@@ -778,6 +804,24 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                                     required
                                                 />
+                                                {orderForm.errors.shipping_city && (
+                                                    <p className="text-red-500 text-xs mt-1">{orderForm.errors.shipping_city}</p>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                    State *
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={orderForm.data.shipping_state}
+                                                    onChange={(e) => orderForm.setData('shipping_state', e.target.value)}
+                                                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
+                                                    required
+                                                />
+                                                {orderForm.errors.shipping_state && (
+                                                    <p className="text-red-500 text-xs mt-1">{orderForm.errors.shipping_state}</p>
+                                                )}
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -790,6 +834,9 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                                                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1A1816]/20 focus:border-[#1A1816]"
                                                     required
                                                 />
+                                                {orderForm.errors.shipping_zip && (
+                                                    <p className="text-red-500 text-xs mt-1">{orderForm.errors.shipping_zip}</p>
+                                                )}
                                             </div>
                                         </div>
 

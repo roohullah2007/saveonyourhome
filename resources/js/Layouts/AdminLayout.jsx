@@ -18,6 +18,7 @@ import {
     BarChart3,
     FileText,
     Handshake,
+    Package,
 } from 'lucide-react';
 
 export default function AdminLayout({ children, title }) {
@@ -32,6 +33,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Properties', href: route('admin.properties.index'), icon: Home, current: route().current('admin.properties.*') },
         { name: 'Users', href: route('admin.users.index'), icon: Users, current: route().current('admin.users.*') },
         { name: 'Inquiries', href: route('admin.inquiries.index'), icon: MessageSquare, current: route().current('admin.inquiries.*') },
+        { name: 'Service Requests', href: route('admin.service-requests.index'), icon: Package, current: route().current('admin.service-requests.*') },
         { name: 'Messages', href: route('admin.messages.index'), icon: Mail, current: route().current('admin.messages.*') },
         { name: 'Taxonomies', href: route('admin.taxonomies.index'), icon: Tags, current: route().current('admin.taxonomies.*') },
         { name: 'Amenities', href: route('admin.amenities.index'), icon: Layers, current: route().current('admin.amenities.*') },

@@ -9,6 +9,22 @@ import LocationMapPicker from '@/Components/Properties/LocationMapPicker';
 import HomeValuationModal from '@/Components/HomeValuationModal';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
 
+// US state name → 2-letter abbreviation, used to normalize Nominatim results
+// (which return full state names) into our form fields (which expect abbrs).
+const US_STATE_ABBR = {
+  Alabama: 'AL', Alaska: 'AK', Arizona: 'AZ', Arkansas: 'AR', California: 'CA',
+  Colorado: 'CO', Connecticut: 'CT', Delaware: 'DE', 'District of Columbia': 'DC',
+  Florida: 'FL', Georgia: 'GA', Hawaii: 'HI', Idaho: 'ID', Illinois: 'IL',
+  Indiana: 'IN', Iowa: 'IA', Kansas: 'KS', Kentucky: 'KY', Louisiana: 'LA',
+  Maine: 'ME', Maryland: 'MD', Massachusetts: 'MA', Michigan: 'MI', Minnesota: 'MN',
+  Mississippi: 'MS', Missouri: 'MO', Montana: 'MT', Nebraska: 'NE', Nevada: 'NV',
+  'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
+  'North Carolina': 'NC', 'North Dakota': 'ND', Ohio: 'OH', Oklahoma: 'OK',
+  Oregon: 'OR', Pennsylvania: 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+  'South Dakota': 'SD', Tennessee: 'TN', Texas: 'TX', Utah: 'UT', Vermont: 'VT',
+  Virginia: 'VA', Washington: 'WA', 'West Virginia': 'WV', Wisconsin: 'WI', Wyoming: 'WY',
+};
+
 // Yes/No radio pair, used for seller-preference fields.
 function YesNoField({ label, value, onChange }) {
   const on = !!value;
@@ -171,6 +187,9 @@ function ListProperty() {
   const [mainPhotoIndex, setMainPhotoIndex] = useState(0); // Track which photo is the main/front photo
   const [uploadError, setUploadError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+  const draftHydratedRef = useRef(false);
+  const DRAFT_KEY = 'soyh:list-property:draft:v1';
   const [isUploading, setIsUploading] = useState(false); // Track if any upload is in progress
   const [isDragActive, setIsDragActive] = useState(false); // Track drag state for visual feedback
   const [openAmenityGroups, setOpenAmenityGroups] = useState([]);
@@ -197,7 +216,6 @@ function ListProperty() {
   const { data, setData, post, processing, errors, reset } = useForm({
     // Basic Info
     propertyTitle: '',
-    developer: '',
     propertyType: '',
     status: 'for-sale',
     price: '',
@@ -326,6 +344,44 @@ function ListProperty() {
     setData(field, value);
   };
 
+  // Hydrate the form from localStorage on first mount so an accidental
+  // refresh (or Maps SDK crash) doesn't blow away what the seller typed.
+  useEffect(() => {
+    if (draftHydratedRef.current) return;
+    draftHydratedRef.current = true;
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      if (saved && typeof saved === 'object') {
+        setData((prev) => ({ ...prev, ...saved }));
+        setDraftRestored(true);
+        // Auto-dismiss the "draft restored" notice after 6s.
+        setTimeout(() => setDraftRestored(false), 6000);
+      }
+    } catch (_) { /* ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Persist the form (debounced) so refresh/crash recovery just works.
+  // Photos themselves aren't persisted — only the typed/selected fields.
+  useEffect(() => {
+    if (!draftHydratedRef.current) return;
+    const t = setTimeout(() => {
+      try {
+        const { ...persisted } = data;
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(persisted));
+      } catch (_) { /* quota or disabled — ignore */ }
+    }, 500);
+    return () => clearTimeout(t);
+  }, [data]);
+
+  const clearDraft = () => {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+    setDraftRestored(false);
+    reset();
+  };
+
   // RentCast auto-fill state + handler.
   const [autoFillBusy, setAutoFillBusy] = useState(false);
   const [autoFillMsg, setAutoFillMsg] = useState('');
@@ -334,6 +390,16 @@ function ListProperty() {
   const addressInputRef = useRef(null);
   const autocompleteRef = useRef(null);
   const skipAutocompleteNextChange = useRef(false);
+
+  // Fallback address suggestions powered by OpenStreetMap Nominatim — used when
+  // Google Places fails to load (key restrictions, API not enabled, etc).
+  const [osmSuggestions, setOsmSuggestions] = useState([]);
+  const [osmLoading, setOsmLoading] = useState(false);
+  const [osmOpen, setOsmOpen] = useState(false);
+  const osmTimerRef = useRef(null);
+  const osmAbortRef = useRef(null);
+  const skipOsmNextChange = useRef(false);
+  const addressWrapperRef = useRef(null);
 
   /**
    * Google's Places library hijacks the input and shows a disabled
@@ -369,6 +435,10 @@ function ListProperty() {
       merge('state', r.state);
       merge('zipCode', r.zipCode);
       merge('county', r.county);
+      merge('schoolDistrict', r.schoolDistrict);
+      merge('gradeSchool', r.gradeSchool);
+      merge('middleSchool', r.middleSchool);
+      merge('highSchool', r.highSchool);
       merge('bedrooms', r.bedrooms);
       merge('fullBathrooms', r.fullBathrooms);
       merge('halfBathrooms', r.halfBathrooms);
@@ -387,10 +457,10 @@ function ListProperty() {
     });
   };
 
-  const runRentcastLookup = async (composedAddress) => {
+  const runRentcastLookup = async (composedAddress, { silent = false } = {}) => {
     const composed = (composedAddress || '').trim();
     if (!composed) {
-      setAutoFillErr('Enter an address first.');
+      if (!silent) setAutoFillErr('Enter an address first.');
       return;
     }
     setAutoFillBusy(true);
@@ -402,10 +472,15 @@ function ListProperty() {
       applyRentcastRecord(resp.data);
       setAutoFillMsg('Auto-filled from property records — review and edit anything that looks off.');
     } catch (err) {
-      setAutoFillErr(
-        err?.response?.data?.message ||
-        "We couldn't find a record for that address. Try adding the city/state or ZIP."
-      );
+      // Silent calls (auto-triggered after picking a suggestion) just clear
+      // quietly — the seller already has the address; failing to enrich beds/
+      // baths from RentCast isn't a real error worth flagging.
+      if (!silent) {
+        setAutoFillErr(
+          err?.response?.data?.message ||
+          "We couldn't find a record for that address. Try adding the city/state or ZIP."
+        );
+      }
     } finally {
       setAutoFillBusy(false);
     }
@@ -495,9 +570,11 @@ function ListProperty() {
         }));
 
         // Kick off the RentCast auto-fill with the canonical formatted address.
+        // Silent: a missing RentCast record is normal; the address itself is
+        // already populated from the picked Place — don't show a red error.
         const composed = place.formatted_address
           || [streetAddress, city, state, zip].filter(Boolean).join(', ');
-        if (composed) runRentcastLookup(composed);
+        if (composed) runRentcastLookup(composed, { silent: true });
       });
     }).catch(() => {
       resetAddressInputAfterAuthFailure();
@@ -510,6 +587,119 @@ function ListProperty() {
       }
     };
   }, [googleMapsApiKey]);
+
+  // Photon (https://photon.komoot.io/) fallback — runs only when Google
+  // Places is disabled. Photon is built specifically for autocomplete and
+  // returns clean, ranked street/house suggestions. We bias to a US bbox so
+  // numeric-only queries don't promote irrelevant non-US POIs, and filter
+  // post-hoc to country=US.
+  const [osmHint, setOsmHint] = useState('');
+  useEffect(() => {
+    if (!placesDisabled) return;
+    if (skipOsmNextChange.current) { skipOsmNextChange.current = false; return; }
+    const q = (data.address || '').trim();
+
+    // Reset hints/results for very short input.
+    if (q.length < 3) {
+      setOsmSuggestions([]); setOsmOpen(false); setOsmHint('');
+      return;
+    }
+
+    setOsmHint('');
+    if (osmTimerRef.current) clearTimeout(osmTimerRef.current);
+    osmTimerRef.current = setTimeout(async () => {
+      try {
+        if (osmAbortRef.current) osmAbortRef.current.abort();
+        const ctrl = new AbortController();
+        osmAbortRef.current = ctrl;
+        setOsmLoading(true);
+        // bbox biases ranking toward continental US + AK + HI + Caribbean.
+        const bbox = '-180,18,-66,72';
+        const res = await fetch(
+          `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=15&lang=en&bbox=${bbox}`,
+          { signal: ctrl.signal, headers: { 'Accept': 'application/json' } }
+        );
+        if (!res.ok) throw new Error('Photon lookup failed');
+        const json = await res.json();
+        const features = Array.isArray(json?.features) ? json.features : [];
+
+        // Keep only US results that look like a real address: must have a
+        // road/street tag, or be of type 'street'/'house'/'locality'.
+        const cleaned = features
+          .filter((f) => {
+            const p = f?.properties || {};
+            if (p.countrycode !== 'US') return false;
+            const isAddrType = ['house', 'street', 'locality', 'city', 'district'].includes(p.type);
+            const hasRoad = !!(p.street || p.name || p.osm_key === 'highway');
+            return isAddrType || hasRoad;
+          })
+          .slice(0, 8);
+
+        setOsmSuggestions(cleaned);
+        setOsmOpen(true);
+        if (cleaned.length === 0) {
+          setOsmHint('No matches found — keep typing or try a different street name.');
+        }
+      } catch (e) {
+        if (e?.name !== 'AbortError') {
+          setOsmSuggestions([]);
+        }
+      } finally {
+        setOsmLoading(false);
+      }
+    }, 250);
+
+    return () => {
+      if (osmTimerRef.current) clearTimeout(osmTimerRef.current);
+    };
+  }, [data.address, placesDisabled]);
+
+  // Close OSM dropdown on outside click.
+  useEffect(() => {
+    if (!placesDisabled) return;
+    const onDocClick = (e) => {
+      if (addressWrapperRef.current && !addressWrapperRef.current.contains(e.target)) {
+        setOsmOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [placesDisabled]);
+
+  const pickOsmSuggestion = (s) => {
+    // Photon GeoJSON shape: { geometry: { coordinates: [lng, lat] }, properties: {...} }
+    const p = s?.properties || {};
+    const houseNumber = p.housenumber || '';
+    const road = p.street || p.name || '';
+    const street = [houseNumber, road].filter(Boolean).join(' ').trim();
+    const city = p.city || p.town || p.village || p.locality || p.district || '';
+    const stateName = p.state || '';
+    const stateAbbr = US_STATE_ABBR[stateName] || stateName;
+    const zip = p.postcode || '';
+    const county = (p.county || '').replace(/ County$/i, '');
+    const coords = Array.isArray(s?.geometry?.coordinates) ? s.geometry.coordinates : [];
+    const lng = parseFloat(coords[0]);
+    const lat = parseFloat(coords[1]);
+
+    skipOsmNextChange.current = true;
+    setData((prev) => ({
+      ...prev,
+      address: street || prev.address,
+      city: city || prev.city,
+      state: stateAbbr || prev.state,
+      zipCode: zip || prev.zipCode,
+      county: county || prev.county,
+      latitude: !isNaN(lat) ? lat : prev.latitude,
+      longitude: !isNaN(lng) ? lng : prev.longitude,
+    }));
+    setOsmSuggestions([]);
+    setOsmOpen(false);
+
+    const composed = [street, city, stateAbbr, zip].filter(Boolean).join(', ');
+    // Silent: don't surface a RentCast failure as a red error — the address
+    // itself is already populated from the suggestion the seller chose.
+    if (composed) runRentcastLookup(composed, { silent: true });
+  };
 
   const handleFeatureToggle = (feature) => {
     const currentFeatures = data.features;
@@ -818,7 +1008,6 @@ function ListProperty() {
     // Submit form data with pre-uploaded photo paths (no files to upload)
     const submitData = {
       propertyTitle: data.propertyTitle,
-      developer: data.developer || '',
       propertyType: data.propertyType,
       status: data.status,
       price: data.price,
@@ -886,6 +1075,7 @@ function ListProperty() {
         setUploadedPaths([]);
         setMainPhotoIndex(0);
         setFloorPlans([]);
+        try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
         setShowSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
@@ -932,11 +1122,8 @@ function ListProperty() {
                 Create Your Free Listing
               </h1>
 
-              <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-4 drop-shadow-lg">
-                Congratulations on taking the first step to selling your home! Fill out the form below to create your free listing.
-              </p>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 drop-shadow-lg">
-                Once your listing is live, you can order professional photos and multimedia packages to maximize your exposure.
+              <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-8 drop-shadow-lg">
+                Congratulations on taking the first step to selling your home! Fill out the form below to create your free listing — you can be live in a matter of minutes.
               </p>
             </div>
           </div>
@@ -946,6 +1133,27 @@ function ListProperty() {
       {/* Form Section */}
       <div className="bg-[#EEEDEA] py-16 md:py-20">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-[40px]">
+          {/* Draft restored notice — confirms refresh-safe behavior so the
+              seller doesn't worry their work was lost. */}
+          {draftRestored && !showSuccess && (
+            <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4 flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-[#3355FF] mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-[#0F172A]">Your draft was restored</p>
+                  <p className="text-xs text-[#4B5563] mt-0.5">We saved everything you'd typed and brought it back so you don't have to re-enter it. Just keep going where you left off.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={clearDraft}
+                className="text-xs font-medium text-gray-500 hover:text-gray-700 underline whitespace-nowrap flex-shrink-0"
+              >
+                Start fresh
+              </button>
+            </div>
+          )}
+
           {/* Success Message */}
           {showSuccess && (
             <div className="mb-8 bg-green-50 border border-green-200 rounded-2xl p-6 md:p-8">
@@ -960,9 +1168,20 @@ function ListProperty() {
                   <p className="text-green-700 mb-4">
                     Thank you for listing your property with SaveOnYourHome. Your listing is now pending approval and will be reviewed by our team within 24-48 hours.
                   </p>
-                  <p className="text-green-600 text-sm mb-6">
+                  <p className="text-green-600 text-sm mb-5">
                     You will receive an email notification once your listing is approved and live on our website.
                   </p>
+                  <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 mb-6">
+                    <p className="text-[13.5px] font-semibold text-[#0F172A]">Next step: set your showing availability</p>
+                    <p className="text-[13px] text-[#4B5563] mt-1">Buyers can only request showings during windows you set. Tell us when you're available so requests start coming in the moment your listing goes live.</p>
+                    <a
+                      href="/dashboard/availability"
+                      className="mt-3 inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                      style={{ height: '38px', paddingLeft: '18px', paddingRight: '18px', fontSize: '13px', fontWeight: 600, backgroundColor: '#3355FF' }}
+                    >
+                      Manage Availability
+                    </a>
+                  </div>
                   <div className="flex flex-wrap gap-3">
                     <a
                       href="/properties"
@@ -1069,18 +1288,6 @@ function ListProperty() {
                   </div>
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-[#111] mb-2">
-                    Developer/Builder
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Optional — e.g., Simmons Homes"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                    value={data.developer}
-                    onChange={(e) => handleInputChange('developer', e.target.value)}
-                  />
-                </div>
               </div>
             </div>
 
@@ -1108,8 +1315,16 @@ function ListProperty() {
               </div>
 
               {(autoFillMsg || autoFillErr) && (
-                <div className={`mb-5 text-xs rounded-lg px-3 py-2 border ${autoFillErr ? 'bg-red-50 border-red-100 text-red-700' : 'bg-emerald-50 border-emerald-100 text-emerald-700'}`}>
-                  {autoFillErr || autoFillMsg}
+                <div className={`mb-5 text-xs rounded-lg px-3 py-2 border flex items-start justify-between gap-3 ${autoFillErr ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-emerald-50 border-emerald-100 text-emerald-700'}`}>
+                  <span>{autoFillErr || autoFillMsg}</span>
+                  <button
+                    type="button"
+                    onClick={() => { setAutoFillErr(''); setAutoFillMsg(''); }}
+                    className="opacity-70 hover:opacity-100"
+                    aria-label="Dismiss"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               )}
 
@@ -1118,19 +1333,69 @@ function ListProperty() {
                   <label className="block text-sm font-semibold text-[#111] mb-2">
                     Street Address *
                   </label>
-                  <input
-                    ref={addressInputRef}
-                    type="text"
-                    placeholder="Start typing — e.g., 1600 Pennsylvania Ave NW"
-                    autoComplete="off"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
-                    value={data.address}
-                    onChange={(e) => handleInputChange('address', e.target.value)}
-                    required
-                  />
+                  <div className="relative" ref={addressWrapperRef}>
+                    <input
+                      ref={addressInputRef}
+                      type="text"
+                      placeholder="Start typing — e.g., 1600 Pennsylvania Ave NW"
+                      autoComplete="off"
+                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      value={data.address}
+                      onChange={(e) => handleInputChange('address', e.target.value)}
+                      onFocus={() => placesDisabled && (osmSuggestions.length > 0 || osmHint) && setOsmOpen(true)}
+                      required
+                    />
+                    {placesDisabled && osmOpen && (osmLoading || osmSuggestions.length > 0 || osmHint) && (
+                      <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-30 max-h-80 overflow-y-auto">
+                        {osmLoading && (
+                          <div className="px-3 py-3 text-xs text-gray-500 flex items-center gap-2">
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            Searching addresses…
+                          </div>
+                        )}
+                        {!osmLoading && osmSuggestions.length === 0 && osmHint && (
+                          <div className="px-3 py-3 text-xs text-amber-800 bg-amber-50 border-b border-amber-100 flex items-start gap-2">
+                            <MapPin className="w-3.5 h-3.5 text-amber-600 mt-0.5 flex-shrink-0" />
+                            <span>{osmHint}</span>
+                          </div>
+                        )}
+                        {!osmLoading && osmSuggestions.map((s, i) => {
+                          const p = s?.properties || {};
+                          const houseNumber = p.housenumber || '';
+                          const road = p.street || p.name || '';
+                          const street = [houseNumber, road].filter(Boolean).join(' ').trim();
+                          const cityLine = [
+                            p.city || p.town || p.village || p.locality || p.district,
+                            p.state,
+                            p.postcode,
+                          ].filter(Boolean).join(', ');
+                          // Primary line = the actual address string the seller
+                          // sees on a piece of mail. Skip rows with no usable
+                          // street info.
+                          const primary = street || p.name || '';
+                          if (!primary) return null;
+                          const osmId = p.osm_id || `${i}`;
+                          return (
+                            <button
+                              key={`${osmId}-${i}`}
+                              type="button"
+                              onClick={() => pickOsmSuggestion(s)}
+                              className="w-full text-left px-3 py-2.5 text-sm hover:bg-[#F5F7FF] border-b border-gray-100 last:border-b-0 flex items-start gap-3 transition-colors"
+                            >
+                              <MapPin className="w-4 h-4 text-[#3355FF] mt-0.5 flex-shrink-0" />
+                              <div className="min-w-0 flex-1">
+                                <div className="text-[#0F172A] font-medium line-clamp-1">{primary}</div>
+                                <div className="text-xs text-gray-500 line-clamp-1">{cityLine || p.country}</div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                   <p className="mt-1.5 text-xs text-gray-500">
                     {placesDisabled
-                      ? "Address suggestions unavailable right now — type the address, then click Auto-fill to pull the property facts."
+                      ? "Type your address — we'll show suggestions powered by OpenStreetMap, then auto-fill the property facts."
                       : "Pick an address from the dropdown and we'll auto-fill city, state, ZIP, and the property facts from public records."}
                   </p>
                 </div>
@@ -1644,46 +1909,6 @@ function ListProperty() {
               )}
             </div>
 
-            {/* Description */}
-            <div className="bg-white rounded-xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-[#E5E1DC] p-3 rounded-lg">
-                  <FileText className="w-6 h-6 text-[#3D3D3D]" />
-                </div>
-                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
-                  Description
-                </h2>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
-                  <label className="block text-sm font-semibold text-[#111]">
-                    Property Description *
-                  </label>
-                  <button
-                    type="button"
-                    onClick={generateDescription}
-                    disabled={generatingDescription}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3355FF] to-[#7c3aed] text-white px-3 py-1 text-xs font-semibold hover:opacity-90 disabled:opacity-60"
-                  >
-                    {generatingDescription
-                      ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating…</>
-                      : <><Sparkles className="w-3.5 h-3.5" /> Generate with AI</>}
-                  </button>
-                </div>
-                <textarea
-                  rows="6"
-                  placeholder="Describe your property in detail. Include information about the neighborhood, recent updates, special features, etc."
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
-
-                  value={data.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  required
-                ></textarea>
-                <p className="text-xs text-[#666] mt-1.5">Click Generate with AI to start from a quick draft based on your listing details.</p>
-              </div>
-            </div>
-
             {/* Features / Amenities */}
             <div className="bg-white rounded-xl p-6 md:p-8">
               <div className="flex items-center justify-between gap-3 mb-6">
@@ -1771,6 +1996,47 @@ function ListProperty() {
                   })}
                 </div>
               )}
+            </div>
+
+            {/* Description (rendered AFTER amenities so the AI generator can
+                incorporate the seller's selected features into the draft) */}
+            <div className="bg-white rounded-xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-[#E5E1DC] p-3 rounded-lg">
+                  <FileText className="w-6 h-6 text-[#3D3D3D]" />
+                </div>
+                <h2 className="text-lg md:text-xl font-semibold text-[#111]">
+                  Description
+                </h2>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                  <label className="block text-sm font-semibold text-[#111]">
+                    Property Description *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={generateDescription}
+                    disabled={generatingDescription}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3355FF] to-[#7c3aed] text-white px-3 py-1 text-xs font-semibold hover:opacity-90 disabled:opacity-60"
+                  >
+                    {generatingDescription
+                      ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating…</>
+                      : <><Sparkles className="w-3.5 h-3.5" /> Generate with AI</>}
+                  </button>
+                </div>
+                <textarea
+                  rows="6"
+                  placeholder="Describe your property in detail. Include information about the neighborhood, recent updates, special features, etc."
+                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
+
+                  value={data.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  required
+                ></textarea>
+                <p className="text-xs text-[#666] mt-1.5">Tip: pick your amenities above first, then click Generate with AI — the draft will weave in your selected features for a richer description.</p>
+              </div>
             </div>
 
             {/* Photos */}

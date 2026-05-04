@@ -3,13 +3,15 @@ import { Link, useForm } from '@inertiajs/react';
 import {
   MapPin, BedDouble, Bath, Maximize2, Calendar, Home, Heart, Share2,
   Phone, Mail, CheckCircle2, ChevronLeft, ChevronRight,
-  Printer, Video, X, Images, Car, User, MapPinned, Check,
+  Printer, Video, X, Images, Car, User, MapPinned, Check, Tag, Package,
+  CalendarClock,
 } from 'lucide-react';
 import axios from 'axios';
 import SEOHead from '@/Components/SEOHead';
 import MainLayout from '@/Layouts/MainLayout';
 import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
+import OrderYardSignModal from '@/Components/OrderYardSignModal';
 import NearbySection from '@/Components/Properties/NearbySection';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
@@ -255,7 +257,9 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
   const [authModalTab, setAuthModalTab] = useState('register');
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showYardSignModal, setShowYardSignModal] = useState(false);
   const shareRef = useRef(null);
+  const isOwner = !!(auth?.user && property?.user_id && auth.user.id === property.user_id);
 
   useEffect(() => {
     const handle = (e) => { if (shareRef.current && !shareRef.current.contains(e.target)) setShowShareDropdown(false); };
@@ -545,6 +549,60 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
               </button>
             </div>
           </div>
+
+          {/* Owner: action banners (yard sign + showing availability) */}
+          {isOwner && (
+            <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-4 md:p-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-11 h-11 bg-white rounded-xl border border-emerald-200 flex items-center justify-center flex-shrink-0">
+                    <Tag className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-[15px] font-semibold text-[#0F172A]">
+                      Order your FREE custom yard sign
+                    </h3>
+                    <p className="text-[13.5px] text-[#4B5563] mt-1">
+                      Custom "For Sale By Owner" sign with a QR code that links straight to this listing — shipped free.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setShowYardSignModal(true)}
+                      className="mt-3 inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                      style={{ height: '38px', paddingLeft: '18px', paddingRight: '18px', fontSize: '13px', fontWeight: 600, backgroundColor: '#3355FF' }}
+                    >
+                      <Package className="w-4 h-4" />
+                      Order Yard Sign
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 md:p-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-11 h-11 bg-white rounded-xl border border-blue-200 flex items-center justify-center flex-shrink-0">
+                    <CalendarClock className="w-5 h-5 text-[#3355FF]" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-[15px] font-semibold text-[#0F172A]">
+                      Set your showing availability
+                    </h3>
+                    <p className="text-[13.5px] text-[#4B5563] mt-1">
+                      Tell buyers when they can tour this home. Buyers can only request a showing during the windows you choose.
+                    </p>
+                    <Link
+                      href={route('dashboard.availability')}
+                      className="mt-3 inline-flex items-center justify-center gap-2 rounded-full text-white transition-all duration-300 hover:opacity-90"
+                      style={{ height: '38px', paddingLeft: '18px', paddingRight: '18px', fontSize: '13px', fontWeight: 600, backgroundColor: '#3355FF' }}
+                    >
+                      <Calendar className="w-4 h-4" />
+                      Manage availability
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Title + price */}
           <div className="mt-6 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -995,36 +1053,6 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                 </div>
               </div>
 
-              {/* Contact Information */}
-              <div id="contact-seller" className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] p-6 md:p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Contact Information</h2>
-                  {property.user_id && (
-                    <Link href={`/properties?user=${property.user_id}`}
-                      className="inline-flex items-center gap-1 bg-[#4461FF] hover:bg-[#3548C8] text-white text-sm font-medium px-4 py-2 rounded-md transition-colors">
-                      View Listings
-                    </Link>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center">
-                    <User className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="flex items-center gap-2 text-[15px] text-[#111]">
-                      <User className="w-4 h-4 text-[#6B7280]" /> {property.contact_name}
-                    </p>
-                    <p className="flex items-center gap-2 text-[15px] text-[#111]">
-                      <Phone className="w-4 h-4 text-[#6B7280]" /> {property.contact_phone}
-                    </p>
-                  </div>
-                </div>
-
-                <h3 className="text-lg font-semibold text-[#111] mb-5">Enquire About This Property</h3>
-                <InquiryForm property={property} variant="full" auth={auth} />
-              </div>
-
               {/* Similar Listings */}
               {similarListings.length > 0 && (
                 <div>
@@ -1079,7 +1107,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
 
                 {/* Create account — only shown to logged-out visitors */}
                 {!auth?.user && (
-                  <div className="bg-gradient-to-br from-[#1A1816] to-[#3355FF] rounded-2xl p-6 text-white shadow-[0_1px_3px_rgba(15,23,42,0.08),0_8px_24px_rgba(15,23,42,0.12)]">
+                  <div className="dark-selection bg-gradient-to-br from-[#1A1816] to-[#3355FF] rounded-2xl p-6 text-white shadow-[0_1px_3px_rgba(15,23,42,0.08),0_8px_24px_rgba(15,23,42,0.12)]">
                     <h3 className="text-lg font-bold mb-2">Create a free account</h3>
                     <p className="text-sm text-white/80 leading-6 mb-4">
                       Save this listing, message the seller directly, and track your favorite homes — all free, no agent fees.
@@ -1150,7 +1178,7 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                 </div>
 
                 {/* Request Info tabbed card */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] overflow-hidden">
+                <div id="contact-seller" className="bg-white rounded-2xl border border-gray-100 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] overflow-hidden">
                   <div className="flex border-b border-gray-100 bg-[#FAFAF8]">
                     <button className="px-5 py-3 text-[#0F172A] text-sm font-semibold bg-white border-b-2 border-[#2563EB] -mb-px">
                       Request Info
@@ -1209,6 +1237,16 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
         intent="favorites"
         initialTab={authModalTab}
       />
+
+      {/* Owner-only: Order Free Yard Sign modal */}
+      {isOwner && (
+        <OrderYardSignModal
+          isOpen={showYardSignModal}
+          onClose={() => setShowYardSignModal(false)}
+          listing={property}
+          authUser={auth?.user}
+        />
+      )}
 
       {/* Gallery modal */}
       {showGalleryModal && (
