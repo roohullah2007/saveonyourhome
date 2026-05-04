@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '@/Components/Header';
 import Footer from '@/Components/Footer';
+import FavoriteToast from '@/Components/FavoriteToast';
 
 const MainLayout = ({ children }) => {
   return (
@@ -10,6 +11,7 @@ const MainLayout = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <FavoriteToast />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
+import { emitFavoriteToast } from '@/Components/FavoriteToast';
 import {
   Maximize2, Heart, Info, Video, Box, Calendar, X,
   MapPin, BedDouble, Bath, ArrowRight,
@@ -104,10 +105,13 @@ const PropertyCard = ({ property, onAuthRequired }) => {
     setFavoritePending(true);
     setIsFavorite(next); // optimistic
     try {
+      const title = property.property_title || property.address || 'Listing';
       if (next) {
         await axios.post(route('dashboard.favorites.add', property.id));
+        emitFavoriteToast('added', title);
       } else {
         await axios.delete(route('dashboard.favorites.remove', property.id));
+        emitFavoriteToast('removed', title);
       }
     } catch (err) {
       setIsFavorite(!next);

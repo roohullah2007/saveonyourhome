@@ -3,6 +3,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { ChevronDown, ChevronLeft, ChevronRight, Home, Heart, MapPin, X, BookmarkPlus } from 'lucide-react';
 import SEOHead from '@/Components/SEOHead';
+import FavoriteToast, { emitFavoriteToast } from '@/Components/FavoriteToast';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
 import Header from '@/Components/Header';
 import PropertyMap from '@/Components/Properties/PropertyMap';
@@ -38,8 +39,17 @@ function BedsDropdown({ searchParams, onApply }) {
 }
 
 function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [], sellerInfo = null }) {
-  const { auth, taxonomies } = usePage().props;
+  const { auth, taxonomies, favoritePropertyIds = [] } = usePage().props;
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState(() => new Set(favoritePropertyIds || []));
+  const [favoritePending, setFavoritePending] = useState(new Set());
+
+  // Keep local state in sync if Inertia re-shares the array (e.g. after a
+  // partial reload). Use stringified diff so we don't churn the Set.
+  useEffect(() => {
+    setFavoriteIds(new Set(favoritePropertyIds || []));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(favoritePropertyIds)]);
   const [viewMode, setViewMode] = useState('list'); // 'map' or 'list'
   const [searchParams, setSearchParams] = useState({
     keyword: String(filters.keyword || ''),
@@ -215,28 +225,61 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     return `${diffYears} yr ago`;
   };
 
-  const handleFavorite = (e, property) => {
+  // Server-side favoriting (mirrors PropertyCard). Optimistic UI:
+  // toggle the Set immediately, then revert if the request fails.
+  const handleFavorite = async (e, property) => {
     e.preventDefault();
     e.stopPropagation();
     if (!auth?.user) {
       setShowAuthModal(true);
       return;
     }
-    // Toggle favorite in localStorage
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (favorites.includes(property.id)) {
-      localStorage.setItem('favorites', JSON.stringify(favorites.filter(id => id !== property.id)));
-    } else {
-      favorites.push(property.id);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
+    if (favoritePending.has(property.id)) return;
+
+    const wasFav = favoriteIds.has(property.id);
+    const next = !wasFav;
+
+    // Optimistic update.
+    setFavoriteIds((prev) => {
+      const s = new Set(prev);
+      if (next) s.add(property.id); else s.delete(property.id);
+      return s;
+    });
+    setFavoritePending((prev) => {
+      const s = new Set(prev);
+      s.add(property.id);
+      return s;
+    });
+
+    try {
+      const title = property.property_title || property.address || 'Listing';
+      if (next) {
+        await axios.post(route('dashboard.favorites.add', property.id));
+        emitFavoriteToast('added', title);
+      } else {
+        await axios.delete(route('dashboard.favorites.remove', property.id));
+        emitFavoriteToast('removed', title);
+      }
+    } catch (err) {
+      // Roll back the optimistic flip.
+      setFavoriteIds((prev) => {
+        const s = new Set(prev);
+        if (next) s.delete(property.id); else s.add(property.id);
+        return s;
+      });
+      if (err?.response?.status === 401 || err?.response?.status === 419) {
+        setShowAuthModal(true);
+      }
+    } finally {
+      setFavoritePending((prev) => {
+        const s = new Set(prev);
+        s.delete(property.id);
+        return s;
+      });
     }
   };
 
-  const isFavorite = (propertyId) => {
-    if (typeof window === 'undefined') return false;
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    return favorites.includes(propertyId);
-  };
+  const isFavorite = (propertyId) => favoriteIds.has(propertyId);
 
   // Build pagination URL with all current filters
   const buildPageUrl = (page) => {
@@ -262,6 +305,8 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
         description="Browse FSBO homes for sale on SaveOnYourHome. Find properties listed by owner with no commission fees. Search by location, price, bedrooms, and more."
         keywords="homes for sale, FSBO listings, for sale by owner properties, houses for sale, real estate listings, buy home no commission"
       />
+
+      <FavoriteToast />
 
       <div className="flex flex-col min-h-screen">
         <Header maxWidth={1400} />
