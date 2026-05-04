@@ -13,9 +13,21 @@ use Illuminate\Support\Facades\Log;
  */
 class OpenAiService
 {
+    /**
+     * Last upstream failure, if any. Callers can read this after chat()
+     * returns null to surface a specific error message to the admin
+     * instead of a generic "service unavailable".
+     */
+    private ?string $lastError = null;
+
     public function isConfigured(): bool
     {
         return filled(config('services.openai.key'));
+    }
+
+    public function lastError(): ?string
+    {
+        return $this->lastError;
     }
 
     /**
@@ -24,7 +36,10 @@ class OpenAiService
      */
     public function chat(array $messages, array $options = []): ?string
     {
+        $this->lastError = null;
+
         if (!$this->isConfigured()) {
+            $this->lastError = 'OpenAI API key is not configured.';
             return null;
         }
 
@@ -44,12 +59,26 @@ class OpenAiService
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
+                $code = $response->json('error.code');
+                $msg = $response->json('error.message');
+                if ($code === 'insufficient_quota') {
+                    $this->lastError = 'OpenAI quota exceeded — top up the account at platform.openai.com/account/billing.';
+                } elseif ($code === 'invalid_api_key') {
+                    $this->lastError = 'OpenAI API key is invalid — check OPENAI_API_KEY in .env.';
+                } elseif ($response->status() === 429) {
+                    $this->lastError = 'OpenAI is rate-limiting requests — wait a minute and try again.';
+                } elseif ($msg) {
+                    $this->lastError = "OpenAI error ({$response->status()}): {$msg}";
+                } else {
+                    $this->lastError = "OpenAI returned HTTP {$response->status()}.";
+                }
                 return null;
             }
 
             return $response->json('choices.0.message.content');
         } catch (\Throwable $e) {
             Log::warning('OpenAI request threw', ['error' => $e->getMessage()]);
+            $this->lastError = 'Could not reach OpenAI: ' . $e->getMessage();
             return null;
         }
     }

@@ -60,7 +60,8 @@ class AdminResourceController extends Controller
         ]);
 
         if (!$raw) {
-            return response()->json(['error' => 'AI service is unavailable right now. Please try again.'], 502);
+            $detail = $this->openAi->lastError() ?: 'AI service is unavailable right now. Please try again.';
+            return response()->json(['error' => $detail], 502);
         }
 
         $decoded = json_decode($raw, true);
