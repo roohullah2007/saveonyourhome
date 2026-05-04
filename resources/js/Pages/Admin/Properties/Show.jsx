@@ -15,7 +15,6 @@ import {
     CheckCircle,
     XCircle,
     Clock,
-    Eye,
     ChevronLeft,
     ChevronRight,
     Building,
@@ -34,7 +33,7 @@ import {
     Package,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
-import OrderYardSignModal from '@/Components/OrderYardSignModal';
+import OrderYardSignLinkModal from '@/Components/OrderYardSignLinkModal';
 
 export default function PropertiesShow({ property, listingStatuses = {} }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -272,87 +271,110 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
             <Head title={`Review: ${property.property_title} - Admin`} />
 
             {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href={route('admin.properties.index')}
-                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
-                    >
-                        <ArrowLeft className="w-5 h-5" />
-                    </Link>
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900">
-                            Review Property
-                        </h1>
-                        <p className="text-gray-500">#{property.id} - {property.property_title}</p>
+            {(() => {
+                const statusPillByStatus = {
+                    pending: { label: 'Pending Review', className: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
+                    approved: { label: 'Approved · Live', className: 'bg-green-50 text-green-700 border-green-200' },
+                    rejected: { label: 'Rejected', className: 'bg-red-50 text-red-700 border-red-200' },
+                    on_hold: { label: 'On Hold', className: 'bg-blue-50 text-blue-700 border-blue-200' },
+                    changes_requested: { label: 'Changes Requested', className: 'bg-orange-50 text-orange-700 border-orange-200' },
+                    draft: { label: 'Draft', className: 'bg-gray-100 text-gray-700 border-gray-200' },
+                };
+                const statusPill = statusPillByStatus[property.approval_status] || statusPillByStatus.pending;
+                return (
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <div className="flex items-start gap-3 min-w-0">
+                                <Link
+                                    href={route('admin.properties.index')}
+                                    className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg flex-shrink-0"
+                                    title="Back to properties"
+                                >
+                                    <ArrowLeft className="w-5 h-5" />
+                                </Link>
+                                <div className="min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded-md bg-gray-100 text-gray-600">
+                                            #{property.id}
+                                        </span>
+                                        <span className={`inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded-md border ${statusPill.className}`}>
+                                            {statusPill.label}
+                                        </span>
+                                        {property.is_featured && (
+                                            <span className="inline-flex items-center text-[11px] font-semibold tracking-wide px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
+                                                Featured
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h1 className="text-xl md:text-2xl font-bold text-gray-900 truncate">
+                                        {property.property_title}
+                                    </h1>
+                                    <p className="text-sm text-gray-500 truncate">
+                                        {[property.address, property.city, property.state].filter(Boolean).join(', ')}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex items-center gap-2 flex-wrap">
+                                {property.approval_status === 'pending' && (
+                                    <>
+                                        <button
+                                            onClick={() => setShowApproveModal(true)}
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+                                        >
+                                            <CheckCircle className="w-4 h-4" />
+                                            Approve
+                                        </button>
+                                        <button
+                                            onClick={() => setShowChangesModal(true)}
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors"
+                                        >
+                                            <AlertCircle className="w-4 h-4" />
+                                            Request changes
+                                        </button>
+                                        <button
+                                            onClick={() => setShowRejectModal(true)}
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors"
+                                        >
+                                            <XCircle className="w-4 h-4" />
+                                            Reject
+                                        </button>
+                                    </>
+                                )}
+
+                                {property.approval_status === 'rejected' && (
+                                    <button
+                                        onClick={() => setShowApproveModal(true)}
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+                                    >
+                                        <CheckCircle className="w-4 h-4" />
+                                        Approve Now
+                                    </button>
+                                )}
+
+                                <Link
+                                    href={route('admin.properties.edit', property.id)}
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#3355FF] text-white rounded-lg text-sm font-semibold hover:bg-[#1D4ED8] transition-colors"
+                                >
+                                    <Pencil className="w-4 h-4" />
+                                    Edit
+                                </Link>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowAdminYardSignModal(true)}
+                                    title="Order yard sign on behalf of seller"
+                                    aria-label="Order yard sign on behalf of seller"
+                                    className="w-10 h-10 inline-flex items-center justify-center bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors"
+                                >
+                                    <Package className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3">
-                    <Link
-                        href={route('admin.properties.edit', property.id)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#3355FF] text-white rounded-lg font-medium hover:bg-[#1D4ED8] transition-colors"
-                    >
-                        <Pencil className="w-4 h-4" />
-                        Edit Property
-                    </Link>
-
-                    <button
-                        type="button"
-                        onClick={() => setShowAdminYardSignModal(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg font-medium hover:bg-emerald-200 transition-colors"
-                    >
-                        <Package className="w-4 h-4" />
-                        Order Yard Sign on Behalf
-                    </button>
-
-                    {property.approval_status === 'pending' && (
-                        <>
-                            <button
-                                onClick={() => setShowApproveModal(true)}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
-                            >
-                                <CheckCircle className="w-4 h-4" />
-                                Approve
-                            </button>
-                            <button
-                                onClick={() => setShowChangesModal(true)}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors"
-                            >
-                                <AlertCircle className="w-4 h-4" />
-                                Request changes
-                            </button>
-                            <button
-                                onClick={() => setShowRejectModal(true)}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
-                            >
-                                <XCircle className="w-4 h-4" />
-                                Reject
-                            </button>
-                        </>
-                    )}
-
-                    {property.approval_status === 'rejected' && (
-                        <button
-                            onClick={() => setShowApproveModal(true)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
-                        >
-                            <CheckCircle className="w-4 h-4" />
-                            Approve Now
-                        </button>
-                    )}
-
-                    <a
-                        href={`/properties/${property.slug || property.id}`}
-                        target="_blank"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-                    >
-                        <Eye className="w-4 h-4" />
-                        Preview
-                    </a>
-                </div>
-            </div>
+                );
+            })()}
 
             {/* Status Banner */}
             {property.approval_status === 'pending' && (
@@ -1136,14 +1158,11 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                 </div>
             )}
 
-            <OrderYardSignModal
+            <OrderYardSignLinkModal
                 isOpen={showAdminYardSignModal}
                 onClose={() => setShowAdminYardSignModal(false)}
-                listing={property}
-                authUser={property.user}
-                submitRouteName="admin.properties.order-on-behalf"
-                title="Order Yard Sign on Behalf of Seller"
-                successText="The seller will be emailed a confirmation. The order is now visible in Service Requests with status 'Pending'."
+                listings={[property]}
+                defaultListingId={property.id}
             />
         </AdminLayout>
     );

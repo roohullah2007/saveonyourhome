@@ -267,43 +267,26 @@ export default function ResourcesIndex({ resources = [] }) {
                 ))}
             </div>
 
-            {/* Bulk Actions Bar */}
-            {(selectedIds.length > 0 || resources.length > 0) && (
+            {/* Bulk Actions Bar — only shown when items are selected */}
+            {selectedIds.length > 0 && (
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 bg-white rounded-xl shadow-sm px-4 py-3">
                     <div className="text-sm text-gray-600">
-                        {selectedIds.length > 0 ? (
-                            <span><strong>{selectedIds.length}</strong> selected</span>
-                        ) : (
-                            <span>Use the checkboxes to select resources for bulk actions.</span>
-                        )}
+                        <span><strong>{selectedIds.length}</strong> selected</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {selectedIds.length > 0 && (
-                            <>
-                                <button
-                                    onClick={() => setSelectedIds([])}
-                                    className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                                >
-                                    Clear selection
-                                </button>
-                                <button
-                                    onClick={() => openBulkDelete('selected')}
-                                    className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                    Delete selected ({selectedIds.length})
-                                </button>
-                            </>
-                        )}
-                        {resources.length > 0 && (
-                            <button
-                                onClick={() => openBulkDelete('all')}
-                                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
-                            >
-                                <Trash2 className="w-4 h-4" />
-                                Delete all ({resources.length})
-                            </button>
-                        )}
+                        <button
+                            onClick={() => setSelectedIds([])}
+                            className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                        >
+                            Clear selection
+                        </button>
+                        <button
+                            onClick={() => openBulkDelete('selected')}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Delete selected ({selectedIds.length})
+                        </button>
                     </div>
                 </div>
             )}
