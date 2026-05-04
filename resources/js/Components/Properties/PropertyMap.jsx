@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Navigation, ZoomIn, ZoomOut, X, ChevronUp, BedDouble, Bath, Maximize2, Layers } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
-import { onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
+import { loadGoogleMaps, onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
 
 const PropertyMap = ({ properties = [], onPropertyClick }) => {
@@ -29,13 +29,23 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
       return;
     }
 
-    if (typeof window !== 'undefined' && window.google && window.google.maps) {
-      initializeMap();
-    } else {
-      loadGoogleMaps();
-    }
+    let cancelled = false;
+    // Use the shared loader: it polls until google.maps.places (and the
+    // base maps namespace) is actually usable, which is necessary with
+    // `loading=async` — the script's onload fires *before* google.maps.Map
+    // is defined, so the previous inline loader bailed silently and the
+    // spinner never went away.
+    loadGoogleMaps(googleMapsApiKey)
+      .then(() => {
+        if (cancelled) return;
+        initializeMap();
+      })
+      .catch((err) => {
+        console.error('Google Maps failed to load:', err);
+      });
 
     return () => {
+      cancelled = true;
       // Clean up markers and overlays
       if (markersRef.current) {
         markersRef.current.forEach(marker => marker.setMap(null));
@@ -58,27 +68,6 @@ const PropertyMap = ({ properties = [], onPropertyClick }) => {
       updateMarkers();
     }
   }, [properties, mapInstance]);
-
-  const loadGoogleMaps = () => {
-    // Check if script is already loading
-    if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-      const checkGoogle = setInterval(() => {
-        if (window.google && window.google.maps) {
-          clearInterval(checkGoogle);
-          initializeMap();
-        }
-      }, 100);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&loading=async`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => initializeMap();
-    script.onerror = () => console.error('Failed to load Google Maps');
-    document.head.appendChild(script);
-  };
 
   const initializeMap = () => {
     if (!mapRef.current || mapInstance) return;

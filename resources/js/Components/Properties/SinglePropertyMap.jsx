@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ZoomIn, ZoomOut, Navigation, Layers, MapPin } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
-import { onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
+import { loadGoogleMaps, onMapsAuthFailure, isMapsAuthFailed } from '@/Components/Properties/LocationMapPicker';
 
 const SinglePropertyMap = ({ property }) => {
   const { googleMapsApiKey } = usePage().props;
@@ -32,13 +32,18 @@ const SinglePropertyMap = ({ property }) => {
       return;
     }
 
-    if (typeof window !== 'undefined' && window.google && window.google.maps) {
-      initializeMap();
-    } else {
-      loadGoogleMaps();
-    }
+    let cancelled = false;
+    loadGoogleMaps(googleMapsApiKey)
+      .then(() => {
+        if (cancelled) return;
+        initializeMap();
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(true);
+      });
 
     return () => {
+      cancelled = true;
       if (markerRef.current) {
         markerRef.current.setMap(null);
         markerRef.current = null;
@@ -49,27 +54,6 @@ const SinglePropertyMap = ({ property }) => {
       mapInstanceRef.current = null;
     };
   }, [googleMapsApiKey]);
-
-  const loadGoogleMaps = () => {
-    // Check if script is already loading
-    if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-      const checkGoogle = setInterval(() => {
-        if (window.google && window.google.maps) {
-          clearInterval(checkGoogle);
-          initializeMap();
-        }
-      }, 100);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&loading=async`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => initializeMap();
-    script.onerror = () => setLoadError(true);
-    document.head.appendChild(script);
-  };
 
   const initializeMap = () => {
     if (!mapRef.current || mapInstance) return;
