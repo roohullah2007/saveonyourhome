@@ -215,7 +215,7 @@ function SellerFAQs() {
                     </a>
 
                     <Link
-                      href="/join-weekly-call"
+                      href={route('join-weekly-call')}
                       className="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFAF8] hover:bg-[#F4F3F0] transition-colors border border-gray-200"
                     >
                       <div className="w-10 h-10 rounded-xl bg-[#EEF4FF] text-[#3355FF] flex items-center justify-center flex-shrink-0">
