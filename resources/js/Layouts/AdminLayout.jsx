@@ -30,7 +30,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Analytics', href: route('admin.analytics.index'), icon: BarChart3, current: route().current('admin.analytics.*') },
         { name: 'Properties', href: route('admin.properties.index'), icon: Home, current: route().current('admin.properties.*') },
         { name: 'Users', href: route('admin.users.index'), icon: Users, current: route().current('admin.users.*') },
-        { name: 'Messages', href: route('admin.messages.index'), icon: Mail, current: route().current('admin.messages.*') },
+        { name: 'Submissions', href: route('admin.messages.index'), icon: Mail, current: route().current('admin.messages.*') },
         { name: 'Taxonomies', href: route('admin.taxonomies.index'), icon: Tags, current: route().current('admin.taxonomies.*') },
         { name: 'Amenities', href: route('admin.amenities.index'), icon: Layers, current: route().current('admin.amenities.*') },
         { name: 'Resources & Blog', href: route('admin.resources.index'), icon: FileText, current: route().current('admin.resources.*') },

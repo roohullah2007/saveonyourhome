@@ -459,16 +459,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/inquiries/{inquiry}/archive', [AdminInquiryController::class, 'archive'])->name('inquiries.archive');
     Route::post('/inquiries/bulk-action', [AdminInquiryController::class, 'bulkAction'])->name('inquiries.bulk-action');
 
-    // Contact Messages Management
-    Route::get('/messages', [AdminContactController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{message}', [AdminContactController::class, 'show'])->name('messages.show');
-    Route::put('/messages/{message}', [AdminContactController::class, 'update'])->name('messages.update');
-    Route::delete('/messages/{message}', [AdminContactController::class, 'destroy'])->name('messages.destroy');
-    Route::post('/messages/{message}/mark-read', [AdminContactController::class, 'markAsRead'])->name('messages.mark-read');
-    Route::post('/messages/{message}/mark-responded', [AdminContactController::class, 'markAsResponded'])->name('messages.mark-responded');
-    Route::post('/messages/{message}/archive', [AdminContactController::class, 'archive'])->name('messages.archive');
-    Route::post('/messages/{message}/reply', [AdminContactController::class, 'reply'])->name('messages.reply');
-    Route::post('/messages/bulk-action', [AdminContactController::class, 'bulkAction'])->name('messages.bulk-action');
+    // Contact Submissions Management (route names kept as messages.* for
+    // internal compatibility; URL is /admin/submissions per the rebrand)
+    Route::get('/submissions', [AdminContactController::class, 'index'])->name('messages.index');
+    Route::get('/submissions/{message}', [AdminContactController::class, 'show'])->name('messages.show');
+    Route::put('/submissions/{message}', [AdminContactController::class, 'update'])->name('messages.update');
+    Route::delete('/submissions/{message}', [AdminContactController::class, 'destroy'])->name('messages.destroy');
+    Route::post('/submissions/{message}/mark-read', [AdminContactController::class, 'markAsRead'])->name('messages.mark-read');
+    Route::post('/submissions/{message}/mark-responded', [AdminContactController::class, 'markAsResponded'])->name('messages.mark-responded');
+    Route::post('/submissions/{message}/archive', [AdminContactController::class, 'archive'])->name('messages.archive');
+    Route::post('/submissions/{message}/reply', [AdminContactController::class, 'reply'])->name('messages.reply');
+    Route::post('/submissions/bulk-action', [AdminContactController::class, 'bulkAction'])->name('messages.bulk-action');
 
     // Service Requests (yard signs, QR stickers, photos, etc.)
     Route::get('/service-requests', [AdminServiceRequestController::class, 'index'])->name('service-requests.index');
