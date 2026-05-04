@@ -188,7 +188,7 @@ export default function Listings({ listings, filters = {}, counts = {} }) {
                     className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1D4ED8] transition-colors"
                 >
                     <Plus className="w-5 h-5" />
-                    Add New Listing
+                    List your property
                 </Link>
             </div>
 
