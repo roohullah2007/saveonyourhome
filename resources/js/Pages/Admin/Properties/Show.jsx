@@ -364,11 +364,10 @@ export default function PropertiesShow({ property, listingStatuses = {} }) {
                                 <button
                                     type="button"
                                     onClick={() => setShowAdminYardSignModal(true)}
-                                    title="Order yard sign on behalf of seller"
-                                    aria-label="Order yard sign on behalf of seller"
-                                    className="w-10 h-10 inline-flex items-center justify-center bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-sm font-semibold hover:bg-emerald-100 transition-colors"
                                 >
                                     <Package className="w-4 h-4" />
+                                    Order Yard Sign on Behalf
                                 </button>
                             </div>
                         </div>
