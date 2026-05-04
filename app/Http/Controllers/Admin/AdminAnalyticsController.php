@@ -43,14 +43,21 @@ class AdminAnalyticsController extends Controller
             ->limit(10)
             ->get(['id', 'title', 'slug', 'cover_path', 'download_count']);
 
-        // Downloads per day for the last 30 days (for a sparkline)
-        $downloadSeries = EbookDownload::query()
+        // Downloads per day for the last 30 days. Pad the result so every
+        // day in the window appears (zero-count days included) — otherwise
+        // a single download renders as one full-width bar instead of a
+        // small spike on the correct day.
+        $countsByDate = EbookDownload::query()
             ->where('created_at', '>=', $last30)
             ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
-            ->groupBy('d')->orderBy('d')
-            ->get()
-            ->map(fn ($r) => ['date' => $r->d, 'count' => (int) $r->c])
-            ->all();
+            ->groupBy('d')
+            ->pluck('c', 'd');
+
+        $downloadSeries = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $day = $now->copy()->subDays($i)->toDateString();
+            $downloadSeries[] = ['date' => $day, 'count' => (int) ($countsByDate[$day] ?? 0)];
+        }
 
         // Recent downloads log (last 50)
         $recentDownloads = EbookDownload::query()
