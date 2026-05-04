@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import {
   MapPin, BedDouble, Bath, Maximize2, Calendar, Home, Heart, Share2,
   Phone, Mail, CheckCircle2, ChevronLeft, ChevronRight,
@@ -13,7 +13,6 @@ import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
 import NearbySection from '@/Components/Properties/NearbySection';
 import NearbySchools from '@/Components/Properties/NearbySchools';
-import PropertyCard from '@/Components/PropertyCard';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
@@ -1064,9 +1063,9 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
               {similarListings.length > 0 && (
                 <div>
                   <h2 className="text-xl font-bold text-[#0F172A] tracking-tight mb-5">Similar Listings</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-4">
                     {similarListings.map((sp) => (
-                      <PropertyCard key={sp.id} property={sp} onAuthRequired={() => setAuthModalOpen(true)} />
+                      <SimilarListingRow key={sp.id} property={sp} onAuthRequired={() => setAuthModalOpen(true)} />
                     ))}
                   </div>
                 </div>
@@ -1362,6 +1361,119 @@ function CalcInput({ label, prefix, value, onChange }) {
         />
       </div>
     </div>
+  );
+}
+
+function SimilarListingRow({ property, onAuthRequired }) {
+  const { auth, favoritePropertyIds = [] } = usePage().props;
+  const computeIsFavorite = () => {
+    if (!auth?.user) return !!property.is_favorited;
+    const pid = Number(property.id);
+    if (Array.isArray(favoritePropertyIds) && favoritePropertyIds.some((id) => Number(id) === pid)) return true;
+    return !!property.is_favorited;
+  };
+  const [isFavorite, setIsFavorite] = useState(computeIsFavorite);
+  const [favPending, setFavPending] = useState(false);
+
+  useEffect(() => {
+    setIsFavorite(computeIsFavorite());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth?.user?.id, JSON.stringify(favoritePropertyIds), property.id]);
+
+  const mainPhoto = property.photos && property.photos.length > 0
+    ? resolvePhotoUrl(property.photos[0])
+    : '/images/property-placeholder.svg';
+
+  const handleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!auth?.user) {
+      if (onAuthRequired) onAuthRequired();
+      return;
+    }
+    if (favPending) return;
+    const next = !isFavorite;
+    setFavPending(true);
+    setIsFavorite(next);
+    try {
+      if (next) {
+        await axios.post(route('dashboard.favorites.add', property.id));
+      } else {
+        await axios.delete(route('dashboard.favorites.remove', property.id));
+      }
+    } catch (err) {
+      setIsFavorite(!next);
+      if ((err?.response?.status === 401 || err?.response?.status === 419) && onAuthRequired) {
+        onAuthRequired();
+      }
+    } finally {
+      setFavPending(false);
+    }
+  };
+
+  return (
+    <Link
+      href={`/properties/${property.slug || property.id}`}
+      className="group flex flex-col md:flex-row bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-shadow md:h-[260px]"
+    >
+      <div className="relative md:w-[340px] h-[220px] md:h-full flex-shrink-0">
+        <img
+          src={mainPhoto}
+          alt={property.property_title}
+          className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = '/images/property-placeholder.svg'; }}
+        />
+        <span className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide px-3 py-1.5 bg-[#8BC540] text-white rounded-sm">
+          Featured
+        </span>
+        <button
+          type="button"
+          onClick={handleFavorite}
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-white transition-colors"
+        >
+          <Heart
+            className={`w-4 h-4 transition-colors ${isFavorite ? 'fill-[#E11D48] text-[#E11D48]' : 'text-gray-700'}`}
+          />
+        </button>
+      </div>
+      <div className="flex-1 p-5 flex flex-col justify-between min-w-0">
+        <div className="min-w-0">
+          <div className="flex flex-wrap gap-2 mb-3">
+            <span className="text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#5A5A5A] text-white rounded-sm">
+              For Sale By Owner
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 bg-[#5A5A5A] text-white rounded-sm">
+              New Listing
+            </span>
+          </div>
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-xl font-semibold text-[#111] group-hover:text-[#2563EB] transition-colors line-clamp-1">
+              {property.property_title}
+            </h3>
+            <p className="text-xl font-bold text-[#111] whitespace-nowrap">{formatPriceShort(property.price)}</p>
+          </div>
+          <p className="text-sm text-[#6B7280] mt-1 line-clamp-1">{property.address}</p>
+          <div className="flex flex-wrap gap-5 mt-4 text-[14px] text-[#111]">
+            <span className="flex items-center gap-1.5"><BedDouble className="w-4 h-4 text-[#6B7280]" /> {property.bedrooms}</span>
+            <span className="flex items-center gap-1.5"><Bath className="w-4 h-4 text-[#6B7280]" /> {property.full_bathrooms || property.bathrooms || 0}</span>
+            <span className="flex items-center gap-1.5"><Maximize2 className="w-4 h-4 text-[#6B7280]" /> {property.sqft ? Number(property.sqft).toLocaleString() : '—'}</span>
+          </div>
+          <p className="text-[11px] font-semibold tracking-wider uppercase text-[#6B7280] mt-3">
+            {propertyTypeLabels[property.property_type] || property.property_type}
+          </p>
+        </div>
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center gap-2 text-sm text-[#6B7280] min-w-0">
+            <User className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{property.contact_name}</span>
+          </div>
+          <span className="inline-flex items-center gap-1.5 bg-[#4461FF] group-hover:bg-[#3548C8] text-white text-sm font-medium px-4 py-2 rounded-md transition-colors flex-shrink-0">
+            Details
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 }
 
