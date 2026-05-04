@@ -117,7 +117,10 @@ class PropertyNearbyController extends Controller
         foreach ($defs as $key => [$label, $icon, $filter]) {
             $query = "[out:json][timeout:10];(node[{$filter}](around:{$r},{$lat},{$lng}););out tags center 8;";
             try {
-                $resp = Http::asForm()->timeout(12)->post('https://overpass-api.de/api/interpreter', ['data' => $query]);
+                $resp = Http::withHeaders([
+                        'User-Agent' => 'saveonyourhome.com/1.0',
+                        'Accept' => '*/*',
+                    ])->asForm()->timeout(12)->post('https://overpass-api.de/api/interpreter', ['data' => $query]);
                 if (!$resp->successful()) {
                     Log::info('Overpass nearby non-200', ['status' => $resp->status(), 'cat' => $key]);
                     $result[$key] = ['label' => $label, 'icon' => $icon, 'items' => []];
@@ -225,5 +228,139 @@ class PropertyNearbyController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    /**
+     * Nearby schools within ~10 km of the property, powered by Google
+     * Places (legacy Nearby Search). Falls back to OpenStreetMap
+     * Overpass (amenity=school) when no Maps API key is configured or
+     * the upstream call fails so the section still populates.
+     */
+    public function schools(Property $property): JsonResponse
+    {
+        if (!$property->latitude || !$property->longitude) {
+            return response()->json(['error' => 'Property has no coordinates'], 422);
+        }
+
+        $lat = (float) $property->latitude;
+        $lng = (float) $property->longitude;
+        $radiusMeters = 10000; // 10 km
+
+        $apiKey = config('services.google.maps_api_key');
+
+        $items = Cache::remember("schools:prop:{$property->id}", self::CACHE_TTL, function () use ($lat, $lng, $radiusMeters, $apiKey) {
+            $results = [];
+
+            // Try Google Places first if a key is configured.
+            if (!empty($apiKey)) {
+                try {
+                    $resp = Http::timeout(8)->get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', [
+                        'location' => "{$lat},{$lng}",
+                        'radius' => $radiusMeters,
+                        'type' => 'school',
+                        'key' => $apiKey,
+                    ]);
+                    if ($resp->successful() && in_array($resp->json('status'), ['OK', 'ZERO_RESULTS'], true)) {
+                        $results = collect($resp->json('results') ?? [])
+                            ->map(function ($p) use ($lat, $lng) {
+                                $plat = $p['geometry']['location']['lat'] ?? null;
+                                $plng = $p['geometry']['location']['lng'] ?? null;
+                                return [
+                                    'id' => $p['place_id'] ?? null,
+                                    'name' => $p['name'] ?? '',
+                                    'address' => $p['vicinity'] ?? '',
+                                    'rating' => $p['rating'] ?? null,
+                                    'review_count' => $p['user_ratings_total'] ?? 0,
+                                    'lat' => $plat,
+                                    'lng' => $plng,
+                                    'meters' => ($plat !== null && $plng !== null)
+                                        ? self::haversineMeters($lat, $lng, $plat, $plng)
+                                        : null,
+                                    'maps_url' => isset($p['place_id'])
+                                        ? 'https://www.google.com/maps/place/?q=place_id:' . $p['place_id']
+                                        : null,
+                                    'icon' => $p['icon'] ?? null,
+                                ];
+                            })
+                            ->filter(fn ($s) => !empty($s['name']))
+                            ->sortBy('meters')
+                            ->take(20)
+                            ->values()
+                            ->all();
+                        return [
+                            'source' => 'google',
+                            'items' => $results,
+                        ];
+                    }
+                    Log::info('Google Places schools non-OK', ['status' => $resp->status(), 'apiStatus' => $resp->json('status'), 'body' => $resp->body()]);
+                } catch (\Throwable $e) {
+                    Log::warning('Google Places schools threw', ['err' => $e->getMessage()]);
+                }
+            }
+
+            // Overpass fallback — broader school amenity classes.
+            try {
+                $query = "[out:json][timeout:10];(node[\"amenity\"~\"school|college|university|kindergarten\"](around:{$radiusMeters},{$lat},{$lng});way[\"amenity\"~\"school|college|university|kindergarten\"](around:{$radiusMeters},{$lat},{$lng}););out center 25;";
+                // Overpass returns 406 Not Acceptable if the default
+                // Accept header is application/json — the public servers
+                // expect a more permissive accept type. Same for missing
+                // User-Agent (rate-limiter throttles defaultless clients).
+                $resp = Http::withHeaders([
+                    'User-Agent' => 'saveonyourhome.com/1.0',
+                    'Accept' => '*/*',
+                ])->timeout(15)->asForm()->post('https://overpass-api.de/api/interpreter', ['data' => $query]);
+                if ($resp->successful()) {
+                    $elements = $resp->json('elements') ?? [];
+                    $items = [];
+                    foreach ($elements as $el) {
+                        $name = $el['tags']['name'] ?? null;
+                        if (!$name) continue;
+                        $plat = $el['lat'] ?? ($el['center']['lat'] ?? null);
+                        $plng = $el['lon'] ?? ($el['center']['lon'] ?? null);
+                        if ($plat === null || $plng === null) continue;
+                        $items[] = [
+                            'id' => 'osm-' . ($el['id'] ?? uniqid()),
+                            'name' => $name,
+                            'address' => $el['tags']['addr:street'] ?? '',
+                            'rating' => null,
+                            'review_count' => 0,
+                            'lat' => $plat,
+                            'lng' => $plng,
+                            'meters' => self::haversineMeters($lat, $lng, $plat, $plng),
+                            'maps_url' => "https://www.google.com/maps/search/?api=1&query={$plat},{$plng}",
+                            'icon' => null,
+                        ];
+                    }
+                    usort($items, fn ($a, $b) => ($a['meters'] ?? PHP_INT_MAX) <=> ($b['meters'] ?? PHP_INT_MAX));
+                    return [
+                        'source' => 'osm',
+                        'items' => array_slice($items, 0, 20),
+                    ];
+                }
+            } catch (\Throwable $e) {
+                Log::warning('Overpass schools threw', ['err' => $e->getMessage()]);
+            }
+
+            return ['source' => 'none', 'items' => []];
+        });
+
+        return response()->json([
+            'radius_km' => 10,
+            'source' => $items['source'] ?? 'none',
+            'items' => $items['items'] ?? [],
+        ]);
+    }
+
+    /**
+     * Great-circle distance between two lat/lng points in meters.
+     */
+    private static function haversineMeters(float $lat1, float $lng1, float $lat2, float $lng2): int
+    {
+        $earth = 6371000.0;
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLng = deg2rad($lng2 - $lng1);
+        $a = sin($dLat / 2) ** 2 + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLng / 2) ** 2;
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        return (int) round($earth * $c);
     }
 }

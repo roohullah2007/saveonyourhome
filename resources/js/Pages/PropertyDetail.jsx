@@ -13,6 +13,7 @@ import ScheduleShowingModal from '@/Components/ScheduleShowingModal';
 import AuthModal from '@/Components/AuthModal';
 import OrderYardSignModal from '@/Components/OrderYardSignModal';
 import NearbySection from '@/Components/Properties/NearbySection';
+import NearbySchools from '@/Components/Properties/NearbySchools';
 import { resolvePhotoUrl } from '@/utils/photoUrl';
 import WalkscoreSection from '@/Components/Properties/WalkscoreSection';
 import { AMENITY_GROUPS, groupItems } from '@/constants/amenities';
@@ -992,6 +993,11 @@ function PropertyDetail({ property, openHouses = [], similarListings = [], taxon
                     })}
                   </div>
                 </div>
+              )}
+
+              {/* Schools nearby (Google Places, 10 km) */}
+              {property.latitude && property.longitude && (
+                <NearbySchools propertyId={property.id} />
               )}
 
               {/* What's Nearby? (Yelp) */}

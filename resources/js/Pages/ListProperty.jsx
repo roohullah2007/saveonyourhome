@@ -85,7 +85,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
             value={plan.title}
             onChange={(e) => onChange({ title: e.target.value })}
             placeholder="Enter the plan title"
-            className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+            className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
           />
           <p className="text-xs text-[#888] mt-1">For example: First Floor</p>
         </div>
@@ -98,7 +98,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
             value={plan.bedrooms}
             onChange={(e) => onChange({ bedrooms: e.target.value })}
             placeholder="Enter the number of bedrooms"
-            className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+            className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
           />
         </div>
 
@@ -111,7 +111,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
             value={plan.bathrooms}
             onChange={(e) => onChange({ bathrooms: e.target.value })}
             placeholder="Enter the number of bathrooms"
-            className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+            className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
           />
         </div>
 
@@ -122,7 +122,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
             value={plan.size}
             onChange={(e) => onChange({ size: e.target.value })}
             placeholder="Enter the plan size"
-            className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+            className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
           />
           <p className="text-xs text-[#888] mt-1">For example: 200 Sq Ft</p>
         </div>
@@ -164,7 +164,7 @@ function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
             value={plan.description}
             onChange={(e) => onChange({ description: e.target.value })}
             placeholder="Enter the plan description"
-            className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all resize-y"
+            className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all resize-y"
           />
         </div>
       </div>
@@ -1211,7 +1211,7 @@ function ListProperty() {
                     Property Type *
                   </label>
                   <select
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.propertyType}
                     onChange={(e) => handleInputChange('propertyType', e.target.value)}
@@ -1242,7 +1242,7 @@ function ListProperty() {
                     <input
                       type="number"
                       placeholder="299000"
-                      className="w-full pl-10 pr-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      className="w-full pl-10 pr-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
 
                       value={data.price}
                       onChange={(e) => handleInputChange('price', e.target.value)}
@@ -1302,7 +1302,7 @@ function ListProperty() {
                       type="text"
                       placeholder="Start typing — e.g., 1600 Pennsylvania Ave NW"
                       autoComplete="off"
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                       value={data.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
                       onFocus={() => placesDisabled && (osmSuggestions.length > 0 || osmHint) && setOsmOpen(true)}
@@ -1370,7 +1370,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="Tulsa"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.city}
                     onChange={(e) => handleInputChange('city', e.target.value)}
@@ -1385,7 +1385,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="State"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.state}
                     onChange={(e) => handleInputChange('state', e.target.value)}
                     required
@@ -1399,7 +1399,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="74101"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.zipCode}
                     onChange={(e) => handleInputChange('zipCode', e.target.value)}
@@ -1414,7 +1414,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="e.g., Tulsa"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.county}
                     onChange={(e) => handleInputChange('county', e.target.value)}
                   />
@@ -1427,7 +1427,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="Optional"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
 
                     value={data.subdivision}
                     onChange={(e) => handleInputChange('subdivision', e.target.value)}
@@ -1471,7 +1471,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="e.g., Tulsa Public Schools"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.schoolDistrict}
                     onChange={(e) => handleInputChange('schoolDistrict', e.target.value)}
@@ -1486,7 +1486,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="Elementary school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.gradeSchool}
                     onChange={(e) => handleInputChange('gradeSchool', e.target.value)}
@@ -1500,7 +1500,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="Middle school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.middleSchool}
                     onChange={(e) => handleInputChange('middleSchool', e.target.value)}
@@ -1514,7 +1514,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="High school name"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.highSchool}
                     onChange={(e) => handleInputChange('highSchool', e.target.value)}
@@ -1546,7 +1546,7 @@ function ListProperty() {
                         type="number"
                         placeholder="3"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.bedrooms}
                         onChange={(e) => handleInputChange('bedrooms', e.target.value)}
@@ -1562,7 +1562,7 @@ function ListProperty() {
                         type="number"
                         placeholder="2"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.fullBathrooms}
                         onChange={(e) => handleInputChange('fullBathrooms', e.target.value)}
@@ -1578,7 +1578,7 @@ function ListProperty() {
                         type="number"
                         placeholder="1"
                         min="0"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.halfBathrooms}
                         onChange={(e) => handleInputChange('halfBathrooms', e.target.value)}
@@ -1592,7 +1592,7 @@ function ListProperty() {
                       <input
                         type="number"
                         placeholder="2000"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.sqft}
                         onChange={(e) => handleInputChange('sqft', e.target.value)}
@@ -1610,7 +1610,7 @@ function ListProperty() {
                     type="number"
                     min="0"
                     placeholder="e.g., 43560"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.lotSize}
                     onChange={(e) => handleInputChange('lotSize', e.target.value)}
@@ -1628,7 +1628,7 @@ function ListProperty() {
                         type="number"
                         step="0.0001"
                         placeholder="e.g., 5.5"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.acres}
                         onChange={(e) => handleInputChange('acres', e.target.value)}
@@ -1643,7 +1643,7 @@ function ListProperty() {
                       <input
                         type="text"
                         placeholder="e.g., Agricultural, Residential"
-                        className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                        className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                        
                         value={data.zoning}
                         onChange={(e) => handleInputChange('zoning', e.target.value)}
@@ -1659,7 +1659,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="e.g., 70x70"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.propertyDimensions}
                     onChange={(e) => handleInputChange('propertyDimensions', e.target.value)}
                   />
@@ -1674,7 +1674,7 @@ function ListProperty() {
                     <input
                       type="number"
                       placeholder="2010"
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
 
                       value={data.yearBuilt}
                       onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
@@ -1692,7 +1692,7 @@ function ListProperty() {
                       min="0"
                       max="5"
                       placeholder="e.g., 2"
-                      className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                      className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                       value={data.garage}
                       onChange={(e) => handleInputChange('garage', e.target.value)}
                     />
@@ -1722,7 +1722,7 @@ function ListProperty() {
                     min="0"
                     step="0.01"
                     placeholder="e.g., 4080"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.annualPropertyTax}
                     onChange={(e) => handleInputChange('annualPropertyTax', e.target.value)}
                   />
@@ -1738,7 +1738,7 @@ function ListProperty() {
                     min="0"
                     step="0.01"
                     placeholder="e.g., 170"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.hoaFee}
                     onChange={(e) => {
                       handleInputChange('hoaFee', e.target.value);
@@ -1851,7 +1851,7 @@ function ListProperty() {
                   <input
                     type="url"
                     placeholder="https://www.youtube.com/watch?v=…  or  https://vimeo.com/…"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                     value={data.virtualTourUrl}
                     onChange={(e) => handleInputChange('virtualTourUrl', e.target.value)}
                   />
@@ -1863,7 +1863,7 @@ function ListProperty() {
                   <textarea
                     rows={6}
                     placeholder={'<iframe src="https://my.matterport.com/show/?m=..." allow="fullscreen"></iframe>'}
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all font-mono text-xs"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all font-mono text-xs"
                     value={data.virtualTourEmbed}
                     onChange={(e) => handleInputChange('virtualTourEmbed', e.target.value)}
                   />
@@ -1992,7 +1992,7 @@ function ListProperty() {
                 <textarea
                   rows="6"
                   placeholder="Describe your property in detail. Include information about the neighborhood, recent updates, special features, etc."
-                  className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
+                  className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent resize-none transition-all"
 
                   value={data.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
@@ -2312,7 +2312,7 @@ function ListProperty() {
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.contactName}
                     onChange={(e) => handleInputChange('contactName', e.target.value)}
@@ -2326,7 +2326,7 @@ function ListProperty() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg bg-gray-50 text-[#666] cursor-not-allowed"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg bg-gray-50 text-[#666] cursor-not-allowed"
                    
                     value={data.contactEmail}
                     readOnly
@@ -2343,7 +2343,7 @@ function ListProperty() {
                   <input
                     type="tel"
                     placeholder="(555) 123-4567"
-                    className="w-full px-4 py-3 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2 border border-[#D0CCC7] rounded-lg focus:ring-2 focus:ring-[#1A1816] focus:border-transparent transition-all"
                    
                     value={data.contactPhone}
                     onChange={(e) => handleInputChange('contactPhone', e.target.value)}

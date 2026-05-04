@@ -43,7 +43,10 @@ import {
 // stable between parent renders (prevents input focus loss on each keystroke).
 function FloorPlanCard({ plan, onChange, onRemove, onImage, canRemove }) {
     const fileRef = useRef(null);
-    const previewUrl = plan.image ? `/storage/${plan.image}` : '';
+    // /upload-photo can return either a bare key ("properties/abc.webp") or
+    // a full path ("/storage/properties/abc.webp"); resolvePhotoUrl handles
+    // both so the preview never ends up as "/storage//storage/…".
+    const previewUrl = plan.image ? resolvePhotoUrl(plan.image) : '';
     return (
         <div className="border border-gray-200 rounded-2xl p-5 relative bg-white">
             <div className="absolute top-4 right-4">
