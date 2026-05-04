@@ -41,13 +41,15 @@ function BedsDropdown({ searchParams, onApply }) {
 function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, allPropertiesForMap = [], sellerInfo = null }) {
   const { auth, taxonomies, favoritePropertyIds = [] } = usePage().props;
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [favoriteIds, setFavoriteIds] = useState(() => new Set(favoritePropertyIds || []));
+  // Normalise to Numbers — pivot ids sometimes arrive as strings depending
+  // on the DB driver, which silently breaks Set.has() comparisons.
+  const buildFavSet = (arr) => new Set((arr || []).map((id) => Number(id)));
+  const [favoriteIds, setFavoriteIds] = useState(() => buildFavSet(favoritePropertyIds));
   const [favoritePending, setFavoritePending] = useState(new Set());
 
-  // Keep local state in sync if Inertia re-shares the array (e.g. after a
-  // partial reload). Use stringified diff so we don't churn the Set.
+  // Re-seed when the shared prop changes (full reloads, login, etc.).
   useEffect(() => {
-    setFavoriteIds(new Set(favoritePropertyIds || []));
+    setFavoriteIds(buildFavSet(favoritePropertyIds));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(favoritePropertyIds)]);
   const [viewMode, setViewMode] = useState('list'); // 'map' or 'list'
@@ -234,20 +236,21 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
       setShowAuthModal(true);
       return;
     }
-    if (favoritePending.has(property.id)) return;
+    const pid = Number(property.id);
+    if (favoritePending.has(pid)) return;
 
-    const wasFav = favoriteIds.has(property.id);
+    const wasFav = favoriteIds.has(pid);
     const next = !wasFav;
 
     // Optimistic update.
     setFavoriteIds((prev) => {
       const s = new Set(prev);
-      if (next) s.add(property.id); else s.delete(property.id);
+      if (next) s.add(pid); else s.delete(pid);
       return s;
     });
     setFavoritePending((prev) => {
       const s = new Set(prev);
-      s.add(property.id);
+      s.add(pid);
       return s;
     });
 
@@ -264,7 +267,7 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
       // Roll back the optimistic flip.
       setFavoriteIds((prev) => {
         const s = new Set(prev);
-        if (next) s.delete(property.id); else s.add(property.id);
+        if (next) s.delete(pid); else s.add(pid);
         return s;
       });
       if (err?.response?.status === 401 || err?.response?.status === 419) {
@@ -273,13 +276,13 @@ function Properties({ properties = { data: [] }, filters = {}, isAdmin = false, 
     } finally {
       setFavoritePending((prev) => {
         const s = new Set(prev);
-        s.delete(property.id);
+        s.delete(pid);
         return s;
       });
     }
   };
 
-  const isFavorite = (propertyId) => favoriteIds.has(propertyId);
+  const isFavorite = (propertyId) => favoriteIds.has(Number(propertyId));
 
   // Build pagination URL with all current filters
   const buildPageUrl = (page) => {

@@ -13,15 +13,28 @@ const NEW_LISTING_WINDOW_DAYS = 14;
 
 const PropertyCard = ({ property, onAuthRequired }) => {
   const { auth, favoritePropertyIds = [] } = usePage().props;
-  const [isFavorite, setIsFavorite] = useState(() => {
-    // Prefer server-provided favorites for the logged-in user; fall back to
-    // the listing's own flag (some queries eager-load is_favorited).
+  // Coerce both sides to Number for the comparison: Inertia sometimes
+  // serialises pivot rows as strings on certain DB drivers, which silently
+  // breaks Array.includes() for numeric ids.
+  const computeIsFavorite = () => {
     if (!auth?.user) return false;
-    if (Array.isArray(favoritePropertyIds) && favoritePropertyIds.includes(property.id)) return true;
+    const pid = Number(property.id);
+    if (Array.isArray(favoritePropertyIds) && favoritePropertyIds.some((id) => Number(id) === pid)) return true;
     return !!property.is_favorited;
-  });
+  };
+
+  const [isFavorite, setIsFavorite] = useState(computeIsFavorite);
   const [favoritePending, setFavoritePending] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Re-sync from the shared prop on every render where the array (or
+  // login state) actually changes — fixes the case where reloading the
+  // page leaves the heart empty even though the favorite is in the DB,
+  // because useState's initializer only runs once on mount.
+  useEffect(() => {
+    setIsFavorite(computeIsFavorite());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth?.user?.id, JSON.stringify(favoritePropertyIds), property.id]);
 
   // Get the first photo or use placeholder. Storage paths must go
   // through resolvePhotoUrl so bare keys like "properties/abc.webp"

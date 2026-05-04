@@ -791,7 +791,12 @@ class UserDashboardController extends Controller
     }
 
     /**
-     * Add property to favorites
+     * Add property to favorites.
+     *
+     * Returns JSON instead of back() — these endpoints are called from
+     * axios on the property cards, and a 302 → full-HTML chain confuses
+     * the SPA (axios follows the redirect, gets HTML, and the next click
+     * misbehaves because session state isn't refreshed cleanly).
      */
     public function addFavorite(Property $property)
     {
@@ -801,18 +806,24 @@ class UserDashboardController extends Controller
             $user->favorites()->attach($property->id);
         }
 
-        return back()->with('success', 'Property added to favorites!');
+        return response()->json([
+            'favorited' => true,
+            'property_id' => $property->id,
+        ]);
     }
 
     /**
-     * Remove property from favorites
+     * Remove property from favorites.
      */
     public function removeFavorite(Property $property)
     {
         $user = Auth::user();
         $user->favorites()->detach($property->id);
 
-        return back()->with('success', 'Property removed from favorites!');
+        return response()->json([
+            'favorited' => false,
+            'property_id' => $property->id,
+        ]);
     }
 
     /**
