@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 import { X, Package } from 'lucide-react';
 
 const PARTNER_BASE = 'https://humanitysource.org/product/dave-on-your-house-yard-sign-24-x-18-inch-double-sided-print-h-stake-included/';
@@ -120,7 +121,19 @@ export default function OrderYardSignLinkModal({ isOpen, onClose, listings = [],
                             href={partnerUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={onClose}
+                            onClick={() => {
+                                // Fire-and-forget: notify the listing owner by
+                                // email that a yard sign was ordered. We don't
+                                // block the redirect on this — if the network
+                                // call fails, the user still hits the partner
+                                // site.
+                                if (selected?.id) {
+                                    try {
+                                        axios.post(`/api/yard-sign-ordered/${selected.id}`).catch(() => {});
+                                    } catch (_) { /* noop */ }
+                                }
+                                onClose();
+                            }}
                             className="inline-flex items-center gap-2 bg-[#3355FF] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#1D4ED8] transition-colors"
                         >
                             <Package className="w-4 h-4" />

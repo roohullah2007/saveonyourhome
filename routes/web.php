@@ -135,6 +135,33 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/api/reverse-geocode', [PropertyController::class, 'reverseGeocodeAddress'])->name('api.reverse-geocode');
     Route::post('/api/rentcast-lookup', [PropertyController::class, 'rentcastLookup'])->name('api.rentcast-lookup');
 
+    // Yard sign ordered — pinged by OrderYardSignLinkModal before redirecting
+    // to the partner site so the seller gets an email confirmation.
+    Route::post('/api/yard-sign-ordered/{property}', function (\App\Models\Property $property) {
+        $owner = $property->user;
+        $sellerEmail = $property->contact_email ?: optional($owner)->email;
+        if (!$sellerEmail) {
+            return response()->json(['ok' => false, 'reason' => 'no_email'], 200);
+        }
+
+        $orderedBy = auth()->user();
+        $byAdmin = $orderedBy && $orderedBy->id !== ($owner?->id ?? null) && method_exists($orderedBy, 'isAdmin') ? $orderedBy->isAdmin() : (bool) ($orderedBy?->role === 'admin');
+
+        if (\App\Services\EmailService::isEnabled()) {
+            try {
+                \App\Services\EmailService::sendToUser(
+                    $sellerEmail,
+                    new \App\Mail\YardSignOrderedNotification($property, $orderedBy, $byAdmin)
+                );
+            } catch (\Throwable $e) {
+                \Log::error('Yard sign notify failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
+                return response()->json(['ok' => false, 'reason' => 'send_failed'], 200);
+            }
+        }
+
+        return response()->json(['ok' => true]);
+    })->name('yard-sign.ordered');
+
     // Saved Searches
     Route::post('/api/saved-searches', function (\Illuminate\Http\Request $request) {
         $request->validate(['name' => 'required|string|max:255', 'filters' => 'required|array']);
