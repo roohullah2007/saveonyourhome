@@ -15,11 +15,17 @@ class EmailService
     protected const DEFAULT_DELAY_SECONDS = 2;
 
     /**
-     * Check if email notifications are enabled
+     * Check if email notifications are enabled.
+     *
+     * Setting::get casts based on the row's `type` column, so this can
+     * come back as a real boolean (`true`/`false`), an int, or a string.
+     * Use filter_var with FILTER_VALIDATE_BOOLEAN so all of those map to
+     * the right thing — strict `=== '1'` would silently fail when the
+     * setting was stored as type=boolean (which returns `true`, not "1").
      */
     public static function isEnabled(): bool
     {
-        return Setting::get('email_notifications', '1') === '1';
+        return filter_var(Setting::get('email_notifications', '1'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
