@@ -97,18 +97,45 @@ function MortgageDonut({ principalInterest, propertyTax, insurance, hoa, pmi = 0
 }
 
 /* ---------- Contact / Request Info form used in sidebar + bottom ---------- */
+// Format a US phone string as the user types. Accepts whatever they
+// type (digits, spaces, dashes, parens, +1, etc.) and re-emits it as
+// "(XXX) XXX-XXXX" for 10-digit US numbers; otherwise leaves the raw
+// digits in place so international numbers still work.
+function formatUsPhone(raw) {
+  const digits = (raw || '').replace(/\D+/g, '');
+  // Strip a leading 1 (country code) if the user typed an 11-digit
+  // US number — we display 10-digit local format.
+  const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+  if (ten.length === 0) return '';
+  if (ten.length < 4) return `(${ten}`;
+  if (ten.length < 7) return `(${ten.slice(0, 3)}) ${ten.slice(3)}`;
+  if (ten.length <= 10) return `(${ten.slice(0, 3)}) ${ten.slice(3, 6)}-${ten.slice(6)}`;
+  // Anything longer (international etc.) — keep the raw digits with
+  // a + prefix so it's still a valid tel value.
+  return `+${digits}`;
+}
+
+function isValidPhone(value) {
+  const digits = (value || '').replace(/\D+/g, '');
+  // 10 digits (US local) or 11 digits starting with 1, or 7+ digits
+  // for international numbers — we just need *enough* to call back.
+  return digits.length >= 10;
+}
+
 function InquiryForm({ property, variant = 'compact', auth = {} }) {
   const authedUser = auth?.user || null;
   const { data, setData, post, processing, reset } = useForm({
     name: authedUser?.name || '',
     email: authedUser?.email || '',
-    phone: authedUser?.phone || '',
+    phone: formatUsPhone(authedUser?.phone || ''),
     iAm: '',
     message: `Hello, I am interested in [${property.property_title}]`,
     agree: false,
     property_id: property.id,
   });
   const [sent, setSent] = useState(false);
+  const phoneValid = isValidPhone(data.phone);
+  const phoneTouched = (data.phone || '').length > 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -169,8 +196,11 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
           )}
           <div>
             <label className="block text-sm font-medium text-[#111] mb-2">Phone</label>
-            <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)}
-              placeholder="Enter your Phone" className={inputCls} />
+            <input type="tel" value={data.phone} onChange={(e) => setData('phone', formatUsPhone(e.target.value))}
+              placeholder="(555) 555-5555" required className={inputCls} />
+            {phoneTouched && !phoneValid && (
+              <p className="text-xs text-red-600 mt-1">Enter a valid phone (e.g. (555) 123-4567)</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-[#111] mb-2">I'm a</label>
@@ -199,8 +229,11 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
                 placeholder="Email" className={inputCls} required />
             </>
           )}
-          <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)}
-            placeholder="Phone" className={inputCls} />
+          <input type="tel" value={data.phone} onChange={(e) => setData('phone', formatUsPhone(e.target.value))}
+            placeholder="(555) 555-5555" required className={inputCls} />
+          {phoneTouched && !phoneValid && (
+            <p className="text-xs text-red-600">Enter a valid phone (e.g. (555) 123-4567)</p>
+          )}
           <textarea value={data.message} onChange={(e) => setData('message', e.target.value)}
             rows={4} className={inputCls + ' resize-none'} />
           <select value={data.iAm} onChange={(e) => setData('iAm', e.target.value)} className={inputCls}>
@@ -225,10 +258,10 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
 
       {(() => {
         const phoneMissing = !data.phone || !data.phone.trim();
-        const submitDisabled = processing || !data.agree || phoneMissing;
+        const submitDisabled = processing || !data.agree || phoneMissing || !phoneValid;
         const disabledTitle = phoneMissing
           ? 'Add a phone number so the seller can reach you'
-          : (!data.agree ? 'Accept the terms to send a message' : '');
+          : (!phoneValid ? 'Enter a valid phone number' : (!data.agree ? 'Accept the terms to send a message' : ''));
         return variant === 'full' ? (
           <div>
             <button type="submit" disabled={submitDisabled} title={disabledTitle}

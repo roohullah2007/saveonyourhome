@@ -301,6 +301,19 @@ class PropertyController extends Controller
         // Increment view count
         $property->incrementViews();
 
+        // Lazy backfill missing coordinates so the map / nearby / schools /
+        // walkscore cards render even on listings the geocode skipped at
+        // create time (network failure, missing key, partial address).
+        // Best-effort: any failure here is swallowed — the page still
+        // works, just without those cards.
+        if ((!$property->latitude || !$property->longitude) && !empty($property->address)) {
+            try {
+                \App\Services\GeocodingService::geocodeProperty($property);
+            } catch (\Throwable $e) {
+                \Log::info('Lazy geocode failed', ['property_id' => $property->id, 'error' => $e->getMessage()]);
+            }
+        }
+
         // Fetch similar listings: same property type, nearby price, different property
         $similarListings = Property::where('id', '!=', $property->id)
             ->where('is_active', true)
