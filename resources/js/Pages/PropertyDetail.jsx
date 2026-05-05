@@ -223,36 +223,49 @@ function InquiryForm({ property, variant = 'compact', auth = {} }) {
         </span>
       </label>
 
-      {variant === 'full' ? (
-        <div>
-          <button type="submit" disabled={processing || !data.agree}
-            className="bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-md transition-colors">
-            {processing ? 'Sending…' : 'Request Information'}
-          </button>
-        </div>
-      ) : (
-        <div className="flex gap-3">
-          <button type="submit" disabled={processing || !data.agree}
-            className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 text-white font-semibold px-4 py-3 rounded-md transition-colors">
-            {processing ? 'Sending…' : 'Send Message'}
-          </button>
-          {property.contact_phone ? (
-            <a href={`tel:${property.contact_phone}`}
-              className="flex-1 text-center border border-[#2563EB] text-[#2563EB] font-semibold px-4 py-3 rounded-md hover:bg-[#2563EB]/5 transition-colors">
-              Call
-            </a>
-          ) : (
-            <button
-              type="button"
-              disabled
-              title="Seller has not provided a phone number"
-              aria-disabled="true"
-              className="flex-1 text-center border border-gray-200 text-gray-400 font-semibold px-4 py-3 rounded-md cursor-not-allowed bg-gray-50"
-            >
-              Call
+      {(() => {
+        const phoneMissing = !data.phone || !data.phone.trim();
+        const submitDisabled = processing || !data.agree || phoneMissing;
+        const disabledTitle = phoneMissing
+          ? 'Add a phone number so the seller can reach you'
+          : (!data.agree ? 'Accept the terms to send a message' : '');
+        return variant === 'full' ? (
+          <div>
+            <button type="submit" disabled={submitDisabled} title={disabledTitle}
+              className="bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-6 py-3 rounded-md transition-colors">
+              {processing ? 'Sending…' : 'Request Information'}
             </button>
-          )}
-        </div>
+            {phoneMissing && (
+              <p className="text-xs text-[#6B7280] mt-2">Phone is required so the seller can reach you back.</p>
+            )}
+          </div>
+        ) : (
+          <div className="flex gap-3">
+            <button type="submit" disabled={submitDisabled} title={disabledTitle}
+              className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-4 py-3 rounded-md transition-colors">
+              {processing ? 'Sending…' : 'Send Message'}
+            </button>
+            {property.contact_phone ? (
+              <a href={`tel:${property.contact_phone}`}
+                className="flex-1 text-center border border-[#2563EB] text-[#2563EB] font-semibold px-4 py-3 rounded-md hover:bg-[#2563EB]/5 transition-colors">
+                Call
+              </a>
+            ) : (
+              <button
+                type="button"
+                disabled
+                title="Seller has not provided a phone number"
+                aria-disabled="true"
+                className="flex-1 text-center border border-gray-200 text-gray-400 font-semibold px-4 py-3 rounded-md cursor-not-allowed bg-gray-50"
+              >
+                Call
+              </button>
+            )}
+          </div>
+        );
+      })()}
+      {(!data.phone || !data.phone.trim()) && variant !== 'full' && (
+        <p className="text-xs text-[#6B7280] -mt-1">Phone is required so the seller can reach you back.</p>
       )}
     </form>
   );
