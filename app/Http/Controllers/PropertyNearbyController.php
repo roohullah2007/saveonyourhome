@@ -19,19 +19,20 @@ use Illuminate\Support\Facades\Log;
 class PropertyNearbyController extends Controller
 {
     private const CACHE_TTL = 60 * 60 * 24; // 24h
-    private const YELP_RADIUS_METERS = 1600; // ~1 mile
+    private const NEARBY_RADIUS_METERS = 1600; // ~1 mile
 
     /**
-     * Category buckets displayed on the page. Keys are the Yelp `categories`
-     * filter values; display labels are the section headers.
+     * Category buckets displayed on the page. The `google_type` is the
+     * Places API "type" parameter for the primary lookup; `yelp` is kept
+     * as a secondary fallback when Google fails / has no key.
      */
-    private const YELP_BUCKETS = [
-        'education'  => ['label' => 'Education',       'icon' => 'graduation-cap'],
-        'health'     => ['label' => 'Health & Medical', 'icon' => 'briefcase-medical'],
-        'restaurants'=> ['label' => 'Restaurants',     'icon' => 'utensils'],
-        'grocery'    => ['label' => 'Grocery',         'icon' => 'shopping-basket'],
-        'shopping'   => ['label' => 'Shopping',        'icon' => 'shopping-bag'],
-        'active'     => ['label' => 'Active Life',     'icon' => 'tree'],
+    private const NEARBY_BUCKETS = [
+        'education'  => ['label' => 'Education',        'icon' => 'graduation-cap',     'google_type' => 'school'],
+        'health'     => ['label' => 'Health & Medical', 'icon' => 'briefcase-medical',  'google_type' => 'hospital'],
+        'restaurants'=> ['label' => 'Restaurants',      'icon' => 'utensils',           'google_type' => 'restaurant'],
+        'grocery'    => ['label' => 'Grocery',          'icon' => 'shopping-basket',    'google_type' => 'grocery_or_supermarket'],
+        'shopping'   => ['label' => 'Shopping',         'icon' => 'shopping-bag',       'google_type' => 'shopping_mall'],
+        'active'     => ['label' => 'Active Life',      'icon' => 'tree',               'google_type' => 'park'],
     ];
 
     public function nearby(Property $property): JsonResponse
@@ -40,60 +41,131 @@ class PropertyNearbyController extends Controller
             return response()->json(['error' => 'Property has no coordinates'], 422);
         }
 
-        $apiKey = config('services.yelp.api_key');
+        $googleKey = config('services.google.places_api_key');
+        $yelpKey = config('services.yelp.api_key');
+        $lat = (float) $property->latitude;
+        $lng = (float) $property->longitude;
 
-        // No Yelp key configured? Fall back to OpenStreetMap Overpass so the
-        // "What's Nearby" card still populates instead of disappearing.
-        if (empty($apiKey)) {
-            $osm = Cache::remember("nearby:osm:{$property->id}", self::CACHE_TTL, function () use ($property) {
-                return $this->osmNearby((float) $property->latitude, (float) $property->longitude);
+        // Prefer Google Places (rating + review count + same provider as
+        // /schools so users see consistent data). Fall back to Yelp if a
+        // key is configured, then OSM Overpass as a last resort.
+        if (!empty($googleKey)) {
+            $data = Cache::remember("nearby:google:{$property->id}", self::CACHE_TTL, function () use ($lat, $lng, $googleKey) {
+                return $this->googleNearby($lat, $lng, $googleKey);
             });
-            return response()->json(['categories' => $osm, 'source' => 'osm']);
+            return response()->json(['categories' => $data, 'source' => 'google']);
         }
 
-        $data = Cache::remember("nearby:prop:{$property->id}", self::CACHE_TTL, function () use ($property, $apiKey) {
-            $lat = (float) $property->latitude;
-            $lng = (float) $property->longitude;
-            $result = [];
+        if (!empty($yelpKey)) {
+            $data = Cache::remember("nearby:yelp:{$property->id}", self::CACHE_TTL, function () use ($lat, $lng, $yelpKey) {
+                return $this->yelpNearby($lat, $lng, $yelpKey);
+            });
+            return response()->json(['categories' => $data, 'source' => 'yelp']);
+        }
 
-            foreach (self::YELP_BUCKETS as $categoryKey => $meta) {
-                try {
-                    $resp = Http::withToken($apiKey)
-                        ->timeout(6)
-                        ->get('https://api.yelp.com/v3/businesses/search', [
-                            'latitude' => $lat,
-                            'longitude' => $lng,
-                            'categories' => $categoryKey,
-                            'radius' => self::YELP_RADIUS_METERS,
-                            'limit' => 5,
-                            'sort_by' => 'distance',
-                        ]);
-                    if (!$resp->successful()) {
-                        Log::warning('Yelp request failed', ['status' => $resp->status(), 'body' => $resp->body()]);
-                        $result[$categoryKey] = ['label' => $meta['label'], 'icon' => $meta['icon'], 'items' => []];
-                        continue;
-                    }
-                    $businesses = collect($resp->json('businesses') ?? [])
+        $osm = Cache::remember("nearby:osm:{$property->id}", self::CACHE_TTL, function () use ($lat, $lng) {
+            return $this->osmNearby($lat, $lng);
+        });
+        return response()->json(['categories' => $osm, 'source' => 'osm']);
+    }
+
+    /**
+     * Hit Google Places nearbysearch once per category bucket. Returns the
+     * same {label, icon, items[]} shape as the other providers so the front-end
+     * doesn't need to know which one answered.
+     */
+    private function googleNearby(float $lat, float $lng, string $apiKey): array
+    {
+        $result = [];
+        foreach (self::NEARBY_BUCKETS as $categoryKey => $meta) {
+            $items = [];
+            try {
+                $resp = Http::timeout(8)->get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', [
+                    'location' => "{$lat},{$lng}",
+                    'radius' => self::NEARBY_RADIUS_METERS,
+                    'type' => $meta['google_type'],
+                    'key' => $apiKey,
+                ]);
+                if ($resp->successful() && in_array($resp->json('status'), ['OK', 'ZERO_RESULTS'], true)) {
+                    $items = collect($resp->json('results') ?? [])
+                        ->map(function ($p) use ($lat, $lng) {
+                            $plat = $p['geometry']['location']['lat'] ?? null;
+                            $plng = $p['geometry']['location']['lng'] ?? null;
+                            $miles = ($plat !== null && $plng !== null)
+                                ? round(self::haversineMeters($lat, $lng, $plat, $plng) / 1609.344, 2)
+                                : null;
+                            return [
+                                'id' => $p['place_id'] ?? null,
+                                'name' => $p['name'] ?? '',
+                                'rating' => $p['rating'] ?? null,
+                                'review_count' => $p['user_ratings_total'] ?? 0,
+                                'url' => isset($p['place_id'])
+                                    ? 'https://www.google.com/maps/place/?q=place_id:' . $p['place_id']
+                                    : null,
+                                'miles' => $miles,
+                            ];
+                        })
+                        ->filter(fn ($i) => !empty($i['name']))
+                        ->sortBy('miles')
+                        ->take(5)
+                        ->values()
+                        ->all();
+                } else {
+                    Log::info('Google Places nearby non-OK', [
+                        'status' => $resp->status(),
+                        'apiStatus' => $resp->json('status'),
+                        'error' => $resp->json('error_message'),
+                        'category' => $categoryKey,
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                Log::warning('Google Places nearby threw', ['err' => $e->getMessage(), 'category' => $categoryKey]);
+            }
+            $result[$categoryKey] = ['label' => $meta['label'], 'icon' => $meta['icon'], 'items' => $items];
+        }
+        return $result;
+    }
+
+    /**
+     * Yelp Fusion fallback — kept around because we used to use it as the
+     * primary source. Same output shape as googleNearby().
+     */
+    private function yelpNearby(float $lat, float $lng, string $apiKey): array
+    {
+        $result = [];
+        foreach (self::NEARBY_BUCKETS as $categoryKey => $meta) {
+            $items = [];
+            try {
+                $resp = Http::withToken($apiKey)
+                    ->timeout(6)
+                    ->get('https://api.yelp.com/v3/businesses/search', [
+                        'latitude' => $lat,
+                        'longitude' => $lng,
+                        'categories' => $categoryKey,
+                        'radius' => self::NEARBY_RADIUS_METERS,
+                        'limit' => 5,
+                        'sort_by' => 'distance',
+                    ]);
+                if ($resp->successful()) {
+                    $items = collect($resp->json('businesses') ?? [])
                         ->map(fn ($b) => [
                             'id' => $b['id'] ?? null,
                             'name' => $b['name'] ?? '',
                             'rating' => $b['rating'] ?? null,
                             'review_count' => $b['review_count'] ?? 0,
                             'url' => $b['url'] ?? null,
-                            // Yelp gives distance in meters; convert to miles.
                             'miles' => isset($b['distance']) ? round($b['distance'] / 1609.344, 2) : null,
                         ])
                         ->all();
-                    $result[$categoryKey] = ['label' => $meta['label'], 'icon' => $meta['icon'], 'items' => $businesses];
-                } catch (\Throwable $e) {
-                    Log::warning('Yelp call threw', ['err' => $e->getMessage()]);
-                    $result[$categoryKey] = ['label' => $meta['label'], 'icon' => $meta['icon'], 'items' => []];
+                } else {
+                    Log::warning('Yelp request failed', ['status' => $resp->status(), 'body' => $resp->body()]);
                 }
+            } catch (\Throwable $e) {
+                Log::warning('Yelp call threw', ['err' => $e->getMessage()]);
             }
-            return $result;
-        });
-
-        return response()->json(['categories' => $data, 'source' => 'yelp']);
+            $result[$categoryKey] = ['label' => $meta['label'], 'icon' => $meta['icon'], 'items' => $items];
+        }
+        return $result;
     }
 
     /**
@@ -246,7 +318,7 @@ class PropertyNearbyController extends Controller
         $lng = (float) $property->longitude;
         $radiusMeters = 10000; // 10 km
 
-        $apiKey = config('services.google.maps_api_key');
+        $apiKey = config('services.google.places_api_key');
 
         $items = Cache::remember("schools:prop:{$property->id}", self::CACHE_TTL, function () use ($lat, $lng, $radiusMeters, $apiKey) {
             $results = [];

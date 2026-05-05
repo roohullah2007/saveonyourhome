@@ -39,7 +39,14 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
+        // Browser-side Maps JS key (typically has HTTP referer restrictions).
         'maps_api_key' => env('GOOGLE_MAPS_API_KEY'),
+        // Server-side Places API key — must be a separate key without
+        // referer restrictions (referer-restricted keys are rejected by
+        // the legacy Places nearbysearch endpoint with REQUEST_DENIED).
+        // Falls back to maps_api_key for installs that haven't split the
+        // keys yet, which still works for unrestricted setups.
+        'places_api_key' => env('GOOGLE_PLACES_API_KEY') ?: env('GOOGLE_MAPS_API_KEY'),
     ],
 
     'zillow_rapidapi' => [
